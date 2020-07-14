@@ -1,0 +1,22 @@
+# quadriComplet.stat
+# dans l'espace un quadrilatère complet est plan
+context
+    dimension 3 # rang maxi 4
+    layers 1
+endofcontext
+layer 0
+    points
+        A B C D E F
+    hypotheses
+        A B C : 2
+        D E C : 2
+        A D F : 2
+        B E F : 2
+        A B C D : 3
+    conclusion
+    # les 6 points sont coplanaires
+        A B C D E F : 3
+endoflayer
+conclusion
+   A B C D E F : 3
+end

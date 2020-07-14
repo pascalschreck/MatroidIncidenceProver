@@ -1,0 +1,77 @@
+# fichier desargues3D_couches.txt
+# premier essai avec des couches
+# les couches font partie de la réflection de la preuve :
+# c'est une première ébauche de décomposition par blocs
+# qui se traduit facilement en décomposition de preuve
+# on peut faire suivre cela par des décompositions plus fines. 
+# Par conséquent, il est difficile de faire cette décomposition
+# en couche "on the fly" et il n'est pas déraisonnable d'indiquer
+# à l'avance le nombre de couches
+context
+   dimension  3 
+   layers   2
+endofcontext
+# ----------- première couche : 
+#  c'est Desarges en 2,5 D 2 triangles en perspectives dans l'espace
+layer triangles
+  points
+    O A B C Ap Bp Cp ab ac bc
+  hypotheses
+    O A B C : 4
+    O Ap Bp Cp : 4
+    Ap A B C : 4
+    Bp A B C : 4
+    Cp A B C : 4
+    O A Ap : 2
+    O B Bp : 2
+    O C Cp : 2
+    A B ab : 2
+    Ap Bp ab : 2
+    A C ac : 2
+    Ap Cp ac : 2
+    B C bc : 2
+    Bp Cp bc : 2
+  conclusion
+     ab ac bc : 2
+endoflayer # triangles
+# ------- deuxième couche : 
+#  on ajoute le point D
+layer tetraedres
+   points
+     layer triangles
+     D Dp ad bd cd
+  hypotheses
+    A B C D : 4
+    Ap Bp Cp Dp : 4
+    O A B C : 4
+    O A B D : 4
+    O A C D : 4
+    O B C D : 4
+    O Ap Bp Dp : 4
+    O Ap Cp Dp : 4
+    O Bp Cp Dp : 4
+    Dp B C D : 4
+    Dp A C D : 4
+    Dp A B D : 4
+    O D Dp : 2
+    ad A D : 2
+    ad Ap Dp : 2
+    bd B D : 2
+    bd Bp Dp : 2
+    cd C D : 2
+    cd Cp Dp : 2
+    Ap Bp Dp : 3
+    Ap Cp Dp : 3
+    Bp Cp Dp : 3
+
+  conclusion
+    ab ac ad bc bd cd : 3
+endoflayer # tetrahedres
+conclusion
+   ab ac ad bc bd cd : 3
+supplements
+bc bd cd : 2
+ac ad cd : 2
+ab ad bd : 2
+ab ac bc : 2
+end

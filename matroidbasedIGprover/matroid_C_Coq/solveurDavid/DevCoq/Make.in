@@ -1,0 +1,4 @@
+# Library name
+-R . DevCoq
+
+# Coq files (filled by the configure)

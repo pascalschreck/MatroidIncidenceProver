@@ -1,0 +1,43 @@
+# intersectionEspaces.txt
+# en dimension 4, l'intersection de deux espaces de dim 3 distincts est un plan
+context
+    dimension 5
+    layers 1
+endofcontext
+layer 0
+  points 
+    A B C D E Ap Bp Cp Dp Ep I J K L M
+    # soient 2 4d-espaces ABCDE et ApBpCpDpEp distincts (chacun de rang 5)
+    # quelque soient 5 points indépendants dans leur intersection
+    # forment un ensemble de rang 4 (un espace 3D)
+  hypotheses
+    # je vais essayer de rester aussi général que possible
+    # deux 4d-espaces définis chacun par 5 points
+    A B C D E : 5
+    Ap Bp Cp Dp Ep : 5
+    # les deux 4d-espaces sont distincts
+    A B C D E Ap Bp Cp Dp Ep : 6
+    # I, J, K et L appartiennent chacun aux deux sous espaces
+    I A B C D E : 5
+    J A B C D E : 5
+    K A B C D E : 5
+    L A B C D E : 5
+    M A B C D E : 5
+    I Ap Bp Cp Dp Ep : 5
+    J Ap Bp Cp Dp Ep : 5
+    K Ap Bp Cp Dp Ep : 5
+    L Ap Bp Cp Dp Ep : 5
+    M Ap Bp Cp Dp Ep : 5
+    # les quatre points I, J, K, L et M sont différents et non alignés et non coplanaires
+    I J K L : 4
+    I J K M : 4
+    I J L M : 4
+    I K L M : 4
+    J K L M : 4
+  conclusion
+    # ils doivent appartenir à un même plan
+    I J K L M : 4
+endoflayer
+  conclusion
+    I J K L M : 4
+end

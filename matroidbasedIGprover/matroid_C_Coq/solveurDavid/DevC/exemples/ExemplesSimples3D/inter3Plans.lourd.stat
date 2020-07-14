@@ -1,0 +1,54 @@
+# inter2Plan.stat
+# en 3D l'intersection de 3 plans "indépendants" est un point
+context
+      dimension 3
+      layers 1
+endofcontext
+layer 0
+  points
+    A B C Ap Bp Cp As Bs Cs  M N Mp Np Ms Ns X Y
+  hypotheses
+    A B C : 3
+    Ap Bp Cp : 3
+    As Bs Cs : 3
+    A B C Ap Bp Cp : 4
+    A B C As Bs Cs : 4
+    Ap Bp Cp As Bs Cs : 4
+    M A B C : 3
+    N A B C : 3
+    Y A B C : 3
+    X A B C : 3
+#
+    M Ap Bp Cp : 3
+    N Ap Bp Cp : 3
+    Y Ap Bp Cp : 3
+    X Ap Bp Cp : 3
+# MN = ABC inter ApBpCp
+    M As Bs Cs : 4
+    N As Bs Cs : 4
+# 
+    Mp Ap Bp Cp : 3
+    Np Ap Bp Cp : 3
+#
+    Mp As Bs Cs : 3
+    Np As Bs Cs : 3
+    Y As Bs Cs : 3
+    X As Bs Cs : 3
+# MpNp = ApBpCp inter AsBsCs
+    Mp A B C : 4
+    Np A B C : 4
+#
+    Ms A B C : 3
+    Ns A B C : 3
+#
+    Ms As Bs Cs : 3
+    Ns As Bs Cs : 3
+#  MsNs = ABC inter AsBsCs
+    Ms Ap Bp Cp : 4
+    Ns Ap Bp Cp : 4
+  conclusion
+     X Y : 1
+endoflayer
+  conclusion
+    X Y : 1
+end

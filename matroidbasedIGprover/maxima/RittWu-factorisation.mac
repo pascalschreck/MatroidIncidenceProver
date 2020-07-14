@@ -1,0 +1,337 @@
+/* coefficient dominant suivant la variable vr */
+ldCoeff(exp,vr) := coeff(expand(exp),vr,hipow(expand(exp),vr))$
+
+/* degré en la variable v */
+ldDeg(exp,v) := hipow(expand(exp),v)$
+
+/* 
+pseudo-reste de P par Q suivant la variable V.
+La définition ci-dessous utilise la division euclidienne de Maxima
+dans un corps de fractions rationnelles.
+Celle en commentaire plus bas est fondée sur la définition de la
+pseudo-division.
+*/
+PR(P,Q,V) := num(remainder(P,Q,V))$
+/*
+PR(P,Q,v) := block(
+   [d,d1,d2,ld1,ld2],
+     d1 : ldDeg(P,v),
+     d2  : ldDeg(Q,v),
+     ld2 : ldCoeff(Q,v),
+     d : d1- d2,
+     while d >= 0 do
+          block(
+                  ld1 : ldCoeff(P,v),
+                   P : P*ld2-Q*ld1*v^d,
+                   d1 : ldDeg(P,v),
+                   d : d1 - d2
+                  ),
+  return(expand(P))
+)$
+*/
+
+classe(P,Lv) :=         /* classe d'un polynôme suivant une liste (ordonnée) de variables */
+        block(
+        [i, l],
+         l : length(Lv),
+         i :l,
+         if(atom(P) and not member(P,Lv)) then return(0),    /* cas d'une constante   */
+         while(i>1 and ldDeg(P,Lv[i])=0) do i : i-1,
+        if(i=1)then 
+                   block(if(ldDeg(P,Lv[1])=0)then return(0) else return(1)) /* 0 quand aucune variable n'est trouvée  */
+                else return(i)
+        )$
+
+/* relation d'ordre entre deux polynômes suivant la classe, puis le degré du terme dominant en la 
+variable correspondant à la classe */
+/* ppt(P,Q,Lv) := classe(P,Lv) < classe(Q, Lv) or (classe(P,Lv)=classe(Q,Lv) and ldDeg(P,Lv[classe(P,Lv)])<ldDeg(Q,Lv[classe(P,Lv)]))$ */
+ppt(P,Q,Lv) := classe(P,Lv) < classe(Q, Lv) or (classe(P,Lv)=classe(Q,Lv) and classe(P,Lv)#0 and ldDeg(P,Lv[classe(P,Lv)])<ldDeg(Q,Lv[classe(P,Lv)]))$
+
+/* Indice du plus petit élément d'un ensemble suivant cet ordre */
+
+pptSet(S,Lv) := block(
+      [p,i,j, l],
+      l : length(S),
+      j : 1,
+      p : S[j],
+      for i : 2 thru l do 
+           if (ppt(S[i],p,Lv)) then block(j : i, p : S[j]),
+      return(j)
+       )$
+
+/* reduit      : test indiquant si un polynôme est réduit par rapport à un autre 
+              (ici P réduit par rapport à Q) cette fonction n'est pas robuste et en échec si la classe est nulle
+auxReduit   : retourne la liste des polynômes de S autres que S[j] et qui sont réduits par rapport
+              à S[j]
+suiteAscMin : retourne une suite ascendante minimale de S */
+
+reduit(P,Q,Lv) := ldDeg(P,Lv[classe(Q,Lv)])<ldDeg(Q,Lv[classe(Q,Lv)])$
+
+auxReduit(S,j,Lv) := block(
+       [i, l, Lr, Q],
+       l : length(S),
+       Lr : [],
+       Q : S[j],
+       for i: l thru j+1 step -1 do
+            if(reduit(S[i],Q,Lv)) then Lr : cons(S[i],Lr),
+       for i:j-1 thru 1 step -1 do
+            if(reduit(S[i],Q,Lv)) then Lr : cons(S[i],Lr),
+       return(Lr)  
+       )$
+
+suiteAscMin(S, Lv) := block(   /* si on trouve une expression constante comme élément minimal, on retourne [] */
+          [l,Lr,j],
+          Lr : [],
+          l : length(S),
+          j : pptSet(S,Lv),
+          if(classe(S[j],Lv)=0) then 
+                                 block(      print("expression constante"),
+                                             print(S[j]), print(j), 
+                                             for e in S do print(e),
+                                             return([]) /* expression constante  */
+                                          ),
+          while l#0 do     
+                 block(
+                           j : pptSet(S,Lv),
+                           Lr : cons(S[j],Lr), 
+                           S : auxReduit(S,j,Lv),
+                           l : length(S)
+                           ),
+          return(Lr)
+
+           )$
+
+/* ------------ pseudo-divisions successives -----------------------
+Calcule le pseudo-reste de P par rapport à la chaîne ascendante C 
+--------------------------------------------------------------------*/
+
+pRemOne(P,C,Lv) := block(
+               [i, l, R],
+               l : length(C),
+               R : P,
+               for i:1 thru l do R : PR(R,C[i],Lv[classe(C[i],Lv)]),
+               return(R)    
+            )$
+
+/* 
+Calcule la liste des pseudo-restes des polynômes de S par la chaîne ascendante C 
+*/
+
+pRemSet(S,C,Lv) := block(
+           [i, l, Lr,Q],
+           Lr : [],
+           l : length(S),
+           for i:l thru 1 step -1 do 
+                block(
+                 Q : pRemOne(S[i],C,Lv),
+                 if(Q#0) then Lr : cons(Q,Lr)
+                 ),
+           return(Lr)
+         )$
+
+/* 
+Union de 2 listes en évitant d'ajouter des doublons
+(Remarque : s'il y a des doublons dans la deuxième liste, ils ne sont pas éliminés
+ on doit s'arranger pour que ce ne soit pas le cas) 
+ */
+
+mappend(L1,L2) := block(
+        [Lr,i,l],
+        Lr : L2,
+        l : length(L1),
+        for i:l thru 1 step -1 do
+            if(not(member(L1[i],Lr))) then Lr : cons(L1[i],Lr),
+       return(Lr)
+        )$
+
+/* Calcul d'un ensemble caractéristique :
+    * on calcule une chaîne ascendante minimale
+    * on réduit tous les autres polynômes du système en calculant les
+      pseudo-restes suivant cette chaîne, qu'on ajoute au système
+    * si tous les pseudo-restes sont nuls, on arrête 
+*/
+
+ensCar(S,Lv) := block(
+          [C, l, Sp],
+          C : suiteAscMin(S,Lv),
+          Sp : pRemSet(S,C,Lv),
+          l : length(Sp),
+          while (l # 0 and C # []) do  /* ancien test l # 0 and C # []  */
+              block(
+                    S : mappend(S,Sp), 
+                    C : suiteAscMin(S,Lv),
+                   Sp : pRemSet(S,C,Lv),
+                   l : length(Sp)
+                  ),
+          return(C)
+
+         )$
+
+/* variante utilisée par la suite :
+calcule un ensemble caractéristique et le retourne 
+avec le système augmenté d'où il est extrait 
+*/
+ensCar2(S,Lv) := block(
+          [C, l, Sp],
+          C : suiteAscMin(S,Lv),
+          Sp : pRemSet(S,C,Lv),
+          l : length(Sp),
+          while (l # 0 and C # []) do
+              block(
+                    S : mappend(S,Sp), 
+                    C : suiteAscMin(S,Lv),
+                   Sp : pRemSet(S,C,Lv),
+                   l : length(Sp)
+                  ),
+          return([C,S])
+
+         )$
+
+         
+/*--------------------
+factorisation
+----------------------*/
+
+/*
+Calcul de la *liste* des facteurs premiers en utilisant la fonction factor de Maxima
+On a tenté de rendre cette fonction un peut robuste, mais c'est à vérifier s'il y a
+des erreurs
+Attention : ça n'est plus la fonction de simplification d'équetion que j'avais
+programmée auparavant
+*/
+simplFact(P,Lv) := block(                     
+          [Exp, Lr, Lf, l, i],
+          Lr : [],
+          if (atom(P)) then return([P]),    /* case where P is a constant or a variable */
+          Exp : factor(P),
+          if(op(Exp)="=" and args(Exp)[2]=0) then Exp : args(Exp)[1],
+          if (op(Exp)="-" and length(args(Exp))=1) then Exp : args(Exp)[1],
+          if(op(Exp)="*") then 
+                block(
+                Lf : args(Exp),
+                l : length(Lf),
+                for i:1 thru l do
+                        if(not(atom(Lf[i])) and not(constantExpr(Lf[i],Lv))) then
+                            block(
+                                        if(op(Lf[i])="^") then Lr : cons(args(Lf[i])[1],Lr)
+                                                  else Lr : cons(Lf[i],Lr)
+                                    )
+                        else if(not(integerp(Lf[i])) and not(constantExpr(Lf[i],Lv))) then Lr : cons(Lf[i],Lr)
+                )
+           else return([P]),
+          return(Lr)
+)$
+
+allArgs(E) := block(
+            [La, Lr, Lt],
+           if atom(E) then return([E]),
+            Lr : [],
+            La : args(E),
+            for e in La do
+                block(
+                    if atom(e) then Lr : cons(e,Lr)
+                    else 
+                       block(
+                              Lt : allArgs(e),
+                              Lr : append(Lt,Lr)
+                        )
+                ),
+            return(Lr)
+)$
+   
+constantExpr(E,Lv) := block(
+        [La,lg, i],
+        La : allArgs(E),
+        lg : length(La),
+        i:1,
+        while(i<=lg and not(member(La[i],Lv))) do i : i+1,
+        return(is(i=lg+1))
+)$
+/*
+fonction utilitaire qui ajoute un même élément Elt à tous les membres de la liste ListoL
+*/
+
+conslist(Elt, ListoL) := block(
+        [l, Lr, i],
+        l : length(ListoL),
+        Lr : [],
+        for i:1 thru l do Lr : cons(cons(Elt,ListoL[i]),Lr),
+        return(Lr)
+        )$
+
+/* 
+utilise la factorisation (mais ne prend pas en compte les 
+coeff. dominants 
+*/
+ensCarbis(S,Lv) := block(
+        [C, Sp, Lp, Ls, Lsp, l, i, P, Lfact, lf, j],
+        Lp : ensCar2(S,Lv),
+        C : Lp[1],
+        Sp : Lp[2],
+        Ls : [Sp],
+        lo : length(C),
+        for i : 1 thru lo do 
+            block (
+                P : C[i],
+                Lfact : simplFact(P,Lv),
+                lf : length(Lfact),
+                if(lf # 1) then
+                block(
+                Lsp : [],
+                for j : 1 thru lf do  Lsp : append(conslist(Lfact[j],Ls),Lsp), /* on fait toutes les complétions possibles  */
+                Ls : Lsp
+                )
+            ),
+        return(Ls)
+        
+        )$
+
+ /*
+ composantes "presque irreductibles ... (on ne sait pas si après une seule passe de factorisation 
+ de C on o bien réussi à tout factoriser, puisqu'on réduit encore des ensembles)
+ */
+ensCarIrr(S,Lv) := block(
+        [Lst, st, enscar, Lres],
+        Lst : ensCarbis(S, Lv),
+        Lres : [],
+        for st in Lst do
+            block(
+            enscar : ensCar(st,Lv),
+            if (enscar # []) then Lres : cons(enscar, Lres)
+            ),
+        return(Lres)
+        )$
+
+/* 
+fonction récursive ... pour calculer les composantes irréductibles
+mais ça ne semble pas très bien marcher  
+*/
+ensCarIrr_rec(S,Lv) := block(
+        [C, Sp, Lp, Ls, l, i, P, Lfact, lf, j],
+        Ls : [],
+        Lp : ensCar2(S,Lv),
+        C : Lp[1],
+        Sp : Lp[2],
+        l : length(C),
+        i : 1,
+        P : C[i],
+        Lfact : simplFact(P,Lv),
+        lf : length(Lfact),
+        while (i < l and lf = 1) do 
+            block (
+                i : i+1,
+                P : C[i],
+                Lfact : simplFact(P,Lv),
+                lf : length(Lfact)
+            ),
+        
+        if(lf # 1) then
+            block(
+                for j : 1 thru lf do  Ls : append(ensCarIrr_rec(cons(Lfact[j], Sp),Lv) , Ls)   /* appel récursif  */  
+                )
+        else Ls : [C],
+        
+        return(Ls)
+        
+        )$
+

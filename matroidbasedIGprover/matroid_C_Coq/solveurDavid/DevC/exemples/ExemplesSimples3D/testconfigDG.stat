@@ -1,0 +1,51 @@
+# testconfigDG.stat
+# la config. Dandelin Gallucci :
+#   Cp H I (R)
+#   Bp F Q G
+#   Ap P D E
+#   O  A B C
+# -----------------
+# implique que tous les points sont distincts
+context
+     dimension 3
+     layers 1
+endofcontext
+layer 0
+  points
+    A B C Ap Bp Cp D E F G H I O P Q
+ hypotheses
+  # "horizontales"
+   O A B C : 2
+   Ap P D E : 2
+   Bp F Q G : 2
+   Cp H I   : 2
+  # "verticales"
+   O Ap Bp Cp : 2
+   A P F H : 2
+   B D Q I : 2 
+   C E G : 2
+  # + non coplanarité des horizontales entre elles
+  O A B C Ap P D E : 4
+  O A B C Bp F Q G : 4
+  O A B C Cp H I : 4
+  Ap P D E Bp F Q G : 4
+  Ap P D E Cp H I : 4
+  Bp F Q G Cp H I : 4
+# et non coplanarité des verticales entre elles
+  O Ap Bp Cp A P F H : 4
+  O Ap Bp Cp B D Q I : 4
+  O Ap Bp Cp C E G : 4
+  A P F H B D Q I : 4
+  A P F H C E G : 4
+  B D Q I C E G : 4
+ conclusion
+  O Ap : 2
+endoflayer
+  conclusion
+    O Ap : 2
+  supplements
+    O Ap Bp Cp A P : 4
+    P Q : 2
+    H C : 2
+end
+        

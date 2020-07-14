@@ -1,0 +1,28 @@
+# inter2Plan.stat
+# en 3D l'intersection de 2 plans est une droite
+context
+      dimension 3
+      layers 1
+endofcontext
+layer 0
+  points
+    A B C Ap Bp Cp M N P 
+  hypotheses
+    A B C : 3
+    Ap Bp Cp : 3
+    A B C Ap Bp Cp : 4
+    M A B C : 3
+    N A B C : 3
+    P A B C : 3
+    M Ap Bp Cp : 3
+    N Ap Bp Cp : 3
+    P Ap Bp Cp : 3
+    M N : 2
+    M P : 2
+    N P : 2
+  conclusion
+    M N P : 2
+endoflayer
+  conclusion
+    M N P : 2
+end

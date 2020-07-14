@@ -1,0 +1,26 @@
+# fichier test.rule
+# test pour des règles
+# étant donné deux droites du plan, elles se coupent
+context
+    dimension 2
+    frequency 2
+endofcontext
+ +points 
+      A B C D
+ hypotheses
+    A B : 2
+    C D : 2
+ endofhypotheses
+ -points
+    N
+ guards
+    A B N : 2
+    C D N : 2
+ endofguards
+ conclusions
+  addpoints
+    M
+  suchthat
+   A B M : 2
+   C D M : 2
+end

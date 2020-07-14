@@ -1,0 +1,87 @@
+
+# fichier desargues3D.txt
+# les commentaires ne sont pris en compte qu'au début du fichier
+# usage :
+# dim 2 ou 3 ou 4 ... ou 7
+# points
+# suite de noms de points sur une ligne
+# rangs
+# suite des rangs imposés (hypothèses) sous la forme
+# <liste de points> : rang
+# par exemple
+# A B C : 3
+# ... un rang par ligne
+# conclusion
+# un rang pour la conclusion
+# fin
+dim 4 # on ne change que la dimension ... ce qui correspond à une hyperface d'un pentacore
+points
+O A B C D E Ap Bp Cp Dp Ep ab ac ad  bc bd cd
+rangs
+O A : 2
+O B : 2
+O C : 2
+O D : 2
+A B : 2
+A C : 2
+A D : 2
+B C : 2
+B D : 2
+C D : 2
+O Ap : 2
+O Bp : 2
+O Cp : 2
+O Dp : 2
+Ap Bp : 2
+Ap Cp : 2
+Ap Dp : 2
+Bp Cp : 2
+Bp Dp : 2
+Cp Dp : 2
+A Ap : 2
+B Bp : 2
+C Cp : 2
+D Dp : 2
+O A Ap : 2
+O B Bp : 2
+O C Cp : 2
+O D Dp : 2
+ab A B : 2
+ab Ap Bp : 2
+ac A C : 2
+ac Ap Cp : 2
+ad A D : 2
+ad Ap Dp : 2
+bc B C : 2
+bc Bp Cp : 2
+bd B D : 2
+bd Bp Dp : 2
+cd C D : 2
+cd Cp Dp : 2
+A B C : 3
+A B D : 3
+A C D : 3
+B C D : 3
+Ap Bp Cp : 3
+Ap Bp Dp : 3
+Ap Cp Dp : 3
+Bp Cp Dp : 3
+A B C D : 4
+Ap Bp Cp Dp : 4
+O A B C D : 5
+O A B C : 4
+O A B D : 4
+O A C D : 4
+O B C D : 4
+O Ap Bp Cp : 4
+O Ap Bp Dp : 4
+O Ap Cp Dp : 4
+O Bp Cp Dp : 4
+conclusion
+ab ac ad bc bd cd : 3
+supplements
+bc bd cd : 2
+ac ad cd : 2
+ab ad bd : 2
+ab ac bc : 2
+fin

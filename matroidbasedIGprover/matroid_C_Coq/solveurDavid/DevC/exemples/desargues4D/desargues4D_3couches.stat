@@ -1,0 +1,95 @@
+# fichier desargues4D_3couches.txt
+context
+   dimension 4
+   layers 3
+endofcontext
+layer ABC
+  points
+    O A B C Ap Bp Cp ab ac bc
+  hypotheses
+    O A B C : 4
+    O Ap Bp Cp : 4
+    Ap A B C : 4
+    Bp A B C : 4
+    Cp A B C : 4
+    O A Ap : 2
+    O B Bp : 2
+    O C Cp : 2
+    A B ab : 2
+    Ap Bp ab : 2
+    A C ac : 2
+    Ap Cp ac : 2
+    B C bc : 2
+    Bp Cp bc : 2
+conclusion
+    ab ac bc : 2
+endoflayer # ABC
+layer ABCD
+  points
+    layer ABC
+    D Dp ad bd cd
+  hypotheses
+  O A B C D : 5
+  O Ap Bp Cp Dp : 5
+  Ap A B C D : 5
+  Bp A B C D : 5
+  Cp  A B C D : 5
+  Dp  A B C D : 5
+  O D Dp : 2
+  A D ad : 2
+  Ap Dp ad : 2
+  B D bd : 2
+  Bp Dp bd : 2
+  C D cd : 2
+  Cp Dp cd : 2
+  conclusion
+    ab ac ad bc bd cd : 3 
+  supplements
+    ab ac bc : 2
+    ab ad bd : 2
+    ac ad cd : 2
+    bc bd cd : 2
+endoflayer # ABCD
+# ------------------------------------- ABCDE---
+# la couche suivante correspond à Desargues 4D
+layer ABCDE
+  points
+    layer ABCD
+    E Ep ae be ce de
+  hypotheses
+    A B C D E : 5
+    O B C D E : 5
+    A O C D E : 5
+    A B O D E : 5
+    A B C O E : 5
+    Ap Bp Cp Dp Ep : 5
+    O Bp Cp Dp Ep : 5
+    Ap O Cp Dp Ep : 5
+    Ap Bp O Dp Ep : 5
+    Ap Bp Cp O Ep : 5
+  # dans la suite, cela implique que E != Ep ... et un peu plus
+    Ep B C D E : 5
+    A Ep C D E : 5
+    A B Ep D E : 5
+    A B C Ep E : 5
+    O E Ep : 2
+    A E ae : 2
+    Ap Ep ae : 2
+    B E be : 2
+    Bp Ep be : 2
+    C E ce : 2
+    Cp Ep ce : 2
+    D E de : 2
+    Dp Ep de : 2
+  conclusion
+    ab ac ad ae bc bd be cd ce de : 4
+endoflayer # ABCDE
+  conclusion
+    ab ac ad ae bc bd be cd ce de : 4
+  supplements
+    ab ac bc : 2
+    ab ad bd : 2
+    ac ad cd : 2
+    bc bd cd : 2
+    cd ce de : 2
+end

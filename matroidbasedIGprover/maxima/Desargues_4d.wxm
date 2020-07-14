@@ -1,0 +1,381 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 18.02.0 ] */
+/* [wxMaxima: title   start ]
+Preuve de Desargues dans l'espace 4D Euclidien
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Définitions
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+On commence par quelques définitions : on définit la structure p (point) en 4D avec l'opérateur defstruct :
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+defstruct(p(x=0,y=0,z=0, t=0));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Deux vecteurs sont colinéaires s'ils sont proportionnels. On retrouve donc, comme pour la dimension 3, que deux vecteurs u et v sont colinéaires si et seulement si les 6 expressions u_iv_j -u_jvi sont nulles (i#j et dans x, y, z et t). Sur les C(4,2=6) expressions, 3 suffisent. On se retrouve comme dans le cas précédent avec des équations surnuméraires, mais il y a ici 2 fois plus d'équations qu'il n'en faut. En revanche, les équations sont celles que nous avions avant + d'autres :
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+TO be completed
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Coplanarité de A, B, C, D : le déterminant de la matrice [B-A, C-A, D-A] est nul :
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+m(A,B,C,D) := matrix([ B@x-A@x, C@x-A@x,D@x-A@x],
+                                  [ B@y-A@y, C@y-A@y,D@y-A@y],
+                                  [ B@z-A@z, C@z-A@z,D@z-A@z] );
+coplan(A,B,C,D) := determinant(m(A,B,C,D));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ensemble caractéristique sans décomposition
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+batch("RittWu-factorisation.mac")
+;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Description d'une figure
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+(1) système de coordonnées et choix paramètres - inconnues(variables) : 
+Le point O centre de perspective des deux triangles est fixés à l'origine. A est sur l'axe Ox à l'unité (le problème est invariant par similitude, on peut donc fixer une échell). Le point B est à une position arbitraire (paramètres u1 et u2), idem pour le point C. Le point Ap (A') est sur l'axe Ox et Bp n'importe où sur la droite (OB) on a donc un paramètre (u6) qui lorqu'il est connu permet de déterminer la position de Bp sur la droite (à l'abscisse x1 qui est une inconnue qui dépend des précédents paramètres).
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+O : p(0,0, 0);
+A : p(1,0,0);
+B : p(u1,u2,0);  /* on reste dans le plan xOy  et u2 \= 0*/
+C : p(u3,u4,u5);  /* on est hors du plan xOy et u5 \= 0 */
+D : p(u6,u7,u8); /* on est hors du plan xOy et u5 \= 0 */
+Ap : p(u9,0,0);
+Bp : p(x2, u10,0);
+Cp : p(x4, x3, u11);  /* Cp is on line (OC), only one parameters and two unknowns */
+Dp : p(x6, x5, u12);  /* Dp is on line (OD), only one parameters and two unknowns */
+AB : p(x9,x8,x7);
+AC : p(x12,x11,x10);
+AD : p(x15,x14,x13);
+BC : p(x18,x17,x16);
+BD : p(x21, x20, x19);
+CD : p(x24, x23, x22);
+
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+(2) contraintes spécifiant la figure :
+1- B et Bp sont colinéaires : une équation (on reste dans xOy)
+2,3- O, C et Cp sont colinéaires : 2 équations
+4,5- O, D et Dp sont colinéaires 
+6,7- AB C et D sont colinéaires
+8-  AB Cp et Dp sont colinéaires ....> il y a une surcontraintes à cause de la coplanarité de C, Cp D et Dp (et O)
+9,10, 11 - idem pour AC (avec B et D, et Bp et Dp), 
+... idem pour AD, BC, BD et CD
+En tout, on doit avoir 23 équations
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h1 : colin3(O,B,Bp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h2 : colin1(O, C, Cp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h3 : colin2(O, C, Cp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h4 : colin1(O, D, Dp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h5 : colin2(O, D, Dp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h6 :  colin1(AB, C, D);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h7 : colin2(AB,C,D);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h8 : colin1(AB, Cp, Dp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h9 : colin1(AC, B, D);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h10 :  colin2(AC, B, D);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h11 : colin1(AC, Bp, Dp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h12 : colin1(AD, B, C);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h13 : colin2(AD, B, C);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h14 : colin1(AD, Bp, Cp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h15 : colin1(BC, A, D);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+hp15 : colin2(BC,A,D);  /* ajouté sinon ça n'était pas complet !!! */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h16 : colin3(BC, A, D);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h17 : colin1(BC, Ap, Dp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+hp17 : colin2(BC, Ap,Dp); /* ajouté sinon ça n'était pas complet  !!! */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h18 : colin1(BD, A, C);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h19 : colin2(BD, A, C);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h20 : colin3(BD, Ap, Cp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h21 : colin1(CD, A, B);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h22 : colin3(CD, A, B);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h23 : colin3(CD, Ap, Bp);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+On obtient un système avec plus d'équations que de variables, mais ça n'est pas grave on sait traingulariser quand même (les équations surnuméraires sont redondantes et s'élimine dans le procédé).
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+S : [h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,hp15,h6,h17,hp17,h18,h19,h20,h21,h22,h23];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+for e in S do print(e);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Triangularisation
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+C'est plus fastidieux qu'en 2D si on le fait à la main. On va employer la méthode simple de Ritt-Wu pour calculer un ensemble caractéristique (c'est le code importé plus haut (RittWu-factorisation, mais on n'utilise que la méthode simple pour calculer un ensemble caractéristique de Ritt-Wu qui peut être réductible). Remarque, comme on va traiter des ensembles d'équations d'une manière générales, on aurait pu garder les sur-contraintes (essentiellemen colin1 colin2 et colin3 pour tous les alignements) : on aurait eu beaucoup plus d'équations à écrire mais comme les r-contraintes sont redondantes, elles auraient été eliminées automatiquement. Avec les bases de Gröbner on a aussi ce phénomène ... donc, en fait, on ne se casse pas la tête à choisir ... si ça tient en mémoire !
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Lv : [x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15,x16,x17,x18,x19,x20,x21,x22,x23,x24];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T :  ensCar(S,Lv);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+length(T);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+for e in T do print(ratsimp(e));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+En principe, ça a marché et ça donne un système diagonal !
+u2^2*(u9*x24-u9)+u10*u2*(-x24+u9+u1*(1-u9))" "
+u2*(u9*x23+u10*(1-u9))-u10*x23" "
+-u2*x22" "
+(u11*u5-u5^2*u9)*x21+(u5^2+(u11*u3-u11)*u5)*u9-u11*u3*u5" "
+(u5^2*u9-u11*u5)*x20-u11*u4*u5*u9+u11*u4*u5" "
+(u4*u5*u9-u11*u4)*x19-u11*u4*u5*u9+u11*u4*u5" "
+(u12*u8-u8^2*u9)*x18+(u8^2+(u12*u6-u12)*u8)*u9-u12*u6*u8" "
+(u8^2*u9-u12*u8)*x17-u12*u7*u8*u9+u12*u7*u8" "
+(u12-u8*u9)*x16+u12*u8*u9-u12*u8" "
+u10*(-u5^2*x15+u1*(u5^2-u11*u5)+u11*u3*u5)+u2*(u11*u5*x15-u11*u3*u5)" "
+u10*(u5^2*x14-u11*u4*u5)+u2*(-u11*u5*x14+u10*(u11*u5-u5^2)+u11*u4*u5)" "
+u10*(u5*x13-u11*u5)+u2*(u11*u5-u11*x13)" "
+u10*(-u8^2*x12+u1*(u8^2-u12*u8)+u12*u6*u8)+u2*(u12*u8*x12-u12*u6*u8)" "
+u10*(u8^2*x11-u12*u7*u8)+u2*(-u12*u8*x11+u10*(u12*u8-u8^2)+u12*u7*u8)" "
+u10*(u8*x10-u12*u8)+u2*(u12*u8-u12*x10)" "
+(-u11*u8^2+(u12+u11)*u5*u8-u12*u5^2)*x9+u11*u3*u8^2+((u11*u12-u12*u5)*u6-u11*u3*u5-u11*u12*u3)*u8+(u12*u5^2-u11*u12*u5)*u6+u11*u12*u3*u5" "
+((u11*u12-u11^2)*u8+(u11*u12-u12^2)*u5)*x8+(u11^2-u11*u12)*u4*u8+((u12^2-u11*u12)*u5-u11*u12^2+u11^2*u12)*u7+(u11*u12^2-u11^2*u12)*u4" "
+(u11*u4*u8^2+(-u11*u5*u7-u12*u4*u5)*u8+u12*u5^2*u7)*x7+((u12-u11)*u4*u5-u11*u12*u4)*u8^2+(((u11-u12)*u5^2+u11*u12*u5)*u7+u11*u12*u4*u5)*u8-u11*u12*u5^2*u7" "
+u6*(u12-u8)-u8*(x6-u6)" "
+u8*(x5-u7)-u7*(u12-u8)" "
+u3*(u11-u5)-u5*(x4-u3)" "
+u5*(x3-u4)-u4*(u11-u5)" "
+u2*(x2-u1)-u1*(u10-u2)" "
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Les buts
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Les buts :
+a) colin1(AB, AC, AD) et colin2(AB, AC, AD) et colin3(AB, AC, AD)
+b) colin1(AB,BC,BD) et ...
+c) colin(AC, BC, CD) et ...
+d) colin(AD, BD, CD) et ...
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+test(M,N,P) := [pRemOne(colin1(M,N,P),T,Lv),pRemOne(colin2(M,N,P),T,Lv),pRemOne(colin3(M,N,P),T,Lv)];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+test(AB, AC, AD);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+test(AB,BC,BD);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+test(AC,BC,CD);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+test(AD,BD,CD);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+pRemOne(coplan(AD,BD,AC,BC),T,Lv);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+On trouve bien que tous les pseudo-restes sont nuls modulo la non nullité des coefficients dominants.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Conditions supplémentaires (ou de non dégénérescence)
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Voici les conditions de non dégénérescence
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg : length(T)$ for i:1 thru lg do print(ldCoeff(T[lg-i+1],Lv[i]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Certaines sont faciles à interpréter et ont déjà été signalées lors du paramétrage de la figure :
+    * u2 # 0 : sinon O, A et B sont alignés et donc avec les contraintes les droites (AB) et (ApBp) sont confondues.
+    * u5 # 0, sinon le point C est dans le plan (OAB)
+    * u8 # 0
+    * u10u8-u12u2 # 0 : concerne les points B, D, Bp, Dp pour x10 (zAC) : yBpzD -zDpyB ... fait partie du non //isme des droites BD et BpDp ? à voir
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Remarques
+
+   [wxMaxima: section end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 18.02.0"$

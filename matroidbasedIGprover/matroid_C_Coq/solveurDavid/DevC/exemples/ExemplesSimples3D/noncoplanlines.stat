@@ -1,0 +1,24 @@
+# noncoplanlines.stat
+# deux droites non coplanaires avec 4 points chacunes
+# une droite + 2 points de l'autre est de rang 4
+context
+     dimension 3
+     layers 1
+endofcontext
+layer 0
+  points 
+    A B C D M N L O
+  hypotheses
+    A B C D : 2
+    M N L O  : 2
+    A B C D M N L O : 4
+    M N : 2
+  conclusion
+    A B C D M N : 4
+endoflayer
+  conclusion
+    A B C D M N : 4
+  supplements
+    A B C D M : 3
+end
+        

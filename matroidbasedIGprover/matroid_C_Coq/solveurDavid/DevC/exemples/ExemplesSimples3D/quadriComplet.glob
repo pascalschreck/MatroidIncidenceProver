@@ -1,0 +1,9 @@
+DIGEST 83d9524ecbf2781dbb829f4f435db9c0
+FquadriComplet
+prf 6:18 <> LP1P2P3P4P5P6
+R79:82 Coq.Init.Logic <> :type_scope:x_'->'_x not
+R119:122 Coq.Init.Logic <> :type_scope:x_'->'_x not
+R153:156 Coq.Init.Logic <> :type_scope:x_'->'_x not
+R187:190 Coq.Init.Logic <> :type_scope:x_'->'_x not
+R221:224 Coq.Init.Logic <> :type_scope:x_'->'_x not
+R269:271 Coq.Init.Logic <> :type_scope:x_'='_x not

@@ -1,0 +1,23 @@
+# les commentaires ne sont pris en compte qu'au début du fichier
+# usage :
+# points
+# suite de noms de points sur une ligne 
+# rangs
+# suite des rangs imposés (hypothèses) sous la forme
+# <liste de points> : rang
+# par exemple
+# A B C : 3
+# ... un rang par ligne
+# conclusion
+# un rang pour la conclusion
+# fin
+points
+A B Ap O
+rangs
+A B O : 3
+A Ap O : 2
+A Ap : 2
+Ap O : 2
+conclusion
+A Ap B : 3
+fin
