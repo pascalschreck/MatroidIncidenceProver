@@ -1,5 +1,12 @@
 # TODO et remarques
 
+## Décomposition et construction de la preuve
+Dans les preuves (je ne les ai pas toutes regardées), on note la fabrication d'un grand nombre de lemmes inutiles : par exemple des lemmes où la conclusion est que le rang d'un ensemble avec un seul point est 1 (est-ce bug qui prend en compte des restes de l'initialisation ?) ou alors dont la conclusion est incluse dans les prémisses.
+Il faudrait soit revoir la construction des lemmes et tâcher de fabriquer des choses intéressantes ou, si ça n'est pas possible, de nettoyer après-coup, la base de lemmes locale pour éliminer les lemmes triviaux.
+
+Par ailleurs, la décomposition et la reconstruction de lemmes correspond à une certaine idée de la structure de la preuve correspondant à la construction de points intermédiaires. Dans le cas de la preuve de Desargues en dimension n, il y a une structuration et des lemmes de bases qui ne correspondent pas forcément à une preuve sympa : par exemple, on aimerait pouvoir réutiliser que 2 triagles en prespectives satisfont les hyptohèses de Desargues 2,5D et le réutiliser sur toutes les 2-facettes.
+
+
 ## Manipulation des règles 
 
 Prévoir un méta-cadre, au moins pour les règles sortant du cadre minimal de la géométrie d(incidence)
