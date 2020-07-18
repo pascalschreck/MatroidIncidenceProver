@@ -1,6 +1,6 @@
 // fichier parties.c
 // créé par David Braun
-// modification mineures pas PS
+// modification mineures par PS
 #include "parties.h"
 
 allocSize allocSizeTab (int n, int m) {
