@@ -111,11 +111,11 @@ graph convergenceParties (graph g, int res) {
 			// On parcours toutes les paires (i,j) de sommets 
 			// du graphe
 			
-			for(i = 0; i < g.effectiveSize; i++)
+			for(i = 0; i < g.effectiveSize; i++) 			// boucle sur un sommet
 			{
 				colori = g.tab[i]->color;
 				
-				for(j = i+1; j < g.effectiveSize; j++)
+				for(j = i+1; j < g.effectiveSize; j++)		// boucle sur le deuxième sommet
 				{	
 					colorj = g.tab[j]->color;
 					if(colori >= loopNumber+1 || colorj >= loopNumber+1 || colori == -1 || colorj == -1)

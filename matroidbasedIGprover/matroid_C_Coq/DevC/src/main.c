@@ -33,13 +33,11 @@ int main(int argc, char * argv[])
     // soit le nom donné sur la ligne de commande rangé dans la variable statement_name
     FILE *stat = fopen(statement_name,"r");
     statement st = st_read(stat);			// lecture de l'énoncé pour remplir la structure statement
-											// Dans un premier temps, 
-											// on ne considère que des énoncés avec une seule couche ...
     fclose(stat);
 											// mise à jour de deux variables globales
 	dim = st->sdim; 						// !!!! variable globale
 	realSizemyType = (dim >= 4) ? 58 : 60; 	// !!!!! variable globale
-	// affichage pour vérification
+	// affichage de l'énoncé pour vérification
 	st_print(st);
 
     int nb_layers = st->nb_layers;          // en principe < MAX_LAYERS
