@@ -13,9 +13,9 @@ Prévoir un méta-cadre, au moins pour les règles sortant du cadre minimal de l
 
 * Pappus
 * Dandelin-Galucci
-* autres ? (en rapport avec les réels comme m5 truc de ?)
+* autres ? (en rapport avec les réels comme m5 truc de Mc...)
 
-Une remarque qui me semblait ne concerner que les règles : les spécications géométriques en n'utilisant que les rangs sont assez difficiles à écrire, et encore plus à écrire de manière correcte.
+Une remarque qui me semblait ne concerner que les règles : les spécifications géométriques en n'utilisant que les rangs sont assez difficiles à écrire, et encore plus à écrire de manière correcte.
 C'est le cas de la règle de DG dont voici une formulation dans un langage mockup
 ```
 # DG_rule
@@ -35,7 +35,7 @@ hypotheses
         # de rang 3 (coplanaires)
         # et donc les droites se coupent 
         # cependant, la preuve de Papps par DL vu dans ... impose la création 
-        # d'un nouveu point 
+        # d'un nouveau point 
     constraints
         linealldifferent : d1 d2 d3 d4 D1 D2 D3 D4
         pointalldifferent : O A B C Ap Bp D E F G H I J K
