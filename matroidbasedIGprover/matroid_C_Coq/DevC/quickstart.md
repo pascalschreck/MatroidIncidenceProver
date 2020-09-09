@@ -1,7 +1,7 @@
 # Prise en main rapide
 
 ## Installation
-Après avoir décompresser le fichier fourni, on a une arborescence avec les sources (src), les fichiers d'en-têtes (include), les fichiers objets, ... Il y a des exemples dans le répertoire ... "exemples".
+Après avoir décompressé le fichier fourni, on a une arborescence avec les sources (src), les fichiers d'en-têtes (include), les fichiers objets, ... Il y a des exemples dans le répertoire ... "exemples".
 
  Le fichier Makefile est à la racine de cette arborescence. On lance "make" et normalement un fichier exécutable de nom "main" est dans bin.
 
