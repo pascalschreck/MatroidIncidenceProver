@@ -52,6 +52,7 @@ endofrule
 ```
 mais aussi lors de mes tentatives de définir 3 plans "indépendants" en 3D, c'est-à-dire 3 plans qui ne se coupaient pas suivant la même droite.
 Mes premiers essais m'ont conduit à des énoncés compliqués avec 17 points (ou plus) où on définissait les 3 droites d'intersection des plans et on spécifaient qu'elles étaient distinctes. Une version plus simple (mais dont on peut douter qu'elle soit complète) de la propriété que trois tels plans se coupent en un point se trouve être la suivant :
+
 ```
 # inter2Plan.stat
 # en 3D l'intersection de 3 plans "indépendants" est un point
@@ -94,7 +95,7 @@ endoflayer
     X Y : 1
 end
 ```
-où on voit qu'il suffit de définir 1 points dans intersection de deux plans et de dire que ce point n'appartient pas au 3ème plan.
+où on voit qu'il suffit de définir 1 point dans intersection de deux plans et de dire que ce point n'appartient pas au 3ème plan.
 
 On a ainsi un énoncé avec 12 points au lieu de 17 ... ce qui est énorme puisque la complexité est exponentielle, et une définition plus simple de 3 plans indépendants : il existe un point qui appartient à 2 plans, mais pas au troisième.
 
