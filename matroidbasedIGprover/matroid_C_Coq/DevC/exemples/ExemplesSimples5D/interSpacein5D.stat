@@ -1,5 +1,5 @@
 # intersectionEspaces.txt
-# en dimension 4, l'intersection de deux espaces de dim 3 distincts est un plan
+# en dimension 5, l'intersection de deux espaces de dim 4 distincts est un 3-espace
 context
     dimension 5
     layers 1
@@ -35,7 +35,7 @@ layer 0
     I K L M : 4
     J K L M : 4
   conclusion
-    # ils doivent appartenir à un même plan
+    # ils doivent appartenir à un même 3-espace (et ils doivent le définir)
     I J K L M : 4
 endoflayer
   conclusion

@@ -17,11 +17,12 @@ Prévoir un méta-cadre, au moins pour les règles sortant du cadre minimal de l
 
 Une remarque qui me semblait ne concerner que les règles : les spécifications géométriques en n'utilisant que les rangs sont assez difficiles à écrire, et encore plus à écrire de manière correcte.
 C'est le cas de la règle de DG dont voici une formulation dans un langage mockup
+
 ```
 # DG_rule
 # tentative de définition de règle en utilisant l'exemple de DG
 # qui est plutôt complexe.
-# je remarqu'il est plus facile d'exprimer cette règle avec de la 
+# je remarque qu'il est plus facile d'exprimer cette règle avec de la 
 # géométrie qu'avec des rang ... c'était sans doute aussi le cas 
 # de certains énoncés de thm ... sauf qu'en on arrive en dim. > 3
 rule
@@ -94,7 +95,7 @@ endoflayer
 end
 ```
 où on voit qu'il suffit de définir 1 points dans intersection de deux plans et de dire que ce point n'appartient pas au 3ème plan.
-<!-- -->
+
 On a ainsi un énoncé avec 12 points au lieu de 17 ... ce qui est énorme puisque la complexité est exponentielle, et une définition plus simple de 3 plans indépendants : il existe un point qui appartient à 2 plans, mais pas au troisième.
 
-Parmi divers réflexions que cela m'inspire : peut-être serait-il bien d'enrichir le langage de description avec les notions de droites et de plans et avec des contraintes de plus haut niveau. Un préprocesseur pourrait alors traduire ces énoncé en rang.
+Parmi diverses réflexions que cela m'inspire : peut-être serait-il bien d'enrichir le langage de description avec les notions de droites et de plans et avec des contraintes de plus haut niveau. Un préprocesseur pourrait alors traduire ces énoncé en rang.
