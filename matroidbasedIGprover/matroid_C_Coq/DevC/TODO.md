@@ -6,6 +6,10 @@ Il faudrait soit revoir la construction des lemmes et tâcher de fabriquer des c
 
 Par ailleurs, la décomposition et la reconstruction de lemmes correspond à une certaine idée de la structure de la preuve correspondant à la construction de points intermédiaires. Dans le cas de la preuve de Desargues en dimension n, il y a une structuration et des lemmes de bases qui ne correspondent pas forcément à une preuve sympa : par exemple, on aimerait pouvoir réutiliser que 2 triagles en prespectives satisfont les hyptohèses de Desargues 2,5D et le réutiliser sur toutes les 2-facettes.
 
+### Filtrage des lemmes inutiles
+Pour le moment, je n'ai empêché que l'écriture des lemmes (et de leur preuve) dont la conclusion était que le rang d'un ensemble réduit à un point était 1.
+
+Une autre simplitfication serait de filtrer les lemmes dont la conclusion est dans les hypothèses : ce n'est pa dur à voir, mais il faut repenser la manière dont la preuve est écrite : pour le moment, il s'agit de trois fonctions : une pour écrire le lemme (dans un fichier) et deux pour écrire la preuve, on peut s'apercevoir pendant l'écriture du lemme qu'il va être inutile, mais à ce moment, le début du code est déjà écrit et on est dans la boucle qui écrit la preuve ( break ? :( ))
 
 ## Manipulation des règles 
 

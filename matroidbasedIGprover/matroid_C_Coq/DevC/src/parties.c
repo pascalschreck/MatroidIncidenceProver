@@ -1067,7 +1067,9 @@ void constructLemma(FILE* file, graph g, node n) {
 		if(g.tab[i]->color == -1)
 		{			
 			cpt++;
-			partB = g.tab[i]->e;
+										// TODO !!!!!!!!!!!!!!!!!!!!!!
+			partB = g.tab[i]->e;		// si g.tab[i]->e == n->e, il n'est pas utile d'écrire 
+			                            // le lemme ni la preuve
 			partBe = partB & 0x3FFFFFFFFFFFFFF;
 			rankB = rankMin(partB);
 			
