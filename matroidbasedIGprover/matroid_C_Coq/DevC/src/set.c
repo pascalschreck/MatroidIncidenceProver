@@ -727,4 +727,17 @@ void printBytesAsRank(myType e) {
 	}
 }
 	
+/*--------------------------------------------------------*
+*   cardinal d'un ensemble ... attention, j'ai limité à 25
+*---------------------------------------------------------*/
+int cardinal(myType e)
+{
+	int nb_points = 0;
+	int point = 0;
+	for(; point < 25; point++)
+		nb_points += e>>point & 1;
+	
+	return nb_points;
+
+}
 	

@@ -43,4 +43,6 @@ void printBytes(myType e); // Fonction qui affiche les bits d'un entier binaire 
 void printBytesAsNumber(myType e); // Fonction qui affiche un entier représentant l'entier binaire e
 void printBytesAsRank(myType e); // Fonction qui affiche le rang d'un entier binaire e
 
+int cardinal(myType e);  // cardinal d'un ensemble ... arbitrairement limité à 25
+
 #endif //__SET_H_

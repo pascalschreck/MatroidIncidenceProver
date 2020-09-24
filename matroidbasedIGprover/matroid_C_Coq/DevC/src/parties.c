@@ -419,6 +419,27 @@ graph convergenceParties (graph g, int res) {
 	return g;
 }
 
+/*---------------------------------------------------------------------------------------
+*
+*	Gestion de la règle de Pappus :
+*  La gestion de la règle de Pappus dont l'application se fait en dehors des boucles d'
+*  actualisation des rangs avec essentiellement les règles d'inclusion et de sous-modularité,
+*  est fondée sur les 4 fonctions suivantes :
+*
+*     - graph applyPappusParties (graph g, int i, int j, int * convergence, int loopNumber)
+*
+*     - graph applyPappus (graph g, int * convergence, int loopNumber)
+*
+*      - myType existPappusConfiguration
+*                (graph g, myType e1, myType e2, myType e3, myType e4, myType e5, myType e6)
+*
+*
+*      - myType existIntersectPoint(graph g, myType e1, myType e2)
+*
+*---------------------------------------------------------------------------------------*/
+
+
+
 graph applyPappusParties (graph g, int i, int j, int * convergence, int loopNumber) {
 
 	myType partI,partJ,partIuJ,partIiJ;
@@ -946,6 +967,31 @@ myType existIntersectPoint(graph g, myType e1, myType e2) {
 	return res;
 }
 
+
+/**************************************************************************************************/
+
+/*__________________________________fin Pappus___________________________________________________*/
+
+
+
+
+
+
+/*------------------------------------------------------------------------------------------*
+* Section sur la construction du graphe de déduction										*
+* Celle-ci comprend les fonctions suivantes													*
+
+	- void preMark(node n)
+	- void unMark(node n)
+	- void constructLemma(FILE* file, graph g, node n)
+	- void constructIntro(FILE* file, graph g)
+	- void constructProof (FILE* file, node n, allocSize stab, int previousConstruct)
+	- void constructProofaux 
+			(FILE* file, node n, myType res, allocSize stab, int previousConstruct)
+*
+*------------------------------------------------------------------------------------------*/
+/*******************************************************************************************/
+
 void preMark(node n) {
 	if(n->mark == 0)
 	{
@@ -983,7 +1029,10 @@ void unMark(node n) {
 		}
 	}
 }
-
+/*------------------------------------------------------------*/
+/*           construcLemma                                    */
+/*     g est le graphe correspondant à une            */
+/**************************************************************/
 void constructLemma(FILE* file, graph g, node n) {
 	int i;
 	int cpt = 0;
@@ -992,6 +1041,10 @@ void constructLemma(FILE* file, graph g, node n) {
 	
 	partA = n->e;
 	partAe = partA & 0x3FFFFFFFFFFFFFF;
+	// la partie suivante était une tentative de filtrer des lemmes triviaux
+	// mais il faut aussi filtrer la preuve
+	// if(cardinal(partA)==1) return;
+
 	rankMinA = rankMin(partA);
 	rankMaxA = rankMax(partA);
 	if(rankMin(partA) != rankMax(partA))
@@ -1006,8 +1059,8 @@ void constructLemma(FILE* file, graph g, node n) {
 	{
 		fprintf(file,"P%d ",i+1);
 	}
-	
-	fprintf(file,",\n");
+												// Ainsi, 
+	fprintf(file,",\n");					    // tous les points du graphe sont quantifiés universellement
 	
 	for(i = 0; i < g.effectiveSize; i++)
 	{
@@ -4135,6 +4188,14 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 		}
 	}
 }
+
+
+/*************************************************************************************************/
+/*
+
+						des fonctions d'impression
+
+*/
 
 void printSetFile (FILE* file, myType e) {
 	int i,j=1;

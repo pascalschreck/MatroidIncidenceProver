@@ -155,7 +155,9 @@ int main(int argc, char * argv[])
     {
         for(; i < g[iocl].effectiveSize;i++)
         {   
-            if(g[iocl+1].tab[i]->mark == 1 && i != res)
+        // ajout dans la condition suivante (à la fin) :
+        // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
+            if(g[iocl+1].tab[i]->mark == 1 && i != res && cardinal(g[iocl].tab[i]->e)!=1)
             {
                 constructLemma(file,g[iocl],g[iocl].tab[i]);
                 constructIntro(file, g[iocl]);
