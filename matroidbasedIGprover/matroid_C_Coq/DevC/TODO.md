@@ -11,6 +11,7 @@ Pour le moment, je n'ai empêché que l'écriture des lemmes (et de leur preuve)
 
 Une autre simplitfication serait de filtrer les lemmes dont la conclusion est dans les hypothèses : ce n'est pa dur à voir, mais il faut repenser la manière dont la preuve est écrite : pour le moment, il s'agit de trois fonctions : une pour écrire le lemme (dans un fichier) et deux pour écrire la preuve, on peut s'apercevoir pendant l'écriture du lemme qu'il va être inutile, mais à ce moment, le début du code est déjà écrit et on est dans la boucle qui écrit la preuve ( break ? :( ))
 
+
 ## Manipulation des règles 
 
 Prévoir un méta-cadre, au moins pour les règles sortant du cadre minimal de la géométrie d(incidence)
