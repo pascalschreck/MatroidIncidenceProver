@@ -5,7 +5,7 @@
 #include "maths_addon.h"
 
 // #define filename "proof.txt"
-
+#define bool unsigned
 typedef struct allocSize {
 	int ** tab;
 	int size;
@@ -59,7 +59,7 @@ void preMark(node n);
 void unMark(node n); 
 		// Fonction qui enlève le marquage du graphe de déductions
 
-void constructLemma(FILE* file, graph g, node n); 
+bool constructLemma(FILE* file, graph g, node n, int couche); 
 		// Fonction qui reconstruit l'énoncé lemme dans le fichier file à partir 
 		// d'un noeud n du graphe de déductions g
 
@@ -79,9 +79,20 @@ void printSetFile (FILE* file, myType e);
 		// Fonction qui reconstruit dans un fichier file un entier binaire e sous forme 
 		// d'ensemble (dans le langage Coq)
 
+char *printSetString(char *s ,myType e);
+		// même fonction que précédemment, mais qui écrit dans une chaîne (avec sprintf())
+		// plutôt que dans un fichier
+		// le pointeur returné pointe sur le premier caractère après l'écriture dans s
+
 void printHypSetFile (FILE* file, myType e); 
 		// Fonction qui reconstruit dans un fichier file un entier binaire e sous forme 
 		// d'hypothèse (dans le langage Coq)
+
+// ajout PS
+char* printHypSetString (char *s, myType e);
+		// même fonction que précédemment, mais qui écrit dans une chaîne (avec sprintf())
+		// plutôt que dans un fichier
+		// le pointeur returné pointe sur le premier caractère après l'écriture dans s 
 
 void printLineGraph (graph g, int i); 
 		// Fonction qui affiche une ligne i du graphe g avec le cheminement de la preuve

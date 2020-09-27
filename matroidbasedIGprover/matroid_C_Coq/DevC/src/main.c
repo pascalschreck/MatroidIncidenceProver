@@ -159,20 +159,24 @@ int main(int argc, char * argv[])
         // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
             if(g[iocl+1].tab[i]->mark == 1 && i != res && cardinal(g[iocl].tab[i]->e)!=1)
             {
-                constructLemma(file,g[iocl],g[iocl].tab[i]);
-                constructIntro(file, g[iocl]);
-			    constructProof(file,g[iocl].tab[i], sizeTab, 1);
-			    g[iocl].tab[i]->mark = 4;
-			    unMark(g[iocl].tab[i]);
+                if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
+                {
+                    constructIntro(file, g[iocl]);
+			        constructProof(file,g[iocl].tab[i], sizeTab, 1);
+			        g[iocl].tab[i]->mark = 4;
+			        unMark(g[iocl].tab[i]);
+                }
             }
             
         }
     }
 
     // traitement de la dernière couche :
-    constructLemma(file, g[last], g[last].tab[res]);
-	constructIntro(file, g[last]);
-	constructProof(file, g[last].tab[res], sizeTab, 1);
+    if(constructLemma(file, g[last], g[last].tab[res],last))
+    {
+	    constructIntro(file, g[last]);
+	    constructProof(file, g[last].tab[res], sizeTab, 1);
+    }
 
 	
 	fclose(file);

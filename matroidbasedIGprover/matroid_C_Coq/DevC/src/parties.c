@@ -1033,17 +1033,17 @@ void unMark(node n) {
 /*           construcLemma                                    */
 /*     g est le graphe correspondant à une            */
 /**************************************************************/
-void constructLemma(FILE* file, graph g, node n) {
+bool constructLemma(FILE* file, graph g, node n, int couche) {
 	int i;
 	int cpt = 0;
 	myType partA, partAe, partB, partBe;
 	int rankMinA, rankMaxA, rankB;
-	
+	// modif PS : 27 septembre 2020
+	char *local_buffer = (char *)calloc(5000,sizeof(char));
+	char *pos = local_buffer;
+	// <--PS
 	partA = n->e;
 	partAe = partA & 0x3FFFFFFFFFFFFFF;
-	// la partie suivante était une tentative de filtrer des lemmes triviaux
-	// mais il faut aussi filtrer la preuve
-	// if(cardinal(partA)==1) return;
 
 	rankMinA = rankMin(partA);
 	rankMaxA = rankMax(partA);
@@ -1051,25 +1051,34 @@ void constructLemma(FILE* file, graph g, node n) {
 	{
 		fprintf(stderr,"Attention rangs non identiques pour le résultat\n");
 	}
-	fprintf(file,"Lemma L");
-	printHypSetFile(file,partAe);
-	fprintf(file," : forall ");
-	
+	pos += sprintf(pos,"Lemma L"); // modif 27/09/20 : il y avait un fprintf()
+	pos = printHypSetString(pos, partAe);   //  idem PS 27/09/20
+											//  la fonction printHypStFile a été réécrite plus bas
+	pos += sprintf(pos," : forall ");	    //  idem PS 27/09/20
+	//<--PS
 	for(i = 0; i < g.effectiveAllocPow; i++)
 	{
-		fprintf(file,"P%d ",i+1);
+		pos += sprintf(pos,"P%d ",i+1);		// idem PS 27/09/20
 	}
 												// Ainsi, 
-	fprintf(file,",\n");					    // tous les points du graphe sont quantifiés universellement
+	pos += sprintf(pos,",\n");					// tous les points du graphe sont quantifiés universellement
 	
 	for(i = 0; i < g.effectiveSize; i++)
 	{
 		if(g.tab[i]->color == -1)
 		{			
 			cpt++;
-										// TODO !!!!!!!!!!!!!!!!!!!!!!
-			partB = g.tab[i]->e;		// si g.tab[i]->e == n->e, il n'est pas utile d'écrire 
-			                            // le lemme ni la preuve
+			
+			if (g.tab[i]->e == n->e) { 	// idem PS 27/09/20 : brutal !		
+				// si g.tab[i]->e == n->e, il n'est pas utile d'écrire
+				// le lemme ni la preuve
+				fprintf(file,"(* Lemme pas écrit (couche %d) *) \n", couche);	// TODO : couche
+				free(local_buffer);
+				return 0;             
+			}
+		// sinon, on continue l'écriture dans le buffer tant que la boucle n'est pas finie
+			partB = g.tab[i]->e;		 
+			                            
 			partBe = partB & 0x3FFFFFFFFFFFFFF;
 			rankB = rankMin(partB);
 			
@@ -1079,20 +1088,28 @@ void constructLemma(FILE* file, graph g, node n) {
 				exit(1);
 			}
 			
-			fprintf(file,"rk(");
-			printSetFile(file,partBe);
+			pos += sprintf(pos,"rk(");			// idem PS 27/09/20
+			pos = printSetString(pos,partBe);  // idem PS 27/09/20
 			if(cpt == 3)
 			{
-				fprintf(file," nil) = %d ->\n",rankB);
+				pos += sprintf(pos," nil) = %d ->\n",rankB);
 				cpt = 0;
 			}
 			else
 			{
-				fprintf(file," nil) = %d -> ",rankB);
+				pos += sprintf(pos," nil) = %d -> ",rankB);
 			}
 		}
 	}
-	
+	*pos = '\n'; // pour finir la chaîne ... ça aurait du être fait pas sprintf(...) 
+	 //--------------------------------------------------------------------------
+	 // écriture effective du lemme dans le fichier
+	// PS 29/09/20 : si on arrive jusqu'ici, on écrit tout le buffer
+	//               dans le fichier <file>
+	//               et l'écriture se continuera dans ce fichier
+	fprintf(file,"%s",local_buffer); 
+	//<--PS
+
 	if(rankMinA == rankMaxA)
 	{
 		fprintf(file,"rk(");
@@ -1115,6 +1132,8 @@ void constructLemma(FILE* file, graph g, node n) {
 		printSetFile(file,partAe);
 		fprintf(file," nil) <= %d.\n",rankMaxA);
 	}
+	free(local_buffer); 
+	return 1;
 }	
 
 void constructIntro(FILE* file, graph g) {
@@ -4212,6 +4231,21 @@ void printSetFile (FILE* file, myType e) {
 	}
 }
 
+char *printSetString (char *s, myType e) {
+	int i,j=1;
+	for(i = 0; i < realSizemyType; i++)
+	{
+
+		if(((e >> i) & 0x1) == 1)
+		{
+				s += sprintf(s,"P%d :: ",j);
+		}
+		j++;
+	}
+	return s;
+}
+
+// remarque : c'est la même fonction que printSetFile() ??
 void printHypSetFile (FILE* file, myType e) {
 	int i,j=1;
 	for(i = 0; i < realSizemyType; i++)
@@ -4223,6 +4257,20 @@ void printHypSetFile (FILE* file, myType e) {
 		}
 		j++;
 	}
+}
+
+char *printHypSetString (char *s, myType e) {
+	int i,j=1;
+	for(i = 0; i < realSizemyType; i++)
+	{
+
+		if(((e >> i) & 0x1) == 1)
+		{
+				s += sprintf(s,"P%d",j);
+		}
+		j++;
+	}
+	return s;
 }
 
 void printLineGraph (graph g, int i) {
