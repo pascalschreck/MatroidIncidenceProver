@@ -172,7 +172,12 @@ int main(int argc, char * argv[])
     }
 
     // traitement de la dernière couche :
-    if(constructLemma(file, g[last], g[last].tab[res],last))
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // TODO
+    // C'est ici qu'on pourrait prendre en compte plusieurs conclusion 
+    // seule la conclusion <res> est traitée !
+    // 
+    if(constructLemma(file, g[last], g[last].tab[res],last))  // devrait être toujours vrai
     {
 	    constructIntro(file, g[last]);
 	    constructProof(file, g[last].tab[res], sizeTab, 1);
