@@ -95,7 +95,7 @@ endoflayer # pointQ
 layer afterQ
     points
         layer pointQ
-        Bq et Bqp
+        Bq Bqp
     hypotheses
         B Bq Q : 2
         Bp Bqp Q : 2
