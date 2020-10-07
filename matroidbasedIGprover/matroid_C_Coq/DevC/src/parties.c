@@ -3,6 +3,10 @@
 // modification mineures par PS
 #include "parties.h"
 
+/*______________________________________________________________________________
+
+## allocSizeTab() gestion de l'allocation mémoire pour les couches
+________________________________________________________________________________*/
 allocSize allocSizeTab (int n, int m) {
 	int i,j;
 	allocSize p;
@@ -26,6 +30,10 @@ allocSize allocSizeTab (int n, int m) {
 	return p;
 }
 
+/*______________________________________________________________________________
+
+## allocGraph() gestion de l'allocation mémoire
+________________________________________________________________________________*/
 graph allocGraph (int n) {
 	int i;
 	graph g;
@@ -33,7 +41,7 @@ graph allocGraph (int n) {
 	// char s[255]; // debug : juste pour le sget()
 
 	// printf("nombre de points dans allocGraph : %d\n", n);
-	g.size =  (1 << n);  // originalement g.size = spow(n); 1 << n provoque un seg. fault
+	g.size =  (1 << n); 
 	g.effectiveSize = 0;
 	g.allocPow = n;
 	g.effectiveAllocPow = 0;
@@ -53,6 +61,10 @@ graph allocGraph (int n) {
 	return g;
 }
 
+/*______________________________________________________________________________
+
+## copyGraph() recopie de graphes
+________________________________________________________________________________*/
 graph copyGraph(graph g1, graph g2, int res) {
 	int i;
 	
@@ -67,6 +79,7 @@ graph copyGraph(graph g1, graph g2, int res) {
 	return g2;
 }
 
+//**************************************************************************
 /*---------------------------------------------------------------*
 *
 *	convergenceParties(g, res) :
@@ -419,24 +432,25 @@ graph convergenceParties (graph g, int res) {
 	return g;
 }
 
-/*---------------------------------------------------------------------------------------
-*
-*	Gestion de la règle de Pappus :
-*  La gestion de la règle de Pappus dont l'application se fait en dehors des boucles d'
-*  actualisation des rangs avec essentiellement les règles d'inclusion et de sous-modularité,
-*  est fondée sur les 4 fonctions suivantes :
-*
-*     - graph applyPappusParties (graph g, int i, int j, int * convergence, int loopNumber)
-*
-*     - graph applyPappus (graph g, int * convergence, int loopNumber)
-*
-*      - myType existPappusConfiguration
-*                (graph g, myType e1, myType e2, myType e3, myType e4, myType e5, myType e6)
-*
-*
-*      - myType existIntersectPoint(graph g, myType e1, myType e2)
-*
-*---------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------*
+*																								*
+*	Gestion de la règle de Pappus :																*
+*  La gestion de la règle de Pappus dont l'application se fait en dehors des boucles d'			*
+*  actualisation des rangs avec essentiellement les règles d'inclusion et de sous-modularité,	*
+*  est fondée sur les 4 fonctions suivantes :													*
+*																								*
+*     - graph applyPappusParties (graph g, int i, int j, int * convergence, int loopNumber)		*
+*																								*
+*     - graph applyPappus (graph g, int * convergence, int loopNumber)							*
+*																								*
+*      - myType existPappusConfiguration														*
+*                (graph g, myType e1, myType e2, myType e3, myType e4, myType e5, myType e6)	*
+*																								*
+*																								*
+*      - myType existIntersectPoint(graph g, myType e1, myType e2)								*
+* les fonctions plus bas recensent tous les cas possibles ... elles sont très longues			*
+*																								*
+*_______________________________________________________________________________________________*/
 
 
 
@@ -896,6 +910,13 @@ graph applyPappusParties (graph g, int i, int j, int * convergence, int loopNumb
 	return g;
 }
 
+
+/*______________________________________________________________________________
+
+
+##  fonction applyPappus(graph g, int * convergence, int loopNumber)
+
+________________________________________________________________________________*/
 graph applyPappus (graph g, int * convergence, int loopNumber) {
 	
 	int i, j;
@@ -922,6 +943,12 @@ graph applyPappus (graph g, int * convergence, int loopNumber) {
 	return g;
 }
 
+/*______________________________________________________________________________
+
+
+##  fonction existPappusConfiguration()
+
+________________________________________________________________________________*/
 myType existPappusConfiguration(graph g, myType e1, myType e2, myType e3, myType e4, myType e5, myType e6) {
 	myType i1,i2,i3;
 	myType i = 0x0;
@@ -938,6 +965,13 @@ myType existPappusConfiguration(graph g, myType e1, myType e2, myType e3, myType
 	return i;
 }
 
+
+/*______________________________________________________________________________
+
+
+##  fonction existIntersectPoint()
+
+________________________________________________________________________________*/
 myType existIntersectPoint(graph g, myType e1, myType e2) {
 	int i;
 	myType mask, res = 0x0;
@@ -968,29 +1002,29 @@ myType existIntersectPoint(graph g, myType e1, myType e2) {
 }
 
 
-/**************************************************************************************************/
+/*************************************************************************************************/
 
 /*__________________________________fin Pappus___________________________________________________*/
 
+/*************************************************************************************************/
 
 
 
 
-
-/*------------------------------------------------------------------------------------------*
-* Section sur la construction du graphe de déduction										*
-* Celle-ci comprend les fonctions suivantes													*
-
-	- void preMark(node n)
-	- void unMark(node n)
-	- void constructLemma(FILE* file, graph g, node n)
-	- void constructIntro(FILE* file, graph g)
-	- void constructProof (FILE* file, node n, allocSize stab, int previousConstruct)
-	- void constructProofaux 
-			(FILE* file, node n, myType res, allocSize stab, int previousConstruct)
-*
-*------------------------------------------------------------------------------------------*/
-/*******************************************************************************************/
+/*----------------------------------------------------------------------------------------------*
+* ## Section sur la construction du graphe de déduction											*
+*  Celle-ci comprend les fonctions suivantes													*
+*																								*
+	- void preMark(node n)																		*
+	- void unMark(node n)																		*
+	- void constructLemma(FILE* file, graph g, node n)											*
+	- void constructIntro(FILE* file, graph g)													*
+	- void constructProof (FILE* file, node n, allocSize stab, int previousConstruct)			*
+	- void constructProofaux 																	*
+			(FILE* file, node n, myType res, allocSize stab, int previousConstruct)				*
+*																								*
+*_______________________________________________________________________________________________*/
+/************************************************************************************************/
 
 void preMark(node n) {
 	if(n->mark == 0)
@@ -1029,10 +1063,23 @@ void unMark(node n) {
 		}
 	}
 }
-/*------------------------------------------------------------*/
-/*           construcLemma                                    */
-/*     g est le graphe correspondant à une            */
-/**************************************************************/
+
+
+/*----------------------------------------------------------------------------------*
+*           construcLemma                                    						*
+*     g est le graphe correspondant à une couche             						*
+*																					*
+*    modifications :																*
+*   (1) PS 27/09/20 pour filtrer les lemmes inutiles								*
+*     la modification consiste à écrire temporairment dans une chaîne				*
+*     de caractères (local_buffer) pour contrôler si 								*
+*      - la conclusion ne contient le rang que d'un seul point						*
+*      - la conclusion est comprise dans les hypothèses								*
+*     la fonction renvoie maintenant un booléen :									*
+*      - s'il est vrai, on a effectivement écrit l'énoncé du lemme					*
+*      - s'il est faux, on n'a rien écrit : il ne faut pas écrire de preuve			*
+*		(ce qui est fait dans une autre fonction)									*
+*___________________________________________________________________________________*/
 bool constructLemma(FILE* file, graph g, node n, int couche) {
 	int i;
 	int cpt = 0;
@@ -1051,7 +1098,7 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 	{
 		fprintf(stderr,"Attention rangs non identiques pour le résultat\n");
 	}
-	pos += sprintf(pos,"Lemma L"); // modif 27/09/20 : il y avait un fprintf()
+	pos += sprintf(pos,"Lemma L"); // modif 27/09/20 : avant il y avait un fprintf()
 	pos = printHypSetString(pos, partAe);   //  idem PS 27/09/20
 											//  la fonction printHypStFile a été réécrite plus bas
 	pos += sprintf(pos," : forall ");	    //  idem PS 27/09/20
@@ -1136,6 +1183,12 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 	return 1;
 }	
 
+/*______________________________________________________________________________
+
+
+##  fonction constructIntro()
+
+________________________________________________________________________________*/
 void constructIntro(FILE* file, graph g) {
 	int i;
 	int cpt = 0;
@@ -1176,6 +1229,13 @@ void constructIntro(FILE* file, graph g) {
 	fprintf(file,".\n");;
 }
 
+/*______________________________________________________________________________
+
+
+##  fonction constructProof()
+	construit la preuve d'un lemme dont l'énoncé a été écrit dans 
+	un fichier par les fonctions précédentes
+________________________________________________________________________________*/
 void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) {
 	myType res = n->e & 0x3FFFFFFFFFFFFFF;
 	constructProofaux(file, n, res, stab, previousConstruct);
@@ -1244,6 +1304,12 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 	}
 }
 
+/*______________________________________________________________________________
+
+
+##  fonction constructProofaux()
+
+________________________________________________________________________________*/
 void constructProofaux (FILE* file, node n, myType res, allocSize stab, int previousConstruct) {
 	
 	int i,j;
@@ -4209,14 +4275,25 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 		}
 	}
 }
+//*******************************************************************************
+/*______________________________________________________________________________*
 
 
-/*************************************************************************************************/
-/*
+##  fin de la fonction constructProofaux()
+	
+________________________________________________________________________________*/
+//*******************************************************************************
 
-						des fonctions d'impression
 
-*/
+
+
+/********************************************************************************/
+/*------------------------------------------------------------------------------*
+*																				*
+*    Fonction auxilliaires pour l'impression dans un fichier					*
+*						des fonctions d'impression								*
+*																				*
+*_______________________________________________________________________________*/
 
 void printSetFile (FILE* file, myType e) {
 	int i,j=1;
@@ -4245,7 +4322,7 @@ char *printSetString (char *s, myType e) {
 	return s;
 }
 
-// remarque : c'est la même fonction que printSetFile() ??
+// remarque : c'est la même fonction que printSetFile() à un " ::" près ...
 void printHypSetFile (FILE* file, myType e) {
 	int i,j=1;
 	for(i = 0; i < realSizemyType; i++)

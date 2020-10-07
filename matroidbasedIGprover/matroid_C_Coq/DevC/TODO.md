@@ -1,5 +1,8 @@
 # TODO et remarques
 
+## FIXME
+les commentaires vides font planter l'entrée
+
 ## Décomposition et construction de la preuve
 Dans les preuves (je ne les ai pas toutes regardées), on note la fabrication d'un grand nombre de lemmes inutiles : par exemple des lemmes où la conclusion est que le rang d'un ensemble avec un seul point est 1 (est-ce bug qui prend en compte des restes de l'initialisation ?) ou alors dont la conclusion est incluse dans les prémisses.
 Il faudrait soit revoir la construction des lemmes et tâcher de fabriquer des choses intéressantes ou, si ça n'est pas possible, de nettoyer après-coup, la base de lemmes locale pour éliminer les lemmes triviaux.
@@ -55,7 +58,10 @@ conclusion
         X on D4
 endofrule
 ```
-mais aussi lors de mes tentatives de définir 3 plans "indépendants" en 3D, c'est-à-dire 3 plans qui ne se coupaient pas suivant la même droite.
+
+
+## Réflexions sur les manières possibles d'écrire un énoncé (lien avec la complexité) 
+La remarque plus haut s'applique aussi à mes tentatives de définir 3 plans "indépendants" en 3D, c'est-à-dire 3 plans qui ne se coupent pas suivant la même droite.
 Mes premiers essais m'ont conduit à des énoncés compliqués avec 17 points (ou plus) où on définissait les 3 droites d'intersection des plans et on spécifaient qu'elles étaient distinctes. Une version plus simple (mais dont on peut douter qu'elle soit complète) de la propriété que trois tels plans se coupent en un point se trouve être la suivant :
 
 ```
@@ -105,3 +111,21 @@ où on voit qu'il suffit de définir 1 point dans intersection de deux plans et 
 On a ainsi un énoncé avec 12 points au lieu de 17 ... ce qui est énorme puisque la complexité est exponentielle, et une définition plus simple de 3 plans indépendants : il existe un point qui appartient à 2 plans, mais pas au troisième.
 
 Parmi diverses réflexions que cela m'inspire : peut-être serait-il bien d'enrichir le langage de description avec les notions de droites et de plans et avec des contraintes de plus haut niveau. Un préprocesseur pourrait alors traduire ces énoncé en rang.
+
+### Décomposition en couche
+suggestion : les points de base
+puis les points construits avec les points de base
+puis les points de deuxième génération
+puis ...
+On peut même essayer de placer les points de générations utltérieurs un à un :
+pour le calcul des rangs, ça ne change pas, en revanche le dernier lemme (le théorème) a une preuve moins long car les lemmes intermedaires sont produits à l'intersection des couches.
+
+## Lemmes intermédiaires
+
+Actuellement, la décomposition de la preuve suit une approche hiérarchique suggérée par le treillis matroïdal. De cette manière :
+* le comportement du prouveur n'est pas perturbé ... il n'est pas amélioré non plus
+* les traces utiles dans les sous-treillis sont rangées dans des lemmes d'une manière peu réutilisable en fait (même s'il y a des forall devant les points, le lemme n'est pas forcément symétrique vis-à-vis de l'introduction des points).
+* la "factorisation" ne se fait qu'au niveau de la preuve et au moment de la reconstruction et cela permet à Coq de gérer le preuves engendrées qui sont très volumineuses.
+
+On peut généraliser sans doute cette approche. Cependant, sans faire de changements radicaux, il me paraît difficile d'utiliser la décomposition du treillis  pour accélérer le calcul des rangs et ensuite pour utiliser, en toute généralité, les lemmes produits  dans le reste de la démonstration.
+

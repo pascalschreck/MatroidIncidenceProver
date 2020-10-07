@@ -1,6 +1,6 @@
 # fichier desargues3D_couches.txt
 # premier essai avec des couches
-# les couches font partie de la réflection de la preuve :
+# les couches font partie de la réflexion de la preuve :
 # c'est une première ébauche de décomposition par blocs
 # qui se traduit facilement en décomposition de preuve
 # on peut faire suivre cela par des décompositions plus fines. 

@@ -1,0 +1,99 @@
+# fichier desargues3D_couches_arbitraires.txt
+# ajout arbitraire de couches 
+context
+   dimension  3 
+   layers   6
+endofcontext
+# ----------- première couche :  
+layer triangles
+  points
+    O A B Ap Bp C Cp
+  hypotheses
+    O A B C : 4
+    O Ap Bp Cp : 4
+    Ap A B C : 4
+    Bp A B C : 4
+    Cp A B C : 4
+    O C Cp : 2
+    O A Ap : 2
+    O B Bp : 2
+  conclusion
+     A B C : 3
+endoflayer # triangles
+layer intersections
+    points
+     layer triangles
+     ab ac bc 
+    hypotheses
+      A B ab : 2
+      Ap Bp ab : 2 
+      A C ac : 2
+      Ap Cp ac : 2
+      B C bc : 2
+      Bp Cp bc : 2
+    conclusion
+      ab ac bc : 2
+endoflayer # intersection
+#  on ajoute les point D et Dp
+layer tetraedres
+   points
+     layer intersections
+     D Dp
+  hypotheses
+    A B C D : 4
+    Ap Bp Cp Dp : 4
+    O A B C : 4
+    O A B D : 4
+    O A C D : 4
+    O B C D : 4
+    O Ap Bp Dp : 4
+    O Ap Cp Dp : 4
+    O Bp Cp Dp : 4
+    Dp B C D : 4
+    Dp A C D : 4
+    Dp A B D : 4
+    O D Dp : 2
+    Ap Bp Dp : 3
+    Ap Cp Dp : 3
+    Bp Cp Dp : 3
+  conclusion
+    Dp : 1
+endoflayer # tetrahedres
+layer ajout_ad
+    points
+     layer tetraedres
+     ad
+    hypotheses
+      ad A D : 2
+      ad Ap Dp : 2
+    conclusion
+     ad : 1
+endoflayer # ajout du point ad
+layer ajout_bd
+    points
+     layer ajout_ad
+     bd 
+    hypotheses
+      bd B D : 2
+      bd Bp Dp : 2
+    conclusion
+      bd : 1
+endoflayer
+layer ajout_cd
+    points
+     layer ajout_bd
+     cd
+    hypotheses
+      cd C D : 2
+      cd Cp Dp : 2
+    conclusion
+      ab ac ad bc bd cd : 3
+endoflayer
+conclusion
+   ab ac ad bc bd cd : 3
+supplements
+bc bd cd : 2
+ac ad cd : 2
+ab ad bd : 2
+ab ac bc : 2
+end
