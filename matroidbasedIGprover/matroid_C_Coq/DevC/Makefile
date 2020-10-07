@@ -9,7 +9,6 @@ vpath main bin
 
 all : main
 
-
 init :
 	mkdir obj/
 	mkdir bin/
