@@ -7,7 +7,9 @@ les commentaires vides font planter l'entrée
 Dans les preuves (je ne les ai pas toutes regardées), on note la fabrication d'un grand nombre de lemmes inutiles : par exemple des lemmes où la conclusion est que le rang d'un ensemble avec un seul point est 1 (est-ce bug qui prend en compte des restes de l'initialisation ?) ou alors dont la conclusion est incluse dans les prémisses.
 Il faudrait soit revoir la construction des lemmes et tâcher de fabriquer des choses intéressantes ou, si ça n'est pas possible, de nettoyer après-coup, la base de lemmes locale pour éliminer les lemmes triviaux.
 
-Par ailleurs, la décomposition et la reconstruction de lemmes correspond à une certaine idée de la structure de la preuve correspondant à la construction de points intermédiaires. Dans le cas de la preuve de Desargues en dimension n, il y a une structuration et des lemmes de bases qui ne correspondent pas forcément à une preuve sympa : par exemple, on aimerait pouvoir réutiliser que 2 triagles en prespectives satisfont les hyptohèses de Desargues 2,5D et le réutiliser sur toutes les 2-facettes.
+Par ailleurs, la décomposition et la reconstruction de lemmes correspond à une certaine idée de la structure de la preuve correspondant à la construction de points intermédiaires. Dans le cas de la preuve de Desargues en dimension n, il y a une structuration et des lemmes de bases qui ne correspondent pas forcément à une preuve sympa : par exemple, on aimerait pouvoir réutiliser que 2 triagles en prespectives satisfont les hyptohèses de Desargues 2,5D et le réutiliser sur toutes les 2-facettes. 
+
+--> voir plus bas la question des lemmes intermédiaires
 
 ### Filtrage des lemmes inutiles
 Pour le moment, je n'ai empêché que l'écriture des lemmes (et de leur preuve) dont la conclusion était que le rang d'un ensemble réduit à un point était 1.
@@ -58,7 +60,8 @@ conclusion
         X on D4
 endofrule
 ```
-
+### Autre sujet de discussion : 
+Essayer de prouver Desargues en utilisant Pappus (théorème de Hessenberg) : ce n'est as si facile car il y a plusieurs cas. Celui où l'un des triangles est inscrit dans l'autre (cas Cévien car les sommets se correspondent par une perspective) est en particulier beaucoup plus difficile à montrer que le cas générique où aucun sommet d'un trianle n'appartient à un coté de l'autre.
 
 ## Réflexions sur les manières possibles d'écrire un énoncé (lien avec la complexité) 
 La remarque plus haut s'applique aussi à mes tentatives de définir 3 plans "indépendants" en 3D, c'est-à-dire 3 plans qui ne se coupent pas suivant la même droite.
@@ -129,3 +132,9 @@ Actuellement, la décomposition de la preuve suit une approche hiérarchique sug
 
 On peut généraliser sans doute cette approche. Cependant, sans faire de changements radicaux, il me paraît difficile d'utiliser la décomposition du treillis  pour accélérer le calcul des rangs et ensuite pour utiliser, en toute généralité, les lemmes produits  dans le reste de la démonstration.
 
+### Discussion 
+En fait, rien n'empêche d'avoir une implantation non-hiérarchique des couches : il y a quelques retouches à faire dans la fonction main() (par exemple, ne pas faire de recopie du graphe qui doit être complété par de nouveaux points) et dans le marquage des sommets du graphe et dans le parcours pour déterminer la preuve par rétro-propagation. Cependant, l'utilité des morceaux "indépendants" n'est pas claire : on ne peut pas les utiliser dans le calcul des rangs (car cela serait beaucoup trop coûteux d'isoler tous les sommets "hypothèses") et donc ils ne seront pas non plus utilisés pour simplifier une longue preuve. 
+
+C'est une des limites de cette approche qui avait comme objectif initial de faire des petites preuves et dont David a essayé de pousser plus loin pour prouver le théorème de Dandelin-Gallucci.
+
+Pour faire des lemmes intermédiaires, il faudrait donc rester dans le contexte de Coq sans pouvoir utiliser cette possibilité à l'intérieur du solveur, à moins de le donner explicitement le moyen d'utiliser ces lemmes (par exemple avec le langage de l'interface) ... on se retrouve donc avec une des extensions initiales : pouvoir ajouter facilement des règles dans le prouveur. Au départ, cette extension était prévue pour faire le sens DG ==> Pappus, mais cette règle n'est pas facile à énoncer de manière à rester général et à prendre en compte : par exemple doit-on ajouter des points ou non ? 

@@ -1,0 +1,99 @@
+# fichier dg2papus.stat
+# preuve de DG implique Pappus, mais où tous les existenciels sont réglés à la main
+# résumé de la construction
+# On se donne 7 points
+# O A B C Ap Bp Cp P
+# O A B C Ap Bp Cp définissent un plan Pi
+# O A B C sont alignés
+# O Ap Bp Cp sont alignés
+# P est en dehors de Pi
+# on construit 3 points X Y et Z
+# X = ABp inter ApB 
+# Y = ACp inter ACp
+# Z = BCp inter CpB
+# On choisir un point Q sur la droite XP
+# Q est sur la droite XP
+# on doit en conclure que Q est dans les plans XPBAp et XPBpA
+# et donc les droites BQ et ApP se coupent
+# et aussi les droites BpQ et AP se coupent
+# On construit le point R avec DG
+# en considérant 
+#   - la transversale issue de C et coupant les droites ApP et BpQ
+#   - et la transversale issue de Cp et coupant les droites AP et BQ
+# on doit en déduire que les points X, Y et Z sont alignés
+# On va utiliser des couches et essayer d'impliquer le moins de points
+# possible
+context
+    dimension 3
+    layers 5
+endofcontext
+# couche 0 : les points donnés
+layer donnees
+    points
+        O A B C Ap Bp Cp P
+    hypotheses
+        O A B C : 2
+        O Ap Bp Cp : 2
+        O A Ap : 3
+        O B Bp : 3
+        O C Cp : 3
+        A B : 2
+        A C : 2
+        B C : 2
+        Ap Bp : 2
+        Ap Cp : 2
+        Bp Cp : 2
+        O A B C Ap Bp Cp P : 4
+    conclusion
+        O : 1
+# conclusion sans objet pour les couches non finales
+endoflayer # donnees
+# couche 1 construction de X
+layer pointX
+    points 
+        layer donnees
+        X
+    hypotheses
+        A Bp X : 2
+        Ap B X : 2
+    conclusion
+        X : 1
+endoflayer # pointX
+# couche 2 construction de Y
+layer pointY
+    points
+        layer pointX
+        Y
+    hypotheses
+        A Cp Y : 2
+        Ap C Y : 2
+    conclusion
+        Y : 1
+endoflayer # pointY
+# couche 3 construction de Z
+layer pointZ
+    points 
+        layer pointY
+        Z
+    hypotheses
+        B Cp Z : 2
+        Bp C Z : 2
+    conclusion
+        Z : 1
+endoflayer # pointZ
+# couche 4 : choix de Q 
+layer pointQ
+    points
+        layer pointZ
+        Q
+    hypotheses
+        X P Q : 2
+conclusion
+    Q : 1
+endoflayer # pointQ
+conclusion
+    X P B Ap : 3
+supplements
+    X P Bp A : 3
+end
+

@@ -4300,7 +4300,7 @@ void printSetFile (FILE* file, myType e) {
 	for(i = 0; i < realSizemyType; i++)
 	{
 
-		if(((e >> i) & 0x1) == 1)
+		if((e >> i) & 1) // changé
 		{
 				fprintf(file,"P%d :: ",j);
 		}
@@ -4313,7 +4313,7 @@ char *printSetString (char *s, myType e) {
 	for(i = 0; i < realSizemyType; i++)
 	{
 
-		if(((e >> i) & 0x1) == 1)
+		if((e >> i) & 1)
 		{
 				s += sprintf(s,"P%d :: ",j);
 		}
@@ -4328,7 +4328,7 @@ void printHypSetFile (FILE* file, myType e) {
 	for(i = 0; i < realSizemyType; i++)
 	{
 
-		if(((e >> i) & 0x1) == 1)
+		if((e >> i) & 1)
 		{
 				fprintf(file,"P%d",j);
 		}
@@ -4341,7 +4341,7 @@ char *printHypSetString (char *s, myType e) {
 	for(i = 0; i < realSizemyType; i++)
 	{
 
-		if(((e >> i) & 0x1) == 1)
+		if((e >> i) & 1)
 		{
 				s += sprintf(s,"P%d",j);
 		}
