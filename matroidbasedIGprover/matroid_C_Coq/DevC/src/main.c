@@ -157,7 +157,7 @@ int main(int argc, char * argv[])
         {   
         // ajout dans la condition suivante (à la fin) :
         // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
-            if(g[iocl+1].tab[i]->mark == 1 && i != res && cardinal(g[iocl].tab[i]->e)!=1)
+            if(g[iocl+1].tab[i]->mark == 1 && i != res /* && cardinal(g[iocl].tab[i]->e)!=1 */ )  // TENTION
             {
                 if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
                 {
@@ -166,6 +166,7 @@ int main(int argc, char * argv[])
 			        g[iocl].tab[i]->mark = 4;
 			        unMark(g[iocl].tab[i]);
                 }
+               
             }
             
         }

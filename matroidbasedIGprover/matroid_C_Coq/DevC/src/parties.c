@@ -1115,7 +1115,7 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 		if(g.tab[i]->color == -1)
 		{			
 			cpt++;
-			
+			/*-----------------------------------TENTION test
 			if (g.tab[i]->e == n->e) { 	// idem PS 27/09/20 : brutal !		
 				// si g.tab[i]->e == n->e, il n'est pas utile d'écrire
 				// le lemme ni la preuve
@@ -1123,6 +1123,7 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 				free(local_buffer);
 				return 0;             
 			}
+            ------------------------------TENTION TEST*/
 		// sinon, on continue l'écriture dans le buffer tant que la boucle n'est pas finie
 			partB = g.tab[i]->e;		 
 			                            

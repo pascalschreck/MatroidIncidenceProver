@@ -25,7 +25,7 @@
 # possible
 context
     dimension 3
-    layers 9
+    layers 8
 endofcontext
 # couche 0 : les points donnés
 layer donnees
@@ -94,20 +94,20 @@ conclusion
     Q : 1
 endoflayer # pointQ
 # couche 5 construction de Bq et Bqp
-layer afterQ
-    points
-        layer pointQ
-        Bq Bqp
-    hypotheses
-        B Bq Q : 2
-        Bp Bqp Q : 2
-    conclusion
-        Bp Bqp : 2
-endoflayer # afterQ
+# layer afterQ
+#    points
+#        layer pointQ
+#        Bq Bqp
+#    hypotheses
+#        B Bq Q : 2
+#       Bp Bqp Q : 2
+#   conclusion
+#        Bp Bqp : 2
+# endoflayer # afterQ
 # couche 6 construction de A1 et B1
 layer pointsA1B1
     points
-        layer afterQ
+        layer pointQ
         A1 B1
     hypotheses
         A P A1 : 2
