@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 // 64 bytes for set & 6 or 4 bits for rank min|max
 #define myType unsigned long long

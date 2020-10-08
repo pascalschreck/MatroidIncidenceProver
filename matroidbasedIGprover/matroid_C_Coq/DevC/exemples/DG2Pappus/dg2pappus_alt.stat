@@ -1,4 +1,4 @@
-# fichier dg2papus.stat
+# fichier dg2papus_alt.stat
 # preuve de DG implique Pappus, mais où tous les existenciels sont réglés à la main
 # résumé de la construction
 # On se donne 7 points
@@ -16,6 +16,8 @@
 # on doit en conclure que Q est dans les plans XPBAp et XPBpA
 # et donc les droites BQ et ApP se coupent
 # et aussi les droites BpQ et Ap se coupent
+# --> variante alt : on ne définit pas les 2 points d'intersection
+# --> des droites précédentes
 # On construit le point R avec DG
 # en considérant 
 #   - la transversale issue de C et coupant les droites ApP et BpQ
@@ -25,7 +27,8 @@
 # possible
 context
     dimension 3
-    layers 9
+#    layers 9
+    layers 8
 endofcontext
 # couche 0 : les points donnés
 layer donnees
@@ -94,20 +97,21 @@ conclusion
     Q : 1
 endoflayer # pointQ
 # couche 5 construction de Bq et Bqp
-layer afterQ
-    points
-        layer pointQ
-        Bq Bqp
-    hypotheses
-        B Bq Q : 2
-        Bp Bqp Q : 2
-    conclusion
-        Bp Bqp : 2
-endoflayer # afterQ
+# layer afterQ
+#    points
+#        layer pointQ
+#        Bq Bqp
+#    hypotheses
+#        B Bq Q : 2
+#        Bp Bqp Q : 2
+#    conclusion
+#        Bp Bqp : 2
+# endoflayer # afterQ
 # couche 6 construction de A1 et B1
 layer pointsA1B1
     points
-        layer afterQ
+#        layer afterQ
+        layer pointQ
         A1 B1
     hypotheses
         A P A1 : 2
@@ -139,7 +143,7 @@ layer pointR
         C Ap1 Bp1 R : 2
         Cp A1 B1 R : 2
     conclusion
-        R : 1
+        X Y Z : 2
 endoflayer # pointR
 conclusion
     X Y Z : 2

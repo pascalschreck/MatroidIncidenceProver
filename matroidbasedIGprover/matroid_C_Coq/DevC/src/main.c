@@ -77,7 +77,7 @@ int main(int argc, char * argv[])
         cly = st->layers[iocl];
         fprintf(stderr,"-------------- initialisation couche %d (%s)\n\n",iocl,cly->name);
         nbp = cly->nbp;
-        res = cly->conclusion.set;
+        res = cly->conclusion.set; // attention : conclusion finale = celle de la dernière couche
         g[iocl] = allocGraph(nbp);
         g[iocl].effectiveAllocPow = nbp;    
         g[iocl].effectiveSize = (1u<<nbp)-1;  
@@ -172,6 +172,7 @@ int main(int argc, char * argv[])
     }
 
     // traitement de la dernière couche :
+    // ATTENTION : tab[res]
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // TODO
     // C'est ici qu'on pourrait prendre en compte plusieurs conclusion 

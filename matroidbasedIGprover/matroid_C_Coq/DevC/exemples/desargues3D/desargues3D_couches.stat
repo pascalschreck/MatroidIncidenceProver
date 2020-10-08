@@ -11,11 +11,11 @@ context
    dimension  3 
    layers   2
 endofcontext
-# ----------- première couche : 
+#----------- première couche : 
 #  c'est Desarges en 2,5 D 2 triangles en perspectives dans l'espace
 layer triangles
   points
-    O A B C Ap Bp Cp ab ac bc
+    O A B C Ap Bp Cp ab ac bc #et voilà
   hypotheses
     O A : 2
     O B : 2

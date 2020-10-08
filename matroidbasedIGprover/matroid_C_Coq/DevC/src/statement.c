@@ -16,14 +16,15 @@ bool notin(int x, int *tab, int max)
     return i==max;
 }
 
-/*-------------------------------------------------------------------
+/*--------------------------------------------------------------------------
     fonctions pour sauter les commentaires
-    un commentaire commence par # (suivi d'un espace)
+    un commentaire commence par # (corrigé :pas forcément suivi d'un espace)
     le commentaire va jusqu'à la fin de la ligne
-*--------------------------------------------------------------------*/
+*---------------------------------------------------------------------------*/
 char * st_comment(FILE *file, char *buff)
 {
-        while(!strcmp(buff,"#") || !strcmp(buff,""))
+        // while(!strcmp(buff,"#") || !strcmp(buff,""))
+        while(!strcmp(buff,"") || buff[0]=='#')
     {
         fgets(buff,255,file);
         fscanf(file,"%s\n",buff);   // fscanf s'arrête au premeir espace

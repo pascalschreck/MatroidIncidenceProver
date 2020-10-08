@@ -8,6 +8,7 @@
 #define NAME_SIZE 16
 #define MAX_PPR 32
 #include<stdio.h>
+#include<stdbool.h>
 
 typedef struct s_rg {
     int points[MAX_PPR];                    // entiers désignant les points impliqués

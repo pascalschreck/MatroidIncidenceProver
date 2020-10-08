@@ -4,8 +4,9 @@
 #include "graph.h"
 #include "maths_addon.h"
 
+
 // #define filename "proof.txt"
-#define bool unsigned
+// #define bool unsigned
 typedef struct allocSize {
 	int ** tab;
 	int size;

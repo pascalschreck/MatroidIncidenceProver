@@ -1,16 +1,34 @@
-# fichier dg2papus.stat
-# preuve de DG implique Pappus, mais où tous les existenciels sont réglés à la main
+# fichier dg2papus-mockup.stat
+# preuve de DG implique Pappus, 
+# on ne cherche pas une implantation en dur de la prop. de DG
+# dans le solveur, à la place, on justifie explicitement les ajouts de points
+# dans l'énoncé lui-même
 # résumé de la construction
-# On se donne 7 points
+# ## couche 0 : on se donne 7 points qui obéissent à certaines contraintes
+# ## question comment justifie-t-on l'existence de tels points ?
 # O A B C Ap Bp Cp P
 # O A B C Ap Bp Cp définissent un plan Pi
 # O A B C sont alignés
 # O Ap Bp Cp sont alignés
 # P est en dehors de Pi
-# on construit 3 points X Y et Z
+# ## O A B : 2 by axiom of points existence on line
+# ## O A Ap P : 4  by dimension hypothesis
+# ## on construit 3 points X Y et Z
+# ## couche 1 : on construit X
+# layer exist(X) by coplanarity of A, B, Ap, Bp and exiistence of intersection points
 # X = ABp inter ApB 
+# ## même chose pour Y et Z
 # Y = ACp inter ACp
 # Z = BCp inter CpB
+# ## couche 3 : on choisit Q
+# layer exist(P)
+#   points
+#       import X P
+#       Q
+#   hypotheses
+#       X P Q : 2 by exist_three points on a line
+#   conclusion
+# endoflayer
 # On choisir un point Q sur la droite XP
 # Q est sur la droite XP
 # on doit en conclure que Q est dans les plans XPBAp et XPBpA
