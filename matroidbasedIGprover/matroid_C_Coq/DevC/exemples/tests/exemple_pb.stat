@@ -1,0 +1,25 @@
+context
+ dimension 3
+ layers 1
+ endofcontext
+ layer 0
+  points P1 P2 P3 P4 P5 P6 P7 P8
+  hypotheses
+  P2 P3 : 2
+  P2 P4 : 2
+  P3 P4 : 2 
+  P1 P2 P3 P4 : 2
+  P1 P2 P5 : 3
+  P1 P3 P6 : 3 
+  P5  P6 : 2
+  P1  P4 P7 : 3
+  P5  P7   :  2
+  P6  P7   : 2
+  P1  P5  P6  P7   : 2
+  P1  P2  P3  P4  P5  P6  P7  P8   : 4 
+conclusion
+P1 P2 P3 : 2
+endoflayer
+conclusion
+P1 P2 P3 : 2
+end

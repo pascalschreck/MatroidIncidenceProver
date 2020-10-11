@@ -20,6 +20,8 @@ void read_comd_line(int argc, char *argv[]);
              coqoutput_name[255],
              newrules_name[255];
 
+ FILE *debug_file = NULL; 
+ bool debug_mode = false;
 
 //----------------------------------------------------
 //  main
@@ -32,6 +34,10 @@ int main(int argc, char * argv[])
     // lecture d'un énoncé dans un fichier qui est soit le nom par défaut (dft_statement.txt)
     // soit le nom donné sur la ligne de commande rangé dans la variable statement_name
     FILE *stat = fopen(statement_name,"r");
+    // ouvrir le fichier de déboggage
+    if(debug_mode)
+        debug_file = fopen("debug.log","w");
+
     statement st = st_read(stat);			// lecture de l'énoncé pour remplir la structure statement
     fclose(stat);
 											// mise à jour de deux variables globales
@@ -43,7 +49,9 @@ int main(int argc, char * argv[])
     int nb_layers = st->nb_layers;          // en principe < MAX_LAYERS
 
     int nbp=0;          // nombre de points pour la couche courante
-    int res;            // conclusion pour la couche courante
+    unsigned long long int res;            // conclusion pour la couche courante
+    unsigned long long int resf=st->conclusion.set;           // conclusion finale
+
 	allocSize sizeTab = allocSizeTab(nb_layers,2);
 	graph g[MAX_LAYERS];
     layer cly;      // couche courante
@@ -135,29 +143,37 @@ int main(int argc, char * argv[])
     /*________________________________________________________
         TODO : la suite est à vérifier
     ----------------------------------------------------------*/
-	int i, last = nb_layers-1;
+	long long unsigned int i ;
+    int last = nb_layers-1;
 	
-	preMark(g[last].tab[res]);  // marque tous les prédecesseurs de res dans 
+    // resf = codage de l'ensemble dans la conclusion finale
+	preMark(g[last].tab[resf]);  // marque tous les prédecesseurs de res dans 
                                 // le dernier graphe (qui contient tout les points) 
 
     // rétro-propagation du prémarquage dans les graphes correspondant à chacune de couches
     for(iocl=last-1; iocl >= 0; iocl--)
     {
         for(i=0; i < g[iocl].effectiveSize;i++)
-            if(g[iocl+1].tab[i]->mark == 1 && i != res) preMark(g[iocl].tab[i]);
+            if(g[iocl+1].tab[i]->mark == 1 && i != resf) preMark(g[iocl].tab[i]);
     }
     
     // construcion en avant de la preuve
     iocl = 0;
-    i=0;
+    i = 0ull;
 
     for(; iocl < last; iocl++)  // la dernière couche est exclue
     {
         for(; i < g[iocl].effectiveSize;i++)
         {   
+         // TODO : lorsque l'on n'écrit pas un lemme (soit parce que le cardinal de la conculusion est un, 
+         // soit parce que la conclusion est dans la hypothèse), il faut peut-être quand même nettoyer le graphe
+         // et faire attention que la preuve soit bien correcte
+         // pour le moment, il manque des lemmes semable-t-il (étude de Nicolas)
         // ajout dans la condition suivante (à la fin) :
         // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
-            if(g[iocl+1].tab[i]->mark == 1 && i != res /* && cardinal(g[iocl].tab[i]->e)!=1 */ )  // TENTION
+        // TENTION : la suite e été un peu modifiée (avec aussi la fonction constructionLemma) 
+        // pour conserver l'ancien fonctionnement où même les lemmes "bidons" sont écrits
+            if(g[iocl+1].tab[i]->mark == 1 && i != resf /* && cardinal(g[iocl].tab[i]->e)!=1 */ )  // TENTION
             {
                 if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
                 {
@@ -187,6 +203,7 @@ int main(int argc, char * argv[])
 
 	
 	fclose(file);
+    if(debug_mode) fclose(debug_file);
 	
 	return 0;
 }
@@ -263,6 +280,11 @@ void read_comd_line(int argc, char *argv[])
                             // mais on ne fait pas d'ouverture ni de test pour le moment
                     printf("De nouvelles règles contenues dans le fichier : %s seront utilisées\n",argv[i]); 
                     strcpy(newrules_name,argv[i]);
+                }
+            else if (!strcmp(argv[i],"-debug") || !strcmp(argv[i],"--debug"))
+                {
+                    printf("exécutuon en mode deboggage \n");
+                    debug_mode = true;
                 }
             else { printf("Option non reconnue %s -- arrêt\n", argv[i]); exit(3);}
             // incrémentation automatique de l'indice des arguments

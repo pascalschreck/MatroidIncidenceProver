@@ -7,6 +7,9 @@
 
 // #define filename "proof.txt"
 // #define bool unsigned
+
+extern FILE *debug_file;
+
 typedef struct allocSize {
 	int ** tab;
 	int size;

@@ -6,7 +6,7 @@
 
 typedef struct s_node s_node,*node;
 
-typedef struct s_list {
+typedef struct s_list {		// liste doublement chaînée de noeuds
 	s_node * n;
 	struct s_list * prev;
 	struct s_list * next;
@@ -14,11 +14,11 @@ typedef struct s_list {
 
 struct s_node {
 	myType e;
-	int color;
-	int mark;
-	int rule;
-	s_list * ante;
-	s_list * succ;
+	int color;			// prévu pour des optimisations ... je ne sais pas si c'est utilisé
+	int mark;			// marquage
+	int rule;			// numéro de la règle appliquée (à l'origine de la création de ce noeud)
+	s_list * ante;		// un noeud contient la liste des prédecesseur dans le raisonnement
+	s_list * succ;		// ?
 };
 
 node createNode (myType e); // Fonction qui crée un noeud sans informations

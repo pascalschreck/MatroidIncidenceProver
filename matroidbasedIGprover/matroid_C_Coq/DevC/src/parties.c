@@ -2,6 +2,8 @@
 // créé par David Braun
 // modification mineures par PS
 #include "parties.h"
+#include "globals.h"
+
 
 /*______________________________________________________________________________
 
@@ -87,12 +89,14 @@ graph copyGraph(graph g1, graph g2, int res) {
 * et maxRank par application des règles issue du matroïde 
 *
 *_________________________________________________________________*/
-graph convergenceParties (graph g, int res) {
+graph convergenceParties (graph g, int res) {  // normalement, pour être cohérent res devrait ête de type ull
 	
-	int debug = 0;
-	int print = 0;
+	bool debug = debug_mode ;	// par défaut, on est dans le mode donné par l'utilisateur
+    // debug = true // decommenter si on veut le mode deboggage pour la propagation des contraintes de rang
+	// debug = false // decommenter si on ne veut pas le mode deboggage pour la propagation des contraintes de rang
+	bool print = false;	// mettre à 1 si ????
 	
-	int i, j;
+	unsigned long long int i, j;    // pour correspondre au type
 		
 	myType partA, partB, partAiB, partAuB, partAe, partBe, partAiBe, partAuBe;
 	int rankMinA, rankMaxA, rankMinB, rankMaxB, rankMinAiB, rankMaxAiB, rankMinAuB, rankMaxAuB;
@@ -101,15 +105,18 @@ graph convergenceParties (graph g, int res) {
 	int * convergence = &convergenceValue;
 	int variation = 1;
 	int loopNumber = 0;
-	int pappusNumber = 0;
+	//  PS octobre 2020 : a priori, on ne va plus se servir de la règle de Pappus
+	// j'ai donc commenté la déclaration suivante qui provoquait un message par le compilateur
+	// .... message que j'en avais assez de voir !
+	// int pappusNumber = 0;
 	int computeM3 = -1;
 	int decr = 0;
 	int sub = 0;
 	
 	int colori, colorj;
 
-	list l;
-	node n;
+	list l; // ben ouais ... on dirait que c'est là qu'on maintient y a l'historique
+	node n; // avec ça aussi : la structure de node est dans graph.h
 		
 	//~ // convergence
 	while(*convergence == 1)
@@ -124,11 +131,11 @@ graph convergenceParties (graph g, int res) {
 			// On parcours toutes les paires (i,j) de sommets 
 			// du graphe
 			
-			for(i = 0; i < g.effectiveSize; i++) 			// boucle sur un sommet
+			for(i = 0ull; i < g.effectiveSize; i++) 			// boucle sur un sommet
 			{
 				colori = g.tab[i]->color;
 				
-				for(j = i+1; j < g.effectiveSize; j++)		// boucle sur le deuxième sommet
+				for(j = i+1ull ; j < g.effectiveSize; j++)		// boucle sur le deuxième sommet
 				{	
 					colorj = g.tab[j]->color;
 					if(colori >= loopNumber+1 || colorj >= loopNumber+1 || colori == -1 || colorj == -1)
@@ -193,8 +200,15 @@ graph convergenceParties (graph g, int res) {
 							variation = 1;
 							decr++;
 							
-							if(debug)
-							printf("rule 5 : incl(partA,partB) && rankMinA > rankMinB ! i : %d j : %d \n",i,j);
+							if(debug){
+								DEB_PS("rule 5 : incl(partA,partB) && rankMinA > rankMinB avec : ");
+								NL; TAB;
+								DEB_PS(" A : ");
+								printSetFile(debug_file,(myType)i); DEB_PS("nil"); TAB;
+								DEB_PS(" B "); 
+								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
+								NL;
+							}
 							
 						}
 						
@@ -221,9 +235,16 @@ graph convergenceParties (graph g, int res) {
 							variation = 1;
 							decr++;
 
-							if(debug)
-							printf("rule 6 : incl(partA,partB) && rankMaxB < rankMaxA ! i : %d j : %d \n",i,j);
-							
+							if(debug){
+							// printf("rule 6 : incl(partA,partB) && rankMaxB < rankMaxA ! i : %llu j : %llu \n",i,j);
+								DEB_PS("rule 6 : incl(partA,partB) && rankMaxB < rankMaxA avec : ");
+								NL; TAB;
+								DEB_PS(" A : ");
+								printSetFile(debug_file,(myType)i); DEB_PS("nil"); TAB;
+								DEB_PS(" B : ");
+								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
+								NL;
+							}
 						}
 						
 						computeM3 = rankMaxA + rankMaxB - rankMinAiB;
@@ -256,9 +277,16 @@ graph convergenceParties (graph g, int res) {
 							variation = 1;
 							sub++;
 
-							if(debug)
-							printf("rule 1 : rankMaxA + rankMaxB - rankMinAiB ! i : %d j : %d \n",i,j);
-							
+							if(debug){
+							// printf("rule 1 : rankMaxA + rankMaxB - rankMinAiB ! i : %llu j : %llu \n",i,j);
+								DEB_PS("rule 1 : rankMaxA + rankMaxB - rankMinAiB  ! i ! i (A) et j (B) : ");
+								NL; TAB;
+								DEB_PS(" A : ");
+								printSetFile(debug_file,(myType)i); DEB_PS("nil"); TAB;
+								DEB_PS(" B : ");
+								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
+								NL;
+							}
 						}
 						
 						computeM3 = rankMinAuB + rankMinAiB - rankMaxB;	
@@ -290,9 +318,16 @@ graph convergenceParties (graph g, int res) {
 							variation = 1;
 							sub++;
 
-							if(debug)
-							printf("rule 2 : rankMinAuB + rankMinAiB - rankMaxB ! i : %d j : %d \n",i,j);
-			
+							if(debug){
+							// printf("rule 2 : rankMinAuB + rankMinAiB - rankMaxB ! i : %llu j : %llu \n",i,j);
+								DEB_PS("rule 2 : rankMinAuB + rankMinAiB - rankMaxB  ! i ! i (A) et j (B) : ");
+								NL; TAB;
+								DEB_PS(" A : ");
+								printSetFile(debug_file,(myType)i); DEB_PS("nil"); TAB; 
+								DEB_PS(" B : ");
+								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
+								NL;
+							}
 						}
 						
 						computeM3 = rankMaxA + rankMaxB - rankMinAuB;
@@ -325,9 +360,16 @@ graph convergenceParties (graph g, int res) {
 								variation = 1;
 								sub++;
 
-								if(debug)
-								printf("rule 3 : rankMaxA + rankMaxB - rankMinAuB ! i : %d j : %d \n",i,j);
-										
+								if(debug){
+								// printf("rule 3 : rankMaxA + rankMaxB - rankMinAuB ! i : %llu j : %llu \n",i,j);
+									DEB_PS("rule 3 : rankMaxA + rankMaxB - rankMinAuB ! i ! i (A) et j (B) : ");
+									NL; TAB;
+									DEB_PS(" A : ");
+									printSetFile(debug_file,(myType)i); DEB_PS("nil"); TAB;
+									DEB_PS(" B : ");
+									printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
+									NL;	
+								}									
 							}	
 						}
 						
@@ -360,11 +402,20 @@ graph convergenceParties (graph g, int res) {
 							variation = 1;
 							sub++;
 
-							if(debug)
-							printf("rule 4 : rankMinAuB + rankMinAiB - rankMaxA ! i : %d j : %d \n",i,j);
-							
+							if(debug){
+							// printf("rule 4 : rankMinAuB + rankMinAiB - rankMaxA ! i : %llu j : %llu \n",i,j);
+								DEB_PS("rule 4 : rankMinAuB + rankMinAiB - rankMaxA  ! i ! i (A) et j (B) : ");
+								NL; TAB;
+								DEB_PS(" A : ");
+								printSetFile(debug_file,(myType)i); DEB_PS("nil"); TAB; 
+								DEB_PS(" B : ");
+								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
+								NL;		
+							}				
 						}
-						
+				/**********************************************************************************
+				 *  PS : La parie suivante a été commentée par David. Je la laisse là pour le moment
+				 * ********************************************************************************/
 						//~ g = applyPappusParties(g,i,j,convergence,loopNumber);
 						//~ 
 						//~ if(*convergence == 1) variation = 1;
@@ -400,6 +451,7 @@ graph convergenceParties (graph g, int res) {
 							//~ printf("rule 8 : incl(partB,partA) && rankMaxA < rankMaxB ! i : %d j : %d \n",i,j);
 							//~ 
 						//~ }
+				/*************************** fin commentaire PS *************************************/
 					}
 				}
 			}
@@ -1027,9 +1079,18 @@ myType existIntersectPoint(graph g, myType e1, myType e2) {
 /************************************************************************************************/
 
 void preMark(node n) {
+	myType partA, partAe;
+	partA = n->e;
+	partAe = partA & 0x3FFFFFFFFFFFFFF;
+
 	if(n->mark == 0)
 	{
 		n->mark = 1;
+		if(debug_mode) {
+			DEB_PS("marqué : ");
+			printSetFile(debug_file,partAe); NL;
+		}
+		
 	}
 	if(n->ante != NULL)
 	{
@@ -1087,7 +1148,8 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 	int rankMinA, rankMaxA, rankB;
 	// modif PS : 27 septembre 2020
 	char *local_buffer = (char *)calloc(5000,sizeof(char));
-	char *pos = local_buffer;
+	char *debug_info = (char *)calloc(500,sizeof(char));
+	char *pos = local_buffer, *pos_debug = debug_info;
 	// <--PS
 	partA = n->e;
 	partAe = partA & 0x3FFFFFFFFFFFFFF;
@@ -1099,8 +1161,10 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 		fprintf(stderr,"Attention rangs non identiques pour le résultat\n");
 	}
 	pos += sprintf(pos,"Lemma L"); // modif 27/09/20 : avant il y avait un fprintf()
+	pos_debug += sprintf(pos_debug,"Lemma L");
 	pos = printHypSetString(pos, partAe);   //  idem PS 27/09/20
-											//  la fonction printHypStFile a été réécrite plus bas
+											//  la fonction printHypSetFile a été réécrite plus bas
+	pos_debug = printHypSetString(pos_debug, partAe);										
 	pos += sprintf(pos," : forall ");	    //  idem PS 27/09/20
 	//<--PS
 	for(i = 0; i < g.effectiveAllocPow; i++)
@@ -1115,15 +1179,19 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 		if(g.tab[i]->color == -1)
 		{			
 			cpt++;
-			/*-----------------------------------TENTION test
+			/*-----------------------------------TENTION TEST
+			*------------------------------------ commentaires à supprimmer dès qu'on aura a appris
+			*------------------------------------ à bien ggérer la chose
+			
 			if (g.tab[i]->e == n->e) { 	// idem PS 27/09/20 : brutal !		
 				// si g.tab[i]->e == n->e, il n'est pas utile d'écrire
 				// le lemme ni la preuve
-				fprintf(file,"(* Lemme pas écrit (couche %d) *) \n", couche);	// TODO : couche
+				*pos_debug = '\n';
+				fprintf(file,"(* Lemme %s pas écrit (couche %d) *) \n", debug_info, couche);	// TODO : couche
 				free(local_buffer);
 				return 0;             
 			}
-            ------------------------------TENTION TEST*/
+            ------------------------------TENTION : fin de TEST----------------------*/
 		// sinon, on continue l'écriture dans le buffer tant que la boucle n'est pas finie
 			partB = g.tab[i]->e;		 
 			                            
@@ -1340,23 +1408,28 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			
 			partAuB = n->e;
 			partA = n->ante->n->e;
-			freeA = checkGenealogie(n->ante->n); //checkSuccList(n->ante->n->succ);
+			freeA = checkGenealogie(n->ante->n); // ancienne version dessous
+			//freeA = checkSuccList(n->ante->n->succ);
 			partB = n->ante->next->n->e;
-			freeB = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeB = checkSuccList(n->ante->next->n->succ);
 			
 			if(n->ante->next->next->next !=NULL)
 			{
 				partAiB = n->ante->next->next->n->e;
-				freeAiB = checkGenealogie(n->ante->next->next->n); //checkSuccList(n->ante->next->next->n->succ);
+				freeAiB = checkGenealogie(n->ante->next->next->n); //reprise de l'ancienne version dessous
+				// freeAiB = checkSuccList(n->ante->next->next->n->succ);
 				//oldPart = n->ante->next->next->next->n->e;
-				freeAuB = checkGenealogie(n->ante->next->next->next->n); //checkSuccList(n->ante->next->next->next->n->succ);
+				freeAuB = checkGenealogie(n->ante->next->next->next->n); // ancienne version dessous
+				// freeAuB = checkSuccList(n->ante->next->next->next->n->succ);
 			}
 			else
 			{
 				partAiB = 0x0;
 				freeAiB = 0;
 				//oldPart = n->ante->next->next->n->e;
-				freeAuB = checkGenealogie(n->ante->next->next->n); //checkSuccList(n->ante->next->next->n->succ);
+				freeAuB = checkGenealogie(n->ante->next->next->n); // ancienne version dessous
+				// freeAuB = checkSuccList(n->ante->next->next->n->succ);
 			}
 			
 			// sets
@@ -1714,24 +1787,30 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//sets + ranks
 			partA = n->e;
 			partAuB = n->ante->n->e;
-			freeAuB = checkGenealogie(n->ante->n); //checkSuccList(n->ante->n->succ);
+			freeAuB = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
+			// freeAuB = checkSuccList(n->ante->n->succ);
 			if(n->ante->next->next->next !=NULL)
 			{
 				partAiB = n->ante->next->n->e;
-				freeAiB = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+				freeAiB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+				// freeAiB = checkSuccList(n->ante->next->n->succ);
 				partB = n->ante->next->next->n->e;
-				freeB = checkGenealogie(n->ante->next->next->n); //checkSuccList(n->ante->next->next->n->succ);
+				freeB = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
+				// freeB = checkSuccList(n->ante->next->next->n->succ);
 				//oldPart = n->ante->next->next->next->n->e;
-				freeA = checkGenealogie(n->ante->next->next->next->n); //checkSuccList(n->ante->next->next->next->n->succ);
+				freeA = checkGenealogie(n->ante->next->next->next->n); // reprise de l'ancienne version dessous
+				//freeA = checkSuccList(n->ante->next->next->next->n->succ);
 			}
 			else
 			{
 				partAiB = 0x0;
 				freeAiB = 0;
 				partB = n->ante->next->n->e;
-				freeB = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+				freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+				// freeB = checkSuccList(n->ante->next->n->succ);
 				//oldPart = n->ante->next->next->n->e;
-				freeA = checkGenealogie(n->ante->next->next->n); //checkSuccList(n->ante->next->next->n->succ);
+				freeA = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
+				// freeA = checkSuccList(n->ante->next->next->n->succ);
 			}
 			
 			// sets
@@ -2094,15 +2173,19 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//sets + ranks 
 			partAiB = n->e;
 			partA = n->ante->n->e;
-			freeA = checkGenealogie(n->ante->n); //checkSuccList(n->ante->n->succ);
+			freeA = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
+			// freeA = checkSuccList(n->ante->n->succ);
 			partB = n->ante->next->n->e;
-			freeB = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeB = checkSuccList(n->ante->next->n->succ);
 			partAuB = n->ante->next->next->n->e;
-			freeAuB = checkGenealogie(n->ante->next->next->n); //checkSuccList(n->ante->next->next->n->succ);
+			freeAuB = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
+			// freeAuB = checkSuccList(n->ante->next->next->n->succ);
 			if(n->ante->next->next->next !=NULL)
 			{
 				//oldPart = n->ante->next->next->next->n->e;
-				freeAiB = checkGenealogie(n->ante->next->next->next->n); //checkSuccList(n->ante->next->next->next->n->succ);
+				freeAiB = checkGenealogie(n->ante->next->next->next->n); // reprise de l'ancienne version dessous
+				// freeAiB = checkSuccList(n->ante->next->next->next->n->succ);
 			}
 			else
 			{
@@ -2443,25 +2526,31 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//sets + ranks 
 			partB = n->e;
 			partAuB = n->ante->n->e;
-			freeAuB = checkGenealogie(n->ante->n); //checkSuccList(n->ante->n->succ);
+			freeAuB = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
+			// freeAuB = checkSuccList(n->ante->n->succ);
 			
 			if(n->ante->next->next->next !=NULL)
 			{
 				partAiB = n->ante->next->n->e;
-				freeAiB = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+				freeAiB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+				// freeAiB = checkSuccList(n->ante->next->n->succ);
 				partA = n->ante->next->next->n->e;
-				freeA = checkGenealogie(n->ante->next->next->n); //checkSuccList(n->ante->next->next->n->succ);
+				freeA = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
+				// freeA = checkSuccList(n->ante->next->next->n->succ);
 				//oldPart = n->ante->next->next->next->n->e;
-				freeB = checkGenealogie(n->ante->next->next->next->n); //checkSuccList(n->ante->next->next->next->n->succ);
+				freeB = checkGenealogie(n->ante->next->next->next->n); // reprise de l'ancienne version dessous
+				// freeB = checkSuccList(n->ante->next->next->next->n->succ);
 			}
 			else
 			{
 				partAiB = 0x0;
 				freeAiB = 0;
 				partA = n->ante->next->n->e;
-				freeA = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+				freeA = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+				// freeA = checkSuccList(n->ante->next->n->succ);
 				//oldPart = n->ante->next->next->n->e;
-				freeB = checkGenealogie(n->ante->next->next->n); //checkSuccList(n->ante->next->next->n->succ);
+				freeB = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version  dessous
+				// freeB = checkSuccList(n->ante->next->next->n->succ);
 			}
 			
 			// sets
@@ -2824,9 +2913,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//sets + ranks 
 			partB = n->e;
 			partA = n->ante->n->e;
-			freeA = checkGenealogie(n->ante->n); //checkSuccList(n->ante->n->succ);
+			freeA = checkGenealogie(n->ante->n); // reprise de l'ancienne version  dessous
+			// freeA = checkSuccList(n->ante->n->succ);
 			//oldPart = n->ante->next->n->e;
-			freeB = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeB = checkSuccList(n->ante->next->n->succ);
 			
 			// sets
 			partAe = partA & 0x3FFFFFFFFFFFFFF;
@@ -2985,9 +3076,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//sets + ranks 
 			partA = n->e;
 			partB = n->ante->n->e;
-			freeB = checkGenealogie(n->ante->n); //checkSuccList(n->ante->n->succ);
+			freeB = checkGenealogie(n->ante->n); // reprise de l'ancienne version  dessous
+			// freeB = checkSuccList(n->ante->n->succ);
 			//oldPart = n->ante->next->n->e;
-			freeA = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+			freeA = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeA = checkSuccList(n->ante->next->n->succ);
 			
 			// sets
 			partAe = partA & 0x3FFFFFFFFFFFFFF;
@@ -3146,9 +3239,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//sets + ranks 
 			partA = n->e;
 			partB = n->ante->n->e;
-			freeB = checkGenealogie(n->ante->n); //checkSuccList(n->ante->n->succ);
+			freeB = checkGenealogie(n->ante->n); // reprise de l'ancienne version  dessous
+			// freeB = checkSuccList(n->ante->n->succ);
 			//oldPart = n->ante->next->n->e;
-			freeA = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+			freeA = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeA = checkSuccList(n->ante->next->n->succ);
 			
 			// sets
 			partAe = partA & 0x3FFFFFFFFFFFFFF;
@@ -3307,9 +3402,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//sets + ranks 
 			partB = n->e;
 			partA = n->ante->n->e;
-			freeA = checkGenealogie(n->ante->n); //checkSuccList(n->ante->n->succ);
+			freeA = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
+			// freeA = checkSuccList(n->ante->n->succ);
 			//oldPart = n->ante->next->n->e;
-			freeB = checkGenealogie(n->ante->next->n); //checkSuccList(n->ante->next->n->succ);
+			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeB = checkSuccList(n->ante->next->n->succ);
 			
 			// sets
 			partAe = partA & 0x3FFFFFFFFFFFFFF;
