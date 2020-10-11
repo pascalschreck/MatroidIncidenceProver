@@ -92,8 +92,8 @@ graph copyGraph(graph g1, graph g2, int res) {
 graph convergenceParties (graph g, int res) {  // normalement, pour être cohérent res devrait ête de type ull
 	
 	bool debug = debug_mode ;	// par défaut, on est dans le mode donné par l'utilisateur
-    // debug = true // decommenter si on veut le mode deboggage pour la propagation des contraintes de rang
-	// debug = false // decommenter si on ne veut pas le mode deboggage pour la propagation des contraintes de rang
+    // debug = true; // decommenter si on veut le mode deboggage pour la propagation des contraintes de rang
+	debug = false; // decommenter si on ne veut pas le mode deboggage pour la propagation des contraintes de rang
 	bool print = false;	// mettre à 1 si ????
 	
 	unsigned long long int i, j;    // pour correspondre au type
@@ -1088,7 +1088,7 @@ void preMark(node n) {
 		n->mark = 1;
 		if(debug_mode) {
 			DEB_PS("marqué : ");
-			printSetFile(debug_file,partAe); NL;
+			printSetFile(debug_file,partAe); DEB_PS("nil"); NL;
 		}
 		
 	}
@@ -1140,8 +1140,11 @@ void unMark(node n) {
 *      - s'il est vrai, on a effectivement écrit l'énoncé du lemme					*
 *      - s'il est faux, on n'a rien écrit : il ne faut pas écrire de preuve			*
 *		(ce qui est fait dans une autre fonction)									*
-*___________________________________________________________________________________*/
+*   (2) TEMPORAIRE : TENTION
+*__________________________________________________________________________________*/
 bool constructLemma(FILE* file, graph g, node n, int couche) {
+	// on écrit de code dans le fichier <file>, l'énoncé correspontant qu noeud n du graphe g
+	// la mention de la <couche> sert uniquement à faire des sorties informatives 
 	int i;
 	int cpt = 0;
 	myType partA, partAe, partB, partBe;
@@ -1160,20 +1163,26 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 	{
 		fprintf(stderr,"Attention rangs non identiques pour le résultat\n");
 	}
-	pos += sprintf(pos,"Lemma L"); // modif 27/09/20 : avant il y avait un fprintf()
-	pos_debug += sprintf(pos_debug,"Lemma L");
-	pos = printHypSetString(pos, partAe);   //  idem PS 27/09/20
+	//pos += sprintf(pos, "(* dans la couche %d *)\n", couche); 
+	fprintf(file, "(* dans la couche %d *)\n", couche);
+	// pos += sprintf(pos,"Lemma L"); // modif 27/09/20 : avant il y avait un fprintf()
+	fprintf(file,"Lemma L");
+	// pos_debug += sprintf(pos_debug,"Lemma L");
+	// pos = printHypSetString(pos, partAe);   //  idem PS 27/09/20
 											//  la fonction printHypSetFile a été réécrite plus bas
-	pos_debug = printHypSetString(pos_debug, partAe);										
-	pos += sprintf(pos," : forall ");	    //  idem PS 27/09/20
+	printHypSetFile(file, partAe);
+	// pos_debug = printHypSetString(pos_debug, partAe);										
+	//pos += sprintf(pos," : forall ");	    //  idem PS 27/09/20
+	fprintf(file," : forall ");
 	//<--PS
 	for(i = 0; i < g.effectiveAllocPow; i++)
 	{
-		pos += sprintf(pos,"P%d ",i+1);		// idem PS 27/09/20
+		// pos += sprintf(pos,"P%d ",i+1);		// idem PS 27/09/20
+		fprintf(file,"P%d ",i+1);
 	}
 												// Ainsi, 
-	pos += sprintf(pos,",\n");					// tous les points du graphe sont quantifiés universellement
-	
+	// pos += sprintf(pos,",\n");					// tous les points du graphe sont quantifiés universellement
+	fprintf(file,",\n");
 	for(i = 0; i < g.effectiveSize; i++)
 	{
 		if(g.tab[i]->color == -1)
@@ -1204,26 +1213,31 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 				exit(1);
 			}
 			
-			pos += sprintf(pos,"rk(");			// idem PS 27/09/20
-			pos = printSetString(pos,partBe);  // idem PS 27/09/20
+			// pos += sprintf(pos,"rk(");			// idem PS 27/09/20
+			fprintf(file,"rk(");
+			// pos = printSetString(pos,partBe);  // idem PS 27/09/20
+			printSetFile(file,partBe);
 			if(cpt == 3)
 			{
-				pos += sprintf(pos," nil) = %d ->\n",rankB);
+				//pos += sprintf(pos," nil) = %d ->\n",rankB);
+				fprintf(file," nil) = %d ->\n",rankB);
 				cpt = 0;
 			}
 			else
 			{
-				pos += sprintf(pos," nil) = %d -> ",rankB);
+				// pos += sprintf(pos," nil) = %d -> ",rankB);
+				fprintf(file," nil) = %d -> ",rankB);
+
 			}
 		}
 	}
-	*pos = '\n'; // pour finir la chaîne ... ça aurait du être fait pas sprintf(...) 
+	// *pos = '\n'; // pour finir la chaîne 
 	 //--------------------------------------------------------------------------
 	 // écriture effective du lemme dans le fichier
 	// PS 29/09/20 : si on arrive jusqu'ici, on écrit tout le buffer
 	//               dans le fichier <file>
 	//               et l'écriture se continuera dans ce fichier
-	fprintf(file,"%s",local_buffer); 
+	// fprintf(file,"%s",local_buffer); 
 	//<--PS
 
 	if(rankMinA == rankMaxA)
@@ -1303,7 +1317,9 @@ void constructIntro(FILE* file, graph g) {
 
 ##  fonction constructProof()
 	construit la preuve d'un lemme dont l'énoncé a été écrit dans 
-	un fichier par les fonctions précédentes
+	un fichier par les fonctions précédentes.
+	En fait, il semble que c'est constructProofaux() qui fasse tout le boulot (appelée au début)
+	la majeur partie du code suivant est une espèce de filet de sécurité
 ________________________________________________________________________________*/
 void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) {
 	myType res = n->e & 0x3FFFFFFFFFFFFFF;
@@ -1377,12 +1393,12 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 
 
 ##  fonction constructProofaux()
-
+    C'est ici que la preuve est rédigée
 ________________________________________________________________________________*/
 void constructProofaux (FILE* file, node n, myType res, allocSize stab, int previousConstruct) {
 	
 	int i,j;
-	int stabb = 1;
+	int stabb = 1; // ah ? à quoi ça sert de l'avoir en argument alors ?
 	myType partA, partB, partAiB, partAuB, partAe, partBe, partAiBe, partAuBe;
 	int rankMinA, rankMaxA, rankMinB, rankMaxB, rankMinAiB, rankMaxAiB, rankMinAuB, rankMaxAuB;
 	int freeA, freeB, freeAuB, freeAiB;
@@ -1414,7 +1430,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
 			// freeB = checkSuccList(n->ante->next->n->succ);
 			
-			if(n->ante->next->next->next !=NULL)
+			if(n->ante->next->next->next !=NULL)    // ah ?
 			{
 				partAiB = n->ante->next->next->n->e;
 				freeAiB = checkGenealogie(n->ante->next->next->n); //reprise de l'ancienne version dessous

@@ -102,7 +102,7 @@ int checkGenealogieUp (node n) {
 	
 	while(tmp != NULL && mark == 1)
 	{
-		if((tmp->n->e & 0x3FFFFFFFFFFFFFF) == checkset)
+		if((tmp->n->e & 0x3FFFFFFFFFFFFFF) == checkset) //..... ça veut dire qu'on rertouve l'ens. des succeseurs ?
 		{
 			mark = 0;
 			checkGenUp = checkGenUp && checkGenealogieUp(tmp->n);

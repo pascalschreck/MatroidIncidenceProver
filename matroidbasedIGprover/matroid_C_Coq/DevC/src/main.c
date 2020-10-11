@@ -117,6 +117,7 @@ int main(int argc, char * argv[])
 	// les rangs des lignes supplémentaires
 	rewind(wp_out);
 	long long unsigned nw_line = st->conclusion.set;
+    resf = nw_line;
 	int srk = st->conclusion.rk;
 	char buf[255];
 	for(int j=0; j <= nw_line; j++) fgets(buf, 255, wp_out);
@@ -147,12 +148,26 @@ int main(int argc, char * argv[])
     int last = nb_layers-1;
 	
     // resf = codage de l'ensemble dans la conclusion finale
+            if(debug_mode)
+        {
+            NL;
+            DEB_PS("********************************************");NL;NL;
+            TAB; fprintf(debug_file," marquage dans la (dernière) couche %d\n", last);
+            NL; DEB_PS("********************************************");NL;NL;
+        }
 	preMark(g[last].tab[resf]);  // marque tous les prédecesseurs de res dans 
                                 // le dernier graphe (qui contient tout les points) 
 
     // rétro-propagation du prémarquage dans les graphes correspondant à chacune de couches
     for(iocl=last-1; iocl >= 0; iocl--)
     {
+        if(debug_mode)
+        {
+            NL;
+            DEB_PS("********************************************");NL;NL;
+            TAB; fprintf(debug_file," marquage dans la couche %d\n", iocl);
+            NL; DEB_PS("********************************************");NL;NL;
+        }
         for(i=0; i < g[iocl].effectiveSize;i++)
             if(g[iocl+1].tab[i]->mark == 1 && i != resf) preMark(g[iocl].tab[i]);
     }
@@ -173,12 +188,16 @@ int main(int argc, char * argv[])
         // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
         // TENTION : la suite e été un peu modifiée (avec aussi la fonction constructionLemma) 
         // pour conserver l'ancien fonctionnement où même les lemmes "bidons" sont écrits
-            if(g[iocl+1].tab[i]->mark == 1 && i != resf /* && cardinal(g[iocl].tab[i]->e)!=1 */ )  // TENTION
+            if(g[iocl+1].tab[i]->mark == 1 && i != resf /* && cardinal(g[iocl].tab[i]->e)!=1 */ )  // TENTION ne teste pas si la conclusion est sur un singleton
+            // i.e si le lemme est marqué dans la couche suivante, c'est qu'on en a besoin
+            // comme c'est on agit de lanière ascendante dans les couches, c'est la première occurence
+            // on en fait un lemme
             {
-                if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
+                // if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
                 {
+                    constructLemma(file,g[iocl],g[iocl].tab[i],iocl);  // à commenter après test
                     constructIntro(file, g[iocl]);
-			        constructProof(file,g[iocl].tab[i], sizeTab, 1);
+			        constructProof(file,g[iocl].tab[i], sizeTab, 1); // le dernier argument correspond à previousconstruct ???
 			        g[iocl].tab[i]->mark = 4;
 			        unMark(g[iocl].tab[i]);
                 }
@@ -195,10 +214,11 @@ int main(int argc, char * argv[])
     // C'est ici qu'on pourrait prendre en compte plusieurs conclusion 
     // seule la conclusion <res> est traitée !
     // 
-    if(constructLemma(file, g[last], g[last].tab[res],last))  // devrait être toujours vrai
+    // if(constructLemma(file, g[last], g[last].tab[resf],last))  // devrait être toujours vrai
     {
+        constructLemma(file, g[last], g[last].tab[resf],last);  // à commenter après test
 	    constructIntro(file, g[last]);
-	    constructProof(file, g[last].tab[res], sizeTab, 1);
+	    constructProof(file, g[last].tab[resf], sizeTab, 1);
     }
 
 	
