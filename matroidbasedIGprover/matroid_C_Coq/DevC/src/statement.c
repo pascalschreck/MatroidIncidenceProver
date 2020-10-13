@@ -27,7 +27,7 @@ char * st_comment(FILE *file, char *buff)
         while(!strcmp(buff,"") || buff[0]=='#')
     {
         fgets(buff,255,file);
-        fscanf(file,"%s\n",buff);   // fscanf s'arrête au premeir espace
+        fscanf(file,"%s\n",buff);   // fscanf s'arrête au premier espace
     }
     return buff;
 }
@@ -189,7 +189,7 @@ statement st_read(FILE *stat_name)
             {
                 int ref = find_ref(buff,st);
                 if(ref==-1)
-                    {printf("erreur in conclusion %s point non reconnu",buff); exit(2);}
+                    {printf("error in conclusion %s unkown point",buff); exit(2);}
                 cly->conclusion.points[nbp_rk] = ref;
                 set = set | 1ull << ref;
                 fscanf(stat_name,"%s ",buff);

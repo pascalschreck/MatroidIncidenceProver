@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "parties.h"
 
 node createNode (myType e) {
 	
@@ -13,7 +14,7 @@ node createNode (myType e) {
 	
 	return new;
 }
-
+ 
 node addNode (list l, myType e, int rule) {
 	
 	//create new node
@@ -142,6 +143,7 @@ void printList (list l) {
 	}
 }
 
+
 void printListWithMark (list l) {
 	list tmp = l;
 	while(tmp != NULL && tmp->n->mark >= 1)
@@ -181,4 +183,30 @@ void printNodes(node n, int space) {
 	}
 }
 
+/*---------------------------ajout PS pour écriture dans un fichier -------------------*/
+void printListFile (FILE *file, list l) {
+	list tmp = l;
+	while(tmp != NULL)
+	{
+		fprintf(file, "---->");printNodeFile(file, tmp->n); fprintf(file, "\n");
+		tmp = tmp->next;
+	}
+}
+
+void printListWithMarkFile (FILE *file, list l) {
+	list tmp = l;
+	while(tmp != NULL && tmp->n->mark >= 1)
+	{
+		fprintf(file, "---->");printNodeFile(file, tmp->n);fprintf(file, "\n");
+		tmp = tmp->next;
+	}
+}
+
+
+void printNodeFile(FILE *file, node n) {
+	if(n != NULL)
+	{
+		printSetFile(file, n->e);
+	}
+}
 

@@ -18,10 +18,13 @@ void read_comd_line(int argc, char *argv[]);
  char        statement_name[255],
              rankoutput_name[255],
              coqoutput_name[255],
-             newrules_name[255];
-
+             newrules_name[255],
+             traced_set_name[255];
+ 
  FILE *debug_file = NULL; 
  bool debug_mode = false;
+ bool trace = false;
+ myType traced = 0llu;
 
 //----------------------------------------------------
 //  main
@@ -40,7 +43,29 @@ int main(int argc, char * argv[])
 
     statement st = st_read(stat);			// lecture de l'énoncé pour remplir la structure statement
     fclose(stat);
-											// mise à jour de deux variables globales
+    /*----------------------traçage-----------------------------*/
+    if(trace)
+    {
+        char buff[32];  // on limite le nom d'un point à 31 caractères
+        char *pos = traced_set_name;
+        int nbp;
+        pos = strtok(traced_set_name," ,");
+        for(nbp = 0; nbp < 30 && pos; nbp++)
+            {
+            int ref;
+            strcpy(buff,pos);
+            ref  = find_ref(buff,st);
+            if(ref==-1){printf("error in tracing set : %s unknown point",buff); exit(2);}
+            traced = traced | (1ull << ref);  // !!!!  mise à jour de la variable globale
+            // printf("test : point courant  %s et ensemble courant %llu\n", buff, traced);
+            pos = strtok(NULL," ,");
+            }
+        printf(" Traced set : %llu\n", traced);
+    }
+	//--------------------------------fin de traitement de la trace dans main
+
+
+    //-------------------------------------- mise à jour de deux variables globales
 	dim = st->sdim; 						// !!!! variable globale
 	realSizemyType = (dim >= 4) ? 58 : 60; 	// !!!!! variable globale
 	// affichage de l'énoncé pour vérification
@@ -56,6 +81,9 @@ int main(int argc, char * argv[])
 	graph g[MAX_LAYERS];
     layer cly;      // couche courante
     int iocl=0;
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////// Calcul de la preuve
+    ///////////////////////////////////////////////////////////////////////////////////////////
     /*-------------------------------------------------*/
     // traitement en avant de la couche 0
     /*-------------------------------------------------*/
@@ -90,7 +118,7 @@ int main(int argc, char * argv[])
         g[iocl].effectiveAllocPow = nbp;    
         g[iocl].effectiveSize = (1u<<nbp)-1;  
 
-        copyGraph(g[iocl-1],g[iocl],res);
+        copyGraph(g[iocl-1],g[iocl],resf);
 
        for(int i=0; i<cly->nbr; i++)
   	    {
@@ -303,8 +331,17 @@ void read_comd_line(int argc, char *argv[])
                 }
             else if (!strcmp(argv[i],"-debug") || !strcmp(argv[i],"--debug"))
                 {
-                    printf("exécutuon en mode deboggage \n");
+                    printf("exécution en mode deboggage \n");
                     debug_mode = true;
+                }
+            else if (!strcmp(argv[i],"-trace") || !strcmp(argv[i],"--trace"))
+                {
+                    if(trace) { printf("l'option -trace ou --trace a déjà été lue\n"); exit(2);}
+                    trace = true;
+                    i++;
+                    printf("ensemble tracé : %s\n", argv[i]);
+                    strcpy(traced_set_name,argv[i]);
+                    // traced sera mis à jour après lecture de l'ennoncé
                 }
             else { printf("Option non reconnue %s -- arrêt\n", argv[i]); exit(3);}
             // incrémentation automatique de l'indice des arguments

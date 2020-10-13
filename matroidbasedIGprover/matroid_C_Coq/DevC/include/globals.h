@@ -7,6 +7,8 @@ extern unsigned dim;
 extern const unsigned sizemyType;
 extern unsigned realSizemyType;
 extern bool debug_mode;
+extern bool trace;
+myType traced;
 
 #define dft_statement_name "dft_statement.stat"
 #define dft_rankoutput_name "dft_rankoutput.txt"
@@ -23,5 +25,7 @@ extern bool debug_mode;
 #define TAB  fputc('\t', debug_file)
 #define NL	 fputc('\n', debug_file)
 #define DEB_PS(str) fputs((str), debug_file)
+
+#define SetFrom(MT) ((MT) & 0x3FFFFFFFFFFFFFF)
 
 #endif

@@ -71,7 +71,7 @@ void constructIntro(FILE* file, graph g);
 		// Fonction qui reconstruit l'introduction de la preuve de l'énoncé 
 		// dans le fichier file à partir du graphe de déductions g
 
-void constructProofaux (FILE* file, node n, myType res, allocSize tab, int previousConstruct); 
+void constructProofaux (FILE* file, node n, myType res, allocSize tab, int previousConstruct, bool print_trace); 
 		// Fonction qui reconstruit le cheminement de la preuve dans le fichier file 
 		// grâce au marquage à partir d'un n du graphe de déductions g
 

@@ -30,11 +30,12 @@ int checkGenealogie (node n); // Fonction qui vérifie la généalogie d'un noeu
 int checkGenealogieUp (node n); // Fonction qui vérifie la généalogie supérieur d'un noeud (permet la suppresion des hypothèses lors de la reconstruction)
 int checkGenealogieDown (node n); // Fonction qui vérifie la généalogie inférieur d'un noeud (permet la suppresion des hypothèses lors de la reconstruction)
 
-void printList (list l); // Fonction qui affiche une liste
-void printListWithMark (list l); // Fonction qui affiche une liste sauf marque
-void printNode(node n); // Fonction qui affiche un noeud
-void printNodes(node n, int space); // Fonction qui affiche une arborescence de noeuds
+void printList (list l); 					 	 // Fonction qui affiche une liste
+void printListWithMark (list l); 				 // Fonction qui affiche une liste sauf marque
+void printNode(node n); 						 // Fonction qui affiche un noeud
+void printNodes(node n, int space); 			 // Fonction qui affiche une arborescence de noeuds
+void printListFile (FILE *file, list l);		 // comme machintruc mais dans un fichier
+void printListWithMarkFile (FILE *file, list l); // comme machintruc mais dans un fichier
+void printNodeFile(FILE *file, node n); 		 // comme machintruc mais dans un fichier
 
-#endif //__GRAPH_H_
-
-
+#endif
