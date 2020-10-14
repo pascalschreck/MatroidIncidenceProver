@@ -1458,10 +1458,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 	int rankMinA, rankMaxA, rankMinB, rankMaxB, rankMinAiB, rankMaxAiB, rankMinAuB, rankMaxAuB;
 	int freeA, freeB, freeAuB, freeAiB;
 	list tmp = n->ante;						/* la liste ante correspond aux étapes précédentes de réduction d'intervalle */
-	if(!print_trace && trace && SetFrom(n->e) == traced) 
-	{
-		DEB_PS(" proof aux en de hors du traçage ");
-	}
+
 	if(tmp != NULL)	
 		{
 		/* deboggage   */
@@ -1471,6 +1468,8 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					fprintf(debug_file," \t\t trace pour %llu\n\n (règle %d)", SetFrom(n->e),n->rule);
 					DEB_PS("liste ante :\n");
 					printListFile (debug_file, tmp); NL;
+					DEB_PS("fin de la liste.\n");
+					printListFile (debug_file, tmp->n->ante); NL;
 					DEB_PS("fin de la liste.\n");
 				}
 

@@ -38,6 +38,7 @@ int main(int argc, char * argv[])
     // lecture d'un énoncé dans un fichier qui est soit le nom par défaut (dft_statement.txt)
     // soit le nom donné sur la ligne de commande rangé dans la variable statement_name
     FILE *stat = fopen(statement_name,"r");
+        if(stat==NULL){ printf("le fichier %s n'existe pas\n", statement_name); exit(2);}
     // ouvrir le fichier de déboggage
     if(debug_mode)
         debug_file = fopen("debug.log","w");

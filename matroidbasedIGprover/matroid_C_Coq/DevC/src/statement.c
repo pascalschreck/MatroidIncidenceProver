@@ -61,7 +61,7 @@ statement st_read(FILE *stat_name)
     fscanf(stat_name,"%s\n",buff);  st_comment(stat_name, buff);
     if(strcmp(buff,"context")) 
         {printf("syntax error : 'context' expected instead of %s\n",buff); exit(1);}            // context
-    
+
     fscanf(stat_name,"%s\n",buff); st_comment(stat_name, buff);
     if(strcmp(buff,"dimension")) 
         {printf("syntax error : 'dimension' expected instead of %s\n",buff); exit(1);}        // dimension
