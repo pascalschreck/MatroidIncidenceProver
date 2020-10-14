@@ -1,5 +1,6 @@
 #include "graph.h"
 #include "parties.h"
+#include "globals.h"
 
 node createNode (myType e) {
 	
@@ -7,10 +8,10 @@ node createNode (myType e) {
 	node new = (s_node *)malloc(sizeof(s_node));
 	new->e = e;
 	new->color = 0;
-	new->mark = 0;
-	new->rule = 0;
-	new->ante = NULL;
-	new->succ = NULL;
+	new->mark = UNUSED;	// valeur 0
+	new->rule = 0;		// numéro de la règle de mise à jour
+	new->ante = NULL;	//  pas de prédécesseur
+	new->succ = NULL;	// pas de successeurs
 	
 	return new;
 }

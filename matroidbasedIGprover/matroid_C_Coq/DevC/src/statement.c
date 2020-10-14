@@ -157,14 +157,14 @@ statement st_read(FILE *stat_name)
             unsigned long long set = 0ull;
             for(nbp_rk = 0; nbp_rk < MAX_PPR && strcmp(buff,":"); nbp_rk++)
             {
-            int ref = find_ref(buff,st);
-            if(ref==-1){printf("erreur in hypoth. %d : %s point non reconnu",cly->nbr, buff); exit(2);}
-            cly->hypoth[cly->nbr].points[nbp_rk] = ref;
-            set = set | 1ull << ref;
-            fscanf(stat_name,"%s ",buff);
+                int ref = find_ref(buff,st);
+                if(ref==-1){printf("erreur in hypoth. %d : %s point non reconnu",cly->nbr, buff); exit(2);}
+                cly->hypoth[cly->nbr].points[nbp_rk] = ref;
+                set = set | 1ull << ref;
+                fscanf(stat_name,"%s ",buff);
             }
             if(strcmp(buff,":"))                                                    // lecture des :
-                {printf("syntax error : ':' expected instead of %s\n", buff); exit(1);}
+                { printf("syntax error : ':' expected instead of %s\n", buff); exit(1); }
             fscanf(stat_name,"%d\n",&rk); 
             if(rk > nbp_rk) 
                 {
@@ -181,29 +181,31 @@ statement st_read(FILE *stat_name)
             {printf("syntax error : 'conclusion' expected instead of %s\n",buff); exit(1);}
         // reading conclusion
         fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
-        if(!strcmp(buff,":")) 
-            {printf("syntax error : point name expected instead of %s\n",buff); exit(1);}
-        { int rk, nbp_rk;
-          unsigned long long set = 0ull;
-            for(nbp_rk = 0; nbp_rk < MAX_PPR && strcmp(buff,":"); nbp_rk++)
-            {
-                int ref = find_ref(buff,st);
-                if(ref==-1)
-                    {printf("error in conclusion %s unkown point",buff); exit(2);}
-                cly->conclusion.points[nbp_rk] = ref;
-                set = set | 1ull << ref;
-                fscanf(stat_name,"%s ",buff);
+        if(strcmp(buff,"None") && strcmp(buff,"none"))
+        {
+            if(!strcmp(buff,":")) 
+                {printf("syntax error : point name expected instead of %s\n",buff); exit(1);}
+            { int rk, nbp_rk;
+            unsigned long long set = 0ull;
+                for(nbp_rk = 0; nbp_rk < MAX_PPR && strcmp(buff,":"); nbp_rk++)
+                {
+                    int ref = find_ref(buff,st);
+                    if(ref==-1)
+                        {printf("error in conclusion %s unkown point",buff); exit(2);}
+                    cly->conclusion.points[nbp_rk] = ref;
+                    set = set | 1ull << ref;
+                    fscanf(stat_name,"%s ",buff);
+                }
+                if(strcmp(buff,":")) 
+                    {printf("syntax error : ':' expected instead of %s\n",buff); exit(1);}
+                fscanf(stat_name,"%d\n",&rk); st_comment(stat_name, buff);
+                if(rk > nbp_rk) 
+                    {printf("error in conclusion of layer %d: %d rank is too big\n",iocl, rk), exit(1);}
+                cly->conclusion.nbp = nbp_rk;
+                cly->conclusion.set = set - 1;
+                cly->conclusion.rk = rk;
             }
-            if(strcmp(buff,":")) 
-                {printf("syntax error : ':' expected instead of %s\n",buff); exit(1);}
-            fscanf(stat_name,"%d\n",&rk); st_comment(stat_name, buff);
-            if(rk > nbp_rk) 
-                {printf("error in conclusion of layer %d: %d rank is too big\n",iocl, rk), exit(1);}
-            cly->conclusion.nbp = nbp_rk;
-            cly->conclusion.set = set - 1;
-            cly->conclusion.rk = rk;
         }
-
         fscanf(stat_name,"%s\n",buff);st_comment(stat_name, buff);
         // reading supplement ranks
         if(!strcmp(buff,"supplements"))

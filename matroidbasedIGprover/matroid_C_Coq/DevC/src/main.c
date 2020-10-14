@@ -14,17 +14,18 @@ void read_comd_line(int argc, char *argv[]);
         // lecture et analyse de la ligne de commande
         // pour donner ouvrir les bons fichiers d'entrée et de sortie
 
-// variables globales : ce sont les noms de fichier d'E/S utilisés
- char        statement_name[255],
-             rankoutput_name[255],
-             coqoutput_name[255],
-             newrules_name[255],
-             traced_set_name[255];
+// variables globales : ce sont les noms de fichier d'E/S utilisés 
+// et plus généralement des variables relatives à la lecture de la ligne de commande
+ char        statement_name[255],   // contient le nom du fichier où est écrit l'énoncé
+             rankoutput_name[255],  // contient le nom du fichier où se fait l'affichage des rangs après saturation
+             coqoutput_name[255],   // contient le nom du fichier où est écriture de la peuve Coq
+             newrules_name[255],    // pour utiliser un fichier avec de nouvelles règles (pas d'actualité en oct 2020)
+             traced_set_name[255];  // nom de l'ensemble tracé (par exemple "O A B" (il faut les double-quotes)) avec l'option trace
  
- FILE *debug_file = NULL; 
- bool debug_mode = false;
- bool trace = false;
- myType traced = 0llu;
+ FILE *debug_file = NULL;           // structure FILE partagée par tous les fichiers - déclaration extern dans globals.h
+ bool debug_mode = false;           // booléen partagé pas tout les fichiers - déclaration extern dans global.h
+ bool trace = false;                // idem pour le mode trace (a priori, il faut que le mode debug soit activé)
+ myType traced = 0llu;              // ensemble tracé
 
 //----------------------------------------------------
 //  main
@@ -43,44 +44,47 @@ int main(int argc, char * argv[])
 
     statement st = st_read(stat);			// lecture de l'énoncé pour remplir la structure statement
     fclose(stat);
-    /*----------------------traçage-----------------------------*/
-    if(trace)
-    {
-        char buff[32];  // on limite le nom d'un point à 31 caractères
-        char *pos = traced_set_name;
-        int nbp;
-        pos = strtok(traced_set_name," ,");
-        for(nbp = 0; nbp < 30 && pos; nbp++)
+        /*----------------------traçage-----------------------------*/
+            if(trace)
             {
-            int ref;
-            strcpy(buff,pos);
-            ref  = find_ref(buff,st);
-            if(ref==-1){printf("error in tracing set : %s unknown point",buff); exit(2);}
-            traced = traced | (1ull << ref);  // !!!!  mise à jour de la variable globale
-            // printf("test : point courant  %s et ensemble courant %llu\n", buff, traced);
-            pos = strtok(NULL," ,");
+                char buff[32];  // on limite le nom d'un point à 31 caractères
+                char *pos = traced_set_name;
+                int nbp;
+                pos = strtok(traced_set_name," ,");
+                for(nbp = 0; nbp < 30 && pos; nbp++)
+                    {
+                    int ref;
+                    strcpy(buff,pos);
+                    ref  = find_ref(buff,st);
+                    if(ref==-1){printf("error in tracing set : %s unknown point",buff); exit(2);}
+                    traced = traced | (1ull << ref);  // !!!!  mise à jour de la variable globale
+                    // printf("test : point courant  %s et ensemble courant %llu\n", buff, traced);
+                    pos = strtok(NULL," ,");
+                    }
+                traced = traced;
+                printf(" Traced set : %llu\n", traced);
             }
-        printf(" Traced set : %llu\n", traced);
-    }
-	//--------------------------------fin de traitement de la trace dans main
+        //--------------------------------fin de traitement de la trace dans main
 
 
-    //-------------------------------------- mise à jour de deux variables globales
+    //------------------------------------ mise à jour de deux variables globales
 	dim = st->sdim; 						// !!!! variable globale
 	realSizemyType = (dim >= 4) ? 58 : 60; 	// !!!!! variable globale
-	// affichage de l'énoncé pour vérification
+	
+    // affichage de l'énoncé pour vérification
 	st_print(st);
+    // pourrait être commenté
 
-    int nb_layers = st->nb_layers;          // en principe < MAX_LAYERS
+    // initialisation de variables liées à l'énoncé
+    int nb_layers = st->nb_layers;              // nombre de couche en principe < MAX_LAYERS
+    int nbp=0;                                  // nombre de points pour la couche courante
+    unsigned long long res;                     // conclusion pour la couche courante
+    unsigned long long resf=st->conclusion.set; // conclusion finale
 
-    int nbp=0;          // nombre de points pour la couche courante
-    unsigned long long int res;            // conclusion pour la couche courante
-    unsigned long long int resf=st->conclusion.set;           // conclusion finale
-
-	allocSize sizeTab = allocSizeTab(nb_layers,2);
-	graph g[MAX_LAYERS];
-    layer cly;      // couche courante
-    int iocl=0;
+	allocSize sizeTab = allocSizeTab(nb_layers,2); // tableau de structures pour gérer les couches
+	graph g[MAX_LAYERS];                           // tableau de graphe (rangés hiérarchiquement)
+    layer cly;                                     // couche courante
+    int iocl=0;                                    // numéro de la couche courante
     /////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////// Calcul de la preuve
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +117,7 @@ int main(int argc, char * argv[])
         cly = st->layers[iocl];
         fprintf(stderr,"-------------- initialisation couche %d (%s)\n\n",iocl,cly->name);
         nbp = cly->nbp;
-        res = cly->conclusion.set; // attention : conclusion finale = celle de la dernière couche
+        res = cly->conclusion.set; 
         g[iocl] = allocGraph(nbp);
         g[iocl].effectiveAllocPow = nbp;    
         g[iocl].effectiveSize = (1u<<nbp)-1;  
@@ -183,10 +187,18 @@ int main(int argc, char * argv[])
             TAB; fprintf(debug_file," marquage dans la (dernière) couche %d\n", last);
             NL; DEB_PS("********************************************");NL;NL;
         }
-	preMark(g[last].tab[resf]);  // marque tous les prédecesseurs de res dans 
+	
+    /*--------*/
+    //          marquage de la dernière couche
+    /*---------*/
+    preMark(g[last].tab[resf]);  // marque tous les prédecesseurs de resf dans 
                                 // le dernier graphe (qui contient tout les points) 
 
-    // rétro-propagation du prémarquage dans les graphes correspondant à chacune de couches
+    /*--------*/
+    //          marquage des autres couches
+    /*---------*/
+    // rétro-propagation du prémarquage d'une couche dans la précédente
+    // 
     for(iocl=last-1; iocl >= 0; iocl--)
     {
         if(debug_mode)
@@ -200,7 +212,7 @@ int main(int argc, char * argv[])
             if(g[iocl+1].tab[i]->mark == 1 && i != resf) preMark(g[iocl].tab[i]);
     }
     
-    // construcion en avant de la preuve
+    // construction en avant de la preuve
     iocl = 0;
     i = 0ull;
 
@@ -211,7 +223,7 @@ int main(int argc, char * argv[])
          // TODO : lorsque l'on n'écrit pas un lemme (soit parce que le cardinal de la conculusion est un, 
          // soit parce que la conclusion est dans la hypothèse), il faut peut-être quand même nettoyer le graphe
          // et faire attention que la preuve soit bien correcte
-         // pour le moment, il manque des lemmes semable-t-il (étude de Nicolas)
+         // pour le moment, il manque des lemmes semble-t-il (étude de Nicolas)
         // ajout dans la condition suivante (à la fin) :
         // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
         // TENTION : la suite e été un peu modifiée (avec aussi la fonction constructionLemma) 
@@ -225,8 +237,9 @@ int main(int argc, char * argv[])
                 {
                     constructLemma(file,g[iocl],g[iocl].tab[i],iocl);  // à commenter après test
                     constructIntro(file, g[iocl]);
-			        constructProof(file,g[iocl].tab[i], sizeTab, 1); // le dernier argument correspond à previousconstruct ???
+			        constructProof(file,g[iocl].tab[i], sizeTab, 1); // le dernier argument correspond à previousconstruct, c'est toujours 1 ?
 			        g[iocl].tab[i]->mark = 4;
+                    g[iocl+1].tab[i]->mark = 4;     // ajout dans la couche suivante pour que le lemme soit pris en compte
 			        unMark(g[iocl].tab[i]);
                 }
                

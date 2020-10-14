@@ -49,8 +49,3 @@ Mode affichage & mode debug permettant d'afficher pleins d'informations supplém
 ## Notes supplémentaires :
 
 L'algorithme utilise par défaut la coloration, cette optimisation peut être enlevé dans l'algorithme de saturation
-Un exemple de reconstruction en 3 couches de l'énoncé de Dandelin-Gallucci est disponible dans le fichier main.c
-Encodage des ensembles sur 64 bits, changement de la dimension dans le fichier sets.h
-ranks.txt pour l'affichage
-proof.txt pour la preuve obtenue
-

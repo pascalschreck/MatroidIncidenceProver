@@ -74,7 +74,9 @@ graph copyGraph(graph g1, graph g2, int res) {
 	{
 		if(i != res && rankMax(g1.tab[i]->e) == rankMin(g1.tab[i]->e))
 		{
-			g2.tab[i] = createNode(g1.tab[i]->e);
+			g2.tab[i] = createNode(g1.tab[i]->e);						//   Attention : on ne copie pas l'historique d'application des règles
+																		// je ne sais pas si c'est utile ou si on retrouve les lemmes qu'il faut ....
+																		// faire un copyNode() ?
 			g2.tab[i]->color = g1.tab[i]->color;
 		}
 	}
@@ -152,7 +154,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 						
 						if(partAiBe != 0x0)
 						{
-							partAiB = g.tab[partAiBe-1]->e;	
+							partAiB = g.tab[partAiBe-1]->e;		// Attention décalage pour gagner une ligne dans tab ....
 						}
 						partAuB = g.tab[partAuBe-1]->e;
 						
@@ -164,8 +166,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 						
 						if(partAiBe != 0x0)
 						{
-							rankMinAiB = rankMin(g.tab[partAiBe-1]->e);		// pourquoi -1 ? il y a bien un décalage pour faire des économies de bouts de chandelle 
-																			// mais ça ne devrait pas compter ici
+							rankMinAiB = rankMin(g.tab[partAiBe-1]->e);		
 							rankMaxAiB = rankMax(g.tab[partAiBe-1]->e);
 						}
 						else
@@ -190,7 +191,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 								fprintf(stderr,"Erreur rang minimum > rang maximum  \n");
 								exit(1);
 							}
-							l = createList(g.tab[partAe-1]);				// -1 ?
+							l = createList(g.tab[partAe-1]);				// 
 							l = addList(l,g.tab[partBe-1]);
 							n = addNode(l,setMin(partB,rankMinA),5);		// addition au titre de la règle 5
 							g.tab[partBe-1] = n;
@@ -306,6 +307,11 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 						}
 						
 						computeM3 = rankMinAuB + rankMinAiB - rankMaxB;	
+						/*-----------------------------------------------------------
+
+								règle 2
+						
+						-------------------------------------------------------------*/
 						if(rankMinA < computeM3)
 						{
 							if(computeM3 > rankMaxA)
@@ -347,6 +353,11 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 						}
 						
 						computeM3 = rankMaxA + rankMaxB - rankMinAuB;
+						/*-----------------------------------------------------------
+
+								règle 3
+						
+						-------------------------------------------------------------*/
 						if(rankMaxAiB > computeM3)
 						{
 							if(computeM3 < rankMinAiB)
@@ -390,6 +401,11 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 						}
 						
 						computeM3 = rankMinAuB + rankMinAiB - rankMaxA;
+						/*-----------------------------------------------------------
+
+								règle 4
+						
+						-------------------------------------------------------------*/
 						if(rankMinB < computeM3)
 						{	
 							if(computeM3 > rankMaxB)
@@ -1094,48 +1110,43 @@ myType existIntersectPoint(graph g, myType e1, myType e2) {
 *_______________________________________________________________________________________________*/
 /************************************************************************************************/
 
-void preMark(node n) {
+void preMark(node n) {		// marquage récursifs des antécédents d'un noeud par l'application des règles
 	myType partA, partAe;
 	partA = n->e;
 	partAe = SetFrom(partA);
 
-	if(n->mark == 0)
+	if(n->mark == UNUSED)
 	{
-		n->mark = 1;
-		if(debug_mode) {
-			DEB_PS("marqué : ");
-			printSetFile(debug_file,partAe); DEB_PS("nil"); NL;
-		}
-		
+		n->mark = U_NOT_WRITTEN_IN_PROOF;
+			//     DEBUG ---->
+			if(debug_mode) {
+				DEB_PS("marqué : ");
+				printSetFile(debug_file,partAe); DEB_PS("nil"); NL;
+			}
+			//<-----DEBUG	
 	}
 	if(n->ante != NULL)
 	{
 		list tmp = n->ante;
 		while(tmp != NULL)
 		{
-			//~ if(tmp->n->mark == 0)
-			//~ {
-				preMark(tmp->n);	// appel récursif
-			//~ }
+			preMark(tmp->n);	// appel récursif, de cette manière, tous les antécédents du résultat sont marqués
 			tmp = tmp->next;
 		}
 	}
 }
 
-void unMark(node n) {
-	if(n->mark <= 3)
+void unMark(node n) {		// démarquage des antécédents
+	if(n->mark < PROOF_ALREADY_DONE)
 	{
-		n->mark = 0;
+		n->mark = UNUSED;
 	}
 	if(n->ante != NULL)
 	{
 		list tmp = n->ante;
 		while(tmp != NULL)
 		{
-			//~ if(tmp->n->mark != 0)
-			//~ {
-				unMark(tmp->n);
-			//~ }
+			unMark(tmp->n);
 			tmp = tmp->next;
 		}
 	}
@@ -1350,7 +1361,7 @@ void constructIntro(FILE* file, graph g) {
 	dans les hypothèses (qui concernent les rangs donnés au départ))
 ________________________________________________________________________________*/
 void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) {
-	myType res = n->e & 0x3FFFFFFFFFFFFFF;
+	myType res = SetFrom(n->e);
 	bool print_trace = false;
 
 		if(trace && traced == (n->e & res)) {
@@ -1361,12 +1372,18 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 	constructProofaux(file, n, res, stab, previousConstruct, print_trace);
 	
 	
-
+	//----------------------------
+	//
+	// La suite ne traite que l'ensemble A sans faire appel à d'autres ensembles
+	// on se fonde soit sur l'intialisation (min 1 et max = dim espace + 1)
+	// soit sur les hypothèses
+	//
+	//-----------------------------------------
 	myType partA, partAe;
 	int rankMinA, rankMaxA;
 	
 	partA = n->e;
-	partAe = partA & 0x3FFFFFFFFFFFFFF;
+	partAe = SetFrom(partA);
 	rankMinA = rankMin(partA);
 	rankMaxA = rankMax(partA);
 	
@@ -1424,8 +1441,9 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 	{
 		fprintf(file,"split. intuition. intuition. \nQed.\n\n");
 	}
+n->mark = 4;
 }
-
+ 
 /*______________________________________________________________________________
 
 
@@ -1435,214 +1453,141 @@ ________________________________________________________________________________
 void constructProofaux (FILE* file, node n, myType res, allocSize stab, int previousConstruct, bool print_trace) {
 	
 	int i,j;
-	int stabb = 1; // ah ? à quoi ça sert de l'avoir en argument alors ?
+	int stabb = 1;
 	myType partA, partB, partAiB, partAuB, partAe, partBe, partAiBe, partAuBe;
 	int rankMinA, rankMaxA, rankMinB, rankMaxB, rankMinAiB, rankMaxAiB, rankMinAuB, rankMaxAuB;
 	int freeA, freeB, freeAuB, freeAiB;
 	list tmp = n->ante;						/* la liste ante correspond aux étapes précédentes de réduction d'intervalle */
-	
-	if(tmp == NULL)	return ; /* il n'y a pas d'étapes intermédiaires : les conditions initiales (rang initiaux) devraient suffire*/
-	
-	/* deboggage   */
-
-	if(print_trace)
+	if(!print_trace && trace && SetFrom(n->e) == traced) 
 	{
-		fprintf(debug_file," \t\t trace pour %llu\n\n (règle %d)", SetFrom(n->e),n->rule);
-		DEB_PS("liste ante :\n");
-		printListFile (debug_file, tmp); NL;
-		DEB_PS("fin de la liste.\n");
-		DEB_PS("liste succ :\n");
-		printListFile(debug_file,n->succ);
-		DEB_PS("fin de la liste succ.\n");
+		DEB_PS(" proof aux en de hors du traçage ");
 	}
+	if(tmp != NULL)	
+		{
+		/* deboggage   */
 
-	while(tmp != NULL)
-	{
-		int compt = 1;
-		if(tmp->n->mark == 1)
-		{
-			if(print_trace)
-			{
-				fprintf(debug_file,"étape précédent marquée : %d ensemble %llu\n", compt++,SetFrom(tmp->n->e));
-			}
-			// tmp->n->mark = 2;  // changé de place pour voir TEST
-			/*-------------------------------------
-					appel récusrif  :
-				c'est ici que l'on traite les différentes étapes de la preuve
-				chaque étape correspondant à une réduction de l'intervalle des rangs
-				pour l'ensemble considéré.
-			
-			-----------------------------------------*/
-			constructProofaux(file, tmp->n, res, stab, previousConstruct, print_trace);
-			tmp->n->mark = 2;   // changé de place : c'était quelques lignes plus haut TEST
-		}
-		tmp = tmp->next;
-	}
-	print_trace = false;
-	n->mark = 3;
-	
-	/*_______________________________________________________________
-
-			règle 1 == règle 5 de la thèse
-	__________________________________________________________________*/
-	if(n->rule == 1) 
-	{
-		//sets + ranks
-		
-		partAuB = n->e;							// on en déduit quelque chose sur AuB (règle 5 de la thèse ?)
-		partA = n->ante->n->e;
-		freeA = checkGenealogie(n->ante->n); 	// ancienne version dessous
-		//freeA = checkSuccList(n->ante->n->succ);
-		partB = n->ante->next->n->e;
-		freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
-		// freeB = checkSuccList(n->ante->next->n->succ);
-		
-		if(n->ante->next->next->next !=NULL)    // ah ?
-		{
-			partAiB = n->ante->next->next->n->e;
-			freeAiB = checkGenealogie(n->ante->next->next->n); //reprise de l'ancienne version dessous
-			// freeAiB = checkSuccList(n->ante->next->next->n->succ);
-			//oldPart = n->ante->next->next->next->n->e;
-			freeAuB = checkGenealogie(n->ante->next->next->next->n); // ancienne version dessous
-			// freeAuB = checkSuccList(n->ante->next->next->next->n->succ);
-		}
-		else
-		{
-			partAiB = 0x0;
-			freeAiB = 0;
-			//oldPart = n->ante->next->next->n->e;
-			freeAuB = checkGenealogie(n->ante->next->next->n); // ancienne version dessous
-			// freeAuB = checkSuccList(n->ante->next->next->n->succ);
-		}
-		
-		// sets
-		partAe = partA & 0x3FFFFFFFFFFFFFF;
-		partBe = partB & 0x3FFFFFFFFFFFFFF;
-		if(n->ante->next->next->next !=NULL)
-		{
-			partAiBe = partAiB & 0x3FFFFFFFFFFFFFF;
-		}
-		else
-		{
-			partAiBe = 0x0;
-		}
-		partAuBe = partAuB & 0x3FFFFFFFFFFFFFF;
-		
-		// ranks			
-		rankMinA = rankMin(partA);
-		rankMaxA = rankMax(partA);
-		rankMinB = rankMin(partB);
-		rankMaxB = rankMax(partB);
-		if(partAiB != 0x0)
-		{
-			rankMinAiB = rankMin(partAiB);
-			rankMaxAiB = rankMax(partAiB);
-		}
-		else
-		{
-			rankMinAiB = 0;
-			rankMaxAiB = 0;
-		}
-		rankMinAuB = rankMin(partAuB);
-		rankMaxAuB = rankMax(partAuB);
-		//oldRankMax = rankMax(oldPart);
-		
-		// export
-		fprintf(file,"\n");
-		fprintf(file,"(* Application de la règle 1 code (5 dans la thèse) *)\n");
-		
-		fprintf(file,"assert(H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"M%d : rk(",rankMaxAuB);
-		printSetFile(file,partAuBe);
-		fprintf(file,"nil) <= %d).\n",rankMaxAuB);
-		fprintf(file,"{\n");
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partAe);
-			fprintf(file,"eq : rk(");
-			printSetFile(file,partAe);
-			fprintf(file,"nil) = %d) by (apply L",rankMaxA);
-			printHypSetFile(file,partAe);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(partAe <= stab.tab[j][1])
+				if(print_trace)
 				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
+					fprintf(debug_file," \t\t trace pour %llu\n\n (règle %d)", SetFrom(n->e),n->rule);
+					DEB_PS("liste ante :\n");
+					printListFile (debug_file, tmp); NL;
+					DEB_PS("fin de la liste.\n");
 				}
-			}
-			stabb = 1;
-		}	
-		
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partAe); 
-		fprintf(file,"Mtmp : rk(");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
-		printHypSetFile(file,partAe); 
-		fprintf(file,"eq H");
-		printHypSetFile(file,partAe);
-		fprintf(file,"M%d).\n",rankMaxA);
-		
-		if(previousConstruct)
+
+		while(tmp != NULL)
 		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partBe);
-			fprintf(file,"eq : rk(");
-			printSetFile(file,partBe);
-			fprintf(file,"nil) = %d) by (apply L",rankMaxB);
-			printHypSetFile(file,partBe);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
+
+			if(tmp->n->mark == U_NOT_WRITTEN_IN_PROOF)
 			{
-				if(partBe <= stab.tab[j][1])
+				if(print_trace)
 				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
+					fprintf(debug_file,"étape précédent marquée : ensemble %llu\n",SetFrom(tmp->n->e));
 				}
+				tmp->n->mark = U_WAITING_FOR_PREVIOUS_PROOF;  // devrait être à sa place ici
+				/*-------------------------------------
+						appel récusrif  :
+					c'est ici que l'on traite les différentes étapes de la preuve
+					chaque étape correspondant à une réduction de l'intervalle des rangs
+					pour l'ensemble considéré.
+				
+				-----------------------------------------*/
+				constructProofaux(file, tmp->n, res, stab, previousConstruct, print_trace);
 			}
-			stabb = 1;
-		}	
+			tmp = tmp->next;
+		}
+		print_trace = false;
+		n->mark = U_PROOF_BEING_WRITTEN;
+		
+		/*_______________________________________________________________
 
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partBe); 
-		fprintf(file,"Mtmp : rk(");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
-		printHypSetFile(file,partBe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"M%d).\n",rankMaxB);
-
-		if(partAiB != 0x0)
+				règle 1 == règle 5 de la thèse
+		__________________________________________________________________*/
+		if(n->rule == 1) 
 		{
+			//sets + ranks
+			
+			partAuB = n->e;							// on en déduit quelque chose sur AuB (règle 5 de la thèse ?)
+			partA = n->ante->n->e;
+			freeA = checkGenealogie(n->ante->n); 	// ancienne version dessous
+			//freeA = checkSuccList(n->ante->n->succ);
+			partB = n->ante->next->n->e;
+			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeB = checkSuccList(n->ante->next->n->succ);
+			
+			if(n->ante->next->next->next !=NULL)    // ah ?
+			{
+				partAiB = n->ante->next->next->n->e;
+				freeAiB = checkGenealogie(n->ante->next->next->n); //reprise de l'ancienne version dessous
+				// freeAiB = checkSuccList(n->ante->next->next->n->succ);
+				//oldPart = n->ante->next->next->next->n->e;
+				freeAuB = checkGenealogie(n->ante->next->next->next->n); // ancienne version dessous
+				// freeAuB = checkSuccList(n->ante->next->next->next->n->succ);
+			}
+			else
+			{
+				partAiB = 0x0;
+				freeAiB = 0;
+				//oldPart = n->ante->next->next->n->e;
+				freeAuB = checkGenealogie(n->ante->next->next->n); // ancienne version dessous
+				// freeAuB = checkSuccList(n->ante->next->next->n->succ);
+			}
+			
+			// sets
+			partAe = partA & 0x3FFFFFFFFFFFFFF;
+			partBe = partB & 0x3FFFFFFFFFFFFFF;
+			if(n->ante->next->next->next !=NULL)
+			{
+				partAiBe = partAiB & 0x3FFFFFFFFFFFFFF;
+			}
+			else
+			{
+				partAiBe = 0x0;
+			}
+			partAuBe = partAuB & 0x3FFFFFFFFFFFFFF;
+			
+			// ranks			
+			rankMinA = rankMin(partA);
+			rankMaxA = rankMax(partA);
+			rankMinB = rankMin(partB);
+			rankMaxB = rankMax(partB);
+			if(partAiB != 0x0)
+			{
+				rankMinAiB = rankMin(partAiB);
+				rankMaxAiB = rankMax(partAiB);
+			}
+			else
+			{
+				rankMinAiB = 0;
+				rankMaxAiB = 0;
+			}
+			rankMinAuB = rankMin(partAuB);
+			rankMaxAuB = rankMax(partAuB);
+			//oldRankMax = rankMax(oldPart);
+			
+			// export
+			fprintf(file,"\n");
+			fprintf(file,"(* Application de la règle 1 code (5 dans la thèse) *)\n");
+			
+			fprintf(file,"assert(H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"M%d : rk(",rankMaxAuB);
+			printSetFile(file,partAuBe);
+			fprintf(file,"nil) <= %d).\n",rankMaxAuB);
+			fprintf(file,"{\n");
+			
 			if(previousConstruct)
 			{
 				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,partAiBe);
+				printHypSetFile(file,partAe);
 				fprintf(file,"eq : rk(");
-				printSetFile(file,partAiBe);
-				fprintf(file,"nil) = %d) by (apply L",rankMinAiB);
-				printHypSetFile(file,partAiBe);
+				printSetFile(file,partAe);
+				fprintf(file,"nil) = %d) by (apply L",rankMaxA);
+				printHypSetFile(file,partAe);
 				fprintf(file," with ");
 				
 				for(j = 0; j < stab.size && stabb; j++)
 				{
-					if(partAiBe <= stab.tab[j][1])
+					if(partAe <= stab.tab[j][1])
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
@@ -1656,380 +1601,787 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			}	
 			
 			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partAiBe); 
-			fprintf(file,"mtmp : rk(");
-			printSetFile(file,partAiBe);
-			fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
-			printHypSetFile(file,partAiBe);
+			printHypSetFile(file,partAe); 
+			fprintf(file,"Mtmp : rk(");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
+			printHypSetFile(file,partAe); 
 			fprintf(file,"eq H");
-			printHypSetFile(file,partAiBe);
-			fprintf(file,"m%d).\n",rankMinAiB);
-		}
-		else
-		{
-			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partAiBe); 
-			fprintf(file,"mtmp : rk(");
-			fprintf(file,"nil) >= %d) by (solve_hyps_min Hnul",0);
-			printHypSetFile(file,partAiBe);
-			fprintf(file,"eq H");
-			printHypSetFile(file,partAiBe);
-			fprintf(file,"m).\n");
-		}
-		
-		fprintf(file,"\tassert(Hincl : incl (");
-		printSetFile(file,partAiBe);
-		fprintf(file,"nil) (list_inter (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil))) by (repeat clear_all_rk;my_inO).\n");
-		
-		fprintf(file,"\tassert(HT1 : equivlist (");
-		printSetFile(file,partAuBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAe);
-		printSetFile(file,partBe);
-		fprintf(file,"nil)) by (clear_all_rk;my_inO).\n");
-					
-		fprintf(file,"\tassert(HT2 : equivlist (");
-		printSetFile(file,partAe);
-		printSetFile(file,partBe);
-		fprintf(file,"nil) ((");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) ++ (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
+			printHypSetFile(file,partAe);
+			fprintf(file,"M%d).\n",rankMaxA);
+			
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partBe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partBe);
+				fprintf(file,"nil) = %d) by (apply L",rankMaxB);
+				printHypSetFile(file,partBe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(partBe <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}	
 
-		fprintf(file,"\tassert(HT := rule_1 (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAiBe);
-		fprintf(file,"nil) %d %d %d H",rankMaxA,rankMaxB,rankMinAiB);
-		printHypSetFile(file,partAe);
-		fprintf(file,"Mtmp H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"Mtmp H");
-		printHypSetFile(file,partAiBe);
-		fprintf(file,"mtmp Hincl);\n");
-		fprintf(file,"\trewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.\n");
-		fprintf(file,"}\n");
-		
-		if(freeA == 1 && partAe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
+			fprintf(file,"\tassert(H");
+			printHypSetFile(file,partBe); 
+			fprintf(file,"Mtmp : rk(");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
+			printHypSetFile(file,partBe);
+			fprintf(file,"eq H");
+			printHypSetFile(file,partBe);
+			fprintf(file,"M%d).\n",rankMaxB);
+
+			if(partAiB != 0x0)
 			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
+				if(previousConstruct)
+				{
+					fprintf(file,"\ttry assert(H");
+					printHypSetFile(file,partAiBe);
+					fprintf(file,"eq : rk(");
+					printSetFile(file,partAiBe);
+					fprintf(file,"nil) = %d) by (apply L",rankMinAiB);
+					printHypSetFile(file,partAiBe);
+					fprintf(file," with ");
+					
+					for(j = 0; j < stab.size && stabb; j++)
+					{
+						if(partAiBe <= stab.tab[j][1])
+						{
+							for(i = 0; i < stab.tab[j][0]; i++)
+							{
+								fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							}
+							fprintf(file,";try assumption).\n");
+							stabb = 0;
+						}
+					}
+					stabb = 1;
+				}	
+				
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partAiBe); 
+				fprintf(file,"mtmp : rk(");
+				printSetFile(file,partAiBe);
+				fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"m%d).\n",rankMinAiB);
 			}
-			if(dim >= 4)
+			else
 			{
-				while(tmpRankM <= 7)
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partAiBe); 
+				fprintf(file,"mtmp : rk(");
+				fprintf(file,"nil) >= %d) by (solve_hyps_min Hnul",0);
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"m).\n");
+			}
+			
+			fprintf(file,"\tassert(Hincl : incl (");
+			printSetFile(file,partAiBe);
+			fprintf(file,"nil) (list_inter (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil))) by (repeat clear_all_rk;my_inO).\n");
+			
+			fprintf(file,"\tassert(HT1 : equivlist (");
+			printSetFile(file,partAuBe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partAe);
+			printSetFile(file,partBe);
+			fprintf(file,"nil)) by (clear_all_rk;my_inO).\n");
+						
+			fprintf(file,"\tassert(HT2 : equivlist (");
+			printSetFile(file,partAe);
+			printSetFile(file,partBe);
+			fprintf(file,"nil) ((");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) ++ (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
+
+			fprintf(file,"\tassert(HT := rule_1 (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partAiBe);
+			fprintf(file,"nil) %d %d %d H",rankMaxA,rankMaxB,rankMinAiB);
+			printHypSetFile(file,partAe);
+			fprintf(file,"Mtmp H");
+			printHypSetFile(file,partBe);
+			fprintf(file,"Mtmp H");
+			printHypSetFile(file,partAiBe);
+			fprintf(file,"mtmp Hincl);\n");
+			fprintf(file,"\trewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.\n");
+			fprintf(file,"}\n");
+			
+			if(freeA == 1 && partAe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
+				}
 			}
 			
-			int tmpRankm;
-			if(dim >= 4)
+			if(freeB == 1 && partBe != res)
 			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeB == 1 && partBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
+				}
 			}
 			
-			int tmpRankm;
-			if(dim >= 4)
+			if(freeAiB == 1 && partAiBe != res)
 			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeAiB == 1 && partAiBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"eq. ");
+				}
 			}
 			
-			int tmpRankm;
-			if(dim >= 4)
+			if(freeAuB == 1 && partAuBe != res)
 			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeAuB == 1 && partAuBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
 			}
-			
-			int tmpRankm;
-			if(dim >= 4)
+			fprintf(file,"\n");
+		}
+		/*_______________________________________________________________
+
+				règle 2 == règle 7 ou 8 de la thèse (ce sont 2 instances 
+							de la même règle gérant sa symétrie)
+		__________________________________________________________________*/
+		else if (n->rule == 2)
+		{
+			//sets + ranks
+			partA = n->e;
+			partAuB = n->ante->n->e;
+			freeAuB = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
+			// freeAuB = checkSuccList(n->ante->n->succ);
+			if(n->ante->next->next->next !=NULL)
 			{
-				tmpRankm = 7;
+				partAiB = n->ante->next->n->e;
+				freeAiB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+				// freeAiB = checkSuccList(n->ante->next->n->succ);
+				partB = n->ante->next->next->n->e;
+				freeB = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
+				// freeB = checkSuccList(n->ante->next->next->n->succ);
+				//oldPart = n->ante->next->next->next->n->e;
+				freeA = checkGenealogie(n->ante->next->next->next->n); // reprise de l'ancienne version dessous
+				//freeA = checkSuccList(n->ante->next->next->next->n->succ);
 			}
 			else
 			{
-				tmpRankm = 4;
+				partAiB = 0x0;
+				freeAiB = 0;
+				partB = n->ante->next->n->e;
+				freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+				// freeB = checkSuccList(n->ante->next->n->succ);
+				//oldPart = n->ante->next->next->n->e;
+				freeA = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
+				// freeA = checkSuccList(n->ante->next->next->n->succ);
 			}
 			
-			while(tmpRankm >= 1)
+			// sets
+			partAe = partA & 0x3FFFFFFFFFFFFFF;
+			partBe = partB & 0x3FFFFFFFFFFFFFF;
+			if(n->ante->next->next->next !=NULL)
 			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
+				partAiBe = partAiB & 0x3FFFFFFFFFFFFFF;
 			}
-		}
-		fprintf(file,"\n");
-	}
-	/*_______________________________________________________________
+			else
+			{
+				partAiBe = 0x0;
+			}
+			partAuBe = partAuB & 0x3FFFFFFFFFFFFFF;
+			
+			// ranks			
+			rankMinA = rankMin(partA);
+			rankMaxA = rankMax(partA);
+			rankMinB = rankMin(partB);
+			rankMaxB = rankMax(partB);
+			if(partAiB != 0x0)
+			{
+				rankMinAiB = rankMin(partAiB);
+				rankMaxAiB = rankMax(partAiB);
+			}
+			else
+			{
+				rankMinAiB = 0;
+				rankMaxAiB = 0;
+			}
+			rankMinAuB = rankMin(partAuB);
+			rankMaxAuB = rankMax(partAuB);
+			//oldRankMin = rankMin(oldPart);
+			
+			// export
+			fprintf(file,"\n");
+			fprintf(file,"(* Application de la règle 2 code (7 ou 8 dans la thèse) *)\n");
+			
+			fprintf(file,"assert(H");
+			printHypSetFile(file,partAe);
+			fprintf(file,"m%d : rk(",rankMinA);
+			printSetFile(file,partAe);
+			fprintf(file,"nil) >= %d).\n",rankMinA);
+			fprintf(file,"{\n");
 
-			règle 2 == règle 7 ou 8 de la thèse (ce sont 2 instances 
-						de la même règle gérant sa symétrie)
-	__________________________________________________________________*/
-	else if (n->rule == 2)
-	{
-		//sets + ranks
-		partA = n->e;
-		partAuB = n->ante->n->e;
-		freeAuB = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
-		// freeAuB = checkSuccList(n->ante->n->succ);
-		if(n->ante->next->next->next !=NULL)
-		{
-			partAiB = n->ante->next->n->e;
-			freeAiB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
-			// freeAiB = checkSuccList(n->ante->next->n->succ);
-			partB = n->ante->next->next->n->e;
-			freeB = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
-			// freeB = checkSuccList(n->ante->next->next->n->succ);
-			//oldPart = n->ante->next->next->next->n->e;
-			freeA = checkGenealogie(n->ante->next->next->next->n); // reprise de l'ancienne version dessous
-			//freeA = checkSuccList(n->ante->next->next->next->n->succ);
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partBe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partBe);
+				fprintf(file,"nil) = %d) by (apply L",rankMaxB);
+				printHypSetFile(file,partBe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(partBe <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\tassert(H");
+			printHypSetFile(file,partBe); 
+			fprintf(file,"Mtmp : rk(");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
+			printHypSetFile(file,partBe);
+			fprintf(file,"eq H");
+			printHypSetFile(file,partBe);
+			fprintf(file,"M%d).\n",rankMaxB);
+			
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partAuBe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partAuBe);
+				fprintf(file,"nil) = %d) by (apply L",rankMinAuB);
+				printHypSetFile(file,partAuBe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(partAuBe <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+			
+			fprintf(file,"\tassert(H");
+			printHypSetFile(file,partAuBe); 
+			fprintf(file,"mtmp : rk(");
+			printSetFile(file,partAuBe);
+			fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAuB);
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"eq H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"m%d).\n",rankMinAuB);
+			
+			if(partAiB != 0x0)
+			{
+				if(previousConstruct)
+				{
+					fprintf(file,"\ttry assert(H");
+					printHypSetFile(file,partAiBe);
+					fprintf(file,"eq : rk(");
+					printSetFile(file,partAiBe);
+					fprintf(file,"nil) = %d) by (apply L",rankMinAiB);
+					printHypSetFile(file,partAiBe);
+					fprintf(file," with ");
+					
+					for(j = 0; j < stab.size && stabb; j++)
+					{
+						if(partAiBe <= stab.tab[j][1])
+						{
+							for(i = 0; i < stab.tab[j][0]; i++)
+							{
+								fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							}
+							fprintf(file,";try assumption).\n");
+							stabb = 0;
+						}
+					}
+					stabb = 1;
+				}
+				
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partAiBe); 
+				fprintf(file,"mtmp : rk(");
+				printSetFile(file,partAiBe);
+				fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"m%d).\n",rankMinAiB);
+			}
+			else
+			{
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partAiBe); 
+				fprintf(file,"mtmp : rk(");
+				fprintf(file,"nil) >= %d) by (solve_hyps_min Hnul",0);
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"m).\n");
+			}
+			
+			fprintf(file,"\tassert(Hincl : incl (");
+			printSetFile(file,partAiBe);
+			fprintf(file,"nil) (list_inter (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil))) by (repeat clear_all_rk;my_inO).\n");
+			
+			fprintf(file,"\tassert(HT1 : equivlist (");
+			printSetFile(file,partAuBe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partAe);
+			printSetFile(file,partBe);
+			fprintf(file,"nil)) by (clear_all_rk;my_inO).\n");
+						
+			fprintf(file,"\tassert(HT2 : equivlist (");
+			printSetFile(file,partAe);
+			printSetFile(file,partBe);
+			fprintf(file,"nil) ((");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) ++ (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
+			
+			fprintf(file,"\ttry rewrite HT1 in H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp;try rewrite HT2 in H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp.\n");
+			
+			fprintf(file,"\tassert(HT := rule_2 (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partAiBe);
+			fprintf(file,"nil) %d %d %d H",rankMinAuB,rankMinAiB,rankMaxB);
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp H");
+			printHypSetFile(file,partAiBe);
+			fprintf(file,"mtmp H");
+			printHypSetFile(file,partBe);
+			fprintf(file,"Mtmp Hincl);apply HT.\n");
+			fprintf(file,"}\n");
+			
+			if(freeA == 1 && partAe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
+				}
+			}
+			
+			if(freeB == 1 && partBe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
+				}
+			}
+			
+			if(freeAiB == 1 && partAiBe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"eq. ");
+				}
+			}
+			
+			if(freeAuB == 1 && partAuBe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+			}
+			fprintf(file,"\n");
 		}
-		else
-		{
-			partAiB = 0x0;
-			freeAiB = 0;
+		/*_______________________________________________________________
+
+				règle 3 == règle 6  de la thèse
+		__________________________________________________________________*/
+		else if (n->rule == 3)
+		{	
+			//sets + ranks 
+			partAiB = n->e;
+			partA = n->ante->n->e;
+			freeA = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
+			// freeA = checkSuccList(n->ante->n->succ);
 			partB = n->ante->next->n->e;
 			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
 			// freeB = checkSuccList(n->ante->next->n->succ);
-			//oldPart = n->ante->next->next->n->e;
-			freeA = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
-			// freeA = checkSuccList(n->ante->next->next->n->succ);
-		}
-		
-		// sets
-		partAe = partA & 0x3FFFFFFFFFFFFFF;
-		partBe = partB & 0x3FFFFFFFFFFFFFF;
-		if(n->ante->next->next->next !=NULL)
-		{
+			partAuB = n->ante->next->next->n->e;
+			freeAuB = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
+			// freeAuB = checkSuccList(n->ante->next->next->n->succ);
+			if(n->ante->next->next->next !=NULL)
+			{
+				//oldPart = n->ante->next->next->next->n->e;
+				freeAiB = checkGenealogie(n->ante->next->next->next->n); // reprise de l'ancienne version dessous
+				// freeAiB = checkSuccList(n->ante->next->next->next->n->succ);
+			}
+			else
+			{
+				freeAiB = 0;
+			}
+			
+			// sets
+			partAe = partA & 0x3FFFFFFFFFFFFFF;
+			partBe = partB & 0x3FFFFFFFFFFFFFF;
+			partAuBe = partAuB & 0x3FFFFFFFFFFFFFF;
 			partAiBe = partAiB & 0x3FFFFFFFFFFFFFF;
-		}
-		else
-		{
-			partAiBe = 0x0;
-		}
-		partAuBe = partAuB & 0x3FFFFFFFFFFFFFF;
-		
-		// ranks			
-		rankMinA = rankMin(partA);
-		rankMaxA = rankMax(partA);
-		rankMinB = rankMin(partB);
-		rankMaxB = rankMax(partB);
-		if(partAiB != 0x0)
-		{
+
+			// ranks			
+			rankMinA = rankMin(partA);
+			rankMaxA = rankMax(partA);
+			rankMinB = rankMin(partB);
+			rankMaxB = rankMax(partB);
 			rankMinAiB = rankMin(partAiB);
 			rankMaxAiB = rankMax(partAiB);
-		}
-		else
-		{
-			rankMinAiB = 0;
-			rankMaxAiB = 0;
-		}
-		rankMinAuB = rankMin(partAuB);
-		rankMaxAuB = rankMax(partAuB);
-		//oldRankMin = rankMin(oldPart);
-		
-		// export
-		fprintf(file,"\n");
-		fprintf(file,"(* Application de la règle 2 code (7 ou 8 dans la thèse) *)\n");
-		
-		fprintf(file,"assert(H");
-		printHypSetFile(file,partAe);
-		fprintf(file,"m%d : rk(",rankMinA);
-		printSetFile(file,partAe);
-		fprintf(file,"nil) >= %d).\n",rankMinA);
-		fprintf(file,"{\n");
-
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partBe);
-			fprintf(file,"eq : rk(");
-			printSetFile(file,partBe);
-			fprintf(file,"nil) = %d) by (apply L",rankMaxB);
-			printHypSetFile(file,partBe);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
+			rankMinAuB = rankMin(partAuB);
+			rankMaxAuB = rankMax(partAuB);
+			if(n->ante->next->next->next !=NULL)
 			{
-				if(partBe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
+				//oldRankMax = rankMax(oldPart);
 			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partBe); 
-		fprintf(file,"Mtmp : rk(");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
-		printHypSetFile(file,partBe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"M%d).\n",rankMaxB);
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partAuBe);
-			fprintf(file,"eq : rk(");
-			printSetFile(file,partAuBe);
-			fprintf(file,"nil) = %d) by (apply L",rankMinAuB);
-			printHypSetFile(file,partAuBe);
-			fprintf(file," with ");
 			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(partAuBe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
+			// export
+			fprintf(file,"\n");
+			fprintf(file,"(* Application de la règle 3 code (6 dans la thèse) *)\n");
+			
+			fprintf(file,"assert(H");
+			printHypSetFile(file,partAiBe);
+			fprintf(file,"M%d : rk(",rankMaxAiB);
+			printSetFile(file,partAiBe);
+			fprintf(file,"nil) <= %d).\n",rankMaxAiB);
+			fprintf(file,"{\n");
 		
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partAuBe); 
-		fprintf(file,"mtmp : rk(");
-		printSetFile(file,partAuBe);
-		fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAuB);
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"m%d).\n",rankMinAuB);
-		
-		if(partAiB != 0x0)
-		{
 			if(previousConstruct)
 			{
 				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,partAiBe);
+				printHypSetFile(file,partAe);
 				fprintf(file,"eq : rk(");
-				printSetFile(file,partAiBe);
-				fprintf(file,"nil) = %d) by (apply L",rankMinAiB);
-				printHypSetFile(file,partAiBe);
+				printSetFile(file,partAe);
+				fprintf(file,"nil) = %d) by (apply L",rankMaxA);
+				printHypSetFile(file,partAe);
 				fprintf(file," with ");
 				
 				for(j = 0; j < stab.size && stabb; j++)
 				{
-					if(partAiBe <= stab.tab[j][1])
+					if(partAe <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\tassert(H");
+			printHypSetFile(file,partAe); 
+			fprintf(file,"Mtmp : rk(");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
+			printHypSetFile(file,partAe);
+			fprintf(file,"eq H");
+			printHypSetFile(file,partAe);
+			fprintf(file,"M%d).\n",rankMaxA);
+			
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partBe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partBe);
+				fprintf(file,"nil) = %d) by (apply L",rankMaxB);
+				printHypSetFile(file,partBe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(partBe <= stab.tab[j][1])
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
@@ -2043,743 +2395,865 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			}
 			
 			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partAiBe); 
-			fprintf(file,"mtmp : rk(");
-			printSetFile(file,partAiBe);
-			fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
-			printHypSetFile(file,partAiBe);
-			fprintf(file,"eq H");
-			printHypSetFile(file,partAiBe);
-			fprintf(file,"m%d).\n",rankMinAiB);
-		}
-		else
-		{
-			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partAiBe); 
-			fprintf(file,"mtmp : rk(");
-			fprintf(file,"nil) >= %d) by (solve_hyps_min Hnul",0);
-			printHypSetFile(file,partAiBe);
-			fprintf(file,"eq H");
-			printHypSetFile(file,partAiBe);
-			fprintf(file,"m).\n");
-		}
-		
-		fprintf(file,"\tassert(Hincl : incl (");
-		printSetFile(file,partAiBe);
-		fprintf(file,"nil) (list_inter (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil))) by (repeat clear_all_rk;my_inO).\n");
-		
-		fprintf(file,"\tassert(HT1 : equivlist (");
-		printSetFile(file,partAuBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAe);
-		printSetFile(file,partBe);
-		fprintf(file,"nil)) by (clear_all_rk;my_inO).\n");
-					
-		fprintf(file,"\tassert(HT2 : equivlist (");
-		printSetFile(file,partAe);
-		printSetFile(file,partBe);
-		fprintf(file,"nil) ((");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) ++ (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
-		
-		fprintf(file,"\ttry rewrite HT1 in H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"mtmp;try rewrite HT2 in H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"mtmp.\n");
-		
-		fprintf(file,"\tassert(HT := rule_2 (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAiBe);
-		fprintf(file,"nil) %d %d %d H",rankMinAuB,rankMinAiB,rankMaxB);
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"mtmp H");
-		printHypSetFile(file,partAiBe);
-		fprintf(file,"mtmp H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"Mtmp Hincl);apply HT.\n");
-		fprintf(file,"}\n");
-		
-		if(freeA == 1 && partAe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeB == 1 && partBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeAiB == 1 && partAiBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeAuB == 1 && partAuBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-		}
-		fprintf(file,"\n");
-	}
-	/*_______________________________________________________________
-
-			règle 3 == règle 6  de la thèse
-	__________________________________________________________________*/
-	else if (n->rule == 3)
-	{	
-		//sets + ranks 
-		partAiB = n->e;
-		partA = n->ante->n->e;
-		freeA = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
-		// freeA = checkSuccList(n->ante->n->succ);
-		partB = n->ante->next->n->e;
-		freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
-		// freeB = checkSuccList(n->ante->next->n->succ);
-		partAuB = n->ante->next->next->n->e;
-		freeAuB = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
-		// freeAuB = checkSuccList(n->ante->next->next->n->succ);
-		if(n->ante->next->next->next !=NULL)
-		{
-			//oldPart = n->ante->next->next->next->n->e;
-			freeAiB = checkGenealogie(n->ante->next->next->next->n); // reprise de l'ancienne version dessous
-			// freeAiB = checkSuccList(n->ante->next->next->next->n->succ);
-		}
-		else
-		{
-			freeAiB = 0;
-		}
-		
-		// sets
-		partAe = partA & 0x3FFFFFFFFFFFFFF;
-		partBe = partB & 0x3FFFFFFFFFFFFFF;
-		partAuBe = partAuB & 0x3FFFFFFFFFFFFFF;
-		partAiBe = partAiB & 0x3FFFFFFFFFFFFFF;
-
-		// ranks			
-		rankMinA = rankMin(partA);
-		rankMaxA = rankMax(partA);
-		rankMinB = rankMin(partB);
-		rankMaxB = rankMax(partB);
-		rankMinAiB = rankMin(partAiB);
-		rankMaxAiB = rankMax(partAiB);
-		rankMinAuB = rankMin(partAuB);
-		rankMaxAuB = rankMax(partAuB);
-		if(n->ante->next->next->next !=NULL)
-		{
-			//oldRankMax = rankMax(oldPart);
-		}
-		
-		// export
-		fprintf(file,"\n");
-		fprintf(file,"(* Application de la règle 3 code (6 dans la thèse) *)\n");
-		
-		fprintf(file,"assert(H");
-		printHypSetFile(file,partAiBe);
-		fprintf(file,"M%d : rk(",rankMaxAiB);
-		printSetFile(file,partAiBe);
-		fprintf(file,"nil) <= %d).\n",rankMaxAiB);
-		fprintf(file,"{\n");
-	
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partAe);
-			fprintf(file,"eq : rk(");
-			printSetFile(file,partAe);
-			fprintf(file,"nil) = %d) by (apply L",rankMaxA);
-			printHypSetFile(file,partAe);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(partAe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partAe); 
-		fprintf(file,"Mtmp : rk(");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
-		printHypSetFile(file,partAe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partAe);
-		fprintf(file,"M%d).\n",rankMaxA);
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partBe);
-			fprintf(file,"eq : rk(");
+			printHypSetFile(file,partBe); 
+			fprintf(file,"Mtmp : rk(");
 			printSetFile(file,partBe);
-			fprintf(file,"nil) = %d) by (apply L",rankMaxB);
+			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
 			printHypSetFile(file,partBe);
-			fprintf(file," with ");
+			fprintf(file,"eq H");
+			printHypSetFile(file,partBe);
+			fprintf(file,"M%d).\n",rankMaxB);
 			
-			for(j = 0; j < stab.size && stabb; j++)
+			if(previousConstruct)
 			{
-				if(partBe <= stab.tab[j][1])
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partAuBe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partAuBe);
+				fprintf(file,"nil) = %d) by (apply L",rankMinAuB);
+				printHypSetFile(file,partAuBe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
 				{
-					for(i = 0; i < stab.tab[j][0]; i++)
+					if(partAuBe <= stab.tab[j][1])
 					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
 					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
 				}
+				stabb = 1;
 			}
-			stabb = 1;
-		}
-		
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partBe); 
-		fprintf(file,"Mtmp : rk(");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
-		printHypSetFile(file,partBe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"M%d).\n",rankMaxB);
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partAuBe);
-			fprintf(file,"eq : rk(");
+
+			fprintf(file,"\tassert(H");
+			printHypSetFile(file,partAuBe); 
+			fprintf(file,"mtmp : rk(");
 			printSetFile(file,partAuBe);
-			fprintf(file,"nil) = %d) by (apply L",rankMinAuB);
+			fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAuB);
 			printHypSetFile(file,partAuBe);
-			fprintf(file," with ");
+			fprintf(file,"eq H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"m%d).\n",rankMinAuB);
+
+			fprintf(file,"\tassert(Hincl : incl (");
+			printSetFile(file,partAiBe);
+			fprintf(file,"nil) (list_inter (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil))) by (repeat clear_all_rk;my_inO).\n");
 			
-			for(j = 0; j < stab.size && stabb; j++)
+			fprintf(file,"\tassert(HT1 : equivlist (");
+			printSetFile(file,partAuBe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partAe);
+			printSetFile(file,partBe);
+			fprintf(file,"nil)) by (clear_all_rk;my_inO).\n");
+						
+			fprintf(file,"\tassert(HT2 : equivlist (");
+			printSetFile(file,partAe);
+			printSetFile(file,partBe);
+			fprintf(file,"nil) ((");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) ++ (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
+			
+			fprintf(file,"\ttry rewrite HT1 in H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp;try rewrite HT2 in H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp.\n");
+			
+			fprintf(file,"\tassert(HT := rule_3 (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partAiBe);
+			fprintf(file,"nil) %d %d %d H",rankMaxA,rankMaxB,rankMinAuB);
+			printHypSetFile(file,partAe);
+			fprintf(file,"Mtmp H");
+			printHypSetFile(file,partBe);
+			fprintf(file,"Mtmp H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp Hincl);apply HT.\n");
+			fprintf(file,"}\n");
+			
+			if(freeA == 1 && partAe != res)
 			{
-				if(partAuBe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partAuBe); 
-		fprintf(file,"mtmp : rk(");
-		printSetFile(file,partAuBe);
-		fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAuB);
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"m%d).\n",rankMinAuB);
-
-		fprintf(file,"\tassert(Hincl : incl (");
-		printSetFile(file,partAiBe);
-		fprintf(file,"nil) (list_inter (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil))) by (repeat clear_all_rk;my_inO).\n");
-		
-		fprintf(file,"\tassert(HT1 : equivlist (");
-		printSetFile(file,partAuBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAe);
-		printSetFile(file,partBe);
-		fprintf(file,"nil)) by (clear_all_rk;my_inO).\n");
-					
-		fprintf(file,"\tassert(HT2 : equivlist (");
-		printSetFile(file,partAe);
-		printSetFile(file,partBe);
-		fprintf(file,"nil) ((");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) ++ (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
-		
-		fprintf(file,"\ttry rewrite HT1 in H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"mtmp;try rewrite HT2 in H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"mtmp.\n");
-		
-		fprintf(file,"\tassert(HT := rule_3 (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAiBe);
-		fprintf(file,"nil) %d %d %d H",rankMaxA,rankMaxB,rankMinAuB);
-		printHypSetFile(file,partAe);
-		fprintf(file,"Mtmp H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"Mtmp H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"mtmp Hincl);apply HT.\n");
-		fprintf(file,"}\n");
-		
-		if(freeA == 1 && partAe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
+				}
 			}
 			
-			int tmpRankm;
-			if(dim >= 4)
+			if(freeB == 1 && partBe != res)
 			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeB == 1 && partBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
+				}
 			}
 			
-			int tmpRankm;
-			if(dim >= 4)
+			if(freeAiB == 1 && partAiBe != res)
 			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeAiB == 1 && partAiBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"eq. ");
+				}
 			}
 			
-			int tmpRankm;
-			if(dim >= 4)
+			if(freeAuB == 1 && partAuBe != res)
 			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeAuB == 1 && partAuBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
 			}
+			fprintf(file,"\n");
+		}
+		/*_______________________________________________________________
+
+				règle 4 == règle 7 ou 8 de la thèse (voir règle 2)
+		__________________________________________________________________*/
+		else if (n->rule == 4)
+		{
+			//sets + ranks 
+			partB = n->e;
+			partAuB = n->ante->n->e;
+			freeAuB = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
+			// freeAuB = checkSuccList(n->ante->n->succ);
 			
-			int tmpRankm;
-			if(dim >= 4)
+			if(n->ante->next->next->next !=NULL)
 			{
-				tmpRankm = 7;
+				partAiB = n->ante->next->n->e;
+				freeAiB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+				// freeAiB = checkSuccList(n->ante->next->n->succ);
+				partA = n->ante->next->next->n->e;
+				freeA = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
+				// freeA = checkSuccList(n->ante->next->next->n->succ);
+				//oldPart = n->ante->next->next->next->n->e;
+				freeB = checkGenealogie(n->ante->next->next->next->n); // reprise de l'ancienne version dessous
+				// freeB = checkSuccList(n->ante->next->next->next->n->succ);
 			}
 			else
 			{
-				tmpRankm = 4;
+				partAiB = 0x0;
+				freeAiB = 0;
+				partA = n->ante->next->n->e;
+				freeA = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+				// freeA = checkSuccList(n->ante->next->n->succ);
+				//oldPart = n->ante->next->next->n->e;
+				freeB = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version  dessous
+				// freeB = checkSuccList(n->ante->next->next->n->succ);
 			}
 			
-			while(tmpRankm >= 1)
+			// sets
+			partAe = partA & 0x3FFFFFFFFFFFFFF;
+			partBe = partB & 0x3FFFFFFFFFFFFFF;
+			if(n->ante->next->next->next !=NULL)
 			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
+				partAiBe = partAiB & 0x3FFFFFFFFFFFFFF;
 			}
-		}
-		fprintf(file,"\n");
-	}
-	/*_______________________________________________________________
+			else
+			{
+				partAiBe = 0x0;
+			}
+			partAuBe = partAuB & 0x3FFFFFFFFFFFFFF;
+			
+			// ranks			
+			rankMinA = rankMin(partA);
+			rankMaxA = rankMax(partA);
+			rankMinB = rankMin(partB);
+			rankMaxB = rankMax(partB);
+			if(partAiB != 0x0)
+			{
+				rankMinAiB = rankMin(partAiB);
+				rankMaxAiB = rankMax(partAiB);
+			}
+			else
+			{
+				rankMinAiB = 0;
+				rankMaxAiB = 0;
+			}
+			rankMinAuB = rankMin(partAuB);
+			rankMaxAuB = rankMax(partAuB);
+			//oldRankMin = rankMin(oldPart);
+			
+			// export
+			fprintf(file,"\n");
+			fprintf(file,"(* Application de la règle 4 code (7 ou 8 dans la thèse) *)\n");
 
-			règle 4 == règle 7 ou 8 de la thèse (voir règle 2)
-	__________________________________________________________________*/
-	else if (n->rule == 4)
-	{
-		//sets + ranks 
-		partB = n->e;
-		partAuB = n->ante->n->e;
-		freeAuB = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
-		// freeAuB = checkSuccList(n->ante->n->succ);
-		
-		if(n->ante->next->next->next !=NULL)
-		{
-			partAiB = n->ante->next->n->e;
-			freeAiB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
-			// freeAiB = checkSuccList(n->ante->next->n->succ);
-			partA = n->ante->next->next->n->e;
-			freeA = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version dessous
-			// freeA = checkSuccList(n->ante->next->next->n->succ);
-			//oldPart = n->ante->next->next->next->n->e;
-			freeB = checkGenealogie(n->ante->next->next->next->n); // reprise de l'ancienne version dessous
-			// freeB = checkSuccList(n->ante->next->next->next->n->succ);
+			fprintf(file,"assert(H");
+			printHypSetFile(file,partBe);
+			fprintf(file,"m%d : rk(",rankMinB);
+			printSetFile(file,partBe);
+			fprintf(file,"nil) >= %d).\n",rankMinB);
+			fprintf(file,"{\n");
+			
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partAe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partAe);
+				fprintf(file,"nil) = %d) by (apply L",rankMaxA);
+				printHypSetFile(file,partAe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(partAe <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\tassert(H");
+			printHypSetFile(file,partAe); 
+			fprintf(file,"Mtmp : rk(");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
+			printHypSetFile(file,partAe);
+			fprintf(file,"eq H");
+			printHypSetFile(file,partAe);
+			fprintf(file,"M%d).\n",rankMaxA);
+			
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partAuBe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partAuBe);
+				fprintf(file,"nil) = %d) by (apply L",rankMinAuB);
+				printHypSetFile(file,partAuBe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(partAuBe <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+			
+			fprintf(file,"\tassert(H");
+			printHypSetFile(file,partAuBe); 
+			fprintf(file,"mtmp : rk(");
+			printSetFile(file,partAuBe);
+			fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAuB);
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"eq H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"m%d).\n",rankMinAuB);
+			
+			if(partAiB != 0x0)
+			{
+				if(previousConstruct)
+				{
+					fprintf(file,"\ttry assert(H");
+					printHypSetFile(file,partAiBe);
+					fprintf(file,"eq : rk(");
+					printSetFile(file,partAiBe);
+					fprintf(file,"nil) = %d) by (apply L",rankMinAiB);
+					printHypSetFile(file,partAiBe);
+					fprintf(file," with ");
+					
+					for(j = 0; j < stab.size && stabb; j++)
+					{
+						if(partAiBe <= stab.tab[j][1])
+						{
+							for(i = 0; i < stab.tab[j][0]; i++)
+							{
+								fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							}
+							fprintf(file,";try assumption).\n");
+							stabb = 0;
+						}
+					}
+					stabb = 1;
+				}
+				
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partAiBe); 
+				fprintf(file,"mtmp : rk(");
+				printSetFile(file,partAiBe);
+				fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"m%d).\n",rankMinAiB);
+			}
+			else
+			{
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partAiBe); 
+				fprintf(file,"mtmp : rk(");
+				fprintf(file,"nil) >= %d) by (solve_hyps_min Hnul",0);
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partAiBe);
+				fprintf(file,"m).\n");;
+			}
+			
+			fprintf(file,"\tassert(Hincl : incl (");
+			printSetFile(file,partAiBe);
+			fprintf(file,"nil) (list_inter (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil))) by (repeat clear_all_rk;my_inO).\n");
+			
+			fprintf(file,"\tassert(HT1 : equivlist (");
+			printSetFile(file,partAuBe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partAe);
+			printSetFile(file,partBe);
+			fprintf(file,"nil)) by (clear_all_rk;my_inO).\n");
+						
+			fprintf(file,"\tassert(HT2 : equivlist (");
+			printSetFile(file,partAe);
+			printSetFile(file,partBe);
+			fprintf(file,"nil) ((");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) ++ (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
+			
+			fprintf(file,"\ttry rewrite HT1 in H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp;try rewrite HT2 in H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp.\n");
+			
+			fprintf(file,"\tassert(HT := rule_4 (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partAiBe);
+			fprintf(file,"nil) %d %d %d H",rankMinAuB,rankMinAiB,rankMaxA);
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp H");
+			printHypSetFile(file,partAiBe);
+			fprintf(file,"mtmp H");
+			printHypSetFile(file,partAe);
+			fprintf(file,"Mtmp Hincl); apply HT.\n");
+			fprintf(file,"}\n");
+			
+			if(freeA == 1 && partAe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
+				}
+			}
+			
+			if(freeB == 1 && partBe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
+				}
+			}
+			
+			if(freeAiB == 1 && partAiBe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"eq. ");
+				}
+			}
+			
+			if(freeAuB == 1 && partAuBe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+			}
+			fprintf(file,"\n");
 		}
-		else
+		/*_______________________________________________________________
+
+				règle 5 == règle  1  de la thèse
+				ou peut etre  2 ou 3 ou 4, plutôt 1 minB >= minA
+		__________________________________________________________________*/
+		else if (n->rule == 5)
 		{
-			partAiB = 0x0;
-			freeAiB = 0;
-			partA = n->ante->next->n->e;
+			//sets + ranks 
+			
+			partB = n->e;
+			partA = n->ante->n->e;
+			freeA = checkGenealogie(n->ante->n); // reprise de l'ancienne version  dessous
+			// freeA = checkSuccList(n->ante->n->succ);
+			//oldPart = n->ante->next->n->e;
+			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeB = checkSuccList(n->ante->next->n->succ);
+			
+			// sets
+			partAe = SetFrom(partA);
+			partBe = SetFrom(partB);
+			// ranks			
+			rankMinA = rankMin(partA);
+			rankMaxA = rankMax(partA);
+			rankMinB = rankMin(partB);
+			rankMaxB = rankMax(partB);
+			//oldRankMin = rankMin(oldPart);
+			
+			// export
+			fprintf(file,"\n");
+			fprintf(file,"(* Application de la règle 5 code (1 ou 2 dans la thèse) *)\n");
+			fprintf(file,"(* marque de l'antécédent : %d *)\n",n->ante->n->mark);
+			if(print_trace){DEB_PS("(* Application de la règle 5 code (1 ou 2 dans la thèse) *)\n");}
+			
+			fprintf(file,"assert(H");
+			printHypSetFile(file,partBe);
+			fprintf(file,"m%d : rk(",rankMinA);
+			printSetFile(file,partBe);
+			fprintf(file,"nil) >= %d).\n",rankMinA);
+			fprintf(file,"{\n");
+			
+			//
+			// cette partie n'a de sens que si le lemme a déjà été construit
+			// c'était je pense de previousConstruct, mais dans cette version
+			// on dirait que la valeur de cette variable est toujours true
+			// if(previousConstruct) // ancienne version
+			if(n->ante->n->mark==PROOF_ALREADY_DONE) // tentative de simplification .... 
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partAe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partAe);
+				fprintf(file,"nil) = %d) by (apply L",rankMinA);
+				printHypSetFile(file,partAe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(partAe <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+			else	// suite de la tentative de simplif (pas de else avant)
+			{
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partAe); 
+				fprintf(file,"mtmp : rk(");
+				printSetFile(file,partAe);
+				fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinA);
+				printHypSetFile(file,partAe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partAe);
+				fprintf(file,"m%d).\n",rankMinA);
+				
+				fprintf(file,"\tassert(Hcomp : ");
+				fprintf(file,"%d <= %d",rankMinA,rankMinB);
+				fprintf(file,") by (repeat constructor).\n");
+				
+				fprintf(file,"\tassert(Hincl : incl (");
+				printSetFile(file,partAe);
+				fprintf(file,"nil) (");
+				printSetFile(file,partBe);
+				fprintf(file,"nil)) by (repeat clear_all_rk;my_inO).\n");
+			
+				fprintf(file,"\tassert(HT := rule_5 (");
+				printSetFile(file,partAe);
+				fprintf(file,"nil) (");
+				printSetFile(file,partBe);
+				fprintf(file,"nil) %d %d H",rankMinA,rankMinB);
+				printHypSetFile(file,partAe);
+				fprintf(file,"mtmp Hcomp Hincl);apply HT.\n");
+				fprintf(file,"}\n");
+			}
+			if(freeA == 1 && partAe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
+				}
+			}
+			
+			if(freeB == 1 && partBe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
+				}
+			}
+			fprintf(file,"\n");
+		}
+		/*_______________________________________________________________
+
+				règle 6 == règle  3 ou 4  de la thèse
+					maxA <= maxB
+		__________________________________________________________________*/		
+		else if (n->rule == 6)
+		{
+			//sets + ranks 
+			partA = n->e;
+			partB = n->ante->n->e;
+			freeB = checkGenealogie(n->ante->n); // reprise de l'ancienne version  dessous
+			// freeB = checkSuccList(n->ante->n->succ);
+			//oldPart = n->ante->next->n->e;
 			freeA = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
 			// freeA = checkSuccList(n->ante->next->n->succ);
-			//oldPart = n->ante->next->next->n->e;
-			freeB = checkGenealogie(n->ante->next->next->n); // reprise de l'ancienne version  dessous
-			// freeB = checkSuccList(n->ante->next->next->n->succ);
-		}
-		
-		// sets
-		partAe = partA & 0x3FFFFFFFFFFFFFF;
-		partBe = partB & 0x3FFFFFFFFFFFFFF;
-		if(n->ante->next->next->next !=NULL)
-		{
-			partAiBe = partAiB & 0x3FFFFFFFFFFFFFF;
-		}
-		else
-		{
-			partAiBe = 0x0;
-		}
-		partAuBe = partAuB & 0x3FFFFFFFFFFFFFF;
-		
-		// ranks			
-		rankMinA = rankMin(partA);
-		rankMaxA = rankMax(partA);
-		rankMinB = rankMin(partB);
-		rankMaxB = rankMax(partB);
-		if(partAiB != 0x0)
-		{
-			rankMinAiB = rankMin(partAiB);
-			rankMaxAiB = rankMax(partAiB);
-		}
-		else
-		{
-			rankMinAiB = 0;
-			rankMaxAiB = 0;
-		}
-		rankMinAuB = rankMin(partAuB);
-		rankMaxAuB = rankMax(partAuB);
-		//oldRankMin = rankMin(oldPart);
-		
-		// export
-		fprintf(file,"\n");
-		fprintf(file,"(* Application de la règle 4 code (7 ou 8 dans la thèse) *)\n");
-
-		fprintf(file,"assert(H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"m%d : rk(",rankMinB);
-		printSetFile(file,partBe);
-		fprintf(file,"nil) >= %d).\n",rankMinB);
-		fprintf(file,"{\n");
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
+			
+			// sets
+			partAe = partA & 0x3FFFFFFFFFFFFFF;
+			partBe = partB & 0x3FFFFFFFFFFFFFF;
+			
+			// ranks			
+			rankMinA = rankMin(partA);
+			rankMaxA = rankMax(partA);
+			rankMinB = rankMin(partB);
+			rankMaxB = rankMax(partB);
+			//oldRankMax = rankMax(oldPart);
+			
+			// export
+			fprintf(file,"\n");
+			fprintf(file,"(* Application de la règle 6 (code, 3 ou 4 dans la thèse) *)\n");
+			fprintf(file,"(* marque de l'antécédent : %d *)\n",n->ante->n->mark);
+			fprintf(file,"assert(H");
 			printHypSetFile(file,partAe);
-			fprintf(file,"eq : rk(");
+			fprintf(file,"M%d : rk(",rankMaxB);
 			printSetFile(file,partAe);
-			fprintf(file,"nil) = %d) by (apply L",rankMaxA);
-			printHypSetFile(file,partAe);
-			fprintf(file," with ");
+			fprintf(file,"nil) <= %d).\n",rankMaxB);
+			fprintf(file,"{\n");
 			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(partAe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partAe); 
-		fprintf(file,"Mtmp : rk(");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
-		printHypSetFile(file,partAe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partAe);
-		fprintf(file,"M%d).\n",rankMaxA);
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partAuBe);
-			fprintf(file,"eq : rk(");
-			printSetFile(file,partAuBe);
-			fprintf(file,"nil) = %d) by (apply L",rankMinAuB);
-			printHypSetFile(file,partAuBe);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(partAuBe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-		
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partAuBe); 
-		fprintf(file,"mtmp : rk(");
-		printSetFile(file,partAuBe);
-		fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAuB);
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"m%d).\n",rankMinAuB);
-		
-		if(partAiB != 0x0)
-		{
-			if(previousConstruct)
+			// if(previousConstruct)	// ancienne version
+			if(n->ante->n->mark==PROOF_ALREADY_DONE) // tentative de simplification de la preuve
 			{
 				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,partAiBe);
+				printHypSetFile(file,partBe);
 				fprintf(file,"eq : rk(");
-				printSetFile(file,partAiBe);
-				fprintf(file,"nil) = %d) by (apply L",rankMinAiB);
-				printHypSetFile(file,partAiBe);
+				printSetFile(file,partBe);
+				fprintf(file,"nil) = %d) by (apply L",rankMaxB);
+				printHypSetFile(file,partBe);
 				fprintf(file," with ");
 				
 				for(j = 0; j < stab.size && stabb; j++)
 				{
-					if(partAiBe <= stab.tab[j][1])
+					if(partBe <= stab.tab[j][1])
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
@@ -2793,1705 +3267,1255 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			}
 			
 			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partAiBe); 
-			fprintf(file,"mtmp : rk(");
-			printSetFile(file,partAiBe);
-			fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
-			printHypSetFile(file,partAiBe);
+			printHypSetFile(file,partBe); 
+			fprintf(file,"Mtmp : rk(");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
+			printHypSetFile(file,partBe);
 			fprintf(file,"eq H");
-			printHypSetFile(file,partAiBe);
-			fprintf(file,"m%d).\n",rankMinAiB);
+			printHypSetFile(file,partBe);
+			fprintf(file,"M%d).\n",rankMaxB);
+			
+			fprintf(file,"\tassert(Hcomp : ");
+			fprintf(file,"%d <= %d",rankMaxB,rankMaxA);
+			fprintf(file,") by (repeat constructor).\n");
+
+			fprintf(file,"\tassert(Hincl : incl (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil)) by (repeat clear_all_rk;my_inO).\n");
+		
+			fprintf(file,"\tassert(HT := rule_6 (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) %d %d H",rankMaxA,rankMaxB);
+			printHypSetFile(file,partBe);
+			fprintf(file,"Mtmp Hcomp Hincl);apply HT.\n");
+			fprintf(file,"}\n");
+			
+			if(freeA == 1 && partAe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
+				}
+			}
+			
+			if(freeB == 1 && partBe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
+				}
+			}
+			fprintf(file,"\n");
 		}
-		else
+		else if (n->rule == 7)
 		{
+			//sets + ranks 
+			partA = n->e;
+			partB = n->ante->n->e;
+			freeB = checkGenealogie(n->ante->n); // reprise de l'ancienne version  dessous
+			// freeB = checkSuccList(n->ante->n->succ);
+			//oldPart = n->ante->next->n->e;
+			freeA = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeA = checkSuccList(n->ante->next->n->succ);
+			
+			// sets
+			partAe = partA & 0x3FFFFFFFFFFFFFF;
+			partBe = partB & 0x3FFFFFFFFFFFFFF;
+			
+			// ranks			
+			rankMinA = rankMin(partA);
+			rankMaxA = rankMax(partA);
+			rankMinB = rankMin(partB);
+			rankMaxB = rankMax(partB);
+			//oldRankMin = rankMin(oldPart);
+			
+			// export
+			fprintf(file,"\n");
+			fprintf(file,"(* Application de la règle 7 (code, 1 ou 2 dans la thèse) *)\n");
+			
+			fprintf(file,"assert(H");
+			printHypSetFile(file,partAe);
+			fprintf(file,"m%d : rk(",rankMinB);
+			printSetFile(file,partAe);
+			fprintf(file,"nil) >= %d).\n",rankMinB);
+			fprintf(file,"{\n");
+			
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partBe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partBe);
+				fprintf(file,"nil) = %d) by (apply L",rankMinB);
+				printHypSetFile(file,partBe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(partBe <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+						
 			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partAiBe); 
+			printHypSetFile(file,partBe); 
 			fprintf(file,"mtmp : rk(");
-			fprintf(file,"nil) >= %d) by (solve_hyps_min Hnul",0);
-			printHypSetFile(file,partAiBe);
+			printSetFile(file,partBe);
+			fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinB);
+			printHypSetFile(file,partBe);
 			fprintf(file,"eq H");
-			printHypSetFile(file,partAiBe);
-			fprintf(file,"m).\n");;
-		}
-		
-		fprintf(file,"\tassert(Hincl : incl (");
-		printSetFile(file,partAiBe);
-		fprintf(file,"nil) (list_inter (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil))) by (repeat clear_all_rk;my_inO).\n");
-		
-		fprintf(file,"\tassert(HT1 : equivlist (");
-		printSetFile(file,partAuBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAe);
-		printSetFile(file,partBe);
-		fprintf(file,"nil)) by (clear_all_rk;my_inO).\n");
-					
-		fprintf(file,"\tassert(HT2 : equivlist (");
-		printSetFile(file,partAe);
-		printSetFile(file,partBe);
-		fprintf(file,"nil) ((");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) ++ (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
-		
-		fprintf(file,"\ttry rewrite HT1 in H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"mtmp;try rewrite HT2 in H");
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"mtmp.\n");
-		
-		fprintf(file,"\tassert(HT := rule_4 (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAiBe);
-		fprintf(file,"nil) %d %d %d H",rankMinAuB,rankMinAiB,rankMaxA);
-		printHypSetFile(file,partAuBe);
-		fprintf(file,"mtmp H");
-		printHypSetFile(file,partAiBe);
-		fprintf(file,"mtmp H");
-		printHypSetFile(file,partAe);
-		fprintf(file,"Mtmp Hincl); apply HT.\n");
-		fprintf(file,"}\n");
-		
-		if(freeA == 1 && partAe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeB == 1 && partBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeAiB == 1 && partAiBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAiBe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeAuB == 1 && partAuBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAuBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-		}
-		fprintf(file,"\n");
-	}
-	/*_______________________________________________________________
-
-			règle 5 == règle  1  de la thèse
-			ou peut etre  2 ou 3 ou 4, plutôt 1 minB >= minA
-	__________________________________________________________________*/
-	else if (n->rule == 5)
-	{
-		//sets + ranks 
-		
-		partB = n->e;
-		partA = n->ante->n->e;
-		freeA = checkGenealogie(n->ante->n); // reprise de l'ancienne version  dessous
-		// freeA = checkSuccList(n->ante->n->succ);
-		//oldPart = n->ante->next->n->e;
-		freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
-		// freeB = checkSuccList(n->ante->next->n->succ);
-		
-		// sets
-		partAe = partA & 0x3FFFFFFFFFFFFFF;
-		partBe = partB & 0x3FFFFFFFFFFFFFF;
-		
-		// ranks			
-		rankMinA = rankMin(partA);
-		rankMaxA = rankMax(partA);
-		rankMinB = rankMin(partB);
-		rankMaxB = rankMax(partB);
-		//oldRankMin = rankMin(oldPart);
-		
-		// export
-		fprintf(file,"\n");
-		fprintf(file,"(* Application de la règle 5 code (1 ou 2 dans la thèse) *)\n");
-		if(print_trace){DEB_PS("(* Application de la règle 5 code (1 ou 2 dans la thèse) *)\n");}
-		
-		fprintf(file,"assert(H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"m%d : rk(",rankMinA);
-		printSetFile(file,partBe);
-		fprintf(file,"nil) >= %d).\n",rankMinA);
-		fprintf(file,"{\n");
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partAe);
-			fprintf(file,"eq : rk(");
-			printSetFile(file,partAe);
-			fprintf(file,"nil) = %d) by (apply L",rankMinA);
-			printHypSetFile(file,partAe);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(partAe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-	
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partAe); 
-		fprintf(file,"mtmp : rk(");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinA);
-		printHypSetFile(file,partAe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partAe);
-		fprintf(file,"m%d).\n",rankMinA);
-		
-		fprintf(file,"\tassert(Hcomp : ");
-		fprintf(file,"%d <= %d",rankMinA,rankMinB);
-		fprintf(file,") by (repeat constructor).\n");
-		
-		fprintf(file,"\tassert(Hincl : incl (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil)) by (repeat clear_all_rk;my_inO).\n");
-	
-		fprintf(file,"\tassert(HT := rule_5 (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) %d %d H",rankMinA,rankMinB);
-		printHypSetFile(file,partAe);
-		fprintf(file,"mtmp Hcomp Hincl);apply HT.\n");
-		fprintf(file,"}\n");
-		
-		if(freeA == 1 && partAe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeB == 1 && partBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
-			}
-		}
-		fprintf(file,"\n");
-	}
-	/*_______________________________________________________________
-
-			règle 6 == règle  3 ou 4  de la thèse
-				maxA <= maxB
-	__________________________________________________________________*/		
-	else if (n->rule == 6)
-	{
-		//sets + ranks 
-		partA = n->e;
-		partB = n->ante->n->e;
-		freeB = checkGenealogie(n->ante->n); // reprise de l'ancienne version  dessous
-		// freeB = checkSuccList(n->ante->n->succ);
-		//oldPart = n->ante->next->n->e;
-		freeA = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
-		// freeA = checkSuccList(n->ante->next->n->succ);
-		
-		// sets
-		partAe = partA & 0x3FFFFFFFFFFFFFF;
-		partBe = partB & 0x3FFFFFFFFFFFFFF;
-		
-		// ranks			
-		rankMinA = rankMin(partA);
-		rankMaxA = rankMax(partA);
-		rankMinB = rankMin(partB);
-		rankMaxB = rankMax(partB);
-		//oldRankMax = rankMax(oldPart);
-		
-		// export
-		fprintf(file,"\n");
-		fprintf(file,"(* Application de la règle 6 (code, 3 ou 4 dans la thèse) *)\n");
-
-		fprintf(file,"assert(H");
-		printHypSetFile(file,partAe);
-		fprintf(file,"M%d : rk(",rankMaxB);
-		printSetFile(file,partAe);
-		fprintf(file,"nil) <= %d).\n",rankMaxB);
-		fprintf(file,"{\n");
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
 			printHypSetFile(file,partBe);
-			fprintf(file,"eq : rk(");
+			fprintf(file,"m%d).\n",rankMinB);
+
+			fprintf(file,"\tassert(Hcomp : ");
+			fprintf(file,"%d >= %d",rankMinB,rankMinA);
+			fprintf(file,") by (repeat constructor).\n");
+			
+			fprintf(file,"\tassert(Hincl : incl (");
 			printSetFile(file,partBe);
-			fprintf(file,"nil) = %d) by (apply L",rankMaxB);
-			printHypSetFile(file,partBe);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(partBe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-		
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partBe); 
-		fprintf(file,"Mtmp : rk(");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
-		printHypSetFile(file,partBe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"M%d).\n",rankMaxB);
-		
-		fprintf(file,"\tassert(Hcomp : ");
-		fprintf(file,"%d <= %d",rankMaxB,rankMaxA);
-		fprintf(file,") by (repeat constructor).\n");
-
-		fprintf(file,"\tassert(Hincl : incl (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil)) by (repeat clear_all_rk;my_inO).\n");
-	
-		fprintf(file,"\tassert(HT := rule_6 (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) %d %d H",rankMaxA,rankMaxB);
-		printHypSetFile(file,partBe);
-		fprintf(file,"Mtmp Hcomp Hincl);apply HT.\n");
-		fprintf(file,"}\n");
-		
-		if(freeA == 1 && partAe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeB == 1 && partBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
-			}
-		}
-		fprintf(file,"\n");
-	}
-	else if (n->rule == 7)
-	{
-		//sets + ranks 
-		partA = n->e;
-		partB = n->ante->n->e;
-		freeB = checkGenealogie(n->ante->n); // reprise de l'ancienne version  dessous
-		// freeB = checkSuccList(n->ante->n->succ);
-		//oldPart = n->ante->next->n->e;
-		freeA = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
-		// freeA = checkSuccList(n->ante->next->n->succ);
-		
-		// sets
-		partAe = partA & 0x3FFFFFFFFFFFFFF;
-		partBe = partB & 0x3FFFFFFFFFFFFFF;
-		
-		// ranks			
-		rankMinA = rankMin(partA);
-		rankMaxA = rankMax(partA);
-		rankMinB = rankMin(partB);
-		rankMaxB = rankMax(partB);
-		//oldRankMin = rankMin(oldPart);
-		
-		// export
-		fprintf(file,"\n");
-		fprintf(file,"(* Application de la règle 7 (code, 1 ou 2 dans la thèse) *)\n");
-		
-		fprintf(file,"assert(H");
-		printHypSetFile(file,partAe);
-		fprintf(file,"m%d : rk(",rankMinB);
-		printSetFile(file,partAe);
-		fprintf(file,"nil) >= %d).\n",rankMinB);
-		fprintf(file,"{\n");
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partBe);
-			fprintf(file,"eq : rk(");
-			printSetFile(file,partBe);
-			fprintf(file,"nil) = %d) by (apply L",rankMinB);
-			printHypSetFile(file,partBe);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(partBe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-					
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partBe); 
-		fprintf(file,"mtmp : rk(");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinB);
-		printHypSetFile(file,partBe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"m%d).\n",rankMinB);
-
-		fprintf(file,"\tassert(Hcomp : ");
-		fprintf(file,"%d >= %d",rankMinB,rankMinA);
-		fprintf(file,") by (repeat constructor).\n");
-		
-		fprintf(file,"\tassert(Hincl : incl (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil)) by (repeat clear_all_rk;my_inO).\n");
-	
-		fprintf(file,"\tassert(HT := rule_7 (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) %d %d H",rankMinA,rankMinB);
-		printHypSetFile(file,partBe);
-		fprintf(file,"mtmp Hcomp Hincl); apply HT.\n");
-		fprintf(file,"}\n");
-		
-		if(freeA == 1 && partAe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeB == 1 && partBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
-				{
-					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-					tmpRankM++;
-				}
-			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
-			}
-		}
-		fprintf(file,"\n");
-	}
-	else if (n->rule == 8)
-	{
-		//sets + ranks 
-		partB = n->e;
-		partA = n->ante->n->e;
-		freeA = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
-		// freeA = checkSuccList(n->ante->n->succ);
-		//oldPart = n->ante->next->n->e;
-		freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
-		// freeB = checkSuccList(n->ante->next->n->succ);
-		
-		// sets
-		partAe = partA & 0x3FFFFFFFFFFFFFF;
-		partBe = partB & 0x3FFFFFFFFFFFFFF;
-		
-		// ranks			
-		rankMinA = rankMin(partA);
-		rankMaxA = rankMax(partA);
-		rankMinB = rankMin(partB);
-		rankMaxB = rankMax(partB);
-		//oldRankMax = rankMax(oldPart);
-		
-		// export
-		fprintf(file,"\n");
-		fprintf(file,"(* Application de la règle 8 (code, 3 ou 4 dans la thèse) *)\n");
-		
-		fprintf(file,"assert(H");
-		printHypSetFile(file,partBe);
-		fprintf(file,"M%d : rk(",rankMaxA);
-		printSetFile(file,partBe);
-		fprintf(file,"nil) <= %d).\n",rankMaxA);
-		fprintf(file,"{\n");
-		
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,partAe);
-			fprintf(file,"eq : rk(");
+			fprintf(file,"nil) (");
 			printSetFile(file,partAe);
-			fprintf(file,"nil) = %d) by (apply L",rankMaxA);
-			printHypSetFile(file,partAe);
-			fprintf(file," with ");
+			fprintf(file,"nil)) by (repeat clear_all_rk;my_inO).\n");
+		
+			fprintf(file,"\tassert(HT := rule_7 (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) %d %d H",rankMinA,rankMinB);
+			printHypSetFile(file,partBe);
+			fprintf(file,"mtmp Hcomp Hincl); apply HT.\n");
+			fprintf(file,"}\n");
 			
-			for(j = 0; j < stab.size && stabb; j++)
+			if(freeA == 1 && partAe != res)
 			{
-				if(partAe <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-		
-		fprintf(file,"\tassert(H");
-		printHypSetFile(file,partAe); 
-		fprintf(file,"Mtmp : rk(");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
-		printHypSetFile(file,partAe);
-		fprintf(file,"eq H");
-		printHypSetFile(file,partAe);
-		fprintf(file,"M%d).\n",rankMaxA);
-		
-		fprintf(file,"\tassert(Hcomp : ");
-		fprintf(file,"%d <= %d",rankMaxA,rankMaxB);
-		fprintf(file,") by (repeat constructor).\n");
-		
-		fprintf(file,"\tassert(Hincl : incl (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil)) by (repeat clear_all_rk;my_inO).\n");
-	
-		fprintf(file,"\tassert(HT := rule_8 (");
-		printSetFile(file,partAe);
-		fprintf(file,"nil) (");
-		printSetFile(file,partBe);
-		fprintf(file,"nil) %d %d H",rankMaxA,rankMaxB);
-		printHypSetFile(file,partAe);
-		fprintf(file,"Mtmp Hcomp Hincl); apply HT.\n");
-		fprintf(file,"}\n");
-		
-		if(freeA == 1 && partAe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
+				}
 			}
 			
-			int tmpRankm;
-			if(dim >= 4)
+			if(freeB == 1 && partBe != res)
 			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
-			}
-		}
-		
-		if(freeB == 1 && partBe != res)
-		{
-			int tmpRankM = 1;
-			while(tmpRankM <= 3)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
-				tmpRankM++;
-			}
-			if(dim >= 4)
-			{
-				while(tmpRankM <= 7)
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
 				{
 					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
 					tmpRankM++;
 				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
+				}
 			}
-			
-			int tmpRankm;
-			if(dim >= 4)
-			{
-				tmpRankm = 7;
-			}
-			else
-			{
-				tmpRankm = 4;
-			}
-			
-			while(tmpRankm >= 1)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
-				tmpRankm--;
-			}
-			if(!previousConstruct)
-			{
-				fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
-			}
+			fprintf(file,"\n");
 		}
-		fprintf(file,"\n");
+		else if (n->rule == 8)
+		{
+			//sets + ranks 
+			partB = n->e;
+			partA = n->ante->n->e;
+			freeA = checkGenealogie(n->ante->n); // reprise de l'ancienne version dessous
+			// freeA = checkSuccList(n->ante->n->succ);
+			//oldPart = n->ante->next->n->e;
+			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
+			// freeB = checkSuccList(n->ante->next->n->succ);
+			
+			// sets
+			partAe = partA & 0x3FFFFFFFFFFFFFF;
+			partBe = partB & 0x3FFFFFFFFFFFFFF;
+			
+			// ranks			
+			rankMinA = rankMin(partA);
+			rankMaxA = rankMax(partA);
+			rankMinB = rankMin(partB);
+			rankMaxB = rankMax(partB);
+			//oldRankMax = rankMax(oldPart);
+			
+			// export
+			fprintf(file,"\n");
+			fprintf(file,"(* Application de la règle 8 (code, 3 ou 4 dans la thèse) *)\n");
+			
+			fprintf(file,"assert(H");
+			printHypSetFile(file,partBe);
+			fprintf(file,"M%d : rk(",rankMaxA);
+			printSetFile(file,partBe);
+			fprintf(file,"nil) <= %d).\n",rankMaxA);
+			fprintf(file,"{\n");
+			
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,partAe);
+				fprintf(file,"eq : rk(");
+				printSetFile(file,partAe);
+				fprintf(file,"nil) = %d) by (apply L",rankMaxA);
+				printHypSetFile(file,partAe);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(partAe <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+			
+			fprintf(file,"\tassert(H");
+			printHypSetFile(file,partAe); 
+			fprintf(file,"Mtmp : rk(");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
+			printHypSetFile(file,partAe);
+			fprintf(file,"eq H");
+			printHypSetFile(file,partAe);
+			fprintf(file,"M%d).\n",rankMaxA);
+			
+			fprintf(file,"\tassert(Hcomp : ");
+			fprintf(file,"%d <= %d",rankMaxA,rankMaxB);
+			fprintf(file,") by (repeat constructor).\n");
+			
+			fprintf(file,"\tassert(Hincl : incl (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil)) by (repeat clear_all_rk;my_inO).\n");
+		
+			fprintf(file,"\tassert(HT := rule_8 (");
+			printSetFile(file,partAe);
+			fprintf(file,"nil) (");
+			printSetFile(file,partBe);
+			fprintf(file,"nil) %d %d H",rankMaxA,rankMaxB);
+			printHypSetFile(file,partAe);
+			fprintf(file,"Mtmp Hcomp Hincl); apply HT.\n");
+			fprintf(file,"}\n");
+			
+			if(freeA == 1 && partAe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partAe);fprintf(file,"eq. ");
+				}
+			}
+			
+			if(freeB == 1 && partBe != res)
+			{
+				int tmpRankM = 1;
+				while(tmpRankM <= 3)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+					tmpRankM++;
+				}
+				if(dim >= 4)
+				{
+					while(tmpRankM <= 7)
+					{
+						fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"M%d. ",tmpRankM);
+						tmpRankM++;
+					}
+				}
+				
+				int tmpRankm;
+				if(dim >= 4)
+				{
+					tmpRankm = 7;
+				}
+				else
+				{
+					tmpRankm = 4;
+				}
+				
+				while(tmpRankm >= 1)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"m%d. ",tmpRankm);
+					tmpRankm--;
+				}
+				if(!previousConstruct)
+				{
+					fprintf(file,"try clear H");printHypSetFile(file,partBe);fprintf(file,"eq. ");
+				}
+			}
+			fprintf(file,"\n");
+		}
+		/******************************************************************
+		 * 	Pappus
+		 * ----------------------------------------------------------------*/
+		else if(n->rule == 9)
+		{
+			myType partP, partPe, partL1, partL1e, partL2, partL2e;
+			myType partE1, partE1e, partE2, partE2e, partE3, partE3e, partE4, partE4e, partE5, partE5e, partE6, partE6e;
+			myType tmp, e1,e2,e3,e4,e5,e6,e7,e8,e9;
+
+			//sets + ranks 
+			partP = n->e;
+			partL1 = n->ante->n->e;
+			partL2 = n->ante->next->n->e;
+			partE1 = n->ante->next->next->n->e;
+			partE2 = n->ante->next->next->next->n->e;
+			partE3 = n->ante->next->next->next->next->n->e;
+			partE4 = n->ante->next->next->next->next->next->n->e;
+			partE5 = n->ante->next->next->next->next->next->next->n->e;
+			partE6 = n->ante->next->next->next->next->next->next->next->n->e;
+			
+			partPe = partP & 0x3FFFFFFFFFFFFFF;
+			partL1e = partL1 & 0x3FFFFFFFFFFFFFF;
+			partL2e = partL2 & 0x3FFFFFFFFFFFFFF;
+			partE1e = partE1 & 0x3FFFFFFFFFFFFFF;
+			partE2e = partE2 & 0x3FFFFFFFFFFFFFF;
+			partE3e = partE3 & 0x3FFFFFFFFFFFFFF;
+			partE4e = partE4 & 0x3FFFFFFFFFFFFFF;
+			partE5e = partE5 & 0x3FFFFFFFFFFFFFF;
+			partE6e = partE6 & 0x3FFFFFFFFFFFFFF;
+			
+			e1 = getIBytes(partL1e,1);
+			e2 = getIBytes(partL1e,2);
+			e3 = getIBytes(partL1e,3);
+			e4 = getIBytes(partL2e,1);
+			e5 = getIBytes(partL2e,2);
+			e6 = getIBytes(partL2e,3);
+			e7 = getIBytes(partPe,1);
+			e8 = getIBytes(partPe,2);
+			e9 = getIBytes(partPe,3);
+			
+			partPe = partP & 0x3FFFFFFFFFFFFFF;
+			
+			// export
+			fprintf(file,"\n");
+			fprintf(file,"(* Application de la règle 9 (Pappus) *)\n");
+			
+			fprintf(file,"assert(H");
+			printHypSetFile(file,partPe);
+			fprintf(file,"eq : rk(");
+			printSetFile(file,partPe);
+			fprintf(file,"nil) = 2).\n");
+			fprintf(file,"{\n");
+			
+			tmp = e1 | e2;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e1 | e3;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e1 | e4;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e1 | e5;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e1 | e6;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e2 | e3;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e2 | e4;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e2 | e5;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e2 | e6;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e3 | e4;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e3 | e5;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e3 | e6;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e4 | e5;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e4 | e6;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = e5 | e6;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = partL1e;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = partL2e;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = partE1e;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = partE2e;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = partE3e;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = partE4e;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = partE5e;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+			
+			tmp = partE6e;
+			if(previousConstruct)
+			{
+				fprintf(file,"\ttry assert(H");
+				printHypSetFile(file,tmp);
+				fprintf(file,"eq : rk(");
+				printSetFile(file, tmp);
+				fprintf(file," nil) = 2) by (apply L");
+				printHypSetFile(file,tmp);
+				fprintf(file," with ");
+				
+				for(j = 0; j < stab.size && stabb; j++)
+				{
+					if(tmp <= stab.tab[j][1])
+					{
+						for(i = 0; i < stab.tab[j][0]; i++)
+						{
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+						}
+						fprintf(file,";try assumption).\n");
+						stabb = 0;
+					}
+				}
+				stabb = 1;
+			}
+
+			fprintf(file,"\ttry assert(H");
+			printHypSetFile(file,tmp);
+			fprintf(file,"eq : rk(");
+			printSetFile(file, tmp);
+			fprintf(file," nil) = 2) by (intuition).\n");
+		
+			fprintf(file,"\tassert(HT : rk(");
+			printSetFile(file,partPe);
+			fprintf(file," nil) = 2);\n");
+			fprintf(file,"\tapply (rk_pappus ");
+			printHypSetFile(file,e1);
+			fprintf(file," ");
+			printHypSetFile(file,e2);
+			fprintf(file," ");
+			printHypSetFile(file,e3);
+			fprintf(file," ");
+			printHypSetFile(file,e4);
+			fprintf(file," ");
+			printHypSetFile(file,e5);
+			fprintf(file," ");
+			printHypSetFile(file,e6);
+			fprintf(file," ");
+			printHypSetFile(file,e7);
+			fprintf(file," ");
+			printHypSetFile(file,e8);
+			fprintf(file," ");
+			printHypSetFile(file,e9);
+			fprintf(file,");rk_couple_triple.\n");
+			fprintf(file,"}\n");
+			
+			fprintf(file,"\n");
+		}
 	}
-	/******************************************************************
-	 * 	Pappus
-	 * ----------------------------------------------------------------*/
-	else if(n->rule == 9)
-	{
-		myType partP, partPe, partL1, partL1e, partL2, partL2e;
-		myType partE1, partE1e, partE2, partE2e, partE3, partE3e, partE4, partE4e, partE5, partE5e, partE6, partE6e;
-		myType tmp, e1,e2,e3,e4,e5,e6,e7,e8,e9;
-
-		//sets + ranks 
-		partP = n->e;
-		partL1 = n->ante->n->e;
-		partL2 = n->ante->next->n->e;
-		partE1 = n->ante->next->next->n->e;
-		partE2 = n->ante->next->next->next->n->e;
-		partE3 = n->ante->next->next->next->next->n->e;
-		partE4 = n->ante->next->next->next->next->next->n->e;
-		partE5 = n->ante->next->next->next->next->next->next->n->e;
-		partE6 = n->ante->next->next->next->next->next->next->next->n->e;
-		
-		partPe = partP & 0x3FFFFFFFFFFFFFF;
-		partL1e = partL1 & 0x3FFFFFFFFFFFFFF;
-		partL2e = partL2 & 0x3FFFFFFFFFFFFFF;
-		partE1e = partE1 & 0x3FFFFFFFFFFFFFF;
-		partE2e = partE2 & 0x3FFFFFFFFFFFFFF;
-		partE3e = partE3 & 0x3FFFFFFFFFFFFFF;
-		partE4e = partE4 & 0x3FFFFFFFFFFFFFF;
-		partE5e = partE5 & 0x3FFFFFFFFFFFFFF;
-		partE6e = partE6 & 0x3FFFFFFFFFFFFFF;
-		
-		e1 = getIBytes(partL1e,1);
-		e2 = getIBytes(partL1e,2);
-		e3 = getIBytes(partL1e,3);
-		e4 = getIBytes(partL2e,1);
-		e5 = getIBytes(partL2e,2);
-		e6 = getIBytes(partL2e,3);
-		e7 = getIBytes(partPe,1);
-		e8 = getIBytes(partPe,2);
-		e9 = getIBytes(partPe,3);
-		
-		partPe = partP & 0x3FFFFFFFFFFFFFF;
-		
-		// export
-		fprintf(file,"\n");
-		fprintf(file,"(* Application de la règle 9 (Pappus) *)\n");
-		
-		fprintf(file,"assert(H");
-		printHypSetFile(file,partPe);
-		fprintf(file,"eq : rk(");
-		printSetFile(file,partPe);
-		fprintf(file,"nil) = 2).\n");
-		fprintf(file,"{\n");
-		
-		tmp = e1 | e2;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e1 | e3;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e1 | e4;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e1 | e5;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e1 | e6;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e2 | e3;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e2 | e4;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e2 | e5;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e2 | e6;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e3 | e4;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e3 | e5;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e3 | e6;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e4 | e5;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e4 | e6;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = e5 | e6;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = partL1e;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = partL2e;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = partE1e;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = partE2e;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = partE3e;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = partE4e;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = partE5e;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-		
-		tmp = partE6e;
-		if(previousConstruct)
-		{
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (apply L");
-			printHypSetFile(file,tmp);
-			fprintf(file," with ");
-			
-			for(j = 0; j < stab.size && stabb; j++)
-			{
-				if(tmp <= stab.tab[j][1])
-				{
-					for(i = 0; i < stab.tab[j][0]; i++)
-					{
-						fprintf(file,"(P%d := P%d) ",i+1,i+1);
-					}
-					fprintf(file,";try assumption).\n");
-					stabb = 0;
-				}
-			}
-			stabb = 1;
-		}
-
-		fprintf(file,"\ttry assert(H");
-		printHypSetFile(file,tmp);
-		fprintf(file,"eq : rk(");
-		printSetFile(file, tmp);
-		fprintf(file," nil) = 2) by (intuition).\n");
-	
-		fprintf(file,"\tassert(HT : rk(");
-		printSetFile(file,partPe);
-		fprintf(file," nil) = 2);\n");
-		fprintf(file,"\tapply (rk_pappus ");
-		printHypSetFile(file,e1);
-		fprintf(file," ");
-		printHypSetFile(file,e2);
-		fprintf(file," ");
-		printHypSetFile(file,e3);
-		fprintf(file," ");
-		printHypSetFile(file,e4);
-		fprintf(file," ");
-		printHypSetFile(file,e5);
-		fprintf(file," ");
-		printHypSetFile(file,e6);
-		fprintf(file," ");
-		printHypSetFile(file,e7);
-		fprintf(file," ");
-		printHypSetFile(file,e8);
-		fprintf(file," ");
-		printHypSetFile(file,e9);
-		fprintf(file,");rk_couple_triple.\n");
-		fprintf(file,"}\n");
-		
-		fprintf(file,"\n");
-	}
-
 }
 //*******************************************************************************
 /*______________________________________________________________________________*

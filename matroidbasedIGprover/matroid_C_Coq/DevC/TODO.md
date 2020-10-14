@@ -1,7 +1,12 @@
 # TODO et remarques
 
 ## FIXME
-les commentaires vides font planter l'entrée
+### To do
+* Enlever les infos de déboggage quand ça fonctionnera ou mieux les mettres dans la compilation
+* tester plus en profondeur les raisonnements par contradiction (c'est un cas où la propagation de contrainte (avant ou arrière) pourrait bien fonctionner)
+### Done
+* les commentaires vides font planter l'entrée
+* ajouter le mot clé "none" ou None" pour signifier qu'il n'y a pas de conclusion (remarque, il faut toujours une conclusion finale dans l'énoncé)
 
 ## Décomposition et construction de la preuve
 Dans les preuves (je ne les ai pas toutes regardées), on note la fabrication d'un grand nombre de lemmes inutiles : par exemple des lemmes où la conclusion est que le rang d'un ensemble avec un seul point est 1 (est-ce bug qui prend en compte des restes de l'initialisation ?) ou alors dont la conclusion est incluse dans les prémisses.

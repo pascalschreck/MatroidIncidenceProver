@@ -27,5 +27,20 @@ myType traced;
 #define DEB_PS(str) fputs((str), debug_file)
 
 #define SetFrom(MT) ((MT) & 0x3FFFFFFFFFFFFFF)
+#define SETMASQ 0x3FFFFFFFFFFFFFF
+//
+// Constante pour le marquage des noeuds
+// -1 utilisé au début (à confirmer)
+// 0 : le noeud n'est pas utile dans la preuve
+// 1 : le noeud est utile dans la preuve mais pas encore transcrit dans la preuve Coq
+// 2 : le noeud est utile, mais on attend que des noeuds dont il dépend soit transcrits
+// 3 : les noeud est utile et sa preuve a déjà été tanscrite dans la preuve courante (i.e. la preuve d'un autre noeud)
+// 4 : la preuve de ce noeud a déjà été fait sous la forme d'un autre lemme
+#define INITMARK  -1
+#define UNUSED 0
+#define U_NOT_WRITTEN_IN_PROOF 1
+#define U_WAITING_FOR_PREVIOUS_PROOF 2
+#define U_PROOF_BEING_WRITTEN 3
+#define PROOF_ALREADY_DONE 4
 
 #endif

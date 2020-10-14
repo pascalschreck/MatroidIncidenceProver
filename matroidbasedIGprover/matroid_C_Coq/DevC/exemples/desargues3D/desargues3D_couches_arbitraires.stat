@@ -18,7 +18,7 @@ layer triangles
     O A Ap : 2
     O B Bp : 2
   conclusion
-     A B C : 3
+     none
 endoflayer # triangles
 layer intersections
     points
@@ -32,7 +32,7 @@ layer intersections
       B C bc : 2
       Bp Cp bc : 2
     conclusion
-      ab ac bc : 2
+      none
 endoflayer # intersection
 #  on ajoute les point D et Dp
 layer tetraedres
@@ -57,7 +57,7 @@ layer tetraedres
     Ap Cp Dp : 3
     Bp Cp Dp : 3
   conclusion
-    Dp : 1
+    none
 endoflayer # tetrahedres
 layer ajout_ad
     points
@@ -67,7 +67,7 @@ layer ajout_ad
       ad A D : 2
       ad Ap Dp : 2
     conclusion
-     ad : 1
+     none
 endoflayer # ajout du point ad
 layer ajout_bd
     points
@@ -77,7 +77,7 @@ layer ajout_bd
       bd B D : 2
       bd Bp Dp : 2
     conclusion
-      bd : 1
+      none
 endoflayer
 layer ajout_cd
     points
@@ -87,7 +87,7 @@ layer ajout_cd
       cd C D : 2
       cd Cp Dp : 2
     conclusion
-      ab ac ad bc bd cd : 3
+      none
 endoflayer
 conclusion
    ab ac ad bc bd cd : 3
