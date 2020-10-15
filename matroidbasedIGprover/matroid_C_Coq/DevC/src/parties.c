@@ -1504,7 +1504,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			
 			partAuB = n->e;							// on en déduit quelque chose sur AuB (règle 5 de la thèse ?)
 			// partA = n->ante->n->e;
-			partA = FIRST(n)->e;
+			partA = R_FIRST(n)->e;
 			freeA = checkGenealogie(n->ante->n); 	// ancienne version dessous
 			//freeA = checkSuccList(n->ante->n->succ);
 			//partB = n->ante->next->n->e;
