@@ -4,9 +4,10 @@
 #include "graph.h"
 #include "maths_addon.h"
 
-
-// #define filename "proof.txt"
-// #define bool unsigned
+#define R_ZERO(Node) ((Node))
+#define R_FIRST(Node) ((Node)->ante->n)
+#define R_SECOND(Node) ((Node)->ante->next->n)
+#define R_THIRD(Node) ((Node)->ante->next->next->n)
 
 extern FILE *debug_file;
 

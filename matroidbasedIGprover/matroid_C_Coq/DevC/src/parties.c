@@ -37,29 +37,26 @@ allocSize allocSizeTab (int n, int m) {
 ## allocGraph() gestion de l'allocation mémoire
 ________________________________________________________________________________*/
 graph allocGraph (int n) {
-	int i;
+	unsigned long long i;
 	graph g;
 	myType init = 0x0;
-	// char s[255]; // debug : juste pour le sget()
 
-	// printf("nombre de points dans allocGraph : %d\n", n);
-	g.size =  (1 << n); 
+	g.size =  (1ull << n); 
 	g.effectiveSize = 0;
 	g.allocPow = n;
 	g.effectiveAllocPow = 0;
 	
 	node * tab = (node *)malloc(sizeof(node)*g.size);
+		if(tab == 0) { printf("erreur d'allocation dans allocGraph"); exit(2);}
 	
 	for(i = 0; i < g.size; i++)
 	{
-		init = i+1 ;  // DecToBin(i+1);  /* hum ... pourquoi faire compliqué ? c'est juste i+1  */
-		init = initRanks(init);
+		init = initRanks(i+1);
 		tab[i] = createNode(init);
 	}
 	
 	g.tab = tab;
-	// printf("sortie de l'alloc safely\n"); // debug
-    // fgets(s, 255, stdin);				 // debug
+
 	return g;
 }
 
@@ -117,8 +114,8 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 	
 	int colori, colorj;
 
-	list l; // ben ouais ... on dirait que c'est là qu'on maintient y a l'historique
-	node n; // avec ça aussi : la structure de node est dans graph.h
+	list l; // l est variable de liste qui sert à divers endroits plutôt comme varaiable temporaire
+	node n; // idem pour n
 		
 	//~ // convergence
 	while(*convergence == 1)
@@ -1506,16 +1503,19 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//sets + ranks
 			
 			partAuB = n->e;							// on en déduit quelque chose sur AuB (règle 5 de la thèse ?)
-			partA = n->ante->n->e;
+			// partA = n->ante->n->e;
+			partA = FIRST(n)->e;
 			freeA = checkGenealogie(n->ante->n); 	// ancienne version dessous
 			//freeA = checkSuccList(n->ante->n->succ);
-			partB = n->ante->next->n->e;
+			//partB = n->ante->next->n->e;
+			partB = R_SECOND(n)->e;
 			freeB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
 			// freeB = checkSuccList(n->ante->next->n->succ);
 			
 			if(n->ante->next->next->next !=NULL)    // ah ?
 			{
-				partAiB = n->ante->next->next->n->e;
+				// partAiB = n->ante->next->next->n->e;
+				partAiB = R_THIRD(n)->e;
 				freeAiB = checkGenealogie(n->ante->next->next->n); //reprise de l'ancienne version dessous
 				// freeAiB = checkSuccList(n->ante->next->next->n->succ);
 				//oldPart = n->ante->next->next->next->n->e;
@@ -1565,7 +1565,12 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			
 			// export
 			fprintf(file,"\n");
-			fprintf(file,"(* Application de la règle 1 code (5 dans la thèse) *)\n");
+			fprintf(file,"(* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)\n");
+			fprintf(file,"(* marque des antécédents A B AiB : %d %d et %d*)\n",
+							R_FIRST(n)->mark,
+							R_SECOND(n)->mark,
+							R_THIRD(n)->mark
+							);
 			
 			fprintf(file,"assert(H");
 			printHypSetFile(file,partAuBe);
@@ -1574,7 +1579,8 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			fprintf(file,"nil) <= %d).\n",rankMaxAuB);
 			fprintf(file,"{\n");
 			
-			if(previousConstruct)
+			// if(previousConstruct)
+			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
 			{
 				fprintf(file,"\ttry assert(H");
 				printHypSetFile(file,partAe);
@@ -1598,18 +1604,19 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}	
+			else {
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partAe); 
+				fprintf(file,"Mtmp : rk(");
+				printSetFile(file,partAe);
+				fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
+				printHypSetFile(file,partAe); 
+				fprintf(file,"eq H");
+				printHypSetFile(file,partAe);
+				fprintf(file,"M%d).\n",rankMaxA);
+			}
 			
-			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partAe); 
-			fprintf(file,"Mtmp : rk(");
-			printSetFile(file,partAe);
-			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxA);
-			printHypSetFile(file,partAe); 
-			fprintf(file,"eq H");
-			printHypSetFile(file,partAe);
-			fprintf(file,"M%d).\n",rankMaxA);
-			
-			if(previousConstruct)
+			if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
 			{
 				fprintf(file,"\ttry assert(H");
 				printHypSetFile(file,partBe);
@@ -1633,20 +1640,22 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}	
-
-			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partBe); 
-			fprintf(file,"Mtmp : rk(");
-			printSetFile(file,partBe);
-			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
-			printHypSetFile(file,partBe);
-			fprintf(file,"eq H");
-			printHypSetFile(file,partBe);
-			fprintf(file,"M%d).\n",rankMaxB);
+			else {
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partBe); 
+				fprintf(file,"Mtmp : rk(");
+				printSetFile(file,partBe);
+				fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
+				printHypSetFile(file,partBe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partBe);
+				fprintf(file,"M%d).\n",rankMaxB);
+			}
 
 			if(partAiB != 0x0)
 			{
-				if(previousConstruct)
+				//if(previousConstruct)
+				if(R_THIRD(n)->mark == PROOF_ALREADY_DONE)
 				{
 					fprintf(file,"\ttry assert(H");
 					printHypSetFile(file,partAiBe);
@@ -1670,16 +1679,17 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					}
 					stabb = 1;
 				}	
-				
-				fprintf(file,"\tassert(H");
-				printHypSetFile(file,partAiBe); 
-				fprintf(file,"mtmp : rk(");
-				printSetFile(file,partAiBe);
-				fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
-				printHypSetFile(file,partAiBe);
-				fprintf(file,"eq H");
-				printHypSetFile(file,partAiBe);
-				fprintf(file,"m%d).\n",rankMinAiB);
+				else {
+					fprintf(file,"\tassert(H");
+					printHypSetFile(file,partAiBe); 
+					fprintf(file,"mtmp : rk(");
+					printSetFile(file,partAiBe);
+					fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
+					printHypSetFile(file,partAiBe);
+					fprintf(file,"eq H");
+					printHypSetFile(file,partAiBe);
+					fprintf(file,"m%d).\n",rankMinAiB);
+				}
 			}
 			else
 			{
@@ -1888,7 +1898,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							de la même règle gérant sa symétrie)
 		__________________________________________________________________*/
 		else if (n->rule == 2)
-		{
+		{	bool inter = false ; // intersection non vide
 			//sets + ranks
 			partA = n->e;
 			partAuB = n->ante->n->e;
@@ -1896,6 +1906,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			// freeAuB = checkSuccList(n->ante->n->succ);
 			if(n->ante->next->next->next !=NULL)
 			{
+				inter = true;
 				partAiB = n->ante->next->n->e;
 				freeAiB = checkGenealogie(n->ante->next->n); // reprise de l'ancienne version dessous
 				// freeAiB = checkSuccList(n->ante->next->n->succ);
@@ -1952,8 +1963,13 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			
 			// export
 			fprintf(file,"\n");
-			fprintf(file,"(* Application de la règle 2 code (7 ou 8 dans la thèse) *)\n");
-			
+			fprintf(file,"(* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)\n");
+			fprintf(file,"(* marque des antécédents AUB AiB B: %d %d et %d*)\n",
+							R_FIRST(n)->mark,
+							(inter) ? R_SECOND(n)->mark : -1,
+							(inter) ? R_THIRD(n)->mark : R_SECOND(n)->mark
+							);
+
 			fprintf(file,"assert(H");
 			printHypSetFile(file,partAe);
 			fprintf(file,"m%d : rk(",rankMinA);
@@ -1961,7 +1977,8 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			fprintf(file,"nil) >= %d).\n",rankMinA);
 			fprintf(file,"{\n");
 
-			if(previousConstruct)
+			// if(previousConstruct) // THIRD if AiB != 0 else SECOND
+			if((inter) ? R_THIRD(n)->mark : R_SECOND(n)->mark == PROOF_ALREADY_DONE)
 			{
 				fprintf(file,"\ttry assert(H");
 				printHypSetFile(file,partBe);
@@ -1985,18 +2002,20 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-
-			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partBe); 
-			fprintf(file,"Mtmp : rk(");
-			printSetFile(file,partBe);
-			fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
-			printHypSetFile(file,partBe);
-			fprintf(file,"eq H");
-			printHypSetFile(file,partBe);
-			fprintf(file,"M%d).\n",rankMaxB);
+			else {
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partBe); 
+				fprintf(file,"Mtmp : rk(");
+				printSetFile(file,partBe);
+				fprintf(file,"nil) <= %d) by (solve_hyps_max H",rankMaxB);
+				printHypSetFile(file,partBe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partBe);
+				fprintf(file,"M%d).\n",rankMaxB);
+			}
 			
-			if(previousConstruct)
+			// if(previousConstruct)
+			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
 			{
 				fprintf(file,"\ttry assert(H");
 				printHypSetFile(file,partAuBe);
@@ -2020,20 +2039,21 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			
-			fprintf(file,"\tassert(H");
-			printHypSetFile(file,partAuBe); 
-			fprintf(file,"mtmp : rk(");
-			printSetFile(file,partAuBe);
-			fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAuB);
-			printHypSetFile(file,partAuBe);
-			fprintf(file,"eq H");
-			printHypSetFile(file,partAuBe);
-			fprintf(file,"m%d).\n",rankMinAuB);
-			
+			else {
+				fprintf(file,"\tassert(H");
+				printHypSetFile(file,partAuBe); 
+				fprintf(file,"mtmp : rk(");
+				printSetFile(file,partAuBe);
+				fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAuB);
+				printHypSetFile(file,partAuBe);
+				fprintf(file,"eq H");
+				printHypSetFile(file,partAuBe);
+				fprintf(file,"m%d).\n",rankMinAuB);
+			}
 			if(partAiB != 0x0)
 			{
-				if(previousConstruct)
+				//if(previousConstruct)
+				if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
 				{
 					fprintf(file,"\ttry assert(H");
 					printHypSetFile(file,partAiBe);
@@ -2057,16 +2077,17 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					}
 					stabb = 1;
 				}
-				
-				fprintf(file,"\tassert(H");
-				printHypSetFile(file,partAiBe); 
-				fprintf(file,"mtmp : rk(");
-				printSetFile(file,partAiBe);
-				fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
-				printHypSetFile(file,partAiBe);
-				fprintf(file,"eq H");
-				printHypSetFile(file,partAiBe);
-				fprintf(file,"m%d).\n",rankMinAiB);
+				else {
+					fprintf(file,"\tassert(H");
+					printHypSetFile(file,partAiBe); 
+					fprintf(file,"mtmp : rk(");
+					printSetFile(file,partAiBe);
+					fprintf(file,"nil) >= %d) by (solve_hyps_min H",rankMinAiB);
+					printHypSetFile(file,partAiBe);
+					fprintf(file,"eq H");
+					printHypSetFile(file,partAiBe);
+					fprintf(file,"m%d).\n",rankMinAiB);
+				}
 			}
 			else
 			{

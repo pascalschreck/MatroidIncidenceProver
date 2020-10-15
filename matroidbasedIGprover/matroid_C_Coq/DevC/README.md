@@ -49,3 +49,31 @@ Mode affichage & mode debug permettant d'afficher pleins d'informations supplém
 ## Notes supplémentaires :
 
 L'algorithme utilise par défaut la coloration, cette optimisation peut être enlevé dans l'algorithme de saturation
+
+## Structures de données
+
+La structure de base pour la propagation des limites de rangs et l'historique d'application des règles est la structure de node :
+  ```c
+  struct s_node {
+	myType e;
+	int color;		// prévu pour des optimisations ... je ne sais pas si c'est utilisé
+	int mark;			// marquage
+	int rule;			// numéro de la règle appliquée (à l'origine de la création de ce noeud)
+	s_list * ante;	// un noeud contient la liste des prédecesseur dans le raisonnement (?)
+	s_list * succ;	// ?
+};
+  ```
+  où 
+  * le champs `e` est un entier (plus précisément dans la version actuelle un `unsigned long long` pour gèrer les grandes dimensions) où est stocké l'ensemble (comme un tableau de bit avec un bit par élément 1 si présent et 0 si absent) et les informations sur les rangs minimum et maximum connus (imposés ou déduits).
+  * le champ `color` est prévu pour faire du marquage de noeud en vue d'optimisation, je ne suis pas sûr que cela soit utilisé dans la version actuelle.
+  * le champ `mark` est utilisé pour marquer les noeuds pour gérer l'écriture de la preuve en Coq. Actuellement on a :
+
+    -   0 pour non utilisé dans la preuve
+    -   1 pour utile à la preuve, mais pas encore transcrit en Coq
+    -   2 pour utile à la preuve, mais en attente de buts/noeuds en amont dont la preuve Coq est encore à produire
+    -   3 preuve en cours d'écriture
+    -   4 preuve écrite dans un lemme est réutilisable.
+ * le champ `rule` est un entier correspondant au numéro de la règle qui a été appliquée pour produire le noeud. Cette règle est traduite en élément de preuve Coq.
+ * le champs `ante` correspond à la liste des noeuds qui sonten prémisses dans la règle (par exemple dans la règle de Pappus, cette liste est très longue car il y a une dizaine de prémisses). C'est cette liste qu fait le lien avec les preuves antérieures au noeud.
+
+ Un graphe est une table de noeuds avec des informations supplémentaires.

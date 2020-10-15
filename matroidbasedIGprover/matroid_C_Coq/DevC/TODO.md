@@ -4,6 +4,7 @@
 ### To do
 * Enlever les infos de déboggage quand ça fonctionnera ou mieux les mettres dans la compilation
 * tester plus en profondeur les raisonnements par contradiction (c'est un cas où la propagation de contrainte (avant ou arrière) pourrait bien fonctionner)
+* regarder la perte de marquage et/ou de reconstruction de théorèmes qui seraient dus (?) à la gestion des couches de raisonnement.
 ### Done
 * les commentaires vides font planter l'entrée
 * ajouter le mot clé "none" ou None" pour signifier qu'il n'y a pas de conclusion (remarque, il faut toujours une conclusion finale dans l'énoncé)
@@ -131,11 +132,16 @@ pour le calcul des rangs, ça ne change pas, en revanche le dernier lemme (le th
 ## Lemmes intermédiaires
 
 Actuellement, la décomposition de la preuve suit une approche hiérarchique suggérée par le treillis matroïdal. De cette manière :
-* le comportement du prouveur n'est pas perturbé ... il n'est pas amélioré non plus
+* le comportement du prouveur n'est pas trop perturbé ... il n'est pas amélioré non plus
 * les traces utiles dans les sous-treillis sont rangées dans des lemmes d'une manière peu réutilisable en fait (même s'il y a des forall devant les points, le lemme n'est pas forcément symétrique vis-à-vis de l'introduction des points).
 * la "factorisation" ne se fait qu'au niveau de la preuve et au moment de la reconstruction et cela permet à Coq de gérer le preuves engendrées qui sont très volumineuses.
 
 On peut généraliser sans doute cette approche. Cependant, sans faire de changements radicaux, il me paraît difficile d'utiliser la décomposition du treillis  pour accélérer le calcul des rangs et ensuite pour utiliser, en toute généralité, les lemmes produits  dans le reste de la démonstration.
+
+## Utilité des couches
+En fait, la grande utilité des couches est de fabriquer des lemmes intermédiaires de sorte que la preuve de la conclusion ne soit pas trop longue : l'idée est que dans les couches tous les noeuds utilisés dans la preuve (marqués 1) donnent lieu à des lemmes.
+Du coup, l'idée est la suivante : est-ce qu'avec 2 couches, une contenant quasiment tout et la dernière juste un point ou deux pour que le maximum de lemmes soient fabriqués n'est-elle pas suffisante pour simplifier la preuve ?
+Même mieuw, on peut modifier un peu l'algorithme pour ne pas avoir à mettre de couches du tout !
 
 ### Discussion 
 En fait, rien n'empêche d'avoir une implantation non-hiérarchique des couches : il y a quelques retouches à faire dans la fonction main() (par exemple, ne pas faire de recopie du graphe qui doit être complété par de nouveaux points) et dans le marquage des sommets du graphe et dans le parcours pour déterminer la preuve par rétro-propagation. Cependant, l'utilité des morceaux "indépendants" n'est pas claire : on ne peut pas les utiliser dans le calcul des rangs (car cela serait beaucoup trop coûteux d'isoler tous les sommets "hypothèses") et donc ils ne seront pas non plus utilisés pour simplifier une longue preuve. 

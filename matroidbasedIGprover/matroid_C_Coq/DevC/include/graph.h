@@ -17,8 +17,8 @@ struct s_node {
 	int color;			// prévu pour des optimisations ... je ne sais pas si c'est utilisé
 	int mark;			// marquage
 	int rule;			// numéro de la règle appliquée (à l'origine de la création de ce noeud)
-	s_list * ante;		// un noeud contient la liste des prédecesseur dans le raisonnement (?)
-	s_list * succ;		// ?
+	list ante;		// un noeud contient la liste des prédecesseur dans le raisonnement (?)
+	list succ;		// ?
 };
 
 node createNode (myType e); // Fonction qui crée un noeud sans informations
