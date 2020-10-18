@@ -5,6 +5,19 @@
 * Enlever les infos de déboggage quand ça fonctionnera ou mieux les mettres dans la compilation
 * tester plus en profondeur les raisonnements par contradiction (c'est un cas où la propagation de contrainte (avant ou arrière) pourrait bien fonctionner)
 * regarder la perte de marquage et/ou de reconstruction de théorèmes qui seraient dus (?) à la gestion des couches de raisonnement.
+*  il y a un problème assez fondamental dans la manière dont la preuve est écrite avec l'algo. de David :
+   *  si un noeud est marqué à 1 'U_NOT_WRITTEN_IN_PROOF' on écrit un lemme dans cet ordre
+  
+        1. énoncé du lemme 
+   
+            (écriture dans le fichier de "Lemma xxx : forall \<tous les points\> ) \<toutes les hypothèses\> -> \<l'ensemble résultat à pour rang le rang min= rang max\> 
+        2. phase d'introduction des variables (tous les points et toutes les hypothèses de l'énoncé)
+        3. phase d'écriture de la preuve : il s'agit de lancer une procédure axuiliaire des arguments 
+        de la règle utilisée (ça va être l'objet de la phase 4), puis de compléter par des arguments 
+        génériques fondés sur l'initialisation de la fonction rang
+        4. examen des arguments pour preuves ... si les arguments sont encore au stade 1, on les marque à 2 ... mais ils ne sont pas sous fome de lemme sinon ils auraient le statut 1.
+
+    Solution envisagée : différer l'écriture dans le fichier de la preuve jusqu'à ce que tous les pbs. des antécédents soient réglés. Cela peut se faire simplement en testant les antécédents avant d'écrire le lemme. 
 ### Done
 * les commentaires vides font planter l'entrée
 * ajouter le mot clé "none" ou None" pour signifier qu'il n'y a pas de conclusion (remarque, il faut toujours une conclusion finale dans l'énoncé)

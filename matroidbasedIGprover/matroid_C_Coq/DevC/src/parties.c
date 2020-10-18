@@ -1134,7 +1134,7 @@ void preMark(node n) {		// marquage récursifs des antécédents d'un noeud par 
 }
 
 void unMark(node n) {		// démarquage des antécédents
-	if(n->mark < PROOF_ALREADY_DONE)
+	if(n->mark < PROOF_ALREADY_DONE && n->mark < U_PROOF_BEING_WRITTEN) // TEST : dernière condition ajoutée pour voir
 	{
 		n->mark = UNUSED;
 	}
@@ -1166,7 +1166,7 @@ void unMark(node n) {		// démarquage des antécédents
 *		(ce qui est fait dans une autre fonction)									*
 *   (2) TEMPORAIRE : TENTION
 *__________________________________________________________________________________*/
-bool constructLemma(FILE* file, graph g, node n, int couche) {
+bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couche) {
 	// on écrit de code dans le fichier <file>, l'énoncé correspontant qu noeud n du graphe g
 	// la mention de la <couche> sert uniquement à faire des sorties informatives 
 	int i;
@@ -1178,6 +1178,33 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 	char *debug_info = (char *)calloc(500,sizeof(char));
 	char *pos = local_buffer, *pos_debug = debug_info;
 	// <--PS
+        /*------------------------------------------ajout--------------------------*/
+        list tmp = n->ante;	
+
+        if(tmp != NULL)	
+            while(tmp != NULL)
+            {
+
+                if(tmp->n->mark == U_NOT_WRITTEN_IN_PROOF)
+                {
+                    tmp->n->mark = U_WAITING_FOR_PREVIOUS_PROOF;  // devrait être à sa place ici
+                    /*-------------------------------------
+                            appel récusrif  :
+                        c'est ici que l'on traite les différentes étapes de la preuve
+                        chaque étape correspondant à une réduction de l'intervalle des rangs
+                        pour l'ensemble considéré.
+                    
+                    -----------------------------------------*/
+                    constructLemma(file, g, tmp->n, sizeTab, couche);
+                }
+                tmp = tmp->next;
+            }
+
+        /////////////////////////////////////////////////////////////////////////////
+
+
+
+
 	partA = n->e;
 	partAe = SetFrom(partA);
 
@@ -1296,7 +1323,10 @@ bool constructLemma(FILE* file, graph g, node n, int couche) {
 		printSetFile(file,partAe);
 		fprintf(file," nil) <= %d.\n",rankMaxA);
 	}
+	n->mark = PROOF_ALREADY_DONE;
 	free(local_buffer); 
+	constructIntro(file, g);
+	constructProof(file, n, sizeTab, 1);
 	return 1;
 }	
 

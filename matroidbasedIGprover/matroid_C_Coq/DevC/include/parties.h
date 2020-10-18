@@ -64,7 +64,7 @@ void preMark(node n);
 void unMark(node n); 
 		// Fonction qui enlève le marquage du graphe de déductions
 
-bool constructLemma(FILE* file, graph g, node n, int couche); 
+bool constructLemma(FILE* file, graph g, node n, allocSize alloctab ,int couche); 
 		// Fonction qui reconstruit l'énoncé lemme dans le fichier file à partir 
 		// d'un noeud n du graphe de déductions g
 

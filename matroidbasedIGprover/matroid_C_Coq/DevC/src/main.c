@@ -177,96 +177,171 @@ int main(int argc, char * argv[])
     /*________________________________________________________
         TODO : la suite est à vérifier
     ----------------------------------------------------------*/
-	long long unsigned int i ;
-    int last = nb_layers-1;
-	
-    // resf = codage de l'ensemble dans la conclusion finale
-            if(debug_mode)
-        {
-            NL;
-            DEB_PS("********************************************");NL;NL;
-            TAB; fprintf(debug_file," marquage dans la (dernière) couche %d\n", last);
-            NL; DEB_PS("********************************************");NL;NL;
-        }
-	
-    /*--------*/
-    //          marquage de la dernière couche
-    /*---------*/
-    preMark(g[last].tab[resf]);  // marque tous les prédecesseurs de resf dans 
-                                // le dernier graphe (qui contient tout les points) 
 
-    /*--------*/
-    //          marquage des autres couches
-    /*---------*/
-    // rétro-propagation du prémarquage d'une couche dans la précédente
-    // 
-    for(iocl=last-1; iocl >= 0; iocl--)
-    {
-        if(debug_mode)
-        {
-            NL;
-            DEB_PS("********************************************");NL;NL;
-            TAB; fprintf(debug_file," marquage dans la couche %d\n", iocl);
-            NL; DEB_PS("********************************************");NL;NL;
-        }
-        for(i=0; i < g[iocl].effectiveSize;i++)
-            if(g[iocl+1].tab[i]->mark == 1 && i != resf) preMark(g[iocl].tab[i]);
-    }
-    
-    // construction en avant de la preuve
-    iocl = 0;
-    i = 0ull;
+    /*
 
-    for(; iocl < last; iocl++)  // la dernière couche est exclue
+
+        Deux cas différents : 
+            - multi-couches (.e. nb_layers > 1) : on applique la méthode de David, 
+                * dans toutes les couches sauf la dernière, tous les sommets marqués sont transcrits 
+                  en Coq par des lemmes
+                * dans la dernière couche seul le noeud correspondant à l'ensemble resf  donne lieu à
+                  un lemme
+                Issue : 
+                    * je (PS) ne sais pas bien comment se propage le marquage. Avec ma reprise du code
+                    il y a des problèmes de bout de preuves qui ne sont pas produits (les causes possibles sont
+                    la recopie de graphe qui ne reporte pas les listes ante et succ, le marquage qui pourrait ne
+                    pas bien traverser les couches (par exemple, j'ai corrigé le passage des marks 4 correspondant
+                    à une preuve déjà faite))
+                    * je ne pense pas que fabriquer des couches soit intéressant.
+                    *
+            - mono-couches où j'ai opré le changment suivant : tous les sommets marqués donnent lieu à
+                des lemmes. On a ainsi des lemmes peu intéressants pour lesquels j'ai fait des filtres
+                qui sont pour le moment désactivés car ils semblent perturber l'écriture de la preuve
+        Dans la suite, on distingue les deux cas pour voir.
+
+        Remarque : je me demande aussi si le parcours du graphe des déductions est fait dans un bon ordre :
+            on parcours les ensembles dans l'ordre de leur traduction binaire alors que le marquage s'est fait
+            autrement, ensuite est ce que la tableau de noeud contient le dernier noeud (celui qui contient les 
+            rangs finaux ou un autre ?)
+    */
+    if(nb_layers==1) // cas monocouche 
     {
-        for(; i < g[iocl].effectiveSize;i++)
-        {   
-         // TODO : lorsque l'on n'écrit pas un lemme (soit parce que le cardinal de la conculusion est un, 
-         // soit parce que la conclusion est dans la hypothèse), il faut peut-être quand même nettoyer le graphe
-         // et faire attention que la preuve soit bien correcte
-         // pour le moment, il manque des lemmes semble-t-il (étude de Nicolas)
-        // ajout dans la condition suivante (à la fin) :
-        // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
-        // TENTION : la suite e été un peu modifiée (avec aussi la fonction constructionLemma) 
-        // pour conserver l'ancien fonctionnement où même les lemmes "bidons" sont écrits
-            if(g[iocl+1].tab[i]->mark == 1 && i != resf /* && cardinal(g[iocl].tab[i]->e)!=1 */ )  // TENTION ne teste pas si la conclusion est sur un singleton
-            // i.e si le lemme est marqué dans la couche suivante, c'est qu'on en a besoin
-            // comme c'est on agit de lanière ascendante dans les couches, c'est la première occurence
-            // on en fait un lemme
+        long long unsigned int i ;
+        int last = 0;
+        
+        // resf = codage de l'ensemble dans la conclusion finale
+                if(debug_mode)
             {
-                // if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
-                {
-                    constructLemma(file,g[iocl],g[iocl].tab[i],iocl);  // à commenter après test
-                    constructIntro(file, g[iocl]);
-			        constructProof(file,g[iocl].tab[i], sizeTab, 1); // le dernier argument correspond à previousconstruct, c'est toujours 1 ?
-			        g[iocl].tab[i]->mark = 4;
-                    g[iocl+1].tab[i]->mark = 4;     // ajout dans la couche suivante pour que le lemme soit pris en compte
-			        unMark(g[iocl].tab[i]);
-                }
-               
+                NL;
+                DEB_PS("********************************************");NL;NL;
+                TAB; fprintf(debug_file," marquage dans la (dernière) couche %d\n", last);
+                NL; DEB_PS("********************************************");NL;NL;
+            }
+        
+        // marquage en arrière à partir de resf
+        preMark(g[last].tab[resf]);  
+                
+        // construction en avant de la preuve (les filtres ne sont pas écrits)
+        i = 0ull;
+
+        
+        for(; i < g[last].effectiveSize;i++)
+        {   
+            if(g[last].tab[i]->mark == U_NOT_WRITTEN_IN_PROOF && i != resf) 
+            {
+
+                constructLemma(file,g[last],g[last].tab[i],sizeTab, last);  
+                // constructIntro(file, g[last]);
+                // constructProof(file,g[last].tab[i], sizeTab, 1); 
+                g[last].tab[i]->mark = PROOF_ALREADY_DONE; // 4
+                unMark(g[last].tab[i]);   // peut-être y a-t-il un pb ici avec les noeuds marqués 3 (U_PROOF_BEING_WRITTEN)
             }
             
         }
-    }
+        
+        
+        constructLemma(file, g[last], g[last].tab[resf],sizeTab, last); 
+        // constructIntro(file, g[last]);
+        // constructProof(file, g[last].tab[resf], sizeTab, 1);
+        
 
-    // traitement de la dernière couche :
-    // ATTENTION : tab[res]
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // TODO
-    // C'est ici qu'on pourrait prendre en compte plusieurs conclusion 
-    // seule la conclusion <res> est traitée !
-    // 
-    // if(constructLemma(file, g[last], g[last].tab[resf],last))  // devrait être toujours vrai
+        
+        fclose(file);
+        if(debug_mode) fclose(debug_file);
+    }
+    else  // cas multi-couches ... contient encore des bugs
     {
-        constructLemma(file, g[last], g[last].tab[resf],last);  // à commenter après test
-	    constructIntro(file, g[last]);
-	    constructProof(file, g[last].tab[resf], sizeTab, 1);
-    }
+        long long unsigned int i ;
+        int last = nb_layers-1;
+        
+        // resf = codage de l'ensemble dans la conclusion finale
+                if(debug_mode)
+            {
+                NL;
+                DEB_PS("********************************************");NL;NL;
+                TAB; fprintf(debug_file," marquage dans la (dernière) couche %d\n", last);
+                NL; DEB_PS("********************************************");NL;NL;
+            }
+        
+        /*--------*/
+        //          marquage de la dernière couche
+        /*---------*/
+        preMark(g[last].tab[resf]);  // marque tous les prédecesseurs de resf dans 
+                                    // le dernier graphe (qui contient tout les points) 
 
-	
-	fclose(file);
-    if(debug_mode) fclose(debug_file);
-	
+        /*--------*/
+        //          marquage des autres couches
+        /*---------*/
+        // rétro-propagation du prémarquage d'une couche dans la précédente
+        // 
+        for(iocl=last-1; iocl >= 0; iocl--)
+        {
+            if(debug_mode)
+            {
+                NL;
+                DEB_PS("********************************************");NL;NL;
+                TAB; fprintf(debug_file," marquage dans la couche %d\n", iocl);
+                NL; DEB_PS("********************************************");NL;NL;
+            }
+            for(i=0; i < g[iocl].effectiveSize;i++)
+                if(g[iocl+1].tab[i]->mark == 1 && i != resf) preMark(g[iocl].tab[i]);
+        }
+        
+        // construction en avant de la preuve
+        iocl = 0;
+        i = 0ull;
+
+        for(; iocl < last; iocl++)  // la dernière couche est exclue
+        {
+            for(; i < g[iocl].effectiveSize;i++)
+            {   
+            // TODO : lorsque l'on n'écrit pas un lemme (soit parce que le cardinal de la conculusion est un, 
+            // soit parce que la conclusion est dans la hypothèse), il faut peut-être quand même nettoyer le graphe
+            // et faire attention que la preuve soit bien correcte
+            // pour le moment, il manque des lemmes semble-t-il (étude de Nicolas)
+            // ajout dans la condition suivante (à la fin) :
+            // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
+            // TENTION : la suite e été un peu modifiée (avec aussi la fonction constructionLemma) 
+            // pour conserver l'ancien fonctionnement où même les lemmes "bidons" sont écrits
+                if(g[iocl+1].tab[i]->mark == 1 && i != resf /* && cardinal(g[iocl].tab[i]->e)!=1 */ )  // TENTION ne teste pas si la conclusion est sur un singleton
+                // i.e si le lemme est marqué dans la couche suivante, c'est qu'on en a besoin
+                // comme c'est on agit de lanière ascendante dans les couches, c'est la première occurence
+                // on en fait un lemme
+                {
+                    // if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
+                    {
+                        constructLemma(file,g[iocl],g[iocl].tab[i],sizeTab, iocl);  // à commenter après test
+                        // constructIntro(file, g[iocl]);
+                        // constructProof(file,g[iocl].tab[i], sizeTab, 1); // le dernier argument correspond à previousconstruct, c'est toujours 1 ?
+                        g[iocl].tab[i]->mark = 4;
+                        g[iocl+1].tab[i]->mark = 4;     // ajout dans la couche suivante pour que le lemme soit pris en compte
+                        unMark(g[iocl].tab[i]);
+                    }
+                
+                }
+                
+            }
+        }
+
+        // traitement de la dernière couche :
+        // ATTENTION : tab[res]
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // TODO
+        // C'est ici qu'on pourrait prendre en compte plusieurs conclusion 
+        // seule la conclusion <res> est traitée !
+        // 
+        // if(constructLemma(file, g[last], g[last].tab[resf],last))  // devrait être toujours vrai
+        {
+            constructLemma(file, g[last], g[last].tab[resf],sizeTab, last);  // à commenter après test
+            // constructIntro(file, g[last]);
+           //  constructProof(file, g[last].tab[resf], sizeTab, 1);
+        }
+
+        
+        fclose(file);
+        if(debug_mode) fclose(debug_file);
+    }
 	return 0;
 }
 // fin de la fonction main
