@@ -74,6 +74,6 @@ La structure de base pour la propagation des limites de rangs et l'historique d'
     -   3 preuve en cours d'écriture
     -   4 preuve écrite dans un lemme est réutilisable.
  * le champ `rule` est un entier correspondant au numéro de la règle qui a été appliquée pour produire le noeud. Cette règle est traduite en élément de preuve Coq.
- * le champs `ante` correspond à la liste des noeuds qui sonten prémisses dans la règle (par exemple dans la règle de Pappus, cette liste est très longue car il y a une dizaine de prémisses). C'est cette liste qu fait le lien avec les preuves antérieures au noeud.
+ * le champs `ante` correspond à la liste des noeuds qui sont en prémisses dans la règle (par exemple dans la règle de Pappus, cette liste est très longue car il y a une dizaine de prémisses). Le premier élément de cette liste est le noeud auquel est appliqué la règle lui-même puisqu'il intervient dans la prémsses et dans la conclusion. C'est cette liste qu fait le lien avec les preuves antérieures au noeud.
 
  Un graphe est une table de noeuds avec des informations supplémentaires.
