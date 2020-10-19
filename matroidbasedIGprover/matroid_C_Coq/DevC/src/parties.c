@@ -1182,10 +1182,11 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
         list tmp = n->ante;	
 
         if(tmp != NULL)	
+		{
             while(tmp != NULL)
             {
 
-                if(tmp->n->mark == U_NOT_WRITTEN_IN_PROOF)
+                if(tmp->n->mark == U_NOT_WRITTEN_IN_PROOF && SetFrom(tmp->n->e) != SetFrom(n->e))
                 {
                     tmp->n->mark = U_WAITING_FOR_PREVIOUS_PROOF;  // devrait être à sa place ici
                     /*-------------------------------------
@@ -1199,7 +1200,7 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
                 }
                 tmp = tmp->next;
             }
-
+		}
         /////////////////////////////////////////////////////////////////////////////
 
 
