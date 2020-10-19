@@ -1187,6 +1187,10 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
             {
 
                 if(tmp->n->mark == U_NOT_WRITTEN_IN_PROOF && SetFrom(tmp->n->e) != SetFrom(n->e))
+				// la deuxième condition a été ajoutée pour éviter d'utiliser ici les versions
+				// précédentes des noeuds concernant le même ensemble
+				// cela conduisait en effet à une diversification des lemmes avec le même non
+				// et qui ne se concluait pas par  une égalité de rang
                 {
                     tmp->n->mark = U_WAITING_FOR_PREVIOUS_PROOF;  // devrait être à sa place ici
                     /*-------------------------------------
