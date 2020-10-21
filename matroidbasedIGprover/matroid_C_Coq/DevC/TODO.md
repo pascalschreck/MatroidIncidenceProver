@@ -10,6 +10,7 @@
 * tester plus en profondeur les raisonnements par contradiction (c'est un cas où la propagation de contrainte (avant ou arrière) pourrait bien fonctionner)
 * regarder la perte de marquage et/ou de reconstruction de théorèmes qui seraient dus (?) à la gestion des couches de raisonnement.
 * regarder le as multi couche avec  le nouveu parcours pour construire la preuve.
+* on peut facilement ajouter plusieurs conclusion : ça peut être utile pour prouver un théorème de Deasragues assez complet en dim 3 et 4
 
 ### In progress
 *  il y a un problème assez fondamental dans la manière dont la preuve est écrite avec l'algo. de David :

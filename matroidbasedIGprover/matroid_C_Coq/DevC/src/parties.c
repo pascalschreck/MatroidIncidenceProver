@@ -1686,7 +1686,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				stabb = 1;
 				
 			}	
+<<<<<<< HEAD
 			//else {
+=======
+		/*	else { */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAe); 
 				fprintf(file,"Mtmp : rk(");
@@ -1696,7 +1700,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAe);
 				fprintf(file,"M%d).\n",rankMaxA);
+<<<<<<< HEAD
 			//}
+=======
+		/*	}     */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 			
 			if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
 			{
@@ -1723,7 +1731,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				stabb = 1;
 			
 			}	
+<<<<<<< HEAD
 			// else {
+=======
+		/*	else {  */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partBe); 
 				fprintf(file,"Mtmp : rk(");
@@ -1733,7 +1745,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partBe);
 				fprintf(file,"M%d).\n",rankMaxB);
+<<<<<<< HEAD
 			//}
+=======
+		/*	}	*/
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 
 			if(partAiB != 0x0)
 			{
@@ -1762,7 +1778,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					}
 					stabb = 1;
 				}	
+<<<<<<< HEAD
 				// else {
+=======
+			/*	else {	*/
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 					fprintf(file,"\tassert(H");
 					printHypSetFile(file,partAiBe); 
 					fprintf(file,"mtmp : rk(");
@@ -1772,7 +1792,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					fprintf(file,"eq H");
 					printHypSetFile(file,partAiBe);
 					fprintf(file,"m%d).\n",rankMinAiB);
+<<<<<<< HEAD
 				// }
+=======
+			/*	}	*/
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 			}
 			else
 			{
@@ -2085,7 +2109,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
+<<<<<<< HEAD
 			// else {
+=======
+			/* else {	*/
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partBe); 
 				fprintf(file,"Mtmp : rk(");
@@ -2095,7 +2123,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partBe);
 				fprintf(file,"M%d).\n",rankMaxB);
+<<<<<<< HEAD
 			//}
+=======
+			/* }	*/
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 			
 			// if(previousConstruct)
 			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
@@ -2122,7 +2154,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
+<<<<<<< HEAD
 			// else {
+=======
+			/* else {	*/
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAuBe); 
 				fprintf(file,"mtmp : rk(");
@@ -2132,7 +2168,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAuBe);
 				fprintf(file,"m%d).\n",rankMinAuB);
+<<<<<<< HEAD
 			//}
+=======
+			/* }	*/
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 			if(partAiB != 0x0)
 			{
 				//if(previousConstruct)
@@ -2160,7 +2200,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					}
 					stabb = 1;
 				}
+<<<<<<< HEAD
 				//else {
+=======
+				/* else { */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 					fprintf(file,"\tassert(H");
 					printHypSetFile(file,partAiBe); 
 					fprintf(file,"mtmp : rk(");
@@ -2170,7 +2214,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					fprintf(file,"eq H");
 					printHypSetFile(file,partAiBe);
 					fprintf(file,"m%d).\n",rankMinAiB);
+<<<<<<< HEAD
 				//}
+=======
+				/* }	*/
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 			}
 			else
 			{
@@ -2468,7 +2516,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
+<<<<<<< HEAD
 			// else {
+=======
+			/* else {  */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAe); 
 				fprintf(file,"Mtmp : rk(");
@@ -2478,7 +2530,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAe);
 				fprintf(file,"M%d).\n",rankMaxA);
+<<<<<<< HEAD
 			//}
+=======
+			/*  }   */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 			
 			// if(previousConstruct)
 			if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
@@ -2505,7 +2561,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
+<<<<<<< HEAD
 			// else {
+=======
+			/* else {   */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partBe); 
 				fprintf(file,"Mtmp : rk(");
@@ -2515,7 +2575,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partBe);
 				fprintf(file,"M%d).\n",rankMaxB);
+<<<<<<< HEAD
 			//}
+=======
+			/* }   */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 			
 			//if(previousConstruct)
 			if(R_THIRD(n)->mark == PROOF_ALREADY_DONE)
@@ -2542,7 +2606,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
+<<<<<<< HEAD
 			//else {
+=======
+			/*  else {   */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAuBe); 
 				fprintf(file,"mtmp : rk(");
@@ -2552,7 +2620,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAuBe);
 				fprintf(file,"m%d).\n",rankMinAuB);
+<<<<<<< HEAD
 			//}
+=======
+			/* }    */
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 
 			fprintf(file,"\tassert(Hincl : incl (");
 			printSetFile(file,partAiBe);
@@ -2897,7 +2969,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
+<<<<<<< HEAD
 			//else {
+=======
+			// else {
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAuBe); 
 				fprintf(file,"mtmp : rk(");
@@ -2907,7 +2983,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAuBe);
 				fprintf(file,"m%d).\n",rankMinAuB);
+<<<<<<< HEAD
 			//}
+=======
+			// }
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 			
 			if(partAiB != 0x0)
 			{
@@ -3224,7 +3304,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				stabb = 1;
 				
 			}
+<<<<<<< HEAD
 			// else	{
+=======
+			// else	{    // suite de la tentative de simplif (pas de else avant)
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAe); 
 				fprintf(file,"mtmp : rk(");
@@ -3569,7 +3653,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partBe);
 				fprintf(file,"m%d).\n",rankMinB);
+<<<<<<< HEAD
 			//}
+=======
+			// }
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 
 			fprintf(file,"\tassert(Hcomp : ");
 			fprintf(file,"%d >= %d",rankMinB,rankMinA);
@@ -3726,7 +3814,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
+<<<<<<< HEAD
 			//else {
+=======
+			// else {
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAe); 
 				fprintf(file,"Mtmp : rk(");
@@ -3736,7 +3828,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAe);
 				fprintf(file,"M%d).\n",rankMaxA);
+<<<<<<< HEAD
 			//}
+=======
+			// }
+>>>>>>> 164aa831a3f67a1020b74f6d7a33c1bb4297d4d8
 			fprintf(file,"\tassert(Hcomp : ");
 			fprintf(file,"%d <= %d",rankMaxA,rankMaxB);
 			fprintf(file,") by (repeat constructor).\n");
