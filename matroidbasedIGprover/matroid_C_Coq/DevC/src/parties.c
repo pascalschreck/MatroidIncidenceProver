@@ -1534,11 +1534,13 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 	int freeA, freeB, freeAuB, freeAiB;
 	list tmp = n->ante;						/* la liste ante correspond aux étapes précédentes de réduction d'intervalle */
 
+
+
 	if(tmp != NULL)	
 		{
 		/* deboggage   */
 
-				if(print_trace)
+				if(print_trace || (SetFrom(n->e)==traced && trace))
 				{
 					fprintf(debug_file," \t\t trace pour %llu (règle %d)", SetFrom(n->e),n->rule);
 					printHypSetFile(debug_file,SetFrom(n->e));
@@ -1547,6 +1549,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					DEB_PS("fin de la liste.\n");
 					printListFile (debug_file, tmp->n->ante); NL;
 					DEB_PS("fin de la liste.\n");
+					print_trace = true;
 				}
 		n->mark = U_WAITING_FOR_PREVIOUS_PROOF;
 		while(tmp != NULL)
@@ -1613,17 +1616,17 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			}
 			
 			// sets
-			partAe = partA & 0x3FFFFFFFFFFFFFF;
-			partBe = partB & 0x3FFFFFFFFFFFFFF;
+			partAe = SetFrom(partA);
+			partBe = SetFrom(partB);
 			if(n->ante->next->next->next !=NULL)
 			{
-				partAiBe = partAiB & 0x3FFFFFFFFFFFFFF;
+				partAiBe = SetFrom(partAiB);
 			}
 			else
 			{
 				partAiBe = 0x0;
 			}
-			partAuBe = partAuB & 0x3FFFFFFFFFFFFFF;
+			partAuBe = SetFrom(partAuB);
 			
 			// ranks			
 			rankMinA = rankMin(partA);
@@ -2061,7 +2064,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			fprintf(file,"{\n");
 
 			// if(previousConstruct) // THIRD if AiB != 0 else SECOND
-			if((inter) ? R_THIRD(n)->mark : R_SECOND(n)->mark == PROOF_ALREADY_DONE)
+			if(((inter) ? R_THIRD(n)->mark : R_SECOND(n)->mark)  == PROOF_ALREADY_DONE)
 			{
 				fprintf(file,"\ttry assert(H");
 				printHypSetFile(file,partBe);
@@ -2826,7 +2829,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							(inter) ? R_SECOND(n)->mark : -1,
 							(inter) ? R_THIRD(n)->mark : R_SECOND(n)->mark
 							);
-
+			fprintf(file,"(* ensembles concernés AUB : "), 
+			printSetFile(file,SetFrom(R_FIRST(n)->e));
+			fprintf(file," AiB : "); printSetFile(file,SetFrom((inter) ? R_SECOND(n)->e : 0));
+			fprintf(file," A : "); printSetFile(file,SetFrom((inter) ? R_THIRD(n) -> e : R_SECOND(n)->e));
+			fprintf(file," *)\n");
 
 			fprintf(file,"assert(H");
 			printHypSetFile(file,partBe);
@@ -2836,7 +2843,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			fprintf(file,"{\n");
 			
 			// if(previousConstruct)
-			if((inter) ? R_THIRD(n)->mark : R_SECOND(n)->mark == PROOF_ALREADY_DONE)
+			if(((inter) ? R_THIRD(n)->mark : R_SECOND(n)->mark) == PROOF_ALREADY_DONE)
 			{
 				fprintf(file,"\ttry assert(H");
 				printHypSetFile(file,partAe);
@@ -4650,6 +4657,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 		}
 	}
 n->mark = PROOF_WRITTEN_in_Lemma;
+// n->mark = U_NOT_WRITTEN_IN_PROOF;
 }
 //*******************************************************************************
 /*______________________________________________________________________________*
