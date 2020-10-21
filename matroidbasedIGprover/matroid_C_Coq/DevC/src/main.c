@@ -232,10 +232,15 @@ int main(int argc, char * argv[])
             {
 
                 constructLemma(file,g[last],g[last].tab[i],sizeTab, last);  
+                // la fonction constructLemma a été revisitée : elle examine tous les noeuds qui sont requis
+                // pour écrire la preuve et en fait des lemmes. Les deux fonctions dont les appels sont commentés
+                // ci-dessous sont faits dans la fonction constructctLemma ainsi, on peut mieux contrôler l'écriture
+                // dans le fichier.
                 // constructIntro(file, g[last]);
                 // constructProof(file,g[last].tab[i], sizeTab, 1); 
                 g[last].tab[i]->mark = PROOF_ALREADY_DONE; // 4
-                unMark(g[last].tab[i]);   // peut-être y a-t-il un pb ici avec les noeuds marqués 3 (U_PROOF_BEING_WRITTEN)
+                // le démarquage est débrayé pour test
+               // unMark(g[last].tab[i]);   // peut-être y a-t-il un pb ici avec les noeuds marqués 3 (U_PROOF_BEING_WRITTEN)
             }
             
         }

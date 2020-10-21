@@ -203,7 +203,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							
 							variation = 1;
 							decr++;
-							
+							#ifdef DEBUG
 							if(debug){
 								// printf("rule 5 : incl(partA,partB) && rankMinA > rankMinB ! i : %llu j : %llu \n",i,j);
 								DEB_PS("rule 5 : incl(partA,partB) && rankMinA > rankMinB avec : ");
@@ -214,6 +214,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
 								NL;
 							}
+							#endif
 							
 						}
 						/*-----------------------------------------------------------
@@ -244,6 +245,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							variation = 1;
 							decr++;
 
+							#ifdef DEBUG
 							if(debug){
 							// printf("rule 6 : incl(partA,partB) && rankMaxB < rankMaxA ! i : %llu j : %llu \n",i,j);
 								DEB_PS("rule 6 : incl(partA,partB) && rankMaxB < rankMaxA avec : ");
@@ -254,6 +256,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
 								NL;
 							}
+							#endif
 						}
 						
 						computeM3 = rankMaxA + rankMaxB - rankMinAiB;
@@ -291,6 +294,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							variation = 1;
 							sub++;
 
+							#ifdef DEBUG
 							if(debug){
 							// printf("rule 1 : rankMaxA + rankMaxB - rankMinAiB ! i : %llu j : %llu \n",i,j);
 								DEB_PS("rule 1 : rankMaxA + rankMaxB - rankMinAiB  ! i ! i (A) et j (B) : ");
@@ -301,6 +305,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
 								NL;
 							}
+							#endif
 						}
 						
 						computeM3 = rankMinAuB + rankMinAiB - rankMaxB;	
@@ -337,6 +342,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							variation = 1;
 							sub++;
 
+							#ifdef DEBUG
 							if(debug){
 							// printf("rule 2 : rankMinAuB + rankMinAiB - rankMaxB ! i : %llu j : %llu \n",i,j);
 								DEB_PS("rule 2 : rankMinAuB + rankMinAiB - rankMaxB  ! i ! i (A) et j (B) : ");
@@ -347,6 +353,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
 								NL;
 							}
+							#endif
 						}
 						
 						computeM3 = rankMaxA + rankMaxB - rankMinAuB;
@@ -384,6 +391,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 								variation = 1;
 								sub++;
 
+								#ifdef DEBUG
 								if(debug){
 								// printf("rule 3 : rankMaxA + rankMaxB - rankMinAuB ! i : %llu j : %llu \n",i,j);
 									DEB_PS("rule 3 : rankMaxA + rankMaxB - rankMinAuB ! i ! i (A) et j (B) : ");
@@ -393,7 +401,8 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 									DEB_PS(" B : ");
 									printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
 									NL;	
-								}									
+								}	
+								#endif								
 							}	
 						}
 						
@@ -431,6 +440,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							variation = 1;
 							sub++;
 
+							#ifdef DEBUG
 							if(debug){
 							// printf("rule 4 : rankMinAuB + rankMinAiB - rankMaxA ! i : %llu j : %llu \n",i,j);
 								DEB_PS("rule 4 : rankMinAuB + rankMinAiB - rankMaxA  ! i ! i (A) et j (B) : ");
@@ -440,7 +450,8 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 								DEB_PS(" B : ");
 								printSetFile(debug_file,(myType)j); DEB_PS("nil"); TAB;
 								NL;		
-							}				
+							}	
+							#endif			
 						}
 				/**********************************************************************************
 				 *  PS : La parie suivante a été commentée par David. Je la laisse là pour le moment
@@ -1134,7 +1145,9 @@ void preMark(node n) {		// marquage récursifs des antécédents d'un noeud par 
 }
 
 void unMark(node n) {		// démarquage des antécédents
-	if(n->mark < PROOF_ALREADY_DONE && n->mark < U_PROOF_BEING_WRITTEN) // TEST : dernière condition ajoutée pour voir
+	//if(n->mark < PROOF_ALREADY_DONE) 
+	if(n->mark == U_NOT_WRITTEN_IN_PROOF) 	// remplace la condition plus haut
+											// mais si le marquage est bien fait ça ne devrait pas arriver
 	{
 		n->mark = UNUSED;
 	}
@@ -1167,20 +1180,31 @@ void unMark(node n) {		// démarquage des antécédents
 *   (2) TEMPORAIRE : TENTION
 *__________________________________________________________________________________*/
 bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couche) {
-	// on écrit de code dans le fichier <file>, l'énoncé correspontant qu noeud n du graphe g
+	// on écrit de code dans le fichier <file>, l'énoncé correspondant qu noeud n du graphe g
 	// la mention de la <couche> sert uniquement à faire des sorties informatives 
 	int i;
 	int cpt = 0;
 	myType partA, partAe, partB, partBe;
 	int rankMinA, rankMaxA, rankB;
+
+
+	partA = n->e;
+	partAe = SetFrom(partA);
+	rankMinA = rankMin(partA);
+	rankMaxA = rankMax(partA);
+
 	// modif PS : 27 septembre 2020
+	// pour le moment (21 oct 2020) les deux buffers suivants ne sont pas utilisés
+	// les pointeurs en dessous non plus.
+	/*
 	char *local_buffer = (char *)calloc(5000,sizeof(char));
 	char *debug_info = (char *)calloc(500,sizeof(char));
 	char *pos = local_buffer, *pos_debug = debug_info;
+	*/
 	// <--PS
         /*------------------------------------------ajout--------------------------*/
         list tmp = n->ante;	
-
+		n->mark = U_WAITING_FOR_PREVIOUS_PROOF;
         if(tmp != NULL)	
 		{
             while(tmp != NULL)
@@ -1191,8 +1215,9 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 				// précédentes des noeuds concernant le même ensemble
 				// cela conduisait en effet à une diversification des lemmes avec le même non
 				// et qui ne se concluait pas par  une égalité de rang
+				// les bout de preuves manquées sont rattrapés dans constructProofaux()
                 {
-                    tmp->n->mark = U_WAITING_FOR_PREVIOUS_PROOF;  // devrait être à sa place ici
+                    // tmp->n->mark = U_WAITING_FOR_PREVIOUS_PROOF; // sera fait dans constructLemma()
                     /*-------------------------------------
                             appel récusrif  :
                         c'est ici que l'on traite les différentes étapes de la preuve
@@ -1200,7 +1225,10 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
                         pour l'ensemble considéré.
                     
                     -----------------------------------------*/
+					fprintf(file,"(* dans constructLemma(), requis par L");
+					printHypSetFile(file, partAe);fprintf(file," *)\n");
                     constructLemma(file, g, tmp->n, sizeTab, couche);
+					
                 }
                 tmp = tmp->next;
             }
@@ -1210,15 +1238,17 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 
 
 
-	partA = n->e;
-	partAe = SetFrom(partA);
 
-	rankMinA = rankMin(partA);
-	rankMaxA = rankMax(partA);
 	if(rankMin(partA) != rankMax(partA))
 	{
-		fprintf(stderr,"Attention rangs non identiques pour le résultat\n");
+		fprintf(stderr,"Attention rangs non identiques pour le résultat de %llu  rang min %d et rang max %d \n", 
+						partAe, rankMinA, rankMaxA);
+		printSetFile(stderr, partAe),
+		fprintf(stderr,"\n");
 	}
+	// les sprintf() commentés à la suite ont été utilisés pour faire une écriture différée dans le fichier
+	// Coq au moment de filtrer les Lemmes triviaux où la conclusion était dans les hypothèses
+	// cela posait des problèmes dans la réutilistion de lemmes et c'est commenté pour le moment.
 	//pos += sprintf(pos, "(* dans la couche %d *)\n", couche); 
 	fprintf(file, "(* dans la couche %d *)\n", couche);
 	// pos += sprintf(pos,"Lemma L"); // modif 27/09/20 : avant il y avait un fprintf()
@@ -1237,7 +1267,7 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 					}
 				/*-------------------------------------------------------------------------------*/
 	
-	// pos_debug = printHypSetString(pos_debug, partAe);										
+	//pos_debug = printHypSetString(pos_debug, partAe);										
 	//pos += sprintf(pos," : forall ");	    //  idem PS 27/09/20
 	fprintf(file," : forall ");
 	//<--PS
@@ -1328,10 +1358,18 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 		printSetFile(file,partAe);
 		fprintf(file," nil) <= %d.\n",rankMaxA);
 	}
-	n->mark = PROOF_ALREADY_DONE;
-	free(local_buffer); 
+	
+	// free(local_buffer);
+	// free(debug_info);
+
+	// construction de la preuve proprement dite
+	// on reste au marquage U_WAITING_FOR_PREVIOUS_PROOF pour le noeud courant
+	// car d'autres hypothèses concernant le noeud courant sont encore à démontrer
+	
 	constructIntro(file, g);
 	constructProof(file, n, sizeTab, 1);
+	// tout s'est bien passé et le lemme a été écrit avec sa preuve ... en principe
+	n->mark = PROOF_ALREADY_DONE;
 	return 1;
 }	
 
@@ -1339,7 +1377,10 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 
 
 ##  fonction constructIntro()
-
+	Remarque cette intro est très générique et ne nécessite que les données de l'énoncé
+	(en principe dans le graphe)
+	- tous les points sont introduits
+	- toutes les hyptothèses sont introduites
 ________________________________________________________________________________*/
 void constructIntro(FILE* file, graph g) {
 	int i;
@@ -1401,6 +1442,7 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 		print_trace = true;
 		}
 	
+	// appel à la vraie construction de la preuve 
 	constructProofaux(file, n, res, stab, previousConstruct, print_trace);
 	
 	
@@ -1473,7 +1515,8 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 	{
 		fprintf(file,"split. intuition. intuition. \nQed.\n\n");
 	}
-n->mark = 4;
+// le marque à PROOF_ALREADY_DONE (4) sera fait au retour dans constructLemma() si
+// c'est bien cette fonction qui a appelé constructProof()
 }
  
 /*______________________________________________________________________________
@@ -1485,7 +1528,7 @@ ________________________________________________________________________________
 void constructProofaux (FILE* file, node n, myType res, allocSize stab, int previousConstruct, bool print_trace) {
 	
 	int i,j;
-	int stabb = 1;
+	int stabb = 1;	// utilité ?
 	myType partA, partB, partAiB, partAuB, partAe, partBe, partAiBe, partAuBe;
 	int rankMinA, rankMaxA, rankMinB, rankMaxB, rankMinAiB, rankMaxAiB, rankMinAuB, rankMaxAuB;
 	int freeA, freeB, freeAuB, freeAiB;
@@ -1497,14 +1540,15 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 
 				if(print_trace)
 				{
-					fprintf(debug_file," \t\t trace pour %llu\n\n (règle %d)", SetFrom(n->e),n->rule);
-					DEB_PS("liste ante :\n");
+					fprintf(debug_file," \t\t trace pour %llu (règle %d)", SetFrom(n->e),n->rule);
+					printHypSetFile(debug_file,SetFrom(n->e));
+					DEB_PS("\n\nliste ante :\n");
 					printListFile (debug_file, tmp); NL;
 					DEB_PS("fin de la liste.\n");
 					printListFile (debug_file, tmp->n->ante); NL;
 					DEB_PS("fin de la liste.\n");
 				}
-
+		n->mark = U_WAITING_FOR_PREVIOUS_PROOF;
 		while(tmp != NULL)
 		{
 
@@ -1514,7 +1558,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				{
 					fprintf(debug_file,"étape précédent marquée : ensemble %llu\n",SetFrom(tmp->n->e));
 				}
-				tmp->n->mark = U_WAITING_FOR_PREVIOUS_PROOF;  // devrait être à sa place ici
+				// tmp->n->mark = U_WAITING_FOR_PREVIOUS_PROOF;  // fait avant d'entrer dans la boucle
 				/*-------------------------------------
 						appel récusrif  :
 					c'est ici que l'on traite les différentes étapes de la preuve
@@ -1522,6 +1566,8 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					pour l'ensemble considéré.
 				
 				-----------------------------------------*/
+				fprintf(file,"\n(* dans constructProofaux(), requis par la preuve de (?)");
+				printHypSetFile(file, SetFrom(n->e));fprintf(file,"règle %d  *)\n",n->rule);
 				constructProofaux(file, tmp->n, res, stab, previousConstruct, print_trace);
 			}
 			tmp = tmp->next;
@@ -1640,7 +1686,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				stabb = 1;
 				
 			}	
-			else {
+			//else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAe); 
 				fprintf(file,"Mtmp : rk(");
@@ -1650,7 +1696,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAe);
 				fprintf(file,"M%d).\n",rankMaxA);
-			}
+			//}
 			
 			if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
 			{
@@ -1677,7 +1723,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				stabb = 1;
 			
 			}	
-			else {
+			// else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partBe); 
 				fprintf(file,"Mtmp : rk(");
@@ -1687,7 +1733,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partBe);
 				fprintf(file,"M%d).\n",rankMaxB);
-			}
+			//}
 
 			if(partAiB != 0x0)
 			{
@@ -1716,7 +1762,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					}
 					stabb = 1;
 				}	
-				else {
+				// else {
 					fprintf(file,"\tassert(H");
 					printHypSetFile(file,partAiBe); 
 					fprintf(file,"mtmp : rk(");
@@ -1726,7 +1772,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					fprintf(file,"eq H");
 					printHypSetFile(file,partAiBe);
 					fprintf(file,"m%d).\n",rankMinAiB);
-				}
+				// }
 			}
 			else
 			{
@@ -2039,7 +2085,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {
+			// else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partBe); 
 				fprintf(file,"Mtmp : rk(");
@@ -2049,7 +2095,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partBe);
 				fprintf(file,"M%d).\n",rankMaxB);
-			}
+			//}
 			
 			// if(previousConstruct)
 			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
@@ -2076,7 +2122,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {
+			// else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAuBe); 
 				fprintf(file,"mtmp : rk(");
@@ -2086,7 +2132,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAuBe);
 				fprintf(file,"m%d).\n",rankMinAuB);
-			}
+			//}
 			if(partAiB != 0x0)
 			{
 				//if(previousConstruct)
@@ -2114,7 +2160,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					}
 					stabb = 1;
 				}
-				else {
+				//else {
 					fprintf(file,"\tassert(H");
 					printHypSetFile(file,partAiBe); 
 					fprintf(file,"mtmp : rk(");
@@ -2124,7 +2170,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					fprintf(file,"eq H");
 					printHypSetFile(file,partAiBe);
 					fprintf(file,"m%d).\n",rankMinAiB);
-				}
+				//}
 			}
 			else
 			{
@@ -2422,7 +2468,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {
+			// else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAe); 
 				fprintf(file,"Mtmp : rk(");
@@ -2432,7 +2478,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAe);
 				fprintf(file,"M%d).\n",rankMaxA);
-			}
+			//}
 			
 			// if(previousConstruct)
 			if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
@@ -2459,7 +2505,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {
+			// else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partBe); 
 				fprintf(file,"Mtmp : rk(");
@@ -2469,7 +2515,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partBe);
 				fprintf(file,"M%d).\n",rankMaxB);
-			}
+			//}
 			
 			//if(previousConstruct)
 			if(R_THIRD(n)->mark == PROOF_ALREADY_DONE)
@@ -2496,7 +2542,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {
+			//else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAuBe); 
 				fprintf(file,"mtmp : rk(");
@@ -2506,7 +2552,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAuBe);
 				fprintf(file,"m%d).\n",rankMinAuB);
-			}
+			//}
 
 			fprintf(file,"\tassert(Hincl : incl (");
 			printSetFile(file,partAiBe);
@@ -2814,7 +2860,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {
+			// else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAe); 
 				fprintf(file,"Mtmp : rk(");
@@ -2824,7 +2870,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAe);
 				fprintf(file,"M%d).\n",rankMaxA);
-			}
+			// }
 			
 			//if(previousConstruct)
 			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
@@ -2851,7 +2897,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {
+			//else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAuBe); 
 				fprintf(file,"mtmp : rk(");
@@ -2861,7 +2907,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAuBe);
 				fprintf(file,"m%d).\n",rankMinAuB);
-			}
+			//}
 			
 			if(partAiB != 0x0)
 			{
@@ -2890,7 +2936,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					}
 					stabb = 1;
 				}
-				else {
+				// else {
 					fprintf(file,"\tassert(H");
 					printHypSetFile(file,partAiBe); 
 					fprintf(file,"mtmp : rk(");
@@ -2900,7 +2946,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					fprintf(file,"eq H");
 					printHypSetFile(file,partAiBe);
 					fprintf(file,"m%d).\n",rankMinAiB);
-				}
+				// }
 			}
 			else
 			{
@@ -3178,8 +3224,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				stabb = 1;
 				
 			}
-			else	// suite de la tentative de simplif (pas de else avant)
-			{
+			// else	{
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAe); 
 				fprintf(file,"mtmp : rk(");
@@ -3189,7 +3234,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAe);
 				fprintf(file,"m%d).\n",rankMinA);
-			}
+			// }
 				fprintf(file,"\tassert(Hcomp : ");
 				fprintf(file,"%d <= %d",rankMinA,rankMinB);
 				fprintf(file,") by (repeat constructor).\n");
@@ -3349,7 +3394,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {
+			// else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partBe); 
 				fprintf(file,"Mtmp : rk(");
@@ -3359,7 +3404,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partBe);
 				fprintf(file,"M%d).\n",rankMaxB);
-			}
+			// }
 			fprintf(file,"\tassert(Hcomp : ");
 			fprintf(file,"%d <= %d",rankMaxB,rankMaxA);
 			fprintf(file,") by (repeat constructor).\n");
@@ -3514,7 +3559,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {		
+			// else {		
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partBe); 
 				fprintf(file,"mtmp : rk(");
@@ -3524,7 +3569,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partBe);
 				fprintf(file,"m%d).\n",rankMinB);
-			}
+			//}
 
 			fprintf(file,"\tassert(Hcomp : ");
 			fprintf(file,"%d >= %d",rankMinB,rankMinA);
@@ -3681,7 +3726,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 				stabb = 1;
 			}
-			else {
+			//else {
 				fprintf(file,"\tassert(H");
 				printHypSetFile(file,partAe); 
 				fprintf(file,"Mtmp : rk(");
@@ -3691,7 +3736,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				fprintf(file,"eq H");
 				printHypSetFile(file,partAe);
 				fprintf(file,"M%d).\n",rankMaxA);
-			}
+			//}
 			fprintf(file,"\tassert(Hcomp : ");
 			fprintf(file,"%d <= %d",rankMaxA,rankMaxB);
 			fprintf(file,") by (repeat constructor).\n");
@@ -4604,6 +4649,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			fprintf(file,"\n");
 		}
 	}
+n->mark = PROOF_WRITTEN_in_Lemma;
 }
 //*******************************************************************************
 /*______________________________________________________________________________*

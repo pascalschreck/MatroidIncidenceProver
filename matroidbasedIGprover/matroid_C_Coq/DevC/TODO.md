@@ -2,6 +2,10 @@
 
 ## FIXME
 ### To do
+* corriger tous les bugs dans la production de la preuve :
+    - des Lemmes ne sont pas écrits (toujours pas !) alors qu'ils sont utilisés
+    - une utilsation de la actique matroid2 devrait être faite mais ne l'est pas. Pire, le terme matroid2 n'aparaît pas 
+    dans le fichier parties.c où la preuve est censée être  écrite. 
 * Enlever les infos de déboggage quand ça fonctionnera ou mieux les mettres dans la compilation
 * tester plus en profondeur les raisonnements par contradiction (c'est un cas où la propagation de contrainte (avant ou arrière) pourrait bien fonctionner)
 * regarder la perte de marquage et/ou de reconstruction de théorèmes qui seraient dus (?) à la gestion des couches de raisonnement.
@@ -25,6 +29,12 @@
 ### Done
 * les commentaires vides font planter l'entrée
 * ajouter le mot clé "none" ou None" pour signifier qu'il n'y a pas de conclusion (remarque, il faut toujours une conclusion finale dans l'énoncé)
+* Filtrage des lemmes inutiles : 
+    - conclusion avec un singleton
+    - conclusion dans les hypothèses    
+    mais c'est en commentaire pour le moment : il y avait de problème dans l'utilisation des lemmes. 
+
+
 
 ## Décomposition et construction de la preuve
 Dans les preuves (je ne les ai pas toutes regardées), on note la fabrication d'un grand nombre de lemmes inutiles : par exemple des lemmes où la conclusion est que le rang d'un ensemble avec un seul point est 1 (est-ce bug qui prend en compte des restes de l'initialisation ?) ou alors dont la conclusion est incluse dans les prémisses.
@@ -34,10 +44,6 @@ Par ailleurs, la décomposition et la reconstruction de lemmes correspond à une
 
 --> voir plus bas la question des lemmes intermédiaires
 
-### Filtrage des lemmes inutiles
-Pour le moment, je n'ai empêché que l'écriture des lemmes (et de leur preuve) dont la conclusion était que le rang d'un ensemble réduit à un point était 1.
-
-Une autre simplitfication serait de filtrer les lemmes dont la conclusion est dans les hypothèses : ce n'est pa dur à voir, mais il faut repenser la manière dont la preuve est écrite : pour le moment, il s'agit de trois fonctions : une pour écrire le lemme (dans un fichier) et deux pour écrire la preuve, on peut s'apercevoir pendant l'écriture du lemme qu'il va être inutile, mais à ce moment, le début du code est déjà écrit et on est dans la boucle qui écrit la preuve ( break ? :( ))
 
 
 ## Manipulation des règles 

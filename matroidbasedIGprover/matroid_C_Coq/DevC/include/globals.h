@@ -42,5 +42,6 @@ myType traced;
 #define U_WAITING_FOR_PREVIOUS_PROOF 2
 #define U_PROOF_BEING_WRITTEN 3
 #define PROOF_ALREADY_DONE 4
+#define PROOF_WRITTEN_in_Lemma 5
 
 #endif
