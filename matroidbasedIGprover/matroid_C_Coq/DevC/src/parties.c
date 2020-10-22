@@ -15,10 +15,12 @@ allocSize allocSizeTab (int n, int m) {
 	
 	p.size = n;
 	p.tab = (int **)malloc(sizeof(int *)*n);
+		if(p.tab == 0) {printf("erreur d'allocation dans allocSizeTab()"); exit(2);}
 	
 	for(i = 0; i < p.size; i++)
 	{
 		p.tab[i] = (int *)malloc(sizeof(int)*m);
+			if(p.tab[i] == 0) {printf("erreur d'allocation dans allocSizeTab()"); exit(2);}
 	}
 	
 	for(i = 0; i < p.size; i++)
@@ -89,13 +91,15 @@ graph copyGraph(graph g1, graph g2, int res) {
 *
 *_________________________________________________________________*/
 graph convergenceParties (graph g, int res) {  // normalement, pour être cohérent res devrait ête de type ull
-	
+
+#ifdef DEBUG	
 	bool debug = debug_mode ;	// par défaut, on est dans le mode donné par l'utilisateur
-    // debug = true; // decommenter si on veut le mode deboggage pour la propagation des contraintes de rang
-	debug = false; // decommenter si on ne veut pas le mode deboggage pour la propagation des contraintes de rang
+#endif
+
+
 	bool print = false;	// mettre à 1 si ????
 	
-	unsigned long long int i, j;    // pour correspondre au type
+	unsigned long long i, j;    // pour correspondre au type
 		
 	myType partA, partB, partAiB, partAuB, partAe, partBe, partAiBe, partAuBe;
 	int rankMinA, rankMaxA, rankMinB, rankMaxB, rankMinAiB, rankMaxAiB, rankMinAuB, rankMaxAuB;
@@ -194,13 +198,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							g.tab[partBe-1] = n;
 							g.tab[partBe-1]->color = loopNumber+2;
 							
-							//~ rankMinB = rankMin(g.tab[partBe-1]->e);
-							//~ rankMinAuB = rankMin(g.tab[partAuBe-1]->e);
-							//~ if(partAiBe != 0x0)
-							//~ {
-								//~ rankMinAiB = rankMin(g.tab[partAiBe-1]->e);
-							//~ }
-							
+						
 							variation = 1;
 							decr++;
 							#ifdef DEBUG
@@ -235,12 +233,6 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							g.tab[partAe-1] = n;
 							g.tab[partAe-1]->color = loopNumber+2;
 							
-							//~ rankMaxA = rankMax(g.tab[partAe-1]->e);
-							//~ rankMaxAuB = rankMax(g.tab[partAuBe-1]->e);
-							//~ if(partAiBe != 0x0)
-							//~ {
-								//~ rankMaxAiB = rankMax(g.tab[partAiBe-1]->e);
-							//~ }
 							
 							variation = 1;
 							decr++;
@@ -283,13 +275,6 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							g.tab[partAuBe-1] = n;
 							g.tab[partAuBe-1]->color = loopNumber+2;
 							
-							//~ rankMaxA = rankMax(g.tab[partAe-1]->e);
-							//~ rankMaxB = rankMax(g.tab[partBe-1]->e);
-							//~ rankMaxAuB = rankMax(g.tab[partAuBe-1]->e);
-							//~ if(partAiBe != 0x0)
-							//~ {
-								//~ rankMaxAiB = rankMax(g.tab[partAiBe-1]->e);
-							//~ }
 							
 							variation = 1;
 							sub++;
@@ -332,13 +317,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							g.tab[partAe-1] = n;
 							g.tab[partAe-1]->color = loopNumber+2;
 
-							//~ rankMinA = rankMin(g.tab[partAe-1]->e);
-							//~ rankMinAuB = rankMin(g.tab[partAuBe-1]->e);
-							//~ if(partAiBe != 0x0)
-							//~ {
-								//~ rankMinAiB = rankMin(g.tab[partAiBe-1]->e);
-							//~ }
-							
+
 							variation = 1;
 							sub++;
 
@@ -380,13 +359,6 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 								g.tab[partAiBe-1] = n;
 								g.tab[partAiBe-1]->color = loopNumber+2;
 								
-								//~ rankMinA = rankMin(g.tab[partAe-1]->e);
-								//~ rankMinB = rankMin(g.tab[partBe-1]->e);
-								//~ rankMinAuB = rankMin(g.tab[partAuBe-1]->e);
-								//~ if(partAiBe != 0x0)
-								//~ {
-									//~ rankMinAiB = rankMin(g.tab[partAiBe-1]->e);
-								//~ }
 								
 								variation = 1;
 								sub++;
@@ -430,12 +402,6 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							g.tab[partBe-1] = n;
 							g.tab[partBe-1]->color = loopNumber+2;
 							
-							//~ rankMinB = rankMin(g.tab[partBe-1]->e);
-							//~ rankMinAuB = rankMin(g.tab[partAuBe-1]->e);
-							//~ if(partAiBe != 0x0)
-							//~ {
-								//~ rankMinAiB = rankMin(g.tab[partAiBe-1]->e);
-							//~ }
 							
 							variation = 1;
 							sub++;
@@ -453,45 +419,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 							}	
 							#endif			
 						}
-				/**********************************************************************************
-				 *  PS : La parie suivante a été commentée par David. Je la laisse là pour le moment
-				 * ********************************************************************************/
-						//~ g = applyPappusParties(g,i,j,convergence,loopNumber);
-						//~ 
-						//~ if(*convergence == 1) variation = 1;
-						//~ 
-						//~ *convergence = 0;
-
-						//~ if(incl(partB,partA) && rankMinB > rankMinA)
-						//~ {
-							//~ l = createList(g.tab[partBe-1]);
-							//~ l = addList(l,g.tab[partAe-1]);
-							//~ n = addNode(l,setMin(partA,rankMinB),7);
-							//~ g.tab[partAe-1] = n;
-							//~ g.tab[partAe-1]->color = loopNumber+2;
-							//~ 
-							//~ variation = 1;
-							//~ 
-							//~ if(debug)
-							//~ printf("rule 7 : incl(partB,partA) && rankMinB > rankMinA ! i : %d j : %d \n",i,j);
-							//~ 
-						//~ }
-
-						//~ if(incl(partB,partA) && rankMaxA < rankMaxB)
-						//~ {
-							//~ l = createList(g.tab[partAe-1]);
-							//~ l = addList(l,g.tab[partBe-1]);
-							//~ n = addNode(l,setMax(partB,rankMaxA),8);
-							//~ g.tab[partBe-1] = n;
-							//~ g.tab[partBe-1]->color = loopNumber+2;
-							//~ 
-							//~ variation = 1;
-							//~ 
-							//~ if(debug)
-							//~ printf("rule 8 : incl(partB,partA) && rankMaxA < rankMaxB ! i : %d j : %d \n",i,j);
-							//~ 
-						//~ }
-				/*************************** fin commentaire PS *************************************/
+				
 					}
 				}
 			}
@@ -506,15 +434,6 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 			fprintf(stderr,"Loop number : %d\n",loopNumber);
 		}
 		
-		//~ if(rankMax(g.tab[res]->e)==rankMin(g.tab[res]->e))
-		//~ {
-			//~ return g;
-		//~ }
-
-		// g = applyPappus(g,convergence,loopNumber);
-
-		// pappusNumber++;
-		// fprintf(stderr,"Pappus test : %d\n",pappusNumber);
 		
 		if(*convergence == 1) variation = 1;
 	}
@@ -522,539 +441,6 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 	fprintf(stderr,"Decr vs Sub : %d %d\n",decr,sub);
 	
 	return g;
-}
-
-/*----------------------------------------------------------------------------------------------*
-*																								*
-*	Gestion de la règle de Pappus :																*
-*  La gestion de la règle de Pappus dont l'application se fait en dehors des boucles d'			*
-*  actualisation des rangs avec essentiellement les règles d'inclusion et de sous-modularité,	*
-*  est fondée sur les 4 fonctions suivantes :													*
-*																								*
-*     - graph applyPappusParties (graph g, int i, int j, int * convergence, int loopNumber)		*
-*																								*
-*     - graph applyPappus (graph g, int * convergence, int loopNumber)							*
-*																								*
-*      - myType existPappusConfiguration														*
-*                (graph g, myType e1, myType e2, myType e3, myType e4, myType e5, myType e6)	*
-*																								*
-*																								*
-*      - myType existIntersectPoint(graph g, myType e1, myType e2)								*
-* les fonctions plus bas recensent tous les cas possibles ... elles sont très longues			*
-*																								*
-*_______________________________________________________________________________________________*/
-
-
-
-graph applyPappusParties (graph g, int i, int j, int * convergence, int loopNumber) {
-
-	myType partI,partJ,partIuJ,partIiJ;
-	myType e1,e2,e3,e4,e5,e6;
-	myType conf = 0x0;
-	myType i1,i2,i3,tmp;
-	
-	list l;
-	node n;
-	
-	partI = g.tab[i]->e & 0x3FFFFFFFFFFFFFF;
-	if(countBytes(partI) == 3 && rankMinMaxEqual(g.tab[i]->e,2))
-	{
-
-		partJ = g.tab[j]->e & 0x3FFFFFFFFFFFFFF;
-		partIiJ = partI & partJ;
-		partIuJ = partI | partJ;
-		if(countBytes(partJ) == 3 && rankMinMaxEqual(g.tab[j]->e,2) && partIiJ == 0x0 && rankMin(g.tab[partIuJ-1]->e) >= 3)
-		{
-			e1 = getIBytes(partI,1);
-			e2 = getIBytes(partI,2);
-			e3 = getIBytes(partI,3);
-			e4 = getIBytes(partJ,1);
-			e5 = getIBytes(partJ,2);
-			e6 = getIBytes(partJ,3);
-			
-			// Configuration 1 
-			i1 = existIntersectPoint(g,(e1|e5),(e2|e4));
-			i2 = existIntersectPoint(g,(e1|e6),(e3|e4));
-			i3 = existIntersectPoint(g,(e2|e6),(e3|e5));
-			
-			if(i1 != 0x0 && i2 != 0x0 && i3 != 0x0)
-			{
-				conf = i1 | i2 | i3;
-			}
-			if(conf != 0x0)
-			{
-				if(!rankMinMaxEqual(g.tab[conf-1]->e,2))
-				{
-					*convergence = 1;
-					
-					l = createList(g.tab[partI-1]);
-					l = addList(l,g.tab[partJ-1]);
-					
-					tmp = e1 | e5 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e4 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e6 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e2 | e6 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e5 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e2;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e3;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e4;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e5;
-					l = addList(l,g.tab[tmp-1]);			
-					tmp = e1 | e6;
-					l = addList(l,g.tab[tmp-1]);				
-					tmp = e2 | e3;
-					l = addList(l,g.tab[tmp-1]);							
-					tmp = e2 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e5 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					
-					n = addNode(l,setMinMax(conf,2,2),9);
-					g.tab[conf-1] = n;
-					g.tab[conf-1]->color = loopNumber+1;	
-		
-				}
-			}
-					
-			// Configuration 2 
-			i1 = existIntersectPoint(g,(e1|e6),(e2|e4));
-			i2 = existIntersectPoint(g,(e1|e5),(e3|e4));
-			i3 = existIntersectPoint(g,(e2|e5),(e3|e6));
-			
-			if(i1 != 0x0 && i2 != 0x0 && i3 != 0x0)
-			{
-				conf = i1 | i2 | i3;
-			}
-			if(conf != 0x0)
-			{
-				if(!rankMinMaxEqual(g.tab[conf-1]->e,2))
-				{
-					*convergence = 1;
-					
-					l = createList(g.tab[partI-1]);
-					l = addList(l,g.tab[partJ-1]);
-					
-					tmp = e1 | e6 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e4 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e5 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e2 | e5 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e2;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e3;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e4;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e5;
-					l = addList(l,g.tab[tmp-1]);			
-					tmp = e1 | e6;
-					l = addList(l,g.tab[tmp-1]);				
-					tmp = e2 | e3;
-					l = addList(l,g.tab[tmp-1]);							
-					tmp = e2 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e5 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					
-					n = addNode(l,setMinMax(conf,2,2),9);
-					g.tab[conf-1] = n;
-					g.tab[conf-1]->color = loopNumber+1;	
-		
-				}
-			}
-					
-			// Configuration 3 
-			i1 = existIntersectPoint(g,(e1|e4),(e2|e5));
-			i2 = existIntersectPoint(g,(e1|e6),(e3|e5));
-			i3 = existIntersectPoint(g,(e2|e6),(e3|e4));
-			
-			if(i1 != 0x0 && i2 != 0x0 && i3 != 0x0)
-			{
-				conf = i1 | i2 | i3;
-			}
-			if(conf != 0x0)
-			{
-				if(!rankMinMaxEqual(g.tab[conf-1]->e,2))
-				{
-					*convergence = 1;
-					
-					l = createList(g.tab[partI-1]);
-					l = addList(l,g.tab[partJ-1]);
-					
-					tmp = e1 | e4 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e5 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e6 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e5 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e2 | e6 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e2;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e3;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e4;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e5;
-					l = addList(l,g.tab[tmp-1]);			
-					tmp = e1 | e6;
-					l = addList(l,g.tab[tmp-1]);				
-					tmp = e2 | e3;
-					l = addList(l,g.tab[tmp-1]);							
-					tmp = e2 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e5 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					
-					n = addNode(l,setMinMax(conf,2,2),9);
-					g.tab[conf-1] = n;
-					g.tab[conf-1]->color = loopNumber+1;	
-		
-				}
-			}
-					
-			// Configuration 4 
-			i1 = existIntersectPoint(g,(e1|e6),(e2|e5));
-			i2 = existIntersectPoint(g,(e1|e4),(e3|e5));
-			i3 = existIntersectPoint(g,(e2|e4),(e3|e6));
-			
-			if(i1 != 0x0 && i2 != 0x0 && i3 != 0x0)
-			{
-				conf = i1 | i2 | i3;
-			}
-			if(conf != 0x0)
-			{
-				if(!rankMinMaxEqual(g.tab[conf-1]->e,2))
-				{
-					*convergence = 1;
-					
-					l = createList(g.tab[partI-1]);
-					l = addList(l,g.tab[partJ-1]);
-					
-					tmp = e1 | e6 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e5 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e4 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e5 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e2 | e4 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e2;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e3;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e4;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e5;
-					l = addList(l,g.tab[tmp-1]);			
-					tmp = e1 | e6;
-					l = addList(l,g.tab[tmp-1]);				
-					tmp = e2 | e3;
-					l = addList(l,g.tab[tmp-1]);							
-					tmp = e2 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e5 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					
-					n = addNode(l,setMinMax(conf,2,2),9);
-					g.tab[conf-1] = n;
-					g.tab[conf-1]->color = loopNumber+1;	
-		
-				}
-			}
-					
-			// Configuration 5
-			i1 = existIntersectPoint(g,(e1|e4),(e2|e6));
-			i2 = existIntersectPoint(g,(e1|e5),(e3|e6));
-			i3 = existIntersectPoint(g,(e2|e5),(e3|e4));
-			
-			if(i1 != 0x0 && i2 != 0x0 && i3 != 0x0)
-			{
-				conf = i1 | i2 | i3;
-			}
-			if(conf != 0x0)
-			{
-				if(!rankMinMaxEqual(g.tab[conf-1]->e,2))
-				{
-					*convergence = 1;
-					
-					l = createList(g.tab[partI-1]);
-					l = addList(l,g.tab[partJ-1]);
-					
-					tmp = e1 | e4 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e6 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e5 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e2 | e5 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e2;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e3;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e4;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e5;
-					l = addList(l,g.tab[tmp-1]);			
-					tmp = e1 | e6;
-					l = addList(l,g.tab[tmp-1]);				
-					tmp = e2 | e3;
-					l = addList(l,g.tab[tmp-1]);							
-					tmp = e2 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e5 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					
-					n = addNode(l,setMinMax(conf,2,2),9);
-					g.tab[conf-1] = n;
-					g.tab[conf-1]->color = loopNumber+1;	
-		
-				}
-			}
-					
-			// Configuration 6 
-			i1 = existIntersectPoint(g,(e1|e5),(e2|e6));
-			i2 = existIntersectPoint(g,(e1|e4),(e3|e6));
-			i3 = existIntersectPoint(g,(e2|e4),(e3|e5));
-			
-			if(i1 != 0x0 && i2 != 0x0 && i3 != 0x0)
-			{
-				conf = i1 | i2 | i3;
-			}
-			if(conf != 0x0)
-			{
-				if(!rankMinMaxEqual(g.tab[conf-1]->e,2))
-				{
-					*convergence = 1;
-					
-					l = createList(g.tab[partI-1]);
-					l = addList(l,g.tab[partJ-1]);
-					
-					tmp = e1 | e5 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e6 | i1;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e4 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6 | i2;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e2 | e4 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6 | i3;
-					l = addList(l,g.tab[tmp-1]);
-					
-					tmp = e1 | e2;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e3;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e4;
-					l = addList(l,g.tab[tmp-1]);	
-					tmp = e1 | e5;
-					l = addList(l,g.tab[tmp-1]);			
-					tmp = e1 | e6;
-					l = addList(l,g.tab[tmp-1]);				
-					tmp = e2 | e3;
-					l = addList(l,g.tab[tmp-1]);							
-					tmp = e2 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e2 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e4;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e3 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e5;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e4 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					tmp = e5 | e6;
-					l = addList(l,g.tab[tmp-1]);
-					
-					n = addNode(l,setMinMax(conf,2,2),9);
-					g.tab[conf-1] = n;
-					g.tab[conf-1]->color = loopNumber+1;	
-		
-				}
-			}
-		}
-	}
-	return g;
-}
-
-
-/*______________________________________________________________________________
-
-
-##  fonction applyPappus(graph g, int * convergence, int loopNumber)
-
-________________________________________________________________________________*/
-graph applyPappus (graph g, int * convergence, int loopNumber) {
-	
-	int i, j;
-	
-	myType partI,partJ,partIuJ,partIiJ;
-	
-	for(i = 0; i < g.effectiveSize; i++)
-	{
-		partI = g.tab[i]->e & 0x3FFFFFFFFFFFFFF;
-		if(countBytes(partI) == 3 && rankMinMaxEqual(g.tab[i]->e,2))
-		{
-			for(j = i+1; j < g.effectiveSize; j++)
-			{
-				partJ = g.tab[j]->e & 0x3FFFFFFFFFFFFFF;
-				partIiJ = partI & partJ;
-				partIuJ = partI | partJ;
-				if(countBytes(partJ) == 3 && rankMinMaxEqual(g.tab[j]->e,2) && partIiJ == 0x0 && rankMin(g.tab[partIuJ-1]->e) >= 3)
-				{
-					applyPappusParties(g,i,j,convergence,loopNumber);
-				}
-			}
-		}
-	}
-	return g;
-}
-
-/*______________________________________________________________________________
-
-
-##  fonction existPappusConfiguration()
-
-________________________________________________________________________________*/
-myType existPappusConfiguration(graph g, myType e1, myType e2, myType e3, myType e4, myType e5, myType e6) {
-	myType i1,i2,i3;
-	myType i = 0x0;
-	
-	i1 = existIntersectPoint(g,(e1|e5),(e2|e4));
-	i2 = existIntersectPoint(g,(e1|e6),(e3|e4));
-	i3 = existIntersectPoint(g,(e2|e6),(e3|e5));
-	
-	if(i1 != 0x0 && i2 != 0x0 && i3 != 0x0)
-	{
-		i = i1 | i2 | i3;
-	}
-	
-	return i;
 }
 
 
@@ -1195,7 +581,9 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 
 	// modif PS : 27 septembre 2020
 	// pour le moment (21 oct 2020) les deux buffers suivants ne sont pas utilisés
-	// les pointeurs en dessous non plus.
+	// les pointeurs en dessous non plus. L'écriture différée de l'énoncé du Lemme
+	// sera peut-être utiliséesi on veut éviter les lemmes triviaux
+	// et si la nouvelle organisation ne permet pas de retader l'écriture de l'énoncé
 	/*
 	char *local_buffer = (char *)calloc(5000,sizeof(char));
 	char *debug_info = (char *)calloc(500,sizeof(char));
@@ -1237,7 +625,11 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 
 
 
-
+	/////////////////////////////////////////////////////////////////////://////
+	//////		Début de l'écriture du Lemme                               ////
+	//////    on ne doit plus écrire de lemme avant la fin de la preuve    ////
+	//////	  du lemme courant.											   ////
+	//////////////////////////////////////////////////////////////////////////
 
 	if(rankMin(partA) != rankMax(partA))
 	{
@@ -1268,15 +660,15 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 				/*-------------------------------------------------------------------------------*/
 	
 	//pos_debug = printHypSetString(pos_debug, partAe);										
-	//pos += sprintf(pos," : forall ");	    //  idem PS 27/09/20
+	//pos += sprintf(pos," : forall ");	    		//  idem PS 27/09/20
 	fprintf(file," : forall ");
 	//<--PS
 	for(i = 0; i < g.effectiveAllocPow; i++)
 	{
-		// pos += sprintf(pos,"P%d ",i+1);		// idem PS 27/09/20
+		// pos += sprintf(pos,"P%d ",i+1);			// idem PS 27/09/20
 		fprintf(file,"P%d ",i+1);
 	}
-												// Ainsi, 
+													// Ainsi, 
 	// pos += sprintf(pos,",\n");					// tous les points du graphe sont quantifiés universellement
 	fprintf(file,",\n");
 	for(i = 0; i < g.effectiveSize; i++)
@@ -1286,13 +678,13 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 			cpt++;
 			/*-----------------------------------TENTION TEST
 			*------------------------------------ commentaires à supprimmer dès qu'on aura a appris
-			*------------------------------------ à bien ggérer la chose
+			*------------------------------------ à bien gérer la chose
 			
 			if (g.tab[i]->e == n->e) { 	// idem PS 27/09/20 : brutal !		
 				// si g.tab[i]->e == n->e, il n'est pas utile d'écrire
 				// le lemme ni la preuve
 				*pos_debug = '\n';
-				fprintf(file,"(* Lemme %s pas écrit (couche %d) *) \n", debug_info, couche);	// TODO : couche
+				fprintf(file,"(* Lemme %s pas écrit (couche %d) *) \n", debug_info, couche);
 				free(local_buffer);
 				return 0;             
 			}
@@ -1566,7 +958,16 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 						appel récusrif  :
 					c'est ici que l'on traite les différentes étapes de la preuve
 					chaque étape correspondant à une réduction de l'intervalle des rangs
-					pour l'ensemble considéré.
+					pour l'ensemble considéré.(et sans écrire de Lemme puisque le lemme
+					en question est justement en train d'être écrit), cependant ces noeuds
+					font intervenir des noeuds marqués dont on voudra la preuve ... mais celle-ci
+					ne pourra pas donner lieu à un lemme, ce qui est 
+
+					Remarque importante :
+					On a déjà fait ce type de travail dans constructLemma() mais en ne traitant
+					pas les noeuds correspondants à l'ensemble concerné par le Lemme (ces noeuds
+					correspondent au même ensemble mais avec un intervalle de rang plus grand)
+					C'est ici qu ces noeud sont traités 
 				
 				-----------------------------------------*/
 				fprintf(file,"\n(* dans constructProofaux(), requis par la preuve de (?)");
@@ -3840,821 +3241,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			}
 			fprintf(file,"\n");
 		}
-		/******************************************************************
-		 * 	Pappus
-		 * ----------------------------------------------------------------*/
-		else if(n->rule == 9)
-		{
-			myType partP, partPe, partL1, partL1e, partL2, partL2e;
-			myType partE1, partE1e, partE2, partE2e, partE3, partE3e, partE4, partE4e, partE5, partE5e, partE6, partE6e;
-			myType tmp, e1,e2,e3,e4,e5,e6,e7,e8,e9;
-
-			//sets + ranks 
-			partP = n->e;
-			partL1 = n->ante->n->e;
-			partL2 = n->ante->next->n->e;
-			partE1 = n->ante->next->next->n->e;
-			partE2 = n->ante->next->next->next->n->e;
-			partE3 = n->ante->next->next->next->next->n->e;
-			partE4 = n->ante->next->next->next->next->next->n->e;
-			partE5 = n->ante->next->next->next->next->next->next->n->e;
-			partE6 = n->ante->next->next->next->next->next->next->next->n->e;
-			
-			partPe = partP & 0x3FFFFFFFFFFFFFF;
-			partL1e = partL1 & 0x3FFFFFFFFFFFFFF;
-			partL2e = partL2 & 0x3FFFFFFFFFFFFFF;
-			partE1e = partE1 & 0x3FFFFFFFFFFFFFF;
-			partE2e = partE2 & 0x3FFFFFFFFFFFFFF;
-			partE3e = partE3 & 0x3FFFFFFFFFFFFFF;
-			partE4e = partE4 & 0x3FFFFFFFFFFFFFF;
-			partE5e = partE5 & 0x3FFFFFFFFFFFFFF;
-			partE6e = partE6 & 0x3FFFFFFFFFFFFFF;
-			
-			e1 = getIBytes(partL1e,1);
-			e2 = getIBytes(partL1e,2);
-			e3 = getIBytes(partL1e,3);
-			e4 = getIBytes(partL2e,1);
-			e5 = getIBytes(partL2e,2);
-			e6 = getIBytes(partL2e,3);
-			e7 = getIBytes(partPe,1);
-			e8 = getIBytes(partPe,2);
-			e9 = getIBytes(partPe,3);
-			
-			partPe = partP & 0x3FFFFFFFFFFFFFF;
-			
-			// export
-			fprintf(file,"\n");
-			fprintf(file,"(* Application de la règle 9 (Pappus) *)\n");
-			
-			fprintf(file,"assert(H");
-			printHypSetFile(file,partPe);
-			fprintf(file,"eq : rk(");
-			printSetFile(file,partPe);
-			fprintf(file,"nil) = 2).\n");
-			fprintf(file,"{\n");
-			
-			tmp = e1 | e2;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e1 | e3;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e1 | e4;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e1 | e5;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e1 | e6;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e2 | e3;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e2 | e4;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e2 | e5;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e2 | e6;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e3 | e4;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e3 | e5;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e3 | e6;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e4 | e5;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e4 | e6;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = e5 | e6;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = partL1e;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = partL2e;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = partE1e;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = partE2e;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = partE3e;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = partE4e;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = partE5e;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
-			
-			tmp = partE6e;
-			if(previousConstruct)
-			{
-				fprintf(file,"\ttry assert(H");
-				printHypSetFile(file,tmp);
-				fprintf(file,"eq : rk(");
-				printSetFile(file, tmp);
-				fprintf(file," nil) = 2) by (apply L");
-				printHypSetFile(file,tmp);
-				fprintf(file," with ");
-				
-				for(j = 0; j < stab.size && stabb; j++)
-				{
-					if(tmp <= stab.tab[j][1])
-					{
-						for(i = 0; i < stab.tab[j][0]; i++)
-						{
-							fprintf(file,"(P%d := P%d) ",i+1,i+1);
-						}
-						fprintf(file,";try assumption).\n");
-						stabb = 0;
-					}
-				}
-				stabb = 1;
-			}
-
-			fprintf(file,"\ttry assert(H");
-			printHypSetFile(file,tmp);
-			fprintf(file,"eq : rk(");
-			printSetFile(file, tmp);
-			fprintf(file," nil) = 2) by (intuition).\n");
 		
-			fprintf(file,"\tassert(HT : rk(");
-			printSetFile(file,partPe);
-			fprintf(file," nil) = 2);\n");
-			fprintf(file,"\tapply (rk_pappus ");
-			printHypSetFile(file,e1);
-			fprintf(file," ");
-			printHypSetFile(file,e2);
-			fprintf(file," ");
-			printHypSetFile(file,e3);
-			fprintf(file," ");
-			printHypSetFile(file,e4);
-			fprintf(file," ");
-			printHypSetFile(file,e5);
-			fprintf(file," ");
-			printHypSetFile(file,e6);
-			fprintf(file," ");
-			printHypSetFile(file,e7);
-			fprintf(file," ");
-			printHypSetFile(file,e8);
-			fprintf(file," ");
-			printHypSetFile(file,e9);
-			fprintf(file,");rk_couple_triple.\n");
-			fprintf(file,"}\n");
-			
-			fprintf(file,"\n");
-		}
 	}
 n->mark = PROOF_WRITTEN_in_Lemma;
 // n->mark = U_NOT_WRITTEN_IN_PROOF;
@@ -4674,7 +3261,7 @@ ________________________________________________________________________________
 /********************************************************************************/
 /*------------------------------------------------------------------------------*
 *																				*
-*    Fonction auxilliaires pour l'impression dans un fichier					*
+*    Fonction auxiliaires pour l'impression dans un fichier					*
 *						des fonctions d'impression								*
 *																				*
 *_______________________________________________________________________________*/

@@ -1,5 +1,6 @@
 CFLAGS = -g -Wall
 IFLAGS = -Iinclude 
+DFLAG =  
 OPATH = obj/
 
 vpath %.h include
@@ -27,11 +28,8 @@ maths_addon.o : maths_addon.h
 
 
 %.o : %.c
-	gcc $(CFLAGS) -c $< $(IFLAGS)
+	gcc $(CFLAGS) $(DFLAG) -c $< $(IFLAGS) $()
 	mv $@ $(OPATH)
-
-geany :
-	geany src/* include/* Makefile &
 
 clean : 
 	rm obj/* bin/*
