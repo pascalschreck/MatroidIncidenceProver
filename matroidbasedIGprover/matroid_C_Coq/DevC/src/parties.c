@@ -535,8 +535,13 @@ void preMark(node n) {		// marquage récursifs des antécédents d'un noeud par 
 	}
 }
 
+//
+//     fonction unMark()
+// en principe, un noeud qui a été traité a pris le statut 4 ROOF_ALREADY_DONE ou 5 (traté en local dans un lemme)
+// je ne suis donc pas sûr que cet effacement soit utile. Je me demande même s'il ne peut pas être certaines
+// fois contre-productif. 
 void unMark(node n) {		// démarquage des antécédents
-	//if(n->mark < PROOF_ALREADY_DONE) 
+	// if(n->mark < PROOF_ALREADY_DONE) 
 	if(n->mark == U_NOT_WRITTEN_IN_PROOF) 	// remplace la condition plus haut
 											// mais si le marquage est bien fait ça ne devrait pas arriver
 	{
@@ -975,8 +980,10 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					C'est ici qu ces noeud sont traités 
 				
 				-----------------------------------------*/
-				fprintf(file,"\n(* dans constructProofaux(), requis par la preuve de (?)");
-				printHypSetFile(file, SetFrom(n->e));fprintf(file,"règle %d  *)\n",n->rule);
+				fprintf(file,"\n(* dans constructProofaux(), preuve de rg = %d , %d : pour ", rankMin(tmp->n->e), rankMax(tmp->n->e)); 
+				printHypSetFile(file, SetFrom(tmp->n->e));
+				fprintf(file, " requis par la preuve de (?)");
+				printHypSetFile(file, SetFrom(n->e));fprintf(file," pour la règle %d  *)",n->rule);
 				constructProofaux(file, tmp->n, res, stab, previousConstruct, print_trace);
 			}
 			tmp = tmp->next;

@@ -6,6 +6,7 @@ node createNode (myType e) {
 	
 	//create new node
 	node new = (s_node *)malloc(sizeof(s_node));
+		if(new==0){ fprintf(stderr,"dans createNode() pb. d'allocation"), exit(2);}
 	new->e = e;
 	new->color = 0;
 	new->mark = UNUSED;	// valeur 0
@@ -20,6 +21,7 @@ node addNode (list l, myType e, int rule) {
 	
 	//create new node
 	node new = (s_node *)malloc(sizeof(s_node));
+		if(new==0){ fprintf(stderr,"dans addNode() pb. d'allocation"), exit(2);}
 	new->e = e;
 	new->color = 0;
 	new->mark = 0;
@@ -47,6 +49,7 @@ list createList (node n) {
 	
 	//create new list
 	list new = (s_list *)malloc(sizeof(s_list));
+		if(new==0){ fprintf(stderr,"dans createList() pb. d'allocation"), exit(2);}
 	new->n = n;
 	new->next = NULL;
 	new->prev = NULL;
@@ -58,6 +61,7 @@ list addList (list l, node n) {
 
 	//add element
 	list new = (s_list *)malloc(sizeof(s_list));
+		if(new==0){ fprintf(stderr,"dans addList() pb. d'allocation"), exit(2);}
 	new->n = n;
 	
 	list tmp = l;

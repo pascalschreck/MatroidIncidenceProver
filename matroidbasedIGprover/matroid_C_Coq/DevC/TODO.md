@@ -35,6 +35,29 @@
     - conclusion dans les hypothèses    
     mais c'est en commentaire pour le moment : il y avait de problème dans l'utilisation des lemmes. 
 
+## Couches (again)
+Lorsqu'on déclare plusieurs couche, chaque couche donne lieu à un graphe distinct des autres couches. Cela implique des
+opérations de recopie et de transfert d'information (notamment dans les marquages), mais cle n'est pas encore suffisant dans la version actuelle où des informtions sur les déducions sont oubliées.
+Ne pourrait-on pas considérer un seul graphe et gérer les couches dans ce seul graphe ?
+
+## Constriction et incidence
+Après étude plus approfondie, la question des couches est moins pregnante qu'il n'apparaissait de prime abord. Elle peut cependant être utile si on veut structure (dans l'énoncé) le raisonnement et dans une certaine mesure, dans la production des lemmes utilisés. C'est aussi utile pour déboguer les énoncé : on a une indiation de l couche incriminée en cas de faute, 
+on peut essayer de repérer des problèmes dans la propagation des rangs e arrêter le calcul plu rapidement au lieu d'attendre des heures ....
+
+Comme cela est indiqué en commentaire dans le code de "parties.c" (fonction copyGrap()), pour le moment, le partage en couches se fait par recopie d'un graphe dans le graphe de la couche supérieure mais sans recopier le graphe de déduction (ce sont juste les initialisation des rangs + quelques info qui sont faites). Cela implique que les renseignements liés aux noeud qui seront marqués soient consignés dans un lemme qui sera utilisé dans la couche supérieure ... il vaudrait donc mieux que les lemmes en questions aient pour conclusion des égalités de rang et non des indégalités restantes (à moins que dans Coq on ait un procédé plus robuste de construction de la preuve).
+Ainsi, il me semble préférabledu point de vue de la structure de l'énoncé et de la structure de la preuve que les points introduits dans une couch soient définis quand on passe à a couche supérieure.
+E donc, on peut se poser la question de la bonne constriction d'un point en géométrie d'incidence dans un contexte donnée. Le cas le plus simple est celui-ci :
+```  
+points
+    layer ABCD # import des points A, B, C et D qui ne contiennent pas des alignements et ont bien définis
+    point M
+hypothèses
+    A B M : 2
+    C D M : 2
+conclusion
+    M : construit   # ou construits s'il y a plusieurs points
+```
+Ca peut rester déclaratif, bien sûr, mais on peut aussi se poser la question de la bonne constriction des ces points.
 
 
 ## Décomposition et construction de la preuve

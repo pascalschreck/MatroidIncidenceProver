@@ -195,15 +195,15 @@ int main(int argc, char * argv[])
                     à une preuve déjà faite))
                     * je ne pense pas que fabriquer des couches soit intéressant.
                     *
-            - mono-couches où j'ai opré le changment suivant : tous les sommets marqués donnent lieu à
+            - mono-couches où j'ai opéré le changment suivant : tous les sommets marqués donnent lieu à
                 des lemmes. On a ainsi des lemmes peu intéressants pour lesquels j'ai fait des filtres
                 qui sont pour le moment désactivés car ils semblent perturber l'écriture de la preuve
         Dans la suite, on distingue les deux cas pour voir.
 
-        Remarque : je me demande aussi si le parcours du graphe des déductions est fait dans un bon ordre :
-            on parcours les ensembles dans l'ordre de leur traduction binaire alors que le marquage s'est fait
-            autrement, ensuite est ce que la tableau de noeud contient le dernier noeud (celui qui contient les 
-            rangs finaux ou un autre ?)
+        Remarque : j'ai aussi fait des changement dans la reconstruction de la preuve : on n'écrit pas un lemme
+            sans qu'un certain nombre de lemmes intermédiaires n'aient pas eux-mêmes été écrits. On n'utilise un lemme
+            dans une preuve que s'il a effectivement été écrit. Il reste cependant des cas identifiés dans lequels la preuve
+            d'une pémisse qui aurait pu faire l'objet d'un lemme, reste locale à une preuve.
     */
     if(nb_layers==1) // cas monocouche 
     {
@@ -321,7 +321,7 @@ int main(int argc, char * argv[])
                         // constructProof(file,g[iocl].tab[i], sizeTab, 1); // le dernier argument correspond à previousconstruct, c'est toujours 1 ?
                         g[iocl].tab[i]->mark = 4;
                         g[iocl+1].tab[i]->mark = 4;     // ajout dans la couche suivante pour que le lemme soit pris en compte
-                        unMark(g[iocl].tab[i]);
+                        // unMark(g[iocl].tab[i]);         // ne me paraît pas utile ...
                     }
                 
                 }
