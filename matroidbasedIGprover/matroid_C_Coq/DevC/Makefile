@@ -15,16 +15,15 @@ init :
 	mkdir bin/
 
 main : main.o parties.o graph.o set.o maths_addon.o statement.o fprintthings.o
-	gcc $(CFLAGS) -o main $(OPATH)main.o $(OPATH)parties.o $(OPATH)graph.o $(OPATH)set.o $(OPATH)maths_addon.o $(OPATH)statement.o $(OPATH)fprintthings.o -lm 
+	gcc $(CFLAGS) -o main $(OPATH)main.o $(OPATH)parties.o $(OPATH)graph.o $(OPATH)set.o $(OPATH)statement.o $(OPATH)fprintthings.o -lm 
 	mv $@ bin/
 
-main.o : parties.h graph.h set.h maths_addon.h statement.h globals.h
+main.o : parties.h graph.h set.h statement.h globals.h
 statement.o : statement.h globals.h
-fprintthings.o : fprintthings.h parties.h graph.h set.h maths_addon.h
-parties.o : parties.h graph.h set.h maths_addon.h globals.h
-graph.o : set.h maths_addon.h
+fprintthings.o : fprintthings.h parties.h graph.h set.h
+parties.o : parties.h graph.h set.h globals.h
+graph.o : set.h
 set.o : set.h
-maths_addon.o : maths_addon.h
 
 
 %.o : %.c

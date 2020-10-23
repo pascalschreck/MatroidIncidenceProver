@@ -76,11 +76,16 @@ graph copyGraph(graph g1, graph g2, int res) {
 			g2.tab[i] = createNode(g1.tab[i]->e);						//   Attention : on ne copie pas l'historique d'application des règles
 																		// je ne sais pas si c'est utile ou si on retrouve les lemmes qu'il faut ....
 																		// faire un copyNode() ?
-			g2.tab[i]->color = g1.tab[i]->color;
-		}
-	}
-	return g2;
-}
+			g2.tab[i]->color = g1.tab[i]->color;						// je pense que dans l'esprit de David,
+		}																// quand on traverse une couche, tous ces noeuds
+	}																	// ont été transcrits dans des lemmes
+	return g2;															// ils n'ont plus a être mis à jour et peuvent être
+	}																	// utilisés comme prémisses
+																		// il faut donc faire attention dans la conception
+																		// des couches que les points soient bien définis
+																		// avant de passer à la couche supérieure.
+																		// Peut-être qu'un copy node(avec partage des noeuds ?)
+																		// pourrait rendre les choses plus robustes.
 
 //**************************************************************************
 /*---------------------------------------------------------------*

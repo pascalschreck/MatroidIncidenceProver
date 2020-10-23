@@ -2,7 +2,6 @@
 #define __PARTIES_H_
 
 #include "graph.h"
-#include "maths_addon.h"
 
 #define R_ZERO(Node) ((Node))
 #define R_FIRST(Node) ((Node)->ante->n)
