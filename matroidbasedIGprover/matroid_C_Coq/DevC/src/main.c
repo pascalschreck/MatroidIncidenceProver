@@ -222,7 +222,6 @@ int main(int argc, char * argv[])
          
         // marquage en arrière à partir de resf
         preMark(g[last].tab[resf]);  
-                
         // construction en avant de la preuve (les filtres ne sont pas écrits)
         i = 0ull;
 
@@ -231,8 +230,7 @@ int main(int argc, char * argv[])
         {   
             if(g[last].tab[i]->mark == U_NOT_WRITTEN_IN_PROOF && i != resf) 
             {
-
-                constructLemma(file,g[last],g[last].tab[i],sizeTab, last,true);  
+                constructLemma(file,g[last],g[last].tab[i],sizeTab, last);  
                 // la fonction constructLemma a été revisitée : elle examine tous les noeuds qui sont requis
                 // pour écrire la preuve et en fait des lemmes. Les deux fonctions dont les appels sont commentés
                 // ci-dessous sont faits dans la fonction constructctLemma ainsi, on peut mieux contrôler l'écriture
@@ -247,7 +245,7 @@ int main(int argc, char * argv[])
         }
         
         
-        constructLemma(file, g[last], g[last].tab[resf],sizeTab, last, true); 
+        constructLemma(file, g[last], g[last].tab[resf],sizeTab, last); 
         // constructIntro(file, g[last]);
         // constructProof(file, g[last].tab[resf], sizeTab, 1);
         
@@ -302,48 +300,22 @@ int main(int argc, char * argv[])
         {
             for(; i < g[iocl].effectiveSize;i++)
             {   
-            // TODO : lorsque l'on n'écrit pas un lemme (soit parce que le cardinal de la conculusion est un, 
-            // soit parce que la conclusion est dans la hypothèse), il faut peut-être quand même nettoyer le graphe
-            // et faire attention que la preuve soit bien correcte
-            // pour le moment, il manque des lemmes semble-t-il (étude de Nicolas)
-            // ajout dans la condition suivante (à la fin) :
-            // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
-            // TENTION : la suite e été un peu modifiée (avec aussi la fonction constructionLemma) 
-            // pour conserver l'ancien fonctionnement où même les lemmes "bidons" sont écrits
-                if(g[iocl+1].tab[i]->mark == 1 && i != resf /* && cardinal(g[iocl].tab[i]->e)!=1 */ )  // TENTION ne teste pas si la conclusion est sur un singleton
+
+                if(g[iocl+1].tab[i]->mark == 1 && i != resf ) 
                 // i.e si le lemme est marqué dans la couche suivante, c'est qu'on en a besoin
                 // comme c'est on agit de lanière ascendante dans les couches, c'est la première occurence
                 // on en fait un lemme
                 {
-                    // if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
-                    {
-                        constructLemma(file,g[iocl],g[iocl].tab[i],sizeTab, iocl,true);  // à commenter après test
-                        // constructIntro(file, g[iocl]);
-                        // constructProof(file,g[iocl].tab[i], sizeTab, 1); // le dernier argument correspond à previousconstruct, c'est toujours 1 ?
+                        constructLemma(file,g[iocl],g[iocl].tab[i],sizeTab, iocl);
                         g[iocl].tab[i]->mark = 4;
                         g[iocl+1].tab[i]->mark = 4;     // ajout dans la couche suivante pour que le lemme soit pris en compte
-                        // unMark(g[iocl].tab[i]);         // ne me paraît pas utile ...
-                    }
                 
                 }
                 
             }
         }
 
-        // traitement de la dernière couche :
-        // ATTENTION : tab[res]
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // TODO
-        // C'est ici qu'on pourrait prendre en compte plusieurs conclusion 
-        // seule la conclusion <res> est traitée !
-        // 
-        // if(constructLemma(file, g[last], g[last].tab[resf],last))  // devrait être toujours vrai
-        {
-            constructLemma(file, g[last], g[last].tab[resf],sizeTab, last, true);  // à commenter après test
-            // constructIntro(file, g[last]);
-           //  constructProof(file, g[last].tab[resf], sizeTab, 1);
-        }
-
+        constructLemma(file, g[last], g[last].tab[resf],sizeTab, last); 
         
         fclose(file);
         if(debug_mode) fclose(debug_file);
