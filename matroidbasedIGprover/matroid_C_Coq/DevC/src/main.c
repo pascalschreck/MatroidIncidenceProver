@@ -171,6 +171,7 @@ int main(int argc, char * argv[])
   	// on ouvre ensuite le fichier de sortie pour la preuve coq
 	// c'est soit le fichier standard, soit celui lu à la ligne de commande
 	FILE* file = fopen(coqoutput_name,"w");	
+    fprintf(file, "Require Import lemmas_automation_g.\n\n\n");
 
     fprintf(stderr,"--------------- reconstruction\n\n");
 	
@@ -218,7 +219,7 @@ int main(int argc, char * argv[])
                 TAB; fprintf(debug_file," marquage dans la (dernière) couche %d\n", last);
                 NL; DEB_PS("********************************************");NL;NL;
             }
-        
+         
         // marquage en arrière à partir de resf
         preMark(g[last].tab[resf]);  
                 
@@ -231,7 +232,7 @@ int main(int argc, char * argv[])
             if(g[last].tab[i]->mark == U_NOT_WRITTEN_IN_PROOF && i != resf) 
             {
 
-                constructLemma(file,g[last],g[last].tab[i],sizeTab, last);  
+                constructLemma(file,g[last],g[last].tab[i],sizeTab, last,true);  
                 // la fonction constructLemma a été revisitée : elle examine tous les noeuds qui sont requis
                 // pour écrire la preuve et en fait des lemmes. Les deux fonctions dont les appels sont commentés
                 // ci-dessous sont faits dans la fonction constructctLemma ainsi, on peut mieux contrôler l'écriture
@@ -240,13 +241,13 @@ int main(int argc, char * argv[])
                 // constructProof(file,g[last].tab[i], sizeTab, 1); 
                 g[last].tab[i]->mark = PROOF_ALREADY_DONE; // 4
                 // le démarquage est débrayé pour test
-               // unMark(g[last].tab[i]);   // peut-être y a-t-il un pb ici avec les noeuds marqués 3 (U_PROOF_BEING_WRITTEN)
+               unMark(g[last].tab[i]);   // on remet à 1 () les noeuds qui ont été mis à 5
             }
             
         }
         
         
-        constructLemma(file, g[last], g[last].tab[resf],sizeTab, last); 
+        constructLemma(file, g[last], g[last].tab[resf],sizeTab, last, true); 
         // constructIntro(file, g[last]);
         // constructProof(file, g[last].tab[resf], sizeTab, 1);
         
@@ -316,7 +317,7 @@ int main(int argc, char * argv[])
                 {
                     // if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
                     {
-                        constructLemma(file,g[iocl],g[iocl].tab[i],sizeTab, iocl);  // à commenter après test
+                        constructLemma(file,g[iocl],g[iocl].tab[i],sizeTab, iocl,true);  // à commenter après test
                         // constructIntro(file, g[iocl]);
                         // constructProof(file,g[iocl].tab[i], sizeTab, 1); // le dernier argument correspond à previousconstruct, c'est toujours 1 ?
                         g[iocl].tab[i]->mark = 4;
@@ -338,7 +339,7 @@ int main(int argc, char * argv[])
         // 
         // if(constructLemma(file, g[last], g[last].tab[resf],last))  // devrait être toujours vrai
         {
-            constructLemma(file, g[last], g[last].tab[resf],sizeTab, last);  // à commenter après test
+            constructLemma(file, g[last], g[last].tab[resf],sizeTab, last, true);  // à commenter après test
             // constructIntro(file, g[last]);
            //  constructProof(file, g[last].tab[resf], sizeTab, 1);
         }
@@ -411,8 +412,12 @@ void read_comd_line(int argc, char *argv[])
                     opt_flag |= coq_flag;
                     i++;    // on attends alors le nom d'un fichier
                             // mais on ne fait pas d'ouverture ni de test pour le moment
-                    printf("output : la preuve coq sera contenue dans le fichier : %s\n",argv[i]); 
-                    strcpy(coqoutput_name,argv[i]);
+                    // le petit bout de code suivant fait que le nom du fichier est celui entré jusqu'au séparateur '.'
+                    // et complété par ".v"
+                        char *pt = argv[i], *ptt = coqoutput_name;
+                        for(;*pt && *pt != '.'; pt++, ptt++) *ptt = *pt ;
+                        *ptt++ ='.'; *ptt++='v'; *ptt='\0';
+                    printf("output : la preuve coq sera contenue dans le fichier : %s\n",coqoutput_name); 
                 }
             else if (!strcmp(argv[i],"-n"))
                 {
@@ -444,7 +449,12 @@ void read_comd_line(int argc, char *argv[])
     }
 if(!(opt_flag & coq_flag))
     {
-        strcpy(coqoutput_name,statement_name); strcat(coqoutput_name,".v");
+        // le petit bout de code suivant fait que le nom du fichier est celui entré jusqu'au séparateur '.'
+        // et complété par ".v"
+            char *pt = statement_name, *ptt = coqoutput_name;
+            for(;*pt && *pt != '.'; pt++, ptt++) *ptt = *pt ;
+            *ptt++ ='.'; *ptt++='v'; *ptt='\0';
+        // strcpy(coqoutput_name,statement_name); strcat(coqoutput_name,".v");
     }
 if(!(opt_flag & rank_flag))
     {

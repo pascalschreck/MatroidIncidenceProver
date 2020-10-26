@@ -10,3 +10,4 @@ matroidbasedIGprover/matroid_C_Coq/DevC/exemples/desargues3D/test.v
 matroidbasedIGprover/matroid_C_Coq/DevC/exemples/DG2Pappus/dg2pappus_alt.stat.out
 matroidbasedIGprover/matroid_C_Coq/DevC/include/maths_addon.h
 matroidbasedIGprover/matroid_C_Coq/DevC/src/maths_addon.c
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/DG2Pappus/dg2pappus_alt.stat.v
