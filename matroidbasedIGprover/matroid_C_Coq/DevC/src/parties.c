@@ -731,7 +731,7 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 		for(i = 0; i < g.effectiveAllocPow; i++)
 		{
 			// pos += sprintf(pos,"P%d ",i+1);			// idem PS 27/09/20
-			fprintf(file,"P%d ",i+1);
+			fprintf(file,"%s ",STATEMENT->p_names[i+1]);
 		}
 														// Ainsi, 
 		// pos += sprintf(pos,",\n");					// tous les points du graphe sont quantifiés universellement
