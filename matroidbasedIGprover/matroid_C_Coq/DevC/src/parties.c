@@ -855,7 +855,7 @@ void constructIntro(FILE* file, graph g) {
 	
 	for(i = 0; i < g.effectiveAllocPow; i++)
 	{
-		fprintf(file,"P%d ",i+1);
+		fprintf(file,"%s ",STATEMENT->p_names[i+1]);
 	}
 	
 	fprintf(file,"\n");
@@ -925,7 +925,7 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 	rankMinA = rankMin(partA);
 	rankMaxA = rankMax(partA);
 	
-	if(dim == 3)
+	if(dim >= 3)	//---------------> modifié, avant c'était dim==3 sans doute pour distinguer le cas où dim == 2 je pense 
 	{
 		if(countBytes(partAe) < dim + 1)
 		{
@@ -945,10 +945,12 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 			printHypSetFile(file,partAe);
 			fprintf(file,"M : rk(");
 			printSetFile(file,partAe);
-			fprintf(file," nil) <= 4) by (apply rk_upper_dim).\n");
+			fprintf(file," nil) <= %d) by (apply rk_upper_dim).\n",dim+1); // <---------- modif par PS : la dimension n'était pas prise en compte
+																		// ancienne version à la ligne ci-dessous (commentée)
+			// fprintf(file," nil) <= 4) by (apply rk_upper_dim).\n");
 		}
 	}
-	else
+	else	//-------------------------------------------------------> les dimensions > 3 ne semblent pas être bien prises en compte
 	{
 		fprintf(file,"\nassert(H");
 		printHypSetFile(file,partAe);
@@ -3350,6 +3352,19 @@ void printSetFile (FILE* file, myType e) {
 
 		if((e >> i) & 1) // changé
 		{
+				fprintf(file,"%s :: ",STATEMENT->p_names[j]);
+		}
+		j++;
+	}
+}
+
+void printSetFile_DB (FILE* file, myType e) {
+	int i,j=1;
+	for(i = 0; i < realSizemyType; i++)
+	{
+
+		if((e >> i) & 1) // changé
+		{
 				fprintf(file,"P%d :: ",j);
 		}
 		j++;
@@ -3371,7 +3386,21 @@ char *printSetString (char *s, myType e) {
 }
 
 // remarque : c'est la même fonction que printSetFile() à un " ::" près ...
-void printHypSetFile (FILE* file, myType e) {
+void printHypSetFile(FILE* file, myType e) {
+	int i,j=1;
+	for(i = 0; i < realSizemyType; i++)
+	{
+
+		if((e >> i) & 1)
+		{
+				fprintf(file,"%s",STATEMENT->p_names[j]);
+		}
+		j++;
+	}
+}
+
+
+void printHypSetFile_DB (FILE* file, myType e) {
 	int i,j=1;
 	for(i = 0; i < realSizemyType; i++)
 	{
