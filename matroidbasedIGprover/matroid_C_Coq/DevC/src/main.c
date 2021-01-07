@@ -9,6 +9,8 @@
 #include "globals.h"		    // ajouté par PS constantes et des variables globales
 #include <string.h>
 
+statement STATEMENT;
+
 // fonctions locales
 void read_comd_line(int argc, char *argv[]);
         // lecture et analyse de la ligne de commande
@@ -44,6 +46,8 @@ int main(int argc, char * argv[])
         debug_file = fopen("debug.log","w");
 
     statement st = st_read(stat);			// lecture de l'énoncé pour remplir la structure statement
+    STATEMENT = st;                         // STATEMENT procure un accès global à l'énoncé
+
     fclose(stat);
         /*----------------------traçage-----------------------------*/
             if(trace)

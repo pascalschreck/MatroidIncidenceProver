@@ -453,7 +453,7 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 
 
 ##  fonction existIntersectPoint()
-
+	conservée, mais je ne sais pas encore pourquoi
 ________________________________________________________________________________*/
 myType existIntersectPoint(graph g, myType e1, myType e2) {
 	int i;
@@ -486,9 +486,6 @@ myType existIntersectPoint(graph g, myType e1, myType e2) {
 
 
 /*************************************************************************************************/
-
-/*__________________________________fin Pappus___________________________________________________*/
-
 /*************************************************************************************************/
 
 
@@ -552,7 +549,8 @@ void preMark(node n) {
 //		ont été marqués avec PROOF_WRITTEN_in_Lemma pour éviter que les assertiond				*
 //  	d'hypothèses du style HP1P2P4P5P8eq (par exemple) se fasse plusieurs fois dans cette	*
 //  	preuve locale. Cependant, ils restent éligigbles (au moins dans le cas mono-couche) à	*
-//  	l'écriture de la preuve d'autres lemmes, voire à être eux-mêmes écrits comme lemmes		*
+//  	l'écriture de la preuve d'autres lemmes, voire à être eux-mêmes écrits comme lemmes,	*
+//		ils sont donc marqués avec l'étiquette U_NOT_WRITTEN_IN_PROOF (1) par cette fonction	*
 //																								*
 /*----------------------------------------------------------------------------------------------*/
 void unMark(node n) {		// démarquage des antécédents
@@ -586,8 +584,49 @@ void unMark(node n) {		// démarquage des antécédents
 *      - s'il est vrai, on a effectivement écrit l'énoncé du lemme							*
 *      - s'il est faux, on n'a rien écrit : il ne faut pas écrire de preuve					*
 *		(ce qui est fait dans une autre fonction)											*
-*   (2) TEMPORAIRE : TENTION																*
+*   (2) les modifications du (1) ci-dessous sont commentées car pour qu'elles soient		*
+*		utilisables il faudrait en tenir compte dans toute l'écriture de la preuve			*
+*		ce qui n'a pas (encore) été fait.													*
+*	(3) la fonction s'appelle récursivement pour permettre une meilleure décomposition		*
+*		en lemmes, mais cela nécessite de regarder soigneusement ce qui peut être			*
+*       un lemme préliminaire ou non														*
+*		En particulier, le premier antécédent d'un noeud (qui correspond à la première		*
+*		prémisse de la règle appliquée) est un noeud correspondant au même ensemble que		*
+*       le noeud en cours de traitment mais avec un intervalle de rangs plus grand : 		*
+*		c'est l'étape précédente de réduction d'intervalle de cet ensemble. En l'état, 		*
+*		noeuds ne peuvent pas donner lieu à des lemmes car									*
+*		  - le lemmes sont nommés d'après l'ensemble et on aurait donc plusieurs			*
+*			lemmes avec le même nom															*
+*		  - on aurait des lemmes avec pour conlusion un intervalle de rangs possibles		*
+*			c'était autorisé par David (pour passer les couches), mais ça me paraît plus	*
+*			dur à gérer avec la systématisation des lemmes.									*
+*		Ces noeuds correspondants au même ensemble que le noeud courant sont appelés		*
+*		les premiers fils du noeud courants à cause de la manière de coder l'arbre des		*
+*		déductions pour ce noeud. Les premiers fils sont traités dans la preuve du lemme	*
+*		courant par la fonction constructProofaux qui écrit leur preuve à l'aide de 		*
+*		"assert" de sous-buts avec une preuve locale. Il en est de même pour tous les		*
+*       antécédents des premiers fils qui auraient peut être eux mérités un lemme : ce		*
+*       n'est pas fait pour le moment par peur de liens transversaux, mais je 				*
+*		m'interroge encore. 																*
+*	(4) on interdit explicitement l'écriture d'un lemme où le rang n'est pas défini			*
+*		à la fin. De tels lemmes seront prouvés à local à chaque fois que ce sera			*
+*		nécessaire. Attention, cela risque peut-être de poser des problèmes avec			*
+*		l'implantation actuelle du multicouche car la fonction copyGraph() ne recopie		*
+*		pas les arbres de déduction attachés aux noeuds avec l'idée qu'une couche doit		*
+*		être complétement saturée avant de passer à la suivante (avec la rustine de			*
+*		pouvoir utiliser des lemmes avec des intervalles de rangs en conclusion)			*
+*	(5) Cette fonction appelle maintenant les deux fonctions qui dépendent d'elles			*
+*		   - constructIntro() qui est un peu une constante									*
+*		   - constructProof() qui écrit la preuve notamment en appelant						*
+*		   	 constructProofaux() qui est la fonction la plus imporante dans cette tâche		*
+*	(6) Un nouveau statut a été défini pour les noeuds :									*
+*        PROOF_WRITTEN_in_Lemma (qui vaut 5) pour indiquer les noeuds qui ont donné lieu	*
+*		 à une preuve locale dans un lemme, ces noeuds seront démarqués par unMark()		*
+*		 qui a été modifiée dans ce sens.													*
+*		 Le demarquage est appelé à la fin de la fonction constructLemma(), avant il était	*
+*		 à la sortie de cette fonction mais cela a occasionné des bugs.						*
 *___________________________________________________________________________________________*/
+
 bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couche) {
 	// on écrit de code dans le fichier <file>, l'énoncé correspondant qu noeud n du graphe g
 	// la mention de la <couche> sert uniquement à faire des sorties informatives 
@@ -603,12 +642,12 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 	partAe = SetFrom(partA);
 	rankMinA = rankMin(partA);
 	rankMaxA = rankMax(partA);
-	// PS 26 octobre 2020
-	// On filtre le lemmes qui n'ont pas pour conclusion une égalité de rang (au passage
-	// ça doit aussi fltrer les premiers fils)
-	// la possibilité laissée par David pour avoir des lemmes où le rang n'est pas complément
-	// déterminé peut être justifié par les aspects x-couches : il n'y a plus de lemmes
-	// écrit dans la dernière couche et on ne devrait plus risquer de télescopage
+	// PS 26 octobre 2020-----------------------------------------------------------------------*
+	// On filtre le lemmes qui n'ont pas pour conclusion une égalité de rang 					*
+	// 		(au passage ça doit aussi fltrer les premiers fils)									*
+	// la possibilité laissée par David pour avoir des lemmes où le rang n'est pas complément	*
+	// déterminé peut être justifié par les aspects x-couches : il n'y a plus de lemmes			*
+	// écrit dans la dernière couche et on ne devrait plus risquer de télescopage				*
 	if(rankMinA != rankMaxA)
 		{
 			fprintf(stderr,"Attention rangs non identiques pour le résultat de %llu  rang min %d et rang max %d \n", 
@@ -617,65 +656,51 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 			fprintf(stderr,"\n Le traitement de la preuve en tant que Lemme n'est pas considérée.\n");
 			return false;
 		}
- 
-	// modif PS : 27 septembre 2020
-	// pour le moment (21 oct 2020) les deux buffers suivants ne sont pas utilisés
-	// les pointeurs en dessous non plus. L'écriture différée de l'énoncé du Lemme
-	// sera peut-être utiliséesi on veut éviter les lemmes triviaux
-	// et si la nouvelle organisation ne permet pas de retader l'écriture de l'énoncé
+	// fin du filtrage des lemmes---------------------------------------------------------------*
+
+	// modif PS : 27 septembre 2020	 -----------------------------------------------------------*
+	// pour le moment (21 oct 2020) les deux buffers suivants ne sont pas utilisés				*
+	// les pointeurs en dessous non plus. L'écriture différée de l'énoncé du Lemme				*
+	// sera peut-être utiliséesi on veut éviter les lemmes triviaux								*
+	// et si la nouvelle organisation ne permet pas de retader l'écriture de l'énoncé			*
 	/*
 	char *local_buffer = (char *)calloc(5000,sizeof(char));
 	char *debug_info = (char *)calloc(500,sizeof(char));
 	char *pos = local_buffer, *pos_debug = debug_info;
 	*/
-	// <--PS
-        /*------------------------------------------ajout--------------------------*/
+
+        /*-------------------------------------------PS-ajout-----------------------------------*/
+		// on traite les sous-buts associés aux noeud antécédents comme pouvant donner lieu		*
+		// à des lemmes réutilisables plus tard plutôt que des "assert" locales					*
         list tmp = n->ante;	
 		n->mark = U_WAITING_FOR_PREVIOUS_PROOF;
-        if(tmp != NULL)								// à enlever lorsque la situation sera satbilisée ... je ne sais pas pourquoi David a écrit ça
+        if(tmp != NULL)		// test conservé pour éventuellement traiter le 1er fils
 		{
-			// traitement du premier fils différent des autres ?
-			//constructLemma(file, g, tmp->n, sizeTab, couche, false);
+			// traitement du premier fils différent des autres ?								*
+			// ça permettrait d'écrire plus de lemmes, mais ça semble moins robuste				*
+			//constructLemma(file, g, tmp->n, sizeTab, couche, false);   
 			//tmp = tmp->next;
             while(tmp != NULL)
             {
-                if(tmp->n->mark == U_NOT_WRITTEN_IN_PROOF && SetFrom(tmp->n->e) != SetFrom(n->e))
-				// la deuxième condition a été ajoutée pour éviter d'utiliser ici les versions précédentes des noeuds concernant le même ensemble
-				// les bout de preuves manquées sont rattrapés dans constructProofaux()
-                {
-                    /*-------------------------------------
-                            appel récusrif  :
-                        c'est ici que l'on traite les différentes étapes de la preuve
-                        chaque étape correspondant à une réduction de l'intervalle des rangs
-                        pour l'ensemble considéré.
-                    
-                    -----------------------------------------*/
+                if(tmp->n->mark == U_NOT_WRITTEN_IN_PROOF && SetFrom(tmp->n->e) != SetFrom(n->e)) 
+                {   // uniquement les noeuds utiles non utilisés localement et dont l'ens. est diff. de l'ens. courant
 					fprintf(file,"(* dans constructLemma(), requis par L");
 					printHypSetFile(file, partAe);fprintf(file," *)\n");
-                    constructLemma(file, g, tmp->n, sizeTab, couche); // le démarquage des noeud utilisés provisoirement est fait à la fin de l'écriture du lemme
-																			// i.e à la fin de cette fonction
-					// unMark(g[last].tab[SetFrom(n->e)-1]);   // copie de main.c où i est remplacé par SetFrom(n->e)-1 (je crois que la version utilsant n est mieux)
-															   // on remet à 1 () les noeuds qui ont été mis à 5
+                    constructLemma(file, g, tmp->n, sizeTab, couche); 
                 }
                 tmp = tmp->next;
             }
 		}
+		/*-----------------------------------------fin de l'ajout--------------------------------*/
 
-        /////////////////////////////////////////////////////////////////////////////
 
-
-	/////////////////////////////////////////////////////////////////////://////
-	//////		Début de l'écriture du Lemme                               ////
-	//////    on ne doit plus écrire de lemme avant la fin de la preuve    ////
-	//////	  du lemme courant.											   ////
-	//////////////////////////////////////////////////////////////////////////
-		if(rankMin(partA) != rankMax(partA))
-		{
-			fprintf(stderr,"Attention rangs non identiques pour le résultat de %llu  rang min %d et rang max %d \n", 
-							partAe, rankMinA, rankMaxA);
-			printSetFile(stderr, partAe),
-			fprintf(stderr,"\n");
-		}
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	//////					Début de l'écriture du Lemme                               		  ////
+	//////    on ne doit plus écrire de lemme avant la fin de la preuve    					  ////
+	//////	  du lemme courant.											   					  ////
+	///// 																					  ////
+	//////////////////////////////////////////////////////////////////////////////////////////////
+		
 		// les sprintf() commentés à la suite ont été utilisés pour faire une écriture différée dans le fichier
 		// Coq au moment de filtrer les Lemmes triviaux où la conclusion était dans les hypothèses
 		// cela posait des problèmes dans la réutilistion de lemmes et c'est commenté pour le moment.
@@ -700,24 +725,41 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 		//pos_debug = printHypSetString(pos_debug, partAe);										
 		//pos += sprintf(pos," : forall ");	    		//  idem PS 27/09/20
 		fprintf(file," : forall ");
-		//<--PS
+
+		// boucle pour écrire la quantification universelle de toutes les variables 
+		// (en fait, fermeture universelle par tous les points)
 		for(i = 0; i < g.effectiveAllocPow; i++)
 		{
 			// pos += sprintf(pos,"P%d ",i+1);			// idem PS 27/09/20
-			fprintf(file,"P%d ",i+1);
+			fprintf(file,"%s ",STATEMENT->p_names[i+1]);
 		}
 														// Ainsi, 
 		// pos += sprintf(pos,",\n");					// tous les points du graphe sont quantifiés universellement
 		fprintf(file,",\n");
 
+		// boucle pour mettre en prémisse toutes les hypothèses donnée
+		// dans l'énoncé (éventuellement réduit à la couche courante)
 		for(i = 0; i < g.effectiveSize; i++)
 		{
 			if(g.tab[i]->color == -1)
 			{			
 				cpt++;
+			/*------------------------------------ 			élim. d'un lemme trivial (commenté)---------*
+			// 							non-écriture dans le fichier et sortie de constructLemma()		*
+			if (g.tab[i]->e == n->e) { 	// idem PS 27/09/20 : brutal !									*		
+										// si g.tab[i]->e == n->e, il n'est pas utile d'écrire			*
+										// le lemme ni la preuve										*
+				*pos_debug = '\n';		//																*
+				fprintf(file,"(* Lemme %s pas écrit (couche %d) *) \n", debug_info, couche);  //		*
+				free(local_buffer);		//																*
+				free(debug_info);		//																*
+				return false;     		//																*        
+			}							//																*
+            --------------------------------------------------------------------------------------------*/
+			// sinon, on continue l'écriture dans le buffer tant que la boucle n'est pas finie
 				partB = g.tab[i]->e;		 
 											
-				partBe = partB & 0x3FFFFFFFFFFFFFF;
+				partBe = SetFrom(partB);
 				rankB = rankMin(partB);
 				
 				if(rankMin(partB) != rankMax(partB))
@@ -727,30 +769,32 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 				}
 				// pos += sprintf(pos,"rk(");			// idem PS 27/09/20
 				fprintf(file,"rk(");
-				// pos = printSetString(pos,partBe);  // idem PS 27/09/20
+				// pos = printSetString(pos,partBe);  	// idem PS 27/09/20
 				printSetFile(file,partBe);
 				if(cpt == 3)
 				{
-					//pos += sprintf(pos," nil) = %d ->\n",rankB);
+					//pos += sprintf(pos," nil) = %d ->\n",rankB);	// idem PS 27/09/20
 					fprintf(file," nil) = %d ->\n",rankB);
 					cpt = 0;
 				}
 				else
 				{
-					// pos += sprintf(pos," nil) = %d -> ",rankB);
+					// pos += sprintf(pos," nil) = %d -> ",rankB);	// idem PS 27/09/20
 					fprintf(file," nil) = %d -> ",rankB);
 
 				}
 			}
 		}
 
-		// *pos = '\n'; // pour finir la chaîne 
+		// *pos = '\n'; // pour finir la chaîne 	// idem PS 27/09/20
 		//--------------------------------------------------------------------------
 		// écriture effective du lemme dans le fichier
 		// PS 29/09/20 : si on arrive jusqu'ici, on écrit tout le buffer
 		//               dans le fichier <file>
 		//               et l'écriture se continuera dans ce fichier
 		// fprintf(file,"%s",local_buffer); 
+		// free(local_buffer);
+		// free(debug_info);
 		//<--PS
 
 		if(rankMinA == rankMaxA)
@@ -776,12 +820,12 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 			fprintf(file," nil) <= %d.\n",rankMaxA);
 		}
 		
-		// free(local_buffer);
-		// free(debug_info);
+
 
 		// construction de la preuve proprement dite
 		// on reste au marquage U_WAITING_FOR_PREVIOUS_PROOF pour le noeud courant
 		// car d'autres hypothèses concernant le noeud courant sont encore à démontrer
+		// ça sera fait dans constructProofaux()
 		
 		constructIntro(file, g);
 		constructProof(file, n, sizeTab, 1);
@@ -811,7 +855,7 @@ void constructIntro(FILE* file, graph g) {
 	
 	for(i = 0; i < g.effectiveAllocPow; i++)
 	{
-		fprintf(file,"P%d ",i+1);
+		fprintf(file,"%s ",STATEMENT->p_names[i+1]);
 	}
 	
 	fprintf(file,"\n");
@@ -848,7 +892,7 @@ void constructIntro(FILE* file, graph g) {
 ##  fonction constructProof()
 	construit la preuve d'un lemme dont l'énoncé a été écrit dans 
 	un fichier par les fonctions précédentes.
-	En fait, il semble que c'est constructProofaux() qui fasse tout le boulot (appelée au début)
+	En fait, c'est constructProofaux() qui fasse tout le boulot (appelée au début)
 	la majeur partie du code suivant est une espèce de filet de sécurité qui observe
 	les valeurs initiales (d'où les preuves pour le rg d'un singleton ou lorsque la concl. est
 	dans les hypothèses (qui concernent les rangs donnés au départ))
@@ -881,7 +925,7 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 	rankMinA = rankMin(partA);
 	rankMaxA = rankMax(partA);
 	
-	if(dim == 3)
+	if(dim >= 3)	//---------------> modifié, avant c'était dim==3 sans doute pour distinguer le cas où dim == 2 je pense 
 	{
 		if(countBytes(partAe) < dim + 1)
 		{
@@ -901,10 +945,12 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 			printHypSetFile(file,partAe);
 			fprintf(file,"M : rk(");
 			printSetFile(file,partAe);
-			fprintf(file," nil) <= 4) by (apply rk_upper_dim).\n");
+			fprintf(file," nil) <= %d) by (apply rk_upper_dim).\n",dim+1); // <---------- modif par PS : la dimension n'était pas prise en compte
+																		// ancienne version à la ligne ci-dessous (commentée)
+			// fprintf(file," nil) <= 4) by (apply rk_upper_dim).\n");
 		}
 	}
-	else
+	else	//-------------------------------------------------------> les dimensions > 3 ne semblent pas être bien prises en compte
 	{
 		fprintf(file,"\nassert(H");
 		printHypSetFile(file,partAe);
@@ -943,7 +989,7 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 
 
 ##  fonction constructProofaux()
-    C'est ici que la preuve est rédigée
+    C'est ici que la preuve relative à l'application des règles est rédigée
 ________________________________________________________________________________*/
 void constructProofaux (FILE* file, node n, myType res, allocSize stab, int previousConstruct, bool print_trace) {
 	
@@ -952,7 +998,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 	myType partA, partB, partAiB, partAuB, partAe, partBe, partAiBe, partAuBe;
 	int rankMinA, rankMaxA, rankMinB, rankMaxB, rankMinAiB, rankMaxAiB, rankMinAuB, rankMaxAuB;
 	int freeA, freeB, freeAuB, freeAiB;
-	list tmp = n->ante;						/* la liste ante correspond aux étapes précédentes de réduction d'intervalle */
+	list tmp = n->ante;					/* la liste ante correspond aux étapes précédentes de réduction d'intervalle */
 
 
 
@@ -990,13 +1036,13 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					pour l'ensemble considéré.(et sans écrire de Lemme puisque le lemme
 					en question est justement en train d'être écrit), cependant ces noeuds
 					font intervenir des noeuds marqués dont on voudra la preuve ... mais celle-ci
-					ne pourra pas donner lieu à un lemme, ce qui est 
+					ne pourra pas donner lieu à un lemme.
 
 					Remarque importante :
 					On a déjà fait ce type de travail dans constructLemma() mais en ne traitant
 					pas les noeuds correspondants à l'ensemble concerné par le Lemme (ces noeuds
 					correspondent au même ensemble mais avec un intervalle de rang plus grand)
-					C'est ici qu ces noeud sont traités 
+					C'est ici qu ces noeud dit premiers fils sont traités 
 				
 				-----------------------------------------*/
 				fprintf(file,"\n(* dans constructProofaux(), preuve de %d <= rg <= %d pour ", rankMin(tmp->n->e), rankMax(tmp->n->e)); 
@@ -3306,6 +3352,19 @@ void printSetFile (FILE* file, myType e) {
 
 		if((e >> i) & 1) // changé
 		{
+				fprintf(file,"%s :: ",STATEMENT->p_names[j]);
+		}
+		j++;
+	}
+}
+
+void printSetFile_DB (FILE* file, myType e) {
+	int i,j=1;
+	for(i = 0; i < realSizemyType; i++)
+	{
+
+		if((e >> i) & 1) // changé
+		{
 				fprintf(file,"P%d :: ",j);
 		}
 		j++;
@@ -3327,7 +3386,21 @@ char *printSetString (char *s, myType e) {
 }
 
 // remarque : c'est la même fonction que printSetFile() à un " ::" près ...
-void printHypSetFile (FILE* file, myType e) {
+void printHypSetFile(FILE* file, myType e) {
+	int i,j=1;
+	for(i = 0; i < realSizemyType; i++)
+	{
+
+		if((e >> i) & 1)
+		{
+				fprintf(file,"%s",STATEMENT->p_names[j]);
+		}
+		j++;
+	}
+}
+
+
+void printHypSetFile_DB (FILE* file, myType e) {
 	int i,j=1;
 	for(i = 0; i < realSizemyType; i++)
 	{
