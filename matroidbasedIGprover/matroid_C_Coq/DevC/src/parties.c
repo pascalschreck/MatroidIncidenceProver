@@ -731,7 +731,8 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 		for(i = 0; i < g.effectiveAllocPow; i++)
 		{
 			// pos += sprintf(pos,"P%d ",i+1);			// idem PS 27/09/20
-			fprintf(file,"%s ",STATEMENT->p_names[i]);  // i au lieu de i+1
+			// fprintf(file,"%s ",STATEMENT->p_names[i]);  // version A B C, i au lieu de i+1
+			fprintf(file,"P%d ",i+1);						// version Pi
 		} 
 														// Ainsi, 
 		// pos += sprintf(pos,",\n");					// tous les points du graphe sont quantifiés universellement
@@ -855,7 +856,8 @@ void constructIntro(FILE* file, graph g) {
 	
 	for(i = 0; i < g.effectiveAllocPow; i++)
 	{
-		fprintf(file,"%s ",STATEMENT->p_names[i]);   // i pas i+1 !!!
+		// fprintf(file,"%s ",STATEMENT->p_names[i]);   // i pas i+1 !!!
+		fprintf(file,"P%d ",i+1);
 	}
 	
 	fprintf(file,"\n");
@@ -3345,7 +3347,7 @@ ________________________________________________________________________________
 *																				*
 *_______________________________________________________________________________*/
 
-void printSetFile (FILE* file, myType e) {
+void printSetFile_PS (FILE* file, myType e) {
 	int i,j=0;
 	for(i = 0; i < realSizemyType; i++)
 	{
@@ -3358,7 +3360,7 @@ void printSetFile (FILE* file, myType e) {
 	}
 }
 
-void printSetFile_DB (FILE* file, myType e) {
+void printSetFile (FILE* file, myType e) {
 	int i,j=1;
 	for(i = 0; i < realSizemyType; i++)
 	{
@@ -3386,7 +3388,7 @@ char *printSetString (char *s, myType e) {
 }
 
 // remarque : c'est la même fonction que printSetFile() à un " ::" près ...
-void printHypSetFile(FILE* file, myType e) {
+void printHypSetFile_PS(FILE* file, myType e) {
 	int i,j=0;
 	for(i = 0; i < realSizemyType; i++)
 	{
@@ -3400,7 +3402,7 @@ void printHypSetFile(FILE* file, myType e) {
 }
 
 
-void printHypSetFile_DB (FILE* file, myType e) {
+void printHypSetFile (FILE* file, myType e) {
 	int i,j=1;
 	for(i = 0; i < realSizemyType; i++)
 	{
