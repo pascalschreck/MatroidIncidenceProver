@@ -728,14 +728,16 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 
 		// boucle pour écrire la quantification universelle de toutes les variables 
 		// (en fait, fermeture universelle par tous les points)
-		for(i = 0; i < g.effectiveAllocPow; i++)
-		{
-			// pos += sprintf(pos,"P%d ",i+1);			// idem PS 27/09/20
-			// fprintf(file,"%s ",STATEMENT->p_names[i]);  // version A B C, i au lieu de i+1
-			fprintf(file,"P%d ",i+1);						// version Pi
-		} 
-														// Ainsi, 
+		// for(i = 0; i < g.effectiveAllocPow; i++)
+		// {
+		// 	// pos += sprintf(pos,"P%d ",i+1);			// idem PS 27/09/20
+		// 	// fprintf(file,"%s ",STATEMENT->p_names[i]);  // version A B C, i au lieu de i+1
+		// 	fprintf(file,"P%d ",i+1);						// version Pi
+		// } 
+		// 												// Ainsi, 
 		// pos += sprintf(pos,",\n");					// tous les points du graphe sont quantifiés universellement
+		// remplacé par un appel de fonction janvier 2021
+		printAllPoints(file, g);
 		fprintf(file,",\n");
 
 		// boucle pour mettre en prémisse toutes les hypothèses donnée
@@ -854,12 +856,8 @@ void constructIntro(FILE* file, graph g) {
 	
 	fprintf(file,"Proof.\n\nintros ");
 	
-	for(i = 0; i < g.effectiveAllocPow; i++)
-	{
-		// fprintf(file,"%s ",STATEMENT->p_names[i]);   // i pas i+1 !!!
-		fprintf(file,"P%d ",i+1);
-	}
-	
+	// écrit dans file la liste des points séparés par un espace
+	printAllPoints(file, g);
 	fprintf(file,"\n");
 	
 	for(i = 0; i < g.effectiveSize; i++)
@@ -1160,7 +1158,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -1197,7 +1199,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -1237,7 +1243,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 						{
 							for(i = 0; i < stab.tab[j][0]; i++)
 							{
-								fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 							}
 							fprintf(file,";try assumption).\n");
 							stabb = 0;
@@ -1560,7 +1570,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -1597,7 +1611,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -1635,7 +1653,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 						{
 							for(i = 0; i < stab.tab[j][0]; i++)
 							{
-								fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 							}
 							fprintf(file,";try assumption).\n");
 							stabb = 0;
@@ -1943,7 +1965,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -1980,7 +2006,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -2017,7 +2047,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -2341,7 +2375,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -2378,7 +2416,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -2417,7 +2459,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 						{
 							for(i = 0; i < stab.tab[j][0]; i++)
 							{
-								fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 							}
 							fprintf(file,";try assumption).\n");
 							stabb = 0;
@@ -2704,7 +2750,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -2875,7 +2925,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -3040,7 +3094,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -3207,7 +3265,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 					{
 						for(i = 0; i < stab.tab[j][0]; i++)
 						{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
 						}
 						fprintf(file,";try assumption).\n");
 						stabb = 0;
@@ -3347,8 +3409,27 @@ ________________________________________________________________________________
 *																				*
 *_______________________________________________________________________________*/
 
-void printSetFile_PS (FILE* file, myType e) {
-	int i,j=0;
+void printAllPoints(FILE* file, graph g)
+{
+#ifdef ABC
+	for(int i = 0; i < g.effectiveAllocPow; i++)
+		{
+			// i pas i+1 !!!
+			fprintf(file,"%s ",STATEMENT->p_names[i]);
+		}
+#else
+	for(int i = 0; i < g.effectiveAllocPow; i++)
+		{
+			// fprintf(file,"%s ",STATEMENT->p_names[i]);   // i pas i+1 !!!
+			fprintf(file,"P%d ",i+1);
+		}
+#endif 
+}
+
+void printSetFile (FILE* file, myType e) {
+	int i,j;
+#ifdef ABC
+	j = 0;
 	for(i = 0; i < realSizemyType; i++)
 	{
 
@@ -3358,10 +3439,8 @@ void printSetFile_PS (FILE* file, myType e) {
 		}
 		j++;
 	}
-}
-
-void printSetFile (FILE* file, myType e) {
-	int i,j=1;
+#else
+	j = 1;
 	for(i = 0; i < realSizemyType; i++)
 	{
 
@@ -3371,6 +3450,7 @@ void printSetFile (FILE* file, myType e) {
 		}
 		j++;
 	}
+#endif
 }
 
 char *printSetString (char *s, myType e) {
@@ -3388,8 +3468,13 @@ char *printSetString (char *s, myType e) {
 }
 
 // remarque : c'est la même fonction que printSetFile() à un " ::" près ...
-void printHypSetFile_PS(FILE* file, myType e) {
-	int i,j=0;
+
+
+
+void printHypSetFile (FILE* file, myType e) {
+	int i,j;
+#ifdef ABC
+	j=0;	// attention on commence à 0
 	for(i = 0; i < realSizemyType; i++)
 	{
 
@@ -3399,11 +3484,8 @@ void printHypSetFile_PS(FILE* file, myType e) {
 		}
 		j++;
 	}
-}
-
-
-void printHypSetFile (FILE* file, myType e) {
-	int i,j=1;
+#else
+	j=1;	// attention on commence à 1
 	for(i = 0; i < realSizemyType; i++)
 	{
 
@@ -3413,6 +3495,7 @@ void printHypSetFile (FILE* file, myType e) {
 		}
 		j++;
 	}
+#endif
 }
 
 char *printHypSetString (char *s, myType e) {
