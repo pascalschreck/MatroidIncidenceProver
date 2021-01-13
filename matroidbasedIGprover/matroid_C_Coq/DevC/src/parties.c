@@ -4,6 +4,7 @@
 #include "parties.h"
 #include "globals.h"
 
+static int min(int a,int b){return (a<b) ? a : b;}
 
 /*______________________________________________________________________________
 
@@ -924,7 +925,7 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 	partAe = SetFrom(partA);
 	rankMinA = rankMin(partA);
 	rankMaxA = rankMax(partA);
-	
+	 
 	if(dim >= 3)	//---------------> modifié, avant c'était dim==3 sans doute pour distinguer le cas où dim == 2 je pense 
 	{
 		if(countBytes(partAe) < dim + 1)
@@ -933,7 +934,7 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 			printHypSetFile(file,partAe);
 			fprintf(file,"M : rk(");
 			printSetFile(file,partAe);
-			fprintf(file," nil) <= %d) by (solve_hyps_max H",countBytes(partAe));
+			fprintf(file," nil) <= %d) (* dim : %d *) by (solve_hyps_max H",countBytes(partAe), dim);
 			printHypSetFile(file,partAe);
 			fprintf(file,"eq H");
 			printHypSetFile(file,partAe);
@@ -956,11 +957,11 @@ void constructProof (FILE* file, node n, allocSize stab, int previousConstruct) 
 		printHypSetFile(file,partAe);
 		fprintf(file,"M : rk(");
 		printSetFile(file,partAe);
-		fprintf(file," nil) <= %d) by (solve_hyps_max H",countBytes(partAe));
+		fprintf(file," nil) <= %d) by (solve_hyps_max H",min(dim+1,countBytes(partAe))); // grmblllll
 		printHypSetFile(file,partAe);
 		fprintf(file,"eq H");
 		printHypSetFile(file,partAe);
-		fprintf(file,"M%d).\n",countBytes(partAe));
+		fprintf(file,"M%d).\n",min(dim+1,countBytes(partAe)));
 	}
 	
 	fprintf(file,"assert(H");
