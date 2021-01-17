@@ -46,9 +46,9 @@ int main(int argc, char * argv[])
         debug_file = fopen("debug.log","w");
 
     statement st = st_read(stat);			// lecture de l'énoncé pour remplir la structure statement
-    STATEMENT = st;                         // STATEMENT procure un accès global à l'énoncé
-
+    STATEMENT = st;                         // STATEMENT procure un accès global à l'énoncé (c'est une variable globale à tout le projet)
     fclose(stat);
+
         /*----------------------traçage-----------------------------*/
             if(trace)
             {
@@ -107,7 +107,7 @@ int main(int argc, char * argv[])
   	    {
 		    rang r = cly->hypoth[i];
 		    int set = r.set;
-		    g[iocl].tab[set]-> e = setMinMax(g[iocl].tab[set]->e,r.rk,r.rk);
+		    g[iocl].tab[set]-> e = setMinMax(g[iocl].tab[set]->e,r.rk,r.rk);  // hypothèses (rang) de l'énoncé
 		    g[iocl].tab[set]->color = -1;
   	    }
     fprintf(stderr,"-------- convergence couche 0 \n");
@@ -133,7 +133,7 @@ int main(int argc, char * argv[])
   	    {
 		    rang r = cly->hypoth[i];
 		    int set = r.set;
-		    g[iocl].tab[set]-> e = setMinMax(g[iocl].tab[set]->e,r.rk,r.rk);
+		    g[iocl].tab[set]-> e = setMinMax(g[iocl].tab[set]->e,r.rk,r.rk);    // hypothèses (rang) de l'énoncé
 		    g[iocl].tab[set]->color = -1;
   	    }
         fprintf(stderr,"-------- convergence couche %d \n", iocl);
@@ -145,7 +145,7 @@ int main(int argc, char * argv[])
 			
 
 	 
-	// fin de la preuve, sortie des rangs dans un fichier dont le nom est donné sur la lc
+	// fin de la preuve, sortie des rangs dans un fichier dont le nom est donné sur la ligne de commande
 	FILE *wp_out = fopen(rankoutput_name,"w+");
 	fprintGraphWithoutProof(wp_out, g[nb_layers-1]);				// écriture dans le fichier 
 
@@ -192,7 +192,7 @@ int main(int argc, char * argv[])
                   en Coq par des lemmes
                 * dans la dernière couche seul le noeud correspondant à l'ensemble resf  donne lieu à
                   un lemme
-                Issue : 
+                Issues : 
                     * je (PS) ne sais pas bien comment se propage le marquage. Avec ma reprise du code
                     il y a des problèmes de bout de preuves qui ne sont pas produits (les causes possibles sont
                     la recopie de graphe qui ne reporte pas les listes ante et succ, le marquage qui pourrait ne
@@ -210,7 +210,10 @@ int main(int argc, char * argv[])
             dans une preuve que s'il a effectivement été écrit. Il reste cependant des cas identifiés dans lequels la preuve
             d'une pémisse qui aurait pu faire l'objet d'un lemme, reste locale à une preuve.
     */
-    if(nb_layers==1) // cas monocouche 
+    if(nb_layers==1) 
+    // ==========================
+    // cas monocouche 
+    // ==========================
     {
         long long unsigned int i ;
         int last = 0;
@@ -242,7 +245,6 @@ int main(int argc, char * argv[])
                 // constructIntro(file, g[last]);
                 // constructProof(file,g[last].tab[i], sizeTab, 1); 
                 g[last].tab[i]->mark = PROOF_ALREADY_DONE; // 4
-                // le démarquage est débrayé pour test
                unMark(g[last].tab[i]);   // on remet à 1 () les noeuds qui ont été mis à 5
             }
             
@@ -258,7 +260,11 @@ int main(int argc, char * argv[])
         fclose(file);
         if(debug_mode) fclose(debug_file);
     }
-    else  // cas multi-couches ... contient encore des bugs
+    else  
+    // ======================================
+    // cas multi-couches 
+    // ... contient encore des bugs
+    // =====================================
     {
         long long unsigned int i ;
         int last = nb_layers-1;
