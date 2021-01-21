@@ -1,6 +1,6 @@
 # Bip 
 
-## Bip : Matroid based Incidence Prover
+## Bip : matroid Based Incidence Prover
 This project is a fork of David Braun's prover developped at the end of his PhD.
 
 The main design is preserved while some things have radically changed.
