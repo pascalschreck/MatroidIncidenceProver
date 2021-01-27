@@ -66,13 +66,13 @@ statement st_read(FILE *stat_name)
     if(strcmp(buff,"dimension")) 
         {printf("syntax error : 'dimension' expected instead of %s\n",buff); exit(1);}        // dimension
     
-    fscanf(stat_name,"%d\n",&(st->sdim));
+    fscanf(stat_name,"%d\n",&(st->sdim));st_comment(stat_name, buff);
     if(st->sdim <2 || st->sdim > 7) {printf("error : 'dimension' not in [2..7]\n"); exit(1);}
     
     fscanf(stat_name,"%s\n",buff); st_comment(stat_name, buff);
     if(strcmp(buff,"layers")) 
         {printf("syntax error : 'layers' expected instead of %s\n",buff); exit(1);}              // layers
-    fscanf(stat_name,"%d\n",&(st->nb_layers));
+    fscanf(stat_name,"%d\n",&(st->nb_layers));st_comment(stat_name, buff);
     if(st->nb_layers > MAX_LAYERS) 
         {printf("error : 'nb of layers' should be < %d\n",MAX_LAYERS); exit(1);}
     
@@ -94,7 +94,7 @@ statement st_read(FILE *stat_name)
         fscanf(stat_name,"%s\n",buff); st_comment(stat_name, buff);
         if(strcmp(buff,"layer"))                                                                 // layer
             {printf("syntax error : 'layer' expected instead of %s\n",buff), exit(1);}
-        fscanf(stat_name,"%s\n",cly->name);
+        fscanf(stat_name,"%s\n",cly->name);st_comment(stat_name, buff);
 
         fscanf(stat_name,"%s\n",buff); st_comment(stat_name, buff);
         if(strcmp(buff,"points"))                                                               // points
@@ -105,7 +105,7 @@ statement st_read(FILE *stat_name)
             char name_ly[NAME_SIZE]; 
             int ref_ly;
             int j;
-            fscanf(stat_name,"%s\n",name_ly);
+            fscanf(stat_name,"%s\n",name_ly);st_comment(stat_name, buff);
 
             for(ref_ly=0;ref_ly < iocl && strcmp(name_ly,st->layers[ref_ly]->name); ref_ly++){}
             if(ref_ly==iocl) 
@@ -161,11 +161,11 @@ statement st_read(FILE *stat_name)
                 if(ref==-1){printf("erreur in hypoth. %d : %s point non reconnu",cly->nbr, buff); exit(2);}
                 cly->hypoth[cly->nbr].points[nbp_rk] = ref;
                 set = set | 1ull << ref;
-                fscanf(stat_name,"%s ",buff);
+                fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
             }
             if(strcmp(buff,":"))                                                    // lecture des :
                 { printf("syntax error : ':' expected instead of %s\n", buff); exit(1); }
-            fscanf(stat_name,"%d\n",&rk); 
+            fscanf(stat_name,"%d\n",&rk); st_comment(stat_name, buff);
             if(rk > nbp_rk) 
                 {
                 printf("error in hypoth: %d rank is too big in %d (layer %d) \n",rk, cly->nbr, iocl);
@@ -194,7 +194,7 @@ statement st_read(FILE *stat_name)
                         {printf("error in conclusion %s unkown point",buff); exit(2);}
                     cly->conclusion.points[nbp_rk] = ref;
                     set = set | 1ull << ref;
-                    fscanf(stat_name,"%s ",buff);
+                    fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
                 }
                 if(strcmp(buff,":")) 
                     {printf("syntax error : ':' expected instead of %s\n",buff); exit(1);}
@@ -210,7 +210,7 @@ statement st_read(FILE *stat_name)
         // reading supplement ranks
         if(!strcmp(buff,"supplements"))
         {
-            fscanf(stat_name, "%s ",buff);
+            fscanf(stat_name, "%s ",buff);st_comment(stat_name, buff);
             if(!strcmp(buff,":")) 
                 {printf("syntax error : point name or fin expected instead of %s\n",buff); exit(1);}
             for(cly->nbs=0; cly->nbs < MAX_RANKS && strcmp(buff,"endoflayer"); cly->nbs++)
@@ -223,11 +223,11 @@ statement st_read(FILE *stat_name)
                     {printf("erreur in suppl. %s point non reconnu",buff); exit(2);}
                 cly->supp[cly->nbs].points[nbp_rk] = ref;
                 set = set | 1ull << ref;
-                fscanf(stat_name,"%s ",buff);
+                fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
                 }
                 if(strcmp(buff,":")) 
                     {printf("syntax error : ':' expected instead of %s\n",buff); exit(1);}
-                fscanf(stat_name,"%d\n",&rk); 
+                fscanf(stat_name,"%d\n",&rk); st_comment(stat_name, buff);
                 if(rk > nbp_rk) 
                 {
                   printf("syntax error in supplements : %d rank is too big in %d of layer %d\n",rk, cly->nbs, iocl);
@@ -236,7 +236,7 @@ statement st_read(FILE *stat_name)
                 cly->supp[cly->nbs].nbp = nbp_rk;
                 cly->supp[cly->nbs].set = set-1;
                 cly->supp[cly->nbs].rk = rk;
-                fscanf(stat_name,"%s ",buff);
+                fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
             }
         }
         else if(strcmp(buff,"endoflayer")) 
@@ -264,7 +264,7 @@ statement st_read(FILE *stat_name)
             if(ref==-1){printf("erreur in conclusion %s point non reconnu",buff); exit(2);}
             st->conclusion.points[nbp_rk] = ref;
             set = set | 1ull << ref;
-            fscanf(stat_name,"%s ",buff);
+            fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
         }
         if(strcmp(buff,":")) 
             {printf("syntax error : ':' expected instead of %s\n", buff); exit(1);}
@@ -280,7 +280,7 @@ fscanf(stat_name,"%s\n",buff);st_comment(stat_name, buff);
 if(!strcmp(buff,"supplements"))
     {
 // reading supplemnts ranks
-      fscanf(stat_name, "%s ",buff);
+      fscanf(stat_name, "%s ",buff);st_comment(stat_name, buff);
       if(!strcmp(buff,":")) 
         {printf("syntax error : point name or end expected instead of %s\n",buff); exit(1);}
       for(st->nbs=0; st->nbs < MAX_RANKS && strcmp(buff,"end"); st->nbs++)
@@ -292,16 +292,16 @@ if(!strcmp(buff,"supplements"))
             if(ref==-1){printf("erreur in suppl. %s point non reconnu",buff); exit(2);}
             st->supp[st->nbs].points[nbp_rk] = ref;
             set = set | 1ull << ref;
-            fscanf(stat_name,"%s ",buff);
+            fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
             }
             if(strcmp(buff,":")) 
                 {printf("syntax error : ':' expected instead of %s\n",buff); exit(1);}
-            fscanf(stat_name,"%d\n",&rk); 
+            fscanf(stat_name,"%d\n",&rk); st_comment(stat_name, buff);
             if(rk > nbp_rk) {printf("syntax error in supplements : %d rank is too big in %d \n",rk, st->nbs), exit(1);}
             st->supp[st->nbs].nbp = nbp_rk;
             st->supp[st->nbs].set = set-1;
             st->supp[st->nbs].rk = rk;
-            fscanf(stat_name,"%s ",buff);
+            fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
         }
     }
     else if(strcmp(buff,"end")) 
