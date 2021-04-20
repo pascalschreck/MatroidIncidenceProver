@@ -4,13 +4,13 @@
 ### To do
 * corriger tous les bugs dans la production de la preuve :
     - DONE des Lemmes ne sont pas écrits (toujours pas !) alors qu'ils sont utilisés
-    - (?) une utilsation de la actique matroid2 devrait être faite mais ne l'est pas. Pire, le terme matroid2 n'aparaît pas 
+    - (?) une utilsation de la tactique matroid2 devrait être faite mais ne l'est pas. Pire, le terme matroid2 n'aparaît pas 
     dans le fichier parties.c où la preuve est censée être  écrite. 
 * DONE Enlever les infos de déboggage quand ça fonctionnera ou mieux les mettres dans la compilation
 * tester plus en profondeur les raisonnements par contradiction (c'est un cas où la propagation de contrainte (avant ou arrière) pourrait bien fonctionner)
 * TODO regarder la perte de marquage et/ou de reconstruction de théorèmes qui seraient dus (?) à la gestion des couches de raisonnement.
 * TODO regarder le cas multi couche avec  le nouveu parcours pour construire la preuve.
-* TODO on peut facilement ajouter plusieurs conclusion : ça peut être utile pour prouver un théorème de Deasragues assez complet en dim 3 et 4
+* TODO on peut facilement ajouter plusieurs conclusion : ça peut être utile pour prouver un théorème de Desargues assez complet en dim 3 et 4
 
 ### In progress
 
@@ -90,7 +90,7 @@ C'est le cas de la règle de DG dont voici une formulation dans un langage mocku
 # qui est plutôt complexe.
 # je remarque qu'il est plus facile d'exprimer cette règle avec de la 
 # géométrie qu'avec des rang ... c'était sans doute aussi le cas 
-# de certains énoncés de thm ... sauf qu'en on arrive en dim. > 3
+# de certains énoncés de thm ... sauf qu'on arrive en dim. > 3
 rule
 hypotheses
     lines
@@ -191,8 +191,8 @@ On peut généraliser sans doute cette approche. Cependant, sans faire de change
 ## Utilité des couches
 En fait, la grande utilité des couches est de fabriquer des lemmes intermédiaires de sorte que la preuve de la conclusion ne soit pas trop longue : l'idée est que dans les couches tous les noeuds utilisés dans la preuve (marqués 1) donnent lieu à des lemmes.
 Du coup, l'idée est la suivante : est-ce qu'avec 2 couches, une contenant quasiment tout et la dernière juste un point ou deux pour que le maximum de lemmes soient fabriqués n'est-elle pas suffisante pour simplifier la preuve ?
-Même mieuw, on peut modifier un peu l'algorithme pour ne pas avoir à mettre de couches du tout !
-
+Même mieux, on peut modifier un peu l'algorithme pour ne pas avoir à mettre de couches du tout !
+--> c'est ce qui a été fait.
 ### Discussion 
 Rien n'empêche d'avoir une implantation non-hiérarchique des couches : il y a quelques retouches à faire dans la fonction main() (par exemple, ne pas faire de recopie du graphe qui doit être complété par de nouveaux points) et dans le marquage des sommets du graphe et dans le parcours pour déterminer la preuve par rétro-propagation. Cependant, l'utilité des morceaux "indépendants" n'est pas claire : on ne peut pas les utiliser dans le calcul des rangs (car cela serait beaucoup trop coûteux d'isoler tous les sommets "hypothèses") et donc ils ne seront pas non plus utilisés pour simplifier une longue preuve. 
 

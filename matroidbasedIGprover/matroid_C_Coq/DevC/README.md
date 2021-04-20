@@ -16,7 +16,7 @@ graph.c : création et manipulation des noeuds dans un graphe
 parties. c : création  et manipulation du graphe de déductions; algorithme de saturation, règle de Pappus; reconstruction de la preuve et export en Coq
 main.c : fonction main et exemples d'énoncés géométriques à saturer
 automne 2020 : d'autres fichiers ont été ajoutés 
-  - fprinting (.c .h) : vraiantions defonctions d'affichage pour écrire dans des fichiers plutôt que sur la sortie standard
+  - fprinting (.c .h) : variantes de fonctions d'affichage pour écrire dans des fichiers plutôt que sur la sortie standard
   - globals.h : déclarations globales des variables, constantes, #define pour essayer de rendre les choses un peu plus propres
   - newrules (.c .h) : ce sont des fichiers vides pour le moment. Ils étaient prévus pour l'ajout de règles.
   - statement (.c .h) : lecture et affichage d'un énoncé écrit dans un langage spécifique
@@ -24,6 +24,10 @@ automne 2020 : d'autres fichiers ont été ajoutés
 ## Fonctionnement du prouveur :
 Note jan 2021 : toute la partie propgation force brute en saturant le treillis matroïdal avec les règles de rang a été conservée
        l'écriture des sorties Coq et rangs ont été pas mal remaniées. Il reste pas mal de chose à faire pour que l'écriture en Coq soit propre.
+
+
+
+***
 
 version orginale de David:
 Ouverture du fichier file
