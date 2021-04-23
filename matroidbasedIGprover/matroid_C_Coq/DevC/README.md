@@ -1,22 +1,35 @@
 # Configuration et compilation :
 
-*Attention les indications données dans ce fichier sont en partie dépassées*
+*Attention les indications données dans ce fichier sont pour la plupart dépassées*
 
 ## Installation
 Création de l'environnement (dossier obj/ bin/) : make init
 Compilation du prouveur : make all
-Exécution et redirection de l'affichage ./bin/main > ranks.txt
+obsolète :Exécution et redirection de l'affichage ./bin/main > ranks.txt
+automne 2020 : Exécution 'bin/main -s <statement> [-co <coq output>] [-ro <rank output>]
 
 ## Décomposition du projet :
 
-maths_addon.c : fonctions mathématiques
+obsolète : maths_addon.c : fonctions mathématiques
 set.c : encodage des ensembles sur des entiers binaires
 graph.c : création et manipulation des noeuds dans un graphe
 parties. c : création  et manipulation du graphe de déductions; algorithme de saturation, règle de Pappus; reconstruction de la preuve et export en Coq
 main.c : fonction main et exemples d'énoncés géométriques à saturer
+automne 2020 : d'autres fichiers ont été ajoutés 
+  - fprinting (.c .h) : variantes de fonctions d'affichage pour écrire dans des fichiers plutôt que sur la sortie standard
+  - globals.h : déclarations globales des variables, constantes, #define pour essayer de rendre les choses un peu plus propres
+  - newrules (.c .h) : ce sont des fichiers vides pour le moment. Ils étaient prévus pour l'ajout de règles.
+  - statement (.c .h) : lecture et affichage d'un énoncé écrit dans un langage spécifique
 
 ## Fonctionnement du prouveur :
+Note jan 2021 : toute la partie propgation force brute en saturant le treillis matroïdal avec les règles de rang a été conservée
+       l'écriture des sorties Coq et rangs ont été pas mal remaniées. Il reste pas mal de chose à faire pour que l'écriture en Coq soit propre.
 
+
+
+***
+
+version orginale de David:
 Ouverture du fichier file
 Allocation de la table sizeTab qui va stocker la décomposition de l'énoncé géométrique en plusieurs couches (si l'optimisation est utilisée) :
 - nombre de points

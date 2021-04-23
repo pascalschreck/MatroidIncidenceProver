@@ -1,2116 +1,797 @@
-Require Export List.
-Require Export Lia.
-Require Export Morphisms.
-
-Parameter Point : Set.
-Parameter eq_dec : forall A B : Point, {A = B} + {~ A = B}.
-
-Definition equivlist (l l':list Point) := forall x, List.In x l <-> List.In x l'.
-
-Ltac simplgen H := simpl in H;generalize H.
-
-Ltac my_inS :=
-  intuition;unfold incl in *;unfold equivlist in *;
-  repeat match goal with
-  |[H : _ |- _] => progress intros
-  |[H : _ |- _] => progress intro
-  |[H : _ |- _] => progress intuition
-  |[H : _ |- _] => split;intuition
-  |[H : In _ (?P ::  _ ) |- _] => inversion H;clear H
-  |[H : _ = _ |- _] => rewrite <-H
-  |[H : In _ nil |- _] => inversion H
-  end.
-
-Parameter rk : list Point -> nat.
-Parameter rk_compat : forall x x', equivlist x x' -> rk x = rk x'.
-
-Global Instance rk_morph : Proper (equivlist ==> (@Logic.eq nat)) rk.
-Proof.
-intros;repeat red.
-apply rk_compat.
-Qed.
-
-(*** Definition Inb ***)
-Fixpoint Inb (a:Point) (l:list Point) {struct l} : bool :=
-    match l with
-      | nil => false
-      | b :: m => if (eq_dec b a) then true else Inb a m
-    end.
-
-Lemma Inb_aux1 :
-forall a l, Inb a l = true -> In a l.
-Proof.
-my_inS;induction l;my_inS.
-- inversion H.
-- simplgen H;case_eq(eq_dec a0 a);my_inS.
-Qed.
-
-Lemma Inb_aux2 :
-forall a l, Inb a l = false -> ~In a l.
-Proof.
-my_inS;induction l;my_inS.
-- rewrite H1 in *;simplgen H;case_eq(eq_dec a a);my_inS.
-- simplgen H;case_eq(eq_dec a0 a);my_inS.
-Qed.
-
-(*** Definition list_inter ***)
-Definition list_inter l1 l2 := filter (fun x : Point => Inb x l2) l1.
-
-Lemma list_inter_split :
-forall a l m, In a (list_inter l m) -> In a l /\ In a m.
-Proof.
-intros.
-my_inS;induction l;my_inS.
-- simplgen H;unfold list_inter;simpl;case_eq(Inb a0 m);my_inS.
-- inversion H.
-- simplgen H;unfold list_inter;simpl;case_eq(Inb a0 m);my_inS;apply Inb_aux1;my_inS.
-Qed.
-
-Lemma list_inter_closure :
-forall a l m, In a m -> In a l -> In a (list_inter l m).
-Proof.
-my_inS;induction l;my_inS.
-- simpl;case_eq(Inb a0 m);my_inS;assert(HH := Inb_aux2 a0 m H0);subst;my_inS.
-- simpl;case_eq(Inb a0 m);my_inS.
-Qed.
-
-Ltac inv_unif :=
-  unfold incl in *; try split; intros;
-  repeat match goal with 
-         | [H : In _ (?P ::  _ ) |- _] => inversion H;clear H
-         | [H: _ = _ |- _] => rewrite <- H in *;try solve [contradiction|apply eq_sym in H;contradiction];clear H
-         | [H : In _ nil |- _] => inversion H
-         | [H : In _ (?L++?M) |- _] => apply in_app_iff in H; destruct H
-         | [H :_ |- In _ (?L++?M) ] => apply in_app_iff
-         | [H : In _ (list_inter _ _) |- _] => apply list_inter_split in H; destruct H
-         | [H : _ |- In _ (list_inter _ _)] => apply list_inter_closure
-         end.
-
-Ltac solve_equivlist := first [apply in_eq | apply in_cons ; solve_equivlist].
-
-Ltac my_inO := solve[inv_unif ; first[solve_equivlist | left;solve_equivlist | right;solve_equivlist]].
-
-Parameter matroid1_a  : forall X, rk X >= 0.
-Parameter matroid1_b : forall X, rk X <= length X.
-Parameter matroid2 : forall X Y, incl X Y -> rk X <= rk Y.
-Parameter matroid3 : forall X Y, rk(X ++ Y) + rk(list_inter X Y) <= rk X + rk Y.
-
-(*** Lemmes matroides utiles ***)
-Lemma matroid1_b_useful : forall (l : list Point) (m : nat), length l <= m -> rk l <= m.
-Proof.
-intros.
-assert(HH := matroid1_b l).
-lia.
-Qed.
-
-Lemma matroid3_useful : forall e e' ei : list Point,
- incl ei (list_inter e e') ->
- rk(e ++ e') + rk(ei) <= rk(e) + rk(e').
-Proof.
-intros.
-assert (rk (e ++ e') + rk (list_inter e e') <= rk e + rk e').
-apply matroid3.
-assert (rk (ei) <= rk (list_inter e e')).
-apply matroid2;auto.
-lia.
-Qed.
-
-Lemma couple_equal : forall A B, rk(A :: B :: nil) = rk(B :: A :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma triple_equal_1 : forall A B C, rk(A :: B :: C :: nil) = rk(A :: C :: B :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma triple_equal_2 : forall A B C, rk(A :: B :: C :: nil) = rk(B :: A :: C :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma triple_equal_3 : forall A B C, rk(A :: B :: C :: nil) = rk(B :: C :: A :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma triple_equal_4 : forall A B C, rk(A :: B :: C :: nil) = rk(C :: A :: B :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma triple_equal_5 : forall A B C, rk(A :: B :: C :: nil) = rk(C :: B :: A :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma rk_triple_max_3 : forall X Y Z : Point, rk(X :: Y :: Z :: nil) <= 3.
-Proof.
-intros.
-apply matroid1_b_useful.
-intuition.
-Qed.
-
-Lemma rk_quadruple_max_4 : forall W X Y Z : Point,rk(W :: X :: Y :: Z :: nil) <= 4.
-Proof.
-intros.
-apply matroid1_b_useful.
-intuition.
-Qed.
-
-Lemma quadruple_equal_1 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(A :: B :: D :: C :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_2 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(A :: C :: B :: D :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_3 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(A :: C :: D :: B :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_4 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(A :: D :: B :: C :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_5 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(A :: D :: C :: B :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_6 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(B :: A :: C :: D :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_7 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(B :: A :: D :: C :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_8 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(B :: C :: A :: D :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_9 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(B :: C :: D :: A :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_10 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(B :: D :: A :: C :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_11 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(B :: D :: C :: A :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_12 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(C :: A :: B :: D :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_13 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(C :: A :: D :: B :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_14 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(C :: B :: A :: D :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_15 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(C :: B :: D :: A :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_16 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(C :: D :: A :: B :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_17 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(C :: D :: B :: A :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_18 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(D :: A :: B :: C :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_19 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(D :: A :: C :: B :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_20 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(D :: B :: A :: C :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_21 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(D :: B :: C :: A :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_22 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(D :: C :: A :: B :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Lemma quadruple_equal_23 : forall A B C D, rk(A :: B :: C :: D :: nil) = rk(D :: C :: B :: A :: nil).
-Proof.
-intros;apply rk_morph;my_inO.
-Qed.
-
-Ltac clear_all_rk :=
-repeat match goal with
-| H : rk _ = _ |- _ => clear H
-| H : rk _ >= _ |- _ => clear H
-| H : rk _ <= _ |- _ => clear H
-end.
-
-
-
-Parameter rk_singleton_ge : forall A, rk (A :: nil)  >= 1.
-Parameter rk_couple_ge : forall A B, ~ A = B -> rk(A :: B :: nil) >= 2.
-Parameter rk_three_points_on_lines : forall A B, exists C, rk (A :: B :: C :: nil) = 2 /\ rk (B :: C :: nil) = 2 /\ rk (A :: C :: nil) = 2.
-Parameter rk_inter : forall A B C D, rk(A :: B :: C :: D :: nil) <= 3 -> exists J : Point, rk(A :: B :: J :: nil) = 2 /\ rk (C :: D :: J :: nil) = 2.
-Parameter rk_lower_dim : exists A0 A1 A2 A3 A4 A5, rk( A0 :: A1 :: A2 :: A3 :: A4 :: A5 :: nil) = 6.
-Parameter rk_upper_dim : forall e, rk(e) <= 6.
-
-Lemma rk_singleton_1 : forall A, rk(A :: nil) <= 1.
-Proof.
-intros.
-apply matroid1_b_useful.
-intuition.
-Qed.
-
-Lemma rk_singleton : forall A, rk(A :: nil) = 1.
-Proof.
-intros.
-assert(H := rk_singleton_ge A).
-assert(HH := rk_singleton_1 A).
-lia.
-Qed.
-
-Lemma matroid1_b_useful2 : forall (l : list Point) (a : Point), length (a :: l) >= 1 -> rk (a :: l) >= 1.
-Proof.
-intros.
-assert(HH := rk_singleton a).
-assert(HH0 := matroid2 (a :: nil) (a :: l)).
-assert(HH1 : incl (a :: nil) (a :: l));[my_inO|].
-assert(HH2 := HH0 HH1).
-lia.
-Qed.
-
-Lemma rk_couple_2 : forall A B, rk(A :: B :: nil) <= 2.
-Proof.
-intros.
-apply matroid1_b_useful.
-intuition.
-Qed.
-
-Lemma rk_couple : forall A B : Point,~ A = B -> rk(A :: B :: nil) = 2.
-Proof.
-intros.
-assert(HH := rk_couple_2 A B).
-assert(HH0 := rk_couple_ge A B H).
-lia.
-Qed.
-
-Lemma rk_triple_3 : forall A B C : Point, rk (A :: B :: C :: nil) <= 3.
-Proof.
-intros.
-apply matroid1_b_useful.
-intuition.
-Qed.
-
-Lemma couple_rk1 : forall A B, rk(A :: B :: nil) = 2 -> ~ A = B.
-Proof.
-intros.
-intro.
-rewrite H0 in H.
-assert(HH : equivlist (B :: B :: nil) (B :: nil));[my_inO|].
-rewrite HH in H.
-assert(HH0 := rk_singleton_1 B).
-lia.
-Qed.
-
-Lemma couple_rk2 : forall A B, rk(A :: B :: nil) = 1 -> A = B.
-Proof.
-intros.
-case_eq(eq_dec A B).
-intros.
-assumption.
-intros.
-assert(HH := rk_couple A B n).
-lia.
-Qed.
-
-Lemma rule_1 : forall A B AiB, forall MA MB mAiB, 
-rk(A) <= MA -> rk(B) <= MB -> rk(AiB) >= mAiB -> incl AiB (list_inter A B) ->
-rk(A ++ B) <= MA + MB - mAiB.
-Proof.
-intros.
-assert(HH := matroid3_useful A B AiB H2).
-lia.
-Qed.
-
-Lemma rule_2 : forall A B AiB, forall mAuB mAiB MB, 
-rk(A ++ B) >= mAuB -> rk(AiB) >= mAiB -> rk(B) <= MB -> incl AiB (list_inter A B) ->
-rk(A) >= mAuB + mAiB - MB.
-Proof.
-intros.
-assert(HH := matroid3_useful A B AiB H2).
-lia.
-Qed.
-
-Lemma rule_3 : forall A B AiB, forall MA MB mAuB, 
-rk(A) <= MA -> rk(B) <= MB -> rk(A ++ B) >= mAuB -> incl AiB (list_inter A B) ->
-rk(AiB) <= MA + MB - mAuB.
-Proof.
-intros.
-assert(HH := matroid3_useful A B AiB H2).
-lia.
-Qed.
-
-Lemma rule_4 : forall A B AiB, forall mAuB mAiB MA, 
-rk(A ++ B) >= mAuB -> rk(AiB) >= mAiB -> rk(A) <= MA -> incl AiB (list_inter A B) ->
-rk(B) >= mAuB + mAiB - MA.
-Proof.
-intros.
-assert(HH := matroid3_useful A B AiB H2).
-lia.
-Qed.
-
-Lemma rule_5 : forall A B, forall mA mB, 
-rk(A) >= mA -> mA >= mB -> incl A B ->
-rk(B) >= mA.
-Proof.
-intros.
-assert(HH := matroid2 A B H1).
-lia.
-Qed.
-
-Lemma rule_6 : forall A B, forall MA MB, 
-rk(B) <= MB -> MB <= MA -> incl A B ->
-rk(A) <= MB.
-Proof.
-intros.
-assert(HH := matroid2 A B H1).
-lia.
-Qed.
-
-Lemma rule_7 : forall A B, forall mA mB, 
-rk(B) >= mB -> mB >= mA -> incl B A ->
-rk(A) >= mB.
-Proof.
-intros.
-assert(HH := matroid2 B A H1).
-lia.
-Qed.
-
-Lemma rule_8 : forall A B, forall MA MB, 
-rk(A) <= MA -> MA <= MB -> incl B A ->
-rk(B) <= MA.
-Proof.
-intros.
-assert(HH := matroid2 B A H1).
-lia.
-Qed.
-
-Parameter rk_pappus : forall A B C D E F G H I,
-rk(A :: B :: nil) = 2 -> rk(A :: C :: nil) = 2 -> rk(A :: D :: nil) = 2 -> 
-rk(A :: E :: nil) = 2 -> rk(A :: F :: nil) = 2 ->
-rk(B :: C :: nil) = 2 -> rk(B :: D :: nil) = 2 -> rk(B :: E :: nil) = 2 ->
-rk(B :: F :: nil) = 2 ->
-rk(C :: D :: nil) = 2 -> rk(C :: E :: nil) = 2 -> rk(C :: F :: nil) = 2 ->
-rk(D :: E :: nil) = 2 -> rk(D :: F :: nil) = 2 ->
-rk(E :: F :: nil) = 2 ->
-rk(A :: B :: C :: nil) = 2 -> rk(D :: E :: F :: nil) = 2 -> 
-rk(A :: E :: G :: nil) = 2 -> rk(B :: D :: G :: nil) = 2 ->
-rk(A :: F :: H :: nil) = 2 -> rk(C :: D :: H :: nil) = 2 ->
-rk(B :: F :: I :: nil) = 2 -> rk(C :: E :: I :: nil) = 2 -> rk(G :: H :: I :: nil) = 2.
-
-Ltac rk_couple_triple :=
-  match goal with
-
-| H : rk(?A :: ?B :: nil) = 2 |- rk(?A :: ?B :: nil) = 2 => assumption
-| H : rk(?B :: ?A :: nil) = 2 |- rk(?A :: ?B :: nil) = 2 => rewrite couple_equal in H;assumption
-
-| H : rk(?A :: ?B :: ?C :: nil) = _ |-  rk(?A :: ?B :: ?C :: nil) = _ => assumption
-| H : rk(?A :: ?C :: ?B :: nil) = _ |-  rk(?A :: ?B :: ?C :: nil) = _ => rewrite <-triple_equal_1 in H;assumption
-| H : rk(?B :: ?A :: ?C :: nil) = _ |-  rk(?A :: ?B :: ?C :: nil) = _ => rewrite <-triple_equal_2 in H;assumption
-| H : rk(?B :: ?C :: ?A :: nil) = _ |-  rk(?A :: ?B :: ?C :: nil) = _ => rewrite <-triple_equal_3 in H;assumption
-| H : rk(?C :: ?A :: ?B :: nil) = _ |-  rk(?A :: ?B :: ?C :: nil) = _ => rewrite <-triple_equal_4 in H;assumption
-| H : rk(?C :: ?B :: ?A :: nil) = _ |-  rk(?A :: ?B :: ?C :: nil) = _ => rewrite <-triple_equal_5 in H;assumption
-end.
-
-
-Ltac clear_ineg_rk :=
-repeat match goal with
-| H : rk _ >= _ |- _ => clear H
-| H : rk _ <= _ |- _ => clear H
-end.
-
-
-Ltac equalize_pts :=
-repeat match goal with
-| H : rk (?X0 :: ?X1 :: nil) = 1 |- _ => 
-          let HH := fresh in assert(HH := couple_rk2 X0 X1 H);clear H;rewrite HH
-end.
-
-Ltac eliminate_hyps :=
-repeat match goal with
-| H : rk ?X = _, H0 : rk ?X >= _ |- _ => clear H0
-| H : rk ?X = _, H0 : rk ?X <= _ |- _ => clear H0
-| H : rk ?X >= _, H0 : rk ?X >= _ |- _ => clear H
-| H : rk ?X <= _, H0 : rk ?X <= _ |- _ => clear H
-| H : rk ?X >= ?Y, H0 : rk ?X <= ?Y |- _ =>  let HH := fresh in assert(HH : rk X = Y) by (lia)
-end.
-
-Lemma le_S_sym : forall n m : nat,
-n >= S m -> n >= m.
-Proof.
-intros.
-intuition.
-Qed.
-
-Lemma eq_to_ge : forall n m : nat,
-n = m -> n >= m.
-Proof.
-intros.
-lia.
-Qed.
-
-Lemma eq_to_le : forall n m : nat,
-n = m -> n <= m.
-Proof.
-intros.
-lia.
-Qed.
-
-Lemma eq_le_incl : forall n m, n = m -> n <= m.
-Proof.
-  intros; lia.
-Qed.
-
-Ltac solve_hyps_max H H0 :=
-solve[apply matroid1_b_useful;simpl;repeat constructor
-|apply rk_upper_dim
-|apply eq_le_incl;apply H
-|apply eq_le_incl;apply eq_sym;apply H
-|apply H0
-|apply le_S;apply H0
-|apply le_S;apply le_S;apply H0
-|apply le_S;apply le_S;apply le_S;apply H0
-|lia
-].
-
-Ltac solve_hyps_min H H0:=
-solve[apply matroid1_b_useful2;simpl;repeat constructor
-|apply matroid1_a
-|apply eq_le_incl;apply H
-|apply eq_le_incl;apply eq_sym;apply H
-|apply H0
-|apply le_S_sym;apply H0
-|apply le_S_sym;apply le_S_sym;apply H0
-|apply le_S_sym;apply le_S_sym;apply le_S_sym;apply H0
-|lia
-].
-
-Lemma l1_scheme : forall P1 P2 : Point,
-                  forall P3 P4 : Point,
-                  forall P5 : Point,
-                  rk (P1 :: P2 :: P5 :: nil) = 3 ->
-                  rk (P1 :: P3 :: P5 :: nil) = 2 ->
-                  rk (P2 :: P4 :: P5 :: nil) = 2 ->
-                  rk (P3 :: P5 :: nil) = 2 ->
-                  rk (P4 :: P5 :: nil) = 2  ->  rk (P3 :: P4 :: P5 :: nil) = 3.
-Proof.
-intros P1 P2 P3 P4 P5 HP1P2P5eq HP1P3P5eq HP2P4P5eq HP3P5eq HP4P5eq.
-
-try clear HP1P2m;assert(HP1P2m : rk(P1 :: P2 :: nil) >= 2).
-{
-	try assert(HP5Mtmp : rk(P5 :: nil) <= 1) by (solve_hyps_max HP5eq HP5M).
-	try assert(HP1P2P5mtmp : rk(P1 :: P2 :: P5 :: nil) >= 3) by (solve_hyps_min HP1P2P5eq HP1P2P5m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P1 :: P2 :: nil) (P5 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P5 :: nil) (P1 :: P2 :: P5 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P5 :: nil) ((P1 :: P2 :: nil) ++ (P5 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P5mtmp;try rewrite HT2 in HP1P2P5mtmp.
-	assert(HT := rule_2 (P1 :: P2 :: nil) (P5 :: nil) (nil) 3 0 1 HP1P2P5mtmp Hmtmp HP5Mtmp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P5m;assert(HP1P2P3P4P5m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 2).
-{
-	try assert(HP1P2mtmp : rk(P1 :: P2 :: nil) >= 2) by (solve_hyps_min HP1P2eq HP1P2m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil) 2 2 HP1P2mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P5m;assert(HP1P2P3P4P5m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 3).
-{
-	try assert(HP1P2P5mtmp : rk(P1 :: P2 :: P5 :: nil) >= 3) by (solve_hyps_min HP1P2P5eq HP1P2P5m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil) 3 3 HP1P2P5mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P5M;assert(HP1P2P3P4P5M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) <= 3).
-{
-	try assert(HP1P3P5Mtmp : rk(P1 :: P3 :: P5 :: nil) <= 2) by (solve_hyps_max HP1P3P5eq HP1P3P5M).
-	try assert(HP2P4P5Mtmp : rk(P2 :: P4 :: P5 :: nil) <= 2) by (solve_hyps_max HP2P4P5eq HP2P4P5M).
-	try assert(HP5mtmp : rk(P5 :: nil) >= 1) by (solve_hyps_min HP5eq HP5m).
-	assert(Hincl : incl (P5 :: nil) (list_inter (P1 :: P3 :: P5 :: nil) (P2 :: P4 :: P5 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P3 :: P5 :: P2 :: P4 :: P5 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P3 :: P5 :: P2 :: P4 :: P5 :: nil) ((P1 :: P3 :: P5 :: nil) ++ (P2 :: P4 :: P5 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P1 :: P3 :: P5 :: nil) (P2 :: P4 :: P5 :: nil) (P5 :: nil) 2 2 1 HP1P3P5Mtmp HP2P4P5Mtmp HP5mtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP2P5m;assert(HP2P5m : rk(P2 :: P5 :: nil) >= 2).
-{
-	try assert(HP1Mtmp : rk(P1 :: nil) <= 1) by (solve_hyps_max HP1eq HP1M).
-	try assert(HP1P2P5mtmp : rk(P1 :: P2 :: P5 :: nil) >= 3) by (solve_hyps_min HP1P2P5eq HP1P2P5m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P1 :: nil) (P2 :: P5 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P5 :: nil) (P1 :: P2 :: P5 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P5 :: nil) ((P1 :: nil) ++ (P2 :: P5 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P5mtmp;try rewrite HT2 in HP1P2P5mtmp.
-	assert(HT := rule_4 (P1 :: nil) (P2 :: P5 :: nil) (nil) 3 0 1 HP1P2P5mtmp Hmtmp HP1Mtmp Hincl); apply HT.
-}
-
-try clear HP2P3P4P5M;assert(HP2P3P4P5M : rk(P2 :: P3 :: P4 :: P5 :: nil) <= 3).
-{
-	try assert(HP3Mtmp : rk(P3 :: nil) <= 1) by (solve_hyps_max HP3eq HP3M).
-	try assert(HP2P4P5Mtmp : rk(P2 :: P4 :: P5 :: nil) <= 2) by (solve_hyps_max HP2P4P5eq HP2P4P5M).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P3 :: nil) (P2 :: P4 :: P5 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P4 :: P5 :: nil) (P3 :: P2 :: P4 :: P5 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P3 :: P2 :: P4 :: P5 :: nil) ((P3 :: nil) ++ (P2 :: P4 :: P5 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P3 :: nil) (P2 :: P4 :: P5 :: nil) (nil) 1 2 0 HP3Mtmp HP2P4P5Mtmp Hmtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP2P3P4P5m;assert(HP2P3P4P5m : rk(P2 :: P3 :: P4 :: P5 :: nil) >= 2).
-{
-	try assert(HP2P5mtmp : rk(P2 :: P5 :: nil) >= 2) by (solve_hyps_min HP2P5eq HP2P5m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P2 :: P5 :: nil) (P2 :: P3 :: P4 :: P5 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P2 :: P5 :: nil) (P2 :: P3 :: P4 :: P5 :: nil) 2 2 HP2P5mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3P4P5m;assert(HP2P3P4P5m : rk(P2 :: P3 :: P4 :: P5 :: nil) >= 3).
-{
-	try assert(HP1P3P5Mtmp : rk(P1 :: P3 :: P5 :: nil) <= 2) by (solve_hyps_max HP1P3P5eq HP1P3P5M).
-	try assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 3) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m).
-	try assert(HP3P5mtmp : rk(P3 :: P5 :: nil) >= 2) by (solve_hyps_min HP3P5eq HP3P5m).
-	assert(Hincl : incl (P3 :: P5 :: nil) (list_inter (P1 :: P3 :: P5 :: nil) (P2 :: P3 :: P4 :: P5 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P3 :: P5 :: P2 :: P3 :: P4 :: P5 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P3 :: P5 :: P2 :: P3 :: P4 :: P5 :: nil) ((P1 :: P3 :: P5 :: nil) ++ (P2 :: P3 :: P4 :: P5 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3P4P5mtmp;try rewrite HT2 in HP1P2P3P4P5mtmp.
-	assert(HT := rule_4 (P1 :: P3 :: P5 :: nil) (P2 :: P3 :: P4 :: P5 :: nil) (P3 :: P5 :: nil) 3 2 2 HP1P2P3P4P5mtmp HP3P5mtmp HP1P3P5Mtmp Hincl); apply HT.
-}
-
-try clear HP3P4P5m;assert(HP3P4P5m : rk(P3 :: P4 :: P5 :: nil) >= 2).
-{
-	try assert(HP3P5mtmp : rk(P3 :: P5 :: nil) >= 2) by (solve_hyps_min HP3P5eq HP3P5m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P3 :: P5 :: nil) (P3 :: P4 :: P5 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P3 :: P5 :: nil) (P3 :: P4 :: P5 :: nil) 2 2 HP3P5mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP3P4P5m;assert(HP3P4P5m : rk(P3 :: P4 :: P5 :: nil) >= 3).
-{
-	try assert(HP2P4P5Mtmp : rk(P2 :: P4 :: P5 :: nil) <= 2) by (solve_hyps_max HP2P4P5eq HP2P4P5M).
-	try assert(HP2P3P4P5mtmp : rk(P2 :: P3 :: P4 :: P5 :: nil) >= 3) by (solve_hyps_min HP2P3P4P5eq HP2P3P4P5m).
-	try assert(HP4P5mtmp : rk(P4 :: P5 :: nil) >= 2) by (solve_hyps_min HP4P5eq HP4P5m).
-	assert(Hincl : incl (P4 :: P5 :: nil) (list_inter (P2 :: P4 :: P5 :: nil) (P3 :: P4 :: P5 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P4 :: P5 :: nil) (P2 :: P4 :: P5 :: P3 :: P4 :: P5 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P2 :: P4 :: P5 :: P3 :: P4 :: P5 :: nil) ((P2 :: P4 :: P5 :: nil) ++ (P3 :: P4 :: P5 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP2P3P4P5mtmp;try rewrite HT2 in HP2P3P4P5mtmp.
-	assert(HT := rule_4 (P2 :: P4 :: P5 :: nil) (P3 :: P4 :: P5 :: nil) (P4 :: P5 :: nil) 3 2 2 HP2P3P4P5mtmp HP4P5mtmp HP2P4P5Mtmp Hincl); apply HT.
-}
-
-assert(rk(P3 :: P4 :: P5 ::  nil) <= 3) by (clear_ineg_rk;try lia;try apply rk_upper_dim;try solve[apply matroid1_b_useful;simpl;intuition]).
-assert(rk(P3 :: P4 :: P5 ::  nil) >= 1) by (clear_ineg_rk;try lia;try solve[apply matroid1_b_useful2;simpl;intuition]).
-lia.
-Qed.
-
-Lemma rABOo_scheme : forall P1 P2 : Point,
-                     forall P3 P4 : Point,
-                     rk (P1 :: P2 :: P3 :: P4 :: nil) >= 4 ->
-                     forall P5 : Point,
-                     rk (P3 :: P4 :: P5 :: nil) = 2 ->
-                     rk (P3 :: P5 :: nil) = 2 -> rk (P1 :: P2 :: P3 :: P5 :: nil) >= 4.
-Proof.
-intros P1 P2 P3 P4 HP1P2P3P4m P5 HP3P4P5eq HP3P5eq. 
-
-try clear HP1P2P3m;assert(HP1P2P3m : rk(P1 :: P2 :: P3 :: nil) >= 3).
-{
-	try assert(HP4Mtmp : rk(P4 :: nil) <= 1) by (solve_hyps_max HP4eq HP4M).
-	try assert(HP1P2P3P4mtmp : rk(P1 :: P2 :: P3 :: P4 :: nil) >= 4) by (solve_hyps_min HP1P2P3P4eq HP1P2P3P4m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P1 :: P2 :: P3 :: nil) (P4 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: nil) (P1 :: P2 :: P3 :: P4 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P4 :: nil) ((P1 :: P2 :: P3 :: nil) ++ (P4 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3P4mtmp;try rewrite HT2 in HP1P2P3P4mtmp.
-	assert(HT := rule_2 (P1 :: P2 :: P3 :: nil) (P4 :: nil) (nil) 4 0 1 HP1P2P3P4mtmp Hmtmp HP4Mtmp Hincl); apply HT.
-}
-
-try clear HP2P3P4m;assert(HP2P3P4m : rk(P2 :: P3 :: P4 :: nil) >= 3).
-{
-	try assert(HP1Mtmp : rk(P1 :: nil) <= 1) by (solve_hyps_max HP1eq HP1M).
-	try assert(HP1P2P3P4mtmp : rk(P1 :: P2 :: P3 :: P4 :: nil) >= 4) by (solve_hyps_min HP1P2P3P4eq HP1P2P3P4m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P1 :: nil) (P2 :: P3 :: P4 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: nil) (P1 :: P2 :: P3 :: P4 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P4 :: nil) ((P1 :: nil) ++ (P2 :: P3 :: P4 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3P4mtmp;try rewrite HT2 in HP1P2P3P4mtmp.
-	assert(HT := rule_4 (P1 :: nil) (P2 :: P3 :: P4 :: nil) (nil) 4 0 1 HP1P2P3P4mtmp Hmtmp HP1Mtmp Hincl); apply HT.
-}
-
-try clear HP3P4m;assert(HP3P4m : rk(P3 :: P4 :: nil) >= 2).
-{
-	try assert(HP2Mtmp : rk(P2 :: nil) <= 1) by (solve_hyps_max HP2eq HP2M).
-	try assert(HP2P3P4mtmp : rk(P2 :: P3 :: P4 :: nil) >= 3) by (solve_hyps_min HP2P3P4eq HP2P3P4m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P2 :: nil) (P3 :: P4 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P4 :: nil) (P2 :: P3 :: P4 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P2 :: P3 :: P4 :: nil) ((P2 :: nil) ++ (P3 :: P4 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP2P3P4mtmp;try rewrite HT2 in HP2P3P4mtmp.
-	assert(HT := rule_4 (P2 :: nil) (P3 :: P4 :: nil) (nil) 3 0 1 HP2P3P4mtmp Hmtmp HP2Mtmp Hincl); apply HT.
-}
-
-try clear HP1P2m;assert(HP1P2m : rk(P1 :: P2 :: nil) >= 2).
-{
-	try assert(HP3P4Mtmp : rk(P3 :: P4 :: nil) <= 2) by (solve_hyps_max HP3P4eq HP3P4M).
-	try assert(HP1P2P3P4mtmp : rk(P1 :: P2 :: P3 :: P4 :: nil) >= 4) by (solve_hyps_min HP1P2P3P4eq HP1P2P3P4m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P1 :: P2 :: nil) (P3 :: P4 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: nil) (P1 :: P2 :: P3 :: P4 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P4 :: nil) ((P1 :: P2 :: nil) ++ (P3 :: P4 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3P4mtmp;try rewrite HT2 in HP1P2P3P4mtmp.
-	assert(HT := rule_2 (P1 :: P2 :: nil) (P3 :: P4 :: nil) (nil) 4 0 2 HP1P2P3P4mtmp Hmtmp HP3P4Mtmp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P5m;assert(HP1P2P3P4P5m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 2).
-{
-	try assert(HP1P2mtmp : rk(P1 :: P2 :: nil) >= 2) by (solve_hyps_min HP1P2eq HP1P2m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil) 2 2 HP1P2mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P5m;assert(HP1P2P3P4P5m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 3).
-{
-	try assert(HP1P2P3mtmp : rk(P1 :: P2 :: P3 :: nil) >= 3) by (solve_hyps_min HP1P2P3eq HP1P2P3m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil) 3 3 HP1P2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P5m;assert(HP1P2P3P4P5m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 4).
-{
-	try assert(HP1P2P3P4mtmp : rk(P1 :: P2 :: P3 :: P4 :: nil) >= 4) by (solve_hyps_min HP1P2P3P4eq HP1P2P3P4m).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: P4 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil) 4 4 HP1P2P3P4mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P5m;assert(HP1P2P3P5m : rk(P1 :: P2 :: P3 :: P5 :: nil) >= 2).
-{
-	try assert(HP1P2mtmp : rk(P1 :: P2 :: nil) >= 2) by (solve_hyps_min HP1P2eq HP1P2m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P5 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P5 :: nil) 2 2 HP1P2mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P5m;assert(HP1P2P3P5m : rk(P1 :: P2 :: P3 :: P5 :: nil) >= 3).
-{
-	try assert(HP1P2P3mtmp : rk(P1 :: P2 :: P3 :: nil) >= 3) by (solve_hyps_min HP1P2P3eq HP1P2P3m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P5 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P5 :: nil) 3 3 HP1P2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P5m;assert(HP1P2P3P5m : rk(P1 :: P2 :: P3 :: P5 :: nil) >= 4).
-{
-	try assert(HP3P4P5Mtmp : rk(P3 :: P4 :: P5 :: nil) <= 2) by (solve_hyps_max HP3P4P5eq HP3P4P5M).
-	try assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 4) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m).
-	try assert(HP3P5mtmp : rk(P3 :: P5 :: nil) >= 2) by (solve_hyps_min HP3P5eq HP3P5m).
-	assert(Hincl : incl (P3 :: P5 :: nil) (list_inter (P1 :: P2 :: P3 :: P5 :: nil) (P3 :: P4 :: P5 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P5 :: P3 :: P4 :: P5 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P5 :: P3 :: P4 :: P5 :: nil) ((P1 :: P2 :: P3 :: P5 :: nil) ++ (P3 :: P4 :: P5 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3P4P5mtmp;try rewrite HT2 in HP1P2P3P4P5mtmp.
-	assert(HT := rule_2 (P1 :: P2 :: P3 :: P5 :: nil) (P3 :: P4 :: P5 :: nil) (P3 :: P5 :: nil) 4 2 2 HP1P2P3P4P5mtmp HP3P5mtmp HP3P4P5Mtmp Hincl); apply HT.
-}
-
-assert(rk(P1 :: P2 :: P3 :: P5 ::  nil) <= 4) by (clear_ineg_rk;try lia;try apply rk_upper_dim;try solve[apply matroid1_b_useful;simpl;intuition]).
-assert(rk(P1 :: P2 :: P3 :: P5 ::  nil) >= 1) by (clear_ineg_rk;try lia;try solve[apply matroid1_b_useful2;simpl;intuition]).
-lia.
-Qed.
-
-Lemma rk_line_unification : forall P1 P2 P3,
-                            rk(P1 :: P2 :: nil) = 2 -> rk(P1 :: P3 :: nil) = 2 ->
-                            rk(P2 :: P3 :: nil) = 2 -> rk(P1 :: P2 :: P3 :: nil) <= 2 ->
-                            rk(P1 :: P2 :: P3 :: nil) = 2.
-Proof.
-intros P1 P2 P3 HP1P2eq HP1P3eq HP2P3eq HP1P2P3eq.
-
-try clear HP1P2P3m;assert(HP1P2P3m : rk(P1 :: P2 :: P3 :: nil) >= 2).
-{
-	try assert(HP1P2mtmp : rk(P1 :: P2 :: nil) >= 2) by (solve_hyps_min HP1P2eq HP1P2m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: nil) 2 2 HP1P2mtmp Hcomp Hincl); apply HT.
-}
-
-assert(rk(P1 :: P2 :: P3 ::  nil) <= 3) by (clear_ineg_rk;try lia;try apply rk_upper_dim;try solve[apply matroid1_b_useful;simpl;intuition]).
-assert(rk(P1 :: P2 :: P3 ::  nil) >= 1) by (clear_ineg_rk;try lia;try solve[apply matroid1_b_useful2;simpl;intuition]).
-lia.
-Qed.
-
-Lemma Desargues : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10,
-rk(P1 :: P4 :: P7 :: nil) = 2 -> rk(P2 :: P5 :: P7 :: nil) = 2 -> rk(P3 :: P6 :: P7 :: nil) = 2 -> 
-rk(P4 :: P5 :: P6 :: nil) = 3 -> rk(P1 :: P2 :: P3 :: nil) = 3 ->
-rk(P1 :: P2 :: P3 :: P4 :: nil) = 4 -> 
-rk(P4 :: P5 :: P10 :: nil) = 2 -> rk(P1 :: P2 :: P10 :: nil) = 2 ->
-rk(P4 :: P6 :: P9 :: nil) = 2 -> rk(P1 :: P3 :: P9 :: nil) = 2 ->
-rk(P5 :: P6 :: P8 :: nil) = 2 -> rk(P2 :: P3 :: P8 :: nil) = 2 ->
-rk(P1 :: P4 :: nil) = 2 -> rk(P3 :: P6 :: nil) = 2 -> rk(P2 :: P5 :: nil) = 2 ->
-rk (P8 :: P9 :: P10 :: nil) = 2.
-Proof.
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 HP1P4P7eq HP2P5P7eq HP3P6P7eq HP4P5P6eq HP1P2P3eq HP1P2P3P4eq HP4P5P10eq HP1P2P10eq HP4P6P9eq HP1P3P9eq HP5P6P8eq HP2P3P8eq HP1P4eq HP3P6eq HP2P5eq. 
-
-try clear HP1P2m;assert(HP1P2m : rk(P1 :: P2 :: nil) >= 2).
-{
-	try assert(HP3Mtmp : rk(P3 :: nil) <= 1) by (solve_hyps_max HP3eq HP3M).
-	try assert(HP1P2P3mtmp : rk(P1 :: P2 :: P3 :: nil) >= 3) by (solve_hyps_min HP1P2P3eq HP1P2P3m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P1 :: P2 :: nil) (P3 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: nil) ((P1 :: P2 :: nil) ++ (P3 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3mtmp;try rewrite HT2 in HP1P2P3mtmp.
-	assert(HT := rule_2 (P1 :: P2 :: nil) (P3 :: nil) (nil) 3 0 1 HP1P2P3mtmp Hmtmp HP3Mtmp Hincl); apply HT.
-}
-
-try clear HP1P2P3P8P10m;assert(HP1P2P3P8P10m : rk(P1 :: P2 :: P3 :: P8 :: P10 :: nil) >= 2).
-{
-	try assert(HP1P2mtmp : rk(P1 :: P2 :: nil) >= 2) by (solve_hyps_min HP1P2eq HP1P2m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P8 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P8 :: P10 :: nil) 2 2 HP1P2mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P8P10m;assert(HP1P2P3P8P10m : rk(P1 :: P2 :: P3 :: P8 :: P10 :: nil) >= 3).
-{
-	try assert(HP1P2P3mtmp : rk(P1 :: P2 :: P3 :: nil) >= 3) by (solve_hyps_min HP1P2P3eq HP1P2P3m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P8 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P8 :: P10 :: nil) 3 3 HP1P2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P8P10M;assert(HP1P2P3P8P10M : rk(P1 :: P2 :: P3 :: P8 :: P10 :: nil) <= 3).
-{
-	try assert(HP2P3P8Mtmp : rk(P2 :: P3 :: P8 :: nil) <= 2) by (solve_hyps_max HP2P3P8eq HP2P3P8M).
-	try assert(HP1P2P10Mtmp : rk(P1 :: P2 :: P10 :: nil) <= 2) by (solve_hyps_max HP1P2P10eq HP1P2P10M).
-	try assert(HP2mtmp : rk(P2 :: nil) >= 1) by (solve_hyps_min HP2eq HP2m).
-	assert(Hincl : incl (P2 :: nil) (list_inter (P2 :: P3 :: P8 :: nil) (P1 :: P2 :: P10 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P8 :: P10 :: nil) (P2 :: P3 :: P8 :: P1 :: P2 :: P10 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P2 :: P3 :: P8 :: P1 :: P2 :: P10 :: nil) ((P2 :: P3 :: P8 :: nil) ++ (P1 :: P2 :: P10 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P2 :: P3 :: P8 :: nil) (P1 :: P2 :: P10 :: nil) (P2 :: nil) 2 2 1 HP2P3P8Mtmp HP1P2P10Mtmp HP2mtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP1P3m;assert(HP1P3m : rk(P1 :: P3 :: nil) >= 2).
-{
-	try assert(HP2Mtmp : rk(P2 :: nil) <= 1) by (solve_hyps_max HP2eq HP2M).
-	try assert(HP1P2P3mtmp : rk(P1 :: P2 :: P3 :: nil) >= 3) by (solve_hyps_min HP1P2P3eq HP1P2P3m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P2 :: nil) (P1 :: P3 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: nil) (P2 :: P1 :: P3 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P2 :: P1 :: P3 :: nil) ((P2 :: nil) ++ (P1 :: P3 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3mtmp;try rewrite HT2 in HP1P2P3mtmp.
-	assert(HT := rule_4 (P2 :: nil) (P1 :: P3 :: nil) (nil) 3 0 1 HP1P2P3mtmp Hmtmp HP2Mtmp Hincl); apply HT.
-}
-
-try clear HP1P2P3P8P9P10m;assert(HP1P2P3P8P9P10m : rk(P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) >= 2).
-{
-	try assert(HP1P2mtmp : rk(P1 :: P2 :: nil) >= 2) by (solve_hyps_min HP1P2eq HP1P2m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) 2 2 HP1P2mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P8P9P10m;assert(HP1P2P3P8P9P10m : rk(P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) >= 3).
-{
-	try assert(HP1P2P3mtmp : rk(P1 :: P2 :: P3 :: nil) >= 3) by (solve_hyps_min HP1P2P3eq HP1P2P3m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) 3 3 HP1P2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P8P9P10M;assert(HP1P2P3P8P9P10M : rk(P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) <= 3).
-{
-	try assert(HP1P3P9Mtmp : rk(P1 :: P3 :: P9 :: nil) <= 2) by (solve_hyps_max HP1P3P9eq HP1P3P9M).
-	try assert(HP1P2P3P8P10Mtmp : rk(P1 :: P2 :: P3 :: P8 :: P10 :: nil) <= 3) by (solve_hyps_max HP1P2P3P8P10eq HP1P2P3P8P10M).
-	try assert(HP1P3mtmp : rk(P1 :: P3 :: nil) >= 2) by (solve_hyps_min HP1P3eq HP1P3m).
-	assert(Hincl : incl (P1 :: P3 :: nil) (list_inter (P1 :: P3 :: P9 :: nil) (P1 :: P2 :: P3 :: P8 :: P10 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) (P1 :: P3 :: P9 :: P1 :: P2 :: P3 :: P8 :: P10 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P3 :: P9 :: P1 :: P2 :: P3 :: P8 :: P10 :: nil) ((P1 :: P3 :: P9 :: nil) ++ (P1 :: P2 :: P3 :: P8 :: P10 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P1 :: P3 :: P9 :: nil) (P1 :: P2 :: P3 :: P8 :: P10 :: nil) (P1 :: P3 :: nil) 2 3 2 HP1P3P9Mtmp HP1P2P3P8P10Mtmp HP1P3mtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP4P5m;assert(HP4P5m : rk(P4 :: P5 :: nil) >= 2).
-{
-	try assert(HP6Mtmp : rk(P6 :: nil) <= 1) by (solve_hyps_max HP6eq HP6M).
-	try assert(HP4P5P6mtmp : rk(P4 :: P5 :: P6 :: nil) >= 3) by (solve_hyps_min HP4P5P6eq HP4P5P6m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P4 :: P5 :: nil) (P6 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P4 :: P5 :: P6 :: nil) (P4 :: P5 :: P6 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P4 :: P5 :: P6 :: nil) ((P4 :: P5 :: nil) ++ (P6 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP4P5P6mtmp;try rewrite HT2 in HP4P5P6mtmp.
-	assert(HT := rule_2 (P4 :: P5 :: nil) (P6 :: nil) (nil) 3 0 1 HP4P5P6mtmp Hmtmp HP6Mtmp Hincl); apply HT.
-}
-
-try clear HP4P5P6P8P9m;assert(HP4P5P6P8P9m : rk(P4 :: P5 :: P6 :: P8 :: P9 :: nil) >= 2).
-{
-	try assert(HP4P5mtmp : rk(P4 :: P5 :: nil) >= 2) by (solve_hyps_min HP4P5eq HP4P5m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: nil) (P4 :: P5 :: P6 :: P8 :: P9 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P5 :: nil) (P4 :: P5 :: P6 :: P8 :: P9 :: nil) 2 2 HP4P5mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P5P6P8P9m;assert(HP4P5P6P8P9m : rk(P4 :: P5 :: P6 :: P8 :: P9 :: nil) >= 3).
-{
-	try assert(HP4P5P6mtmp : rk(P4 :: P5 :: P6 :: nil) >= 3) by (solve_hyps_min HP4P5P6eq HP4P5P6m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: P6 :: nil) (P4 :: P5 :: P6 :: P8 :: P9 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P5 :: P6 :: nil) (P4 :: P5 :: P6 :: P8 :: P9 :: nil) 3 3 HP4P5P6mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P5P6P8P9M;assert(HP4P5P6P8P9M : rk(P4 :: P5 :: P6 :: P8 :: P9 :: nil) <= 3).
-{
-	try assert(HP5P6P8Mtmp : rk(P5 :: P6 :: P8 :: nil) <= 2) by (solve_hyps_max HP5P6P8eq HP5P6P8M).
-	try assert(HP4P6P9Mtmp : rk(P4 :: P6 :: P9 :: nil) <= 2) by (solve_hyps_max HP4P6P9eq HP4P6P9M).
-	try assert(HP6mtmp : rk(P6 :: nil) >= 1) by (solve_hyps_min HP6eq HP6m).
-	assert(Hincl : incl (P6 :: nil) (list_inter (P5 :: P6 :: P8 :: nil) (P4 :: P6 :: P9 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P4 :: P5 :: P6 :: P8 :: P9 :: nil) (P5 :: P6 :: P8 :: P4 :: P6 :: P9 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P5 :: P6 :: P8 :: P4 :: P6 :: P9 :: nil) ((P5 :: P6 :: P8 :: nil) ++ (P4 :: P6 :: P9 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P5 :: P6 :: P8 :: nil) (P4 :: P6 :: P9 :: nil) (P6 :: nil) 2 2 1 HP5P6P8Mtmp HP4P6P9Mtmp HP6mtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP4P5P6P8M;assert(HP4P5P6P8M : rk(P4 :: P5 :: P6 :: P8 :: nil) <= 3).
-{
-	try assert(HP4Mtmp : rk(P4 :: nil) <= 1) by (solve_hyps_max HP4eq HP4M).
-	try assert(HP5P6P8Mtmp : rk(P5 :: P6 :: P8 :: nil) <= 2) by (solve_hyps_max HP5P6P8eq HP5P6P8M).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P4 :: nil) (P5 :: P6 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P4 :: P5 :: P6 :: P8 :: nil) (P4 :: P5 :: P6 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P4 :: P5 :: P6 :: P8 :: nil) ((P4 :: nil) ++ (P5 :: P6 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P4 :: nil) (P5 :: P6 :: P8 :: nil) (nil) 1 2 0 HP4Mtmp HP5P6P8Mtmp Hmtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP4P5P6P8m;assert(HP4P5P6P8m : rk(P4 :: P5 :: P6 :: P8 :: nil) >= 2).
-{
-	try assert(HP4P5mtmp : rk(P4 :: P5 :: nil) >= 2) by (solve_hyps_min HP4P5eq HP4P5m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: nil) (P4 :: P5 :: P6 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P5 :: nil) (P4 :: P5 :: P6 :: P8 :: nil) 2 2 HP4P5mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P5P6P8m;assert(HP4P5P6P8m : rk(P4 :: P5 :: P6 :: P8 :: nil) >= 3).
-{
-	try assert(HP4P5P6mtmp : rk(P4 :: P5 :: P6 :: nil) >= 3) by (solve_hyps_min HP4P5P6eq HP4P5P6m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: P6 :: nil) (P4 :: P5 :: P6 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P5 :: P6 :: nil) (P4 :: P5 :: P6 :: P8 :: nil) 3 3 HP4P5P6mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P7m;assert(HP1P2P3P4P7m : rk(P1 :: P2 :: P3 :: P4 :: P7 :: nil) >= 2).
-{
-	try assert(HP1P2mtmp : rk(P1 :: P2 :: nil) >= 2) by (solve_hyps_min HP1P2eq HP1P2m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P4 :: P7 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P4 :: P7 :: nil) 2 2 HP1P2mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P7m;assert(HP1P2P3P4P7m : rk(P1 :: P2 :: P3 :: P4 :: P7 :: nil) >= 3).
-{
-	try assert(HP1P2P3mtmp : rk(P1 :: P2 :: P3 :: nil) >= 3) by (solve_hyps_min HP1P2P3eq HP1P2P3m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P4 :: P7 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P4 :: P7 :: nil) 3 3 HP1P2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P7m;assert(HP1P2P3P4P7m : rk(P1 :: P2 :: P3 :: P4 :: P7 :: nil) >= 4).
-{
-	try assert(HP1P2P3P4mtmp : rk(P1 :: P2 :: P3 :: P4 :: nil) >= 4) by (solve_hyps_min HP1P2P3P4eq HP1P2P3P4m).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: nil) (P1 :: P2 :: P3 :: P4 :: P7 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: P4 :: nil) (P1 :: P2 :: P3 :: P4 :: P7 :: nil) 4 4 HP1P2P3P4mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3m;assert(HP2P3m : rk(P2 :: P3 :: nil) >= 2).
-{
-	try assert(HP1Mtmp : rk(P1 :: nil) <= 1) by (solve_hyps_max HP1eq HP1M).
-	try assert(HP1P2P3mtmp : rk(P1 :: P2 :: P3 :: nil) >= 3) by (solve_hyps_min HP1P2P3eq HP1P2P3m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P1 :: nil) (P2 :: P3 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: nil) ((P1 :: nil) ++ (P2 :: P3 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3mtmp;try rewrite HT2 in HP1P2P3mtmp.
-	assert(HT := rule_4 (P1 :: nil) (P2 :: P3 :: nil) (nil) 3 0 1 HP1P2P3mtmp Hmtmp HP1Mtmp Hincl); apply HT.
-}
-
-try clear HP2P3P7m;assert(HP2P3P7m : rk(P2 :: P3 :: P7 :: nil) >= 2).
-{
-	try assert(HP2P3mtmp : rk(P2 :: P3 :: nil) >= 2) by (solve_hyps_min HP2P3eq HP2P3m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P2 :: P3 :: nil) (P2 :: P3 :: P7 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P2 :: P3 :: nil) (P2 :: P3 :: P7 :: nil) 2 2 HP2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3P7m;assert(HP2P3P7m : rk(P2 :: P3 :: P7 :: nil) >= 3).
-{
-	try assert(HP1P4P7Mtmp : rk(P1 :: P4 :: P7 :: nil) <= 2) by (solve_hyps_max HP1P4P7eq HP1P4P7M).
-	try assert(HP1P2P3P4P7mtmp : rk(P1 :: P2 :: P3 :: P4 :: P7 :: nil) >= 4) by (solve_hyps_min HP1P2P3P4P7eq HP1P2P3P4P7m).
-	try assert(HP7mtmp : rk(P7 :: nil) >= 1) by (solve_hyps_min HP7eq HP7m).
-	assert(Hincl : incl (P7 :: nil) (list_inter (P2 :: P3 :: P7 :: nil) (P1 :: P4 :: P7 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P7 :: nil) (P2 :: P3 :: P7 :: P1 :: P4 :: P7 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P2 :: P3 :: P7 :: P1 :: P4 :: P7 :: nil) ((P2 :: P3 :: P7 :: nil) ++ (P1 :: P4 :: P7 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3P4P7mtmp;try rewrite HT2 in HP1P2P3P4P7mtmp.
-	assert(HT := rule_2 (P2 :: P3 :: P7 :: nil) (P1 :: P4 :: P7 :: nil) (P7 :: nil) 4 1 2 HP1P2P3P4P7mtmp HP7mtmp HP1P4P7Mtmp Hincl); apply HT.
-}
-
-try clear HP2P3P5P7P8m;assert(HP2P3P5P7P8m : rk(P2 :: P3 :: P5 :: P7 :: P8 :: nil) >= 2).
-{
-	try assert(HP2P3mtmp : rk(P2 :: P3 :: nil) >= 2) by (solve_hyps_min HP2P3eq HP2P3m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P2 :: P3 :: nil) (P2 :: P3 :: P5 :: P7 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P2 :: P3 :: nil) (P2 :: P3 :: P5 :: P7 :: P8 :: nil) 2 2 HP2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3P5P7P8m;assert(HP2P3P5P7P8m : rk(P2 :: P3 :: P5 :: P7 :: P8 :: nil) >= 3).
-{
-	try assert(HP2P3P7mtmp : rk(P2 :: P3 :: P7 :: nil) >= 3) by (solve_hyps_min HP2P3P7eq HP2P3P7m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P2 :: P3 :: P7 :: nil) (P2 :: P3 :: P5 :: P7 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P2 :: P3 :: P7 :: nil) (P2 :: P3 :: P5 :: P7 :: P8 :: nil) 3 3 HP2P3P7mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3P5P7P8M;assert(HP2P3P5P7P8M : rk(P2 :: P3 :: P5 :: P7 :: P8 :: nil) <= 3).
-{
-	try assert(HP2P5P7Mtmp : rk(P2 :: P5 :: P7 :: nil) <= 2) by (solve_hyps_max HP2P5P7eq HP2P5P7M).
-	try assert(HP2P3P8Mtmp : rk(P2 :: P3 :: P8 :: nil) <= 2) by (solve_hyps_max HP2P3P8eq HP2P3P8M).
-	try assert(HP2mtmp : rk(P2 :: nil) >= 1) by (solve_hyps_min HP2eq HP2m).
-	assert(Hincl : incl (P2 :: nil) (list_inter (P2 :: P5 :: P7 :: nil) (P2 :: P3 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P5 :: P7 :: P8 :: nil) (P2 :: P5 :: P7 :: P2 :: P3 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P2 :: P5 :: P7 :: P2 :: P3 :: P8 :: nil) ((P2 :: P5 :: P7 :: nil) ++ (P2 :: P3 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P2 :: P5 :: P7 :: nil) (P2 :: P3 :: P8 :: nil) (P2 :: nil) 2 2 1 HP2P5P7Mtmp HP2P3P8Mtmp HP2mtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP2P3P5P8m;assert(HP2P3P5P8m : rk(P2 :: P3 :: P5 :: P8 :: nil) >= 2).
-{
-	try assert(HP2P3mtmp : rk(P2 :: P3 :: nil) >= 2) by (solve_hyps_min HP2P3eq HP2P3m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P2 :: P3 :: nil) (P2 :: P3 :: P5 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P2 :: P3 :: nil) (P2 :: P3 :: P5 :: P8 :: nil) 2 2 HP2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3P5P8M;assert(HP2P3P5P8M : rk(P2 :: P3 :: P5 :: P8 :: nil) <= 3).
-{
-	try assert(HP5Mtmp : rk(P5 :: nil) <= 1) by (solve_hyps_max HP5eq HP5M).
-	try assert(HP2P3P8Mtmp : rk(P2 :: P3 :: P8 :: nil) <= 2) by (solve_hyps_max HP2P3P8eq HP2P3P8M).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P5 :: nil) (P2 :: P3 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P5 :: P8 :: nil) (P5 :: P2 :: P3 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P5 :: P2 :: P3 :: P8 :: nil) ((P5 :: nil) ++ (P2 :: P3 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P5 :: nil) (P2 :: P3 :: P8 :: nil) (nil) 1 2 0 HP5Mtmp HP2P3P8Mtmp Hmtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP2P3P5P8m;assert(HP2P3P5P8m : rk(P2 :: P3 :: P5 :: P8 :: nil) >= 3).
-{
-	try assert(HP2P5P7Mtmp : rk(P2 :: P5 :: P7 :: nil) <= 2) by (solve_hyps_max HP2P5P7eq HP2P5P7M).
-	try assert(HP2P3P5P7P8mtmp : rk(P2 :: P3 :: P5 :: P7 :: P8 :: nil) >= 3) by (solve_hyps_min HP2P3P5P7P8eq HP2P3P5P7P8m).
-	try assert(HP2P5mtmp : rk(P2 :: P5 :: nil) >= 2) by (solve_hyps_min HP2P5eq HP2P5m).
-	assert(Hincl : incl (P2 :: P5 :: nil) (list_inter (P2 :: P5 :: P7 :: nil) (P2 :: P3 :: P5 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P5 :: P7 :: P8 :: nil) (P2 :: P5 :: P7 :: P2 :: P3 :: P5 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P2 :: P5 :: P7 :: P2 :: P3 :: P5 :: P8 :: nil) ((P2 :: P5 :: P7 :: nil) ++ (P2 :: P3 :: P5 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP2P3P5P7P8mtmp;try rewrite HT2 in HP2P3P5P7P8mtmp.
-	assert(HT := rule_4 (P2 :: P5 :: P7 :: nil) (P2 :: P3 :: P5 :: P8 :: nil) (P2 :: P5 :: nil) 3 2 2 HP2P3P5P7P8mtmp HP2P5mtmp HP2P5P7Mtmp Hincl); apply HT.
-}
-
-try clear HP5P8m;assert(HP5P8m : rk(P5 :: P8 :: nil) >= 2).
-{
-	try assert(HP2P3P8Mtmp : rk(P2 :: P3 :: P8 :: nil) <= 2) by (solve_hyps_max HP2P3P8eq HP2P3P8M).
-	try assert(HP2P3P5P8mtmp : rk(P2 :: P3 :: P5 :: P8 :: nil) >= 3) by (solve_hyps_min HP2P3P5P8eq HP2P3P5P8m).
-	try assert(HP8mtmp : rk(P8 :: nil) >= 1) by (solve_hyps_min HP8eq HP8m).
-	assert(Hincl : incl (P8 :: nil) (list_inter (P2 :: P3 :: P8 :: nil) (P5 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P5 :: P8 :: nil) (P2 :: P3 :: P8 :: P5 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P2 :: P3 :: P8 :: P5 :: P8 :: nil) ((P2 :: P3 :: P8 :: nil) ++ (P5 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP2P3P5P8mtmp;try rewrite HT2 in HP2P3P5P8mtmp.
-	assert(HT := rule_4 (P2 :: P3 :: P8 :: nil) (P5 :: P8 :: nil) (P8 :: nil) 3 1 2 HP2P3P5P8mtmp HP8mtmp HP2P3P8Mtmp Hincl); apply HT.
-}
-
-try clear HP4P5P8m;assert(HP4P5P8m : rk(P4 :: P5 :: P8 :: nil) >= 2).
-{
-	try assert(HP4P5mtmp : rk(P4 :: P5 :: nil) >= 2) by (solve_hyps_min HP4P5eq HP4P5m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: nil) (P4 :: P5 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P5 :: nil) (P4 :: P5 :: P8 :: nil) 2 2 HP4P5mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P5P8m;assert(HP4P5P8m : rk(P4 :: P5 :: P8 :: nil) >= 3).
-{
-	try assert(HP5P6P8Mtmp : rk(P5 :: P6 :: P8 :: nil) <= 2) by (solve_hyps_max HP5P6P8eq HP5P6P8M).
-	try assert(HP4P5P6P8mtmp : rk(P4 :: P5 :: P6 :: P8 :: nil) >= 3) by (solve_hyps_min HP4P5P6P8eq HP4P5P6P8m).
-	try assert(HP5P8mtmp : rk(P5 :: P8 :: nil) >= 2) by (solve_hyps_min HP5P8eq HP5P8m).
-	assert(Hincl : incl (P5 :: P8 :: nil) (list_inter (P4 :: P5 :: P8 :: nil) (P5 :: P6 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P4 :: P5 :: P6 :: P8 :: nil) (P4 :: P5 :: P8 :: P5 :: P6 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P4 :: P5 :: P8 :: P5 :: P6 :: P8 :: nil) ((P4 :: P5 :: P8 :: nil) ++ (P5 :: P6 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP4P5P6P8mtmp;try rewrite HT2 in HP4P5P6P8mtmp.
-	assert(HT := rule_2 (P4 :: P5 :: P8 :: nil) (P5 :: P6 :: P8 :: nil) (P5 :: P8 :: nil) 3 2 2 HP4P5P6P8mtmp HP5P8mtmp HP5P6P8Mtmp Hincl); apply HT.
-}
-
-try clear HP4P5P8P9m;assert(HP4P5P8P9m : rk(P4 :: P5 :: P8 :: P9 :: nil) >= 2).
-{
-	try assert(HP4P5mtmp : rk(P4 :: P5 :: nil) >= 2) by (solve_hyps_min HP4P5eq HP4P5m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: nil) (P4 :: P5 :: P8 :: P9 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P5 :: nil) (P4 :: P5 :: P8 :: P9 :: nil) 2 2 HP4P5mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P5P8P9m;assert(HP4P5P8P9m : rk(P4 :: P5 :: P8 :: P9 :: nil) >= 3).
-{
-	try assert(HP4P5P8mtmp : rk(P4 :: P5 :: P8 :: nil) >= 3) by (solve_hyps_min HP4P5P8eq HP4P5P8m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: P8 :: nil) (P4 :: P5 :: P8 :: P9 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P5 :: P8 :: nil) (P4 :: P5 :: P8 :: P9 :: nil) 3 3 HP4P5P8mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P5P8P9M;assert(HP4P5P8P9M : rk(P4 :: P5 :: P8 :: P9 :: nil) <= 3).
-{
-	try assert(HP4P5P6P8P9Mtmp : rk(P4 :: P5 :: P6 :: P8 :: P9 :: nil) <= 3) by (solve_hyps_max HP4P5P6P8P9eq HP4P5P6P8P9M).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: P8 :: P9 :: nil) (P4 :: P5 :: P6 :: P8 :: P9 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_6 (P4 :: P5 :: P8 :: P9 :: nil) (P4 :: P5 :: P6 :: P8 :: P9 :: nil) 3 3 HP4P5P6P8P9Mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P5P8P9P10m;assert(HP4P5P8P9P10m : rk(P4 :: P5 :: P8 :: P9 :: P10 :: nil) >= 2).
-{
-	try assert(HP4P5mtmp : rk(P4 :: P5 :: nil) >= 2) by (solve_hyps_min HP4P5eq HP4P5m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: nil) (P4 :: P5 :: P8 :: P9 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P5 :: nil) (P4 :: P5 :: P8 :: P9 :: P10 :: nil) 2 2 HP4P5mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P5P8P9P10m;assert(HP4P5P8P9P10m : rk(P4 :: P5 :: P8 :: P9 :: P10 :: nil) >= 3).
-{
-	try assert(HP4P5P8mtmp : rk(P4 :: P5 :: P8 :: nil) >= 3) by (solve_hyps_min HP4P5P8eq HP4P5P8m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P5 :: P8 :: nil) (P4 :: P5 :: P8 :: P9 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P5 :: P8 :: nil) (P4 :: P5 :: P8 :: P9 :: P10 :: nil) 3 3 HP4P5P8mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P5P8P9P10M;assert(HP4P5P8P9P10M : rk(P4 :: P5 :: P8 :: P9 :: P10 :: nil) <= 3).
-{
-	try assert(HP4P5P8P9Mtmp : rk(P4 :: P5 :: P8 :: P9 :: nil) <= 3) by (solve_hyps_max HP4P5P8P9eq HP4P5P8P9M).
-	try assert(HP4P5P10Mtmp : rk(P4 :: P5 :: P10 :: nil) <= 2) by (solve_hyps_max HP4P5P10eq HP4P5P10M).
-	try assert(HP4P5mtmp : rk(P4 :: P5 :: nil) >= 2) by (solve_hyps_min HP4P5eq HP4P5m).
-	assert(Hincl : incl (P4 :: P5 :: nil) (list_inter (P4 :: P5 :: P8 :: P9 :: nil) (P4 :: P5 :: P10 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P4 :: P5 :: P8 :: P9 :: P10 :: nil) (P4 :: P5 :: P8 :: P9 :: P4 :: P5 :: P10 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P4 :: P5 :: P8 :: P9 :: P4 :: P5 :: P10 :: nil) ((P4 :: P5 :: P8 :: P9 :: nil) ++ (P4 :: P5 :: P10 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P4 :: P5 :: P8 :: P9 :: nil) (P4 :: P5 :: P10 :: nil) (P4 :: P5 :: nil) 3 2 2 HP4P5P8P9Mtmp HP4P5P10Mtmp HP4P5mtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP1P2P3P4P5P8P9P10m;assert(HP1P2P3P4P5P8P9P10m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil) >= 2).
-{
-	try assert(HP1P2mtmp : rk(P1 :: P2 :: nil) >= 2) by (solve_hyps_min HP1P2eq HP1P2m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil) 2 2 HP1P2mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P5P8P9P10m;assert(HP1P2P3P4P5P8P9P10m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil) >= 3).
-{
-	try assert(HP1P2P3mtmp : rk(P1 :: P2 :: P3 :: nil) >= 3) by (solve_hyps_min HP1P2P3eq HP1P2P3m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil) 3 3 HP1P2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP1P2P3P4P5P8P9P10m;assert(HP1P2P3P4P5P8P9P10m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil) >= 4).
-{
-	try assert(HP1P2P3P4mtmp : rk(P1 :: P2 :: P3 :: P4 :: nil) >= 4) by (solve_hyps_min HP1P2P3P4eq HP1P2P3P4m).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: P4 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil) 4 4 HP1P2P3P4mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3P6P7P8m;assert(HP2P3P6P7P8m : rk(P2 :: P3 :: P6 :: P7 :: P8 :: nil) >= 2).
-{
-	try assert(HP2P3mtmp : rk(P2 :: P3 :: nil) >= 2) by (solve_hyps_min HP2P3eq HP2P3m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P2 :: P3 :: nil) (P2 :: P3 :: P6 :: P7 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P2 :: P3 :: nil) (P2 :: P3 :: P6 :: P7 :: P8 :: nil) 2 2 HP2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3P6P7P8m;assert(HP2P3P6P7P8m : rk(P2 :: P3 :: P6 :: P7 :: P8 :: nil) >= 3).
-{
-	try assert(HP2P3P7mtmp : rk(P2 :: P3 :: P7 :: nil) >= 3) by (solve_hyps_min HP2P3P7eq HP2P3P7m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P2 :: P3 :: P7 :: nil) (P2 :: P3 :: P6 :: P7 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P2 :: P3 :: P7 :: nil) (P2 :: P3 :: P6 :: P7 :: P8 :: nil) 3 3 HP2P3P7mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3P6P7P8M;assert(HP2P3P6P7P8M : rk(P2 :: P3 :: P6 :: P7 :: P8 :: nil) <= 3).
-{
-	try assert(HP3P6P7Mtmp : rk(P3 :: P6 :: P7 :: nil) <= 2) by (solve_hyps_max HP3P6P7eq HP3P6P7M).
-	try assert(HP2P3P8Mtmp : rk(P2 :: P3 :: P8 :: nil) <= 2) by (solve_hyps_max HP2P3P8eq HP2P3P8M).
-	try assert(HP3mtmp : rk(P3 :: nil) >= 1) by (solve_hyps_min HP3eq HP3m).
-	assert(Hincl : incl (P3 :: nil) (list_inter (P3 :: P6 :: P7 :: nil) (P2 :: P3 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P6 :: P7 :: P8 :: nil) (P3 :: P6 :: P7 :: P2 :: P3 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P3 :: P6 :: P7 :: P2 :: P3 :: P8 :: nil) ((P3 :: P6 :: P7 :: nil) ++ (P2 :: P3 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P3 :: P6 :: P7 :: nil) (P2 :: P3 :: P8 :: nil) (P3 :: nil) 2 2 1 HP3P6P7Mtmp HP2P3P8Mtmp HP3mtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP2P3P6P8m;assert(HP2P3P6P8m : rk(P2 :: P3 :: P6 :: P8 :: nil) >= 2).
-{
-	try assert(HP2P3mtmp : rk(P2 :: P3 :: nil) >= 2) by (solve_hyps_min HP2P3eq HP2P3m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P2 :: P3 :: nil) (P2 :: P3 :: P6 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P2 :: P3 :: nil) (P2 :: P3 :: P6 :: P8 :: nil) 2 2 HP2P3mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP2P3P6P8M;assert(HP2P3P6P8M : rk(P2 :: P3 :: P6 :: P8 :: nil) <= 3).
-{
-	try assert(HP6Mtmp : rk(P6 :: nil) <= 1) by (solve_hyps_max HP6eq HP6M).
-	try assert(HP2P3P8Mtmp : rk(P2 :: P3 :: P8 :: nil) <= 2) by (solve_hyps_max HP2P3P8eq HP2P3P8M).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P6 :: nil) (P2 :: P3 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P6 :: P8 :: nil) (P6 :: P2 :: P3 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P6 :: P2 :: P3 :: P8 :: nil) ((P6 :: nil) ++ (P2 :: P3 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P6 :: nil) (P2 :: P3 :: P8 :: nil) (nil) 1 2 0 HP6Mtmp HP2P3P8Mtmp Hmtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-try clear HP2P3P6P8m;assert(HP2P3P6P8m : rk(P2 :: P3 :: P6 :: P8 :: nil) >= 3).
-{
-	try assert(HP3P6P7Mtmp : rk(P3 :: P6 :: P7 :: nil) <= 2) by (solve_hyps_max HP3P6P7eq HP3P6P7M).
-	try assert(HP2P3P6P7P8mtmp : rk(P2 :: P3 :: P6 :: P7 :: P8 :: nil) >= 3) by (solve_hyps_min HP2P3P6P7P8eq HP2P3P6P7P8m).
-	try assert(HP3P6mtmp : rk(P3 :: P6 :: nil) >= 2) by (solve_hyps_min HP3P6eq HP3P6m).
-	assert(Hincl : incl (P3 :: P6 :: nil) (list_inter (P3 :: P6 :: P7 :: nil) (P2 :: P3 :: P6 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P6 :: P7 :: P8 :: nil) (P3 :: P6 :: P7 :: P2 :: P3 :: P6 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P3 :: P6 :: P7 :: P2 :: P3 :: P6 :: P8 :: nil) ((P3 :: P6 :: P7 :: nil) ++ (P2 :: P3 :: P6 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP2P3P6P7P8mtmp;try rewrite HT2 in HP2P3P6P7P8mtmp.
-	assert(HT := rule_4 (P3 :: P6 :: P7 :: nil) (P2 :: P3 :: P6 :: P8 :: nil) (P3 :: P6 :: nil) 3 2 2 HP2P3P6P7P8mtmp HP3P6mtmp HP3P6P7Mtmp Hincl); apply HT.
-}
-
-try clear HP6P8m;assert(HP6P8m : rk(P6 :: P8 :: nil) >= 2).
-{
-	try assert(HP2P3P8Mtmp : rk(P2 :: P3 :: P8 :: nil) <= 2) by (solve_hyps_max HP2P3P8eq HP2P3P8M).
-	try assert(HP2P3P6P8mtmp : rk(P2 :: P3 :: P6 :: P8 :: nil) >= 3) by (solve_hyps_min HP2P3P6P8eq HP2P3P6P8m).
-	try assert(HP8mtmp : rk(P8 :: nil) >= 1) by (solve_hyps_min HP8eq HP8m).
-	assert(Hincl : incl (P8 :: nil) (list_inter (P2 :: P3 :: P8 :: nil) (P6 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P2 :: P3 :: P6 :: P8 :: nil) (P2 :: P3 :: P8 :: P6 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P2 :: P3 :: P8 :: P6 :: P8 :: nil) ((P2 :: P3 :: P8 :: nil) ++ (P6 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP2P3P6P8mtmp;try rewrite HT2 in HP2P3P6P8mtmp.
-	assert(HT := rule_4 (P2 :: P3 :: P8 :: nil) (P6 :: P8 :: nil) (P8 :: nil) 3 1 2 HP2P3P6P8mtmp HP8mtmp HP2P3P8Mtmp Hincl); apply HT.
-}
-
-try clear HP4P6m;assert(HP4P6m : rk(P4 :: P6 :: nil) >= 2).
-{
-	try assert(HP5Mtmp : rk(P5 :: nil) <= 1) by (solve_hyps_max HP5eq HP5M).
-	try assert(HP4P5P6mtmp : rk(P4 :: P5 :: P6 :: nil) >= 3) by (solve_hyps_min HP4P5P6eq HP4P5P6m).
-	try assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P5 :: nil) (P4 :: P6 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P4 :: P5 :: P6 :: nil) (P5 :: P4 :: P6 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P5 :: P4 :: P6 :: nil) ((P5 :: nil) ++ (P4 :: P6 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP4P5P6mtmp;try rewrite HT2 in HP4P5P6mtmp.
-	assert(HT := rule_4 (P5 :: nil) (P4 :: P6 :: nil) (nil) 3 0 1 HP4P5P6mtmp Hmtmp HP5Mtmp Hincl); apply HT.
-}
-
-try clear HP4P6P8m;assert(HP4P6P8m : rk(P4 :: P6 :: P8 :: nil) >= 2).
-{
-	try assert(HP4P6mtmp : rk(P4 :: P6 :: nil) >= 2) by (solve_hyps_min HP4P6eq HP4P6m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P6 :: nil) (P4 :: P6 :: P8 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P6 :: nil) (P4 :: P6 :: P8 :: nil) 2 2 HP4P6mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P6P8m;assert(HP4P6P8m : rk(P4 :: P6 :: P8 :: nil) >= 3).
-{
-	try assert(HP5P6P8Mtmp : rk(P5 :: P6 :: P8 :: nil) <= 2) by (solve_hyps_max HP5P6P8eq HP5P6P8M).
-	try assert(HP4P5P6P8mtmp : rk(P4 :: P5 :: P6 :: P8 :: nil) >= 3) by (solve_hyps_min HP4P5P6P8eq HP4P5P6P8m).
-	try assert(HP6P8mtmp : rk(P6 :: P8 :: nil) >= 2) by (solve_hyps_min HP6P8eq HP6P8m).
-	assert(Hincl : incl (P6 :: P8 :: nil) (list_inter (P4 :: P6 :: P8 :: nil) (P5 :: P6 :: P8 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P4 :: P5 :: P6 :: P8 :: nil) (P4 :: P6 :: P8 :: P5 :: P6 :: P8 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P4 :: P6 :: P8 :: P5 :: P6 :: P8 :: nil) ((P4 :: P6 :: P8 :: nil) ++ (P5 :: P6 :: P8 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP4P5P6P8mtmp;try rewrite HT2 in HP4P5P6P8mtmp.
-	assert(HT := rule_2 (P4 :: P6 :: P8 :: nil) (P5 :: P6 :: P8 :: nil) (P6 :: P8 :: nil) 3 2 2 HP4P5P6P8mtmp HP6P8mtmp HP5P6P8Mtmp Hincl); apply HT.
-}
-
-try clear HP4P6P8P9P10m;assert(HP4P6P8P9P10m : rk(P4 :: P6 :: P8 :: P9 :: P10 :: nil) >= 2).
-{
-	try assert(HP4P6mtmp : rk(P4 :: P6 :: nil) >= 2) by (solve_hyps_min HP4P6eq HP4P6m).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P6 :: nil) (P4 :: P6 :: P8 :: P9 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P6 :: nil) (P4 :: P6 :: P8 :: P9 :: P10 :: nil) 2 2 HP4P6mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP4P6P8P9P10m;assert(HP4P6P8P9P10m : rk(P4 :: P6 :: P8 :: P9 :: P10 :: nil) >= 3).
-{
-	try assert(HP4P6P8mtmp : rk(P4 :: P6 :: P8 :: nil) >= 3) by (solve_hyps_min HP4P6P8eq HP4P6P8m).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P4 :: P6 :: P8 :: nil) (P4 :: P6 :: P8 :: P9 :: P10 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P4 :: P6 :: P8 :: nil) (P4 :: P6 :: P8 :: P9 :: P10 :: nil) 3 3 HP4P6P8mtmp Hcomp Hincl); apply HT.
-}
-
-try clear HP8P9P10m;assert(HP8P9P10m : rk(P8 :: P9 :: P10 :: nil) >= 2).
-{
-	try assert(HP4P6P9Mtmp : rk(P4 :: P6 :: P9 :: nil) <= 2) by (solve_hyps_max HP4P6P9eq HP4P6P9M).
-	try assert(HP4P6P8P9P10mtmp : rk(P4 :: P6 :: P8 :: P9 :: P10 :: nil) >= 3) by (solve_hyps_min HP4P6P8P9P10eq HP4P6P8P9P10m).
-	try assert(HP9mtmp : rk(P9 :: nil) >= 1) by (solve_hyps_min HP9eq HP9m).
-	assert(Hincl : incl (P9 :: nil) (list_inter (P4 :: P6 :: P9 :: nil) (P8 :: P9 :: P10 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P4 :: P6 :: P8 :: P9 :: P10 :: nil) (P4 :: P6 :: P9 :: P8 :: P9 :: P10 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P4 :: P6 :: P9 :: P8 :: P9 :: P10 :: nil) ((P4 :: P6 :: P9 :: nil) ++ (P8 :: P9 :: P10 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP4P6P8P9P10mtmp;try rewrite HT2 in HP4P6P8P9P10mtmp.
-	assert(HT := rule_4 (P4 :: P6 :: P9 :: nil) (P8 :: P9 :: P10 :: nil) (P9 :: nil) 3 1 2 HP4P6P8P9P10mtmp HP9mtmp HP4P6P9Mtmp Hincl); apply HT.
-}
-
-try clear HP8P9P10M;assert(HP8P9P10M : rk(P8 :: P9 :: P10 :: nil) <= 2).
-{
-	try assert(HP1P2P3P8P9P10Mtmp : rk(P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) <= 3) by (solve_hyps_max HP1P2P3P8P9P10eq HP1P2P3P8P9P10M).
-	try assert(HP4P5P8P9P10Mtmp : rk(P4 :: P5 :: P8 :: P9 :: P10 :: nil) <= 3) by (solve_hyps_max HP4P5P8P9P10eq HP4P5P8P9P10M).
-	try assert(HP1P2P3P4P5P8P9P10mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil) >= 4) by (solve_hyps_min HP1P2P3P4P5P8P9P10eq HP1P2P3P4P5P8P9P10m).
-	assert(Hincl : incl (P8 :: P9 :: P10 :: nil) (list_inter (P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) (P4 :: P5 :: P8 :: P9 :: P10 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil) (P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: P4 :: P5 :: P8 :: P9 :: P10 :: nil) ((P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) ++ (P4 :: P5 :: P8 :: P9 :: P10 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3P4P5P8P9P10mtmp;try rewrite HT2 in HP1P2P3P4P5P8P9P10mtmp.
-	assert(HT := rule_3 (P1 :: P2 :: P3 :: P8 :: P9 :: P10 :: nil) (P4 :: P5 :: P8 :: P9 :: P10 :: nil) (P8 :: P9 :: P10 :: nil) 3 3 4 HP1P2P3P8P9P10Mtmp HP4P5P8P9P10Mtmp HP1P2P3P4P5P8P9P10mtmp Hincl); apply HT.
-}
-
-assert(rk(P8 :: P9 :: P10 ::  nil) <= 3) by (clear_ineg_rk;try lia;try apply rk_upper_dim;try solve[apply matroid1_b_useful;simpl;intuition]).
-assert(rk(P8 :: P9 :: P10 ::  nil) >= 1) by (clear_ineg_rk;try lia;try solve[apply matroid1_b_useful2;simpl;intuition]).
-lia.
-Qed.
-
+Require Import lemmas_automation_g.
 
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5.
+Lemma LABCDE : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP1P2P3P4P5M : rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) <= 5) by (solve_hyps_max HP1P2P3P4P5eq HP1P2P3P4P5M5).
-assert(HP1P2P3P4P5m : rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m1).
+assert(HABCDEM : rk(A :: B :: C :: D :: E ::  nil) <= 5) (* dim : 5 *) by (solve_hyps_max HABCDEeq HABCDEM5).
+assert(HABCDEm : rk(A :: B :: C :: D :: E ::  nil) >= 1) by (solve_hyps_min HABCDEeq HABCDEm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5.
+Lemma LApBpCpDpEp : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP6P7P8P9P10M : rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) <= 5) by (solve_hyps_max HP6P7P8P9P10eq HP6P7P8P9P10M5).
-assert(HP6P7P8P9P10m : rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10eq HP6P7P8P9P10m1).
+assert(HApBpCpDpEpM : rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) <= 5) (* dim : 5 *) by (solve_hyps_max HApBpCpDpEpeq HApBpCpDpEpM5).
+assert(HApBpCpDpEpm : rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpeq HApBpCpDpEpm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P6P7P8P9P10 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6.
+Lemma LABCDEApBpCpDpEp : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP1P2P3P4P5P6P7P8P9P10M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P6P7P8P9P10m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10m1).
+assert(HABCDEApBpCpDpEpM : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEApBpCpDpEpm : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) >= 1) by (solve_hyps_min HABCDEApBpCpDpEpeq HABCDEApBpCpDpEpm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P11 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5.
+Lemma LABCDEI : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP1P2P3P4P5P11M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P11m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P11eq HP1P2P3P4P5P11m1).
+assert(HABCDEIM : rk(A :: B :: C :: D :: E :: I ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEIm : rk(A :: B :: C :: D :: E :: I ::  nil) >= 1) by (solve_hyps_min HABCDEIeq HABCDEIm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10P11 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5.
+Lemma LApBpCpDpEpI : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP6P7P8P9P10P11M : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP6P7P8P9P10P11m : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10P11eq HP6P7P8P9P10P11m1).
+assert(HApBpCpDpEpIM : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HApBpCpDpEpIm : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpIeq HApBpCpDpEpIm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P12 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5.
+Lemma LABCDEJ : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: J ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP1P2P3P4P5P12M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P12m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P12eq HP1P2P3P4P5P12m1).
+assert(HABCDEJM : rk(A :: B :: C :: D :: E :: J ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEJm : rk(A :: B :: C :: D :: E :: J ::  nil) >= 1) by (solve_hyps_min HABCDEJeq HABCDEJm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10P12 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5.
+Lemma LApBpCpDpEpJ : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP6P7P8P9P10P12M : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP6P7P8P9P10P12m : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10P12eq HP6P7P8P9P10P12m1).
+assert(HApBpCpDpEpJM : rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HApBpCpDpEpJm : rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpJeq HApBpCpDpEpJm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P13 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5.
+Lemma LABCDEK : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: K ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP1P2P3P4P5P13M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P13m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P13eq HP1P2P3P4P5P13m1).
+assert(HABCDEKM : rk(A :: B :: C :: D :: E :: K ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEKm : rk(A :: B :: C :: D :: E :: K ::  nil) >= 1) by (solve_hyps_min HABCDEKeq HABCDEKm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10P13 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5.
+Lemma LApBpCpDpEpK : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP6P7P8P9P10P13M : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP6P7P8P9P10P13m : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10P13eq HP6P7P8P9P10P13m1).
+assert(HApBpCpDpEpKM : rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HApBpCpDpEpKm : rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpKeq HApBpCpDpEpKm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P14 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5.
+Lemma LABCDEL : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP1P2P3P4P5P14M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P14m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P14eq HP1P2P3P4P5P14m1).
+assert(HABCDELM : rk(A :: B :: C :: D :: E :: L ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDELm : rk(A :: B :: C :: D :: E :: L ::  nil) >= 1) by (solve_hyps_min HABCDELeq HABCDELm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10P14 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5.
+Lemma LApBpCpDpEpL : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP6P7P8P9P10P14M : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP6P7P8P9P10P14m : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10P14eq HP6P7P8P9P10P14m1).
+assert(HApBpCpDpEpLM : rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HApBpCpDpEpLm : rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpLeq HApBpCpDpEpLm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP11P12P13P14 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4.
+Lemma LIJKL : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(I :: J :: K :: L ::  nil) = 4.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP11P12P13P14M : rk(P11 :: P12 :: P13 :: P14 ::  nil) <= 4) by (solve_hyps_max HP11P12P13P14eq HP11P12P13P14M4).
-assert(HP11P12P13P14m : rk(P11 :: P12 :: P13 :: P14 ::  nil) >= 1) by (solve_hyps_min HP11P12P13P14eq HP11P12P13P14m1).
+assert(HIJKLM : rk(I :: J :: K :: L ::  nil) <= 4) (* dim : 5 *) by (solve_hyps_max HIJKLeq HIJKLM4).
+assert(HIJKLm : rk(I :: J :: K :: L ::  nil) >= 1) by (solve_hyps_min HIJKLeq HIJKLm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5.
+Lemma LABCDEM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP1P2P3P4P5P15M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P15m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P15eq HP1P2P3P4P5P15m1).
+assert(HABCDEMM : rk(A :: B :: C :: D :: E :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEMm : rk(A :: B :: C :: D :: E :: M ::  nil) >= 1) by (solve_hyps_min HABCDEMeq HABCDEMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5.
+Lemma LApBpCpDpEpM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-assert(HP6P7P8P9P10P15M : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP6P7P8P9P10P15m : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10P15eq HP6P7P8P9P10P15m1).
+assert(HApBpCpDpEpMM : rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HApBpCpDpEpMm : rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpMeq HApBpCpDpEpMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P11P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 ::  nil) = 5.
+Lemma LABCDEIM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: I :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour P1P2P3P4P5P11P15 requis par la preuve de (?)P1P2P3P4P5P11P15 pour la règle 1  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour P1P2P3P4P5P11P15 requis par la preuve de (?)P1P2P3P4P5P11P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour ABCDEIM requis par la preuve de (?)ABCDEIM pour la règle 1  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour ABCDEIM requis par la preuve de (?)ABCDEIM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP1P2P3P4P5P11P15m5 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil) >= 5).
+assert(HABCDEIMm5 : rk(A :: B :: C :: D :: E :: I :: M :: nil) >= 5).
 {
-	try assert(HP1P2P3P4P5eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) = 5) by (apply LP1P2P3P4P5 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 5) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m5).
+	try assert(HABCDEeq : rk(A :: B :: C :: D :: E :: nil) = 5) by (apply LABCDE with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEmtmp : rk(A :: B :: C :: D :: E :: nil) >= 5) by (solve_hyps_min HABCDEeq HABCDEm5).
 	assert(Hcomp : 5 <= 5) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil) 5 5 HP1P2P3P4P5mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: I :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: I :: M :: nil) 5 5 HABCDEmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
-assert(HP1P2P3P4P5P11P15M5 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil) <= 5).
+assert(HABCDEIMM5 : rk(A :: B :: C :: D :: E :: I :: M :: nil) <= 5).
 {
-	try assert(HP1P2P3P4P5P11eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: nil) = 5) by (apply LP1P2P3P4P5P11 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P11Mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: nil) <= 5) by (solve_hyps_max HP1P2P3P4P5P11eq HP1P2P3P4P5P11M5).
-	try assert(HP1P2P3P4P5P15eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 :: nil) = 5) by (apply LP1P2P3P4P5P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P15Mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 :: nil) <= 5) by (solve_hyps_max HP1P2P3P4P5P15eq HP1P2P3P4P5P15M5).
-	try assert(HP1P2P3P4P5eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) = 5) by (apply LP1P2P3P4P5 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 5) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m5).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (list_inter (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P15 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P1 :: P2 :: P3 :: P4 :: P5 :: P15 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P1 :: P2 :: P3 :: P4 :: P5 :: P15 :: nil) ((P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: nil) ++ (P1 :: P2 :: P3 :: P4 :: P5 :: P15 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P15 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil) 5 5 5 HP1P2P3P4P5P11Mtmp HP1P2P3P4P5P15Mtmp HP1P2P3P4P5mtmp Hincl);
+	try assert(HABCDEIeq : rk(A :: B :: C :: D :: E :: I :: nil) = 5) by (apply LABCDEI with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEIMtmp : rk(A :: B :: C :: D :: E :: I :: nil) <= 5) by (solve_hyps_max HABCDEIeq HABCDEIM5).
+	try assert(HABCDEMeq : rk(A :: B :: C :: D :: E :: M :: nil) = 5) by (apply LABCDEM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEMMtmp : rk(A :: B :: C :: D :: E :: M :: nil) <= 5) by (solve_hyps_max HABCDEMeq HABCDEMM5).
+	try assert(HABCDEeq : rk(A :: B :: C :: D :: E :: nil) = 5) by (apply LABCDE with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEmtmp : rk(A :: B :: C :: D :: E :: nil) >= 5) by (solve_hyps_min HABCDEeq HABCDEm5).
+	assert(Hincl : incl (A :: B :: C :: D :: E :: nil) (list_inter (A :: B :: C :: D :: E :: I :: nil) (A :: B :: C :: D :: E :: M :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (A :: B :: C :: D :: E :: I :: M :: nil) (A :: B :: C :: D :: E :: I :: A :: B :: C :: D :: E :: M :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (A :: B :: C :: D :: E :: I :: A :: B :: C :: D :: E :: M :: nil) ((A :: B :: C :: D :: E :: I :: nil) ++ (A :: B :: C :: D :: E :: M :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (A :: B :: C :: D :: E :: I :: nil) (A :: B :: C :: D :: E :: M :: nil) (A :: B :: C :: D :: E :: nil) 5 5 5 HABCDEIMtmp HABCDEMMtmp HABCDEmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
-try clear HP1P2P3P4P5P11M1. try clear HP1P2P3P4P5P11M2. try clear HP1P2P3P4P5P11M3. try clear HP1P2P3P4P5P11M4. try clear HP1P2P3P4P5P11M5. try clear HP1P2P3P4P5P11M6. try clear HP1P2P3P4P5P11M7. try clear HP1P2P3P4P5P11m7. try clear HP1P2P3P4P5P11m6. try clear HP1P2P3P4P5P11m5. try clear HP1P2P3P4P5P11m4. try clear HP1P2P3P4P5P11m3. try clear HP1P2P3P4P5P11m2. try clear HP1P2P3P4P5P11m1. try clear HP1P2P3P4P5P15M1. try clear HP1P2P3P4P5P15M2. try clear HP1P2P3P4P5P15M3. try clear HP1P2P3P4P5P15M4. try clear HP1P2P3P4P5P15M5. try clear HP1P2P3P4P5P15M6. try clear HP1P2P3P4P5P15M7. try clear HP1P2P3P4P5P15m7. try clear HP1P2P3P4P5P15m6. try clear HP1P2P3P4P5P15m5. try clear HP1P2P3P4P5P15m4. try clear HP1P2P3P4P5P15m3. try clear HP1P2P3P4P5P15m2. try clear HP1P2P3P4P5P15m1. 
+try clear HABCDEIM1. try clear HABCDEIM2. try clear HABCDEIM3. try clear HABCDEIM4. try clear HABCDEIM5. try clear HABCDEIM6. try clear HABCDEIM7. try clear HABCDEIm7. try clear HABCDEIm6. try clear HABCDEIm5. try clear HABCDEIm4. try clear HABCDEIm3. try clear HABCDEIm2. try clear HABCDEIm1. try clear HABCDEMM1. try clear HABCDEMM2. try clear HABCDEMM3. try clear HABCDEMM4. try clear HABCDEMM5. try clear HABCDEMM6. try clear HABCDEMM7. try clear HABCDEMm7. try clear HABCDEMm6. try clear HABCDEMm5. try clear HABCDEMm4. try clear HABCDEMm3. try clear HABCDEMm2. try clear HABCDEMm1. 
 
-assert(HP1P2P3P4P5P11P15M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P11P15m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P11P15eq HP1P2P3P4P5P11P15m1).
+assert(HABCDEIMM : rk(A :: B :: C :: D :: E :: I :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEIMm : rk(A :: B :: C :: D :: E :: I :: M ::  nil) >= 1) by (solve_hyps_min HABCDEIMeq HABCDEIMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10P11P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 ::  nil) = 5.
+Lemma LApBpCpDpEpIM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour P6P7P8P9P10P11P15 requis par la preuve de (?)P6P7P8P9P10P11P15 pour la règle 1  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour P6P7P8P9P10P11P15 requis par la preuve de (?)P6P7P8P9P10P11P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour ApBpCpDpEpIM requis par la preuve de (?)ApBpCpDpEpIM pour la règle 1  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour ApBpCpDpEpIM requis par la preuve de (?)ApBpCpDpEpIM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP6P7P8P9P10P11P15m5 : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil) >= 5).
+assert(HApBpCpDpEpIMm5 : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil) >= 5).
 {
-	try assert(HP6P7P8P9P10eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) = 5) by (apply LP6P7P8P9P10 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) >= 5) by (solve_hyps_min HP6P7P8P9P10eq HP6P7P8P9P10m5).
+	try assert(HApBpCpDpEpeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) = 5) by (apply LApBpCpDpEp with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpmtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) >= 5) by (solve_hyps_min HApBpCpDpEpeq HApBpCpDpEpm5).
 	assert(Hcomp : 5 <= 5) by (repeat constructor).
-	assert(Hincl : incl (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil) 5 5 HP6P7P8P9P10mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil) 5 5 HApBpCpDpEpmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
-assert(HP6P7P8P9P10P11P15M5 : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil) <= 5).
+assert(HApBpCpDpEpIMM5 : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil) <= 5).
 {
-	try assert(HP6P7P8P9P10P11eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: nil) = 5) by (apply LP6P7P8P9P10P11 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10P11Mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: nil) <= 5) by (solve_hyps_max HP6P7P8P9P10P11eq HP6P7P8P9P10P11M5).
-	try assert(HP6P7P8P9P10P15eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 :: nil) = 5) by (apply LP6P7P8P9P10P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10P15Mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 :: nil) <= 5) by (solve_hyps_max HP6P7P8P9P10P15eq HP6P7P8P9P10P15M5).
-	try assert(HP6P7P8P9P10eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) = 5) by (apply LP6P7P8P9P10 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) >= 5) by (solve_hyps_min HP6P7P8P9P10eq HP6P7P8P9P10m5).
-	assert(Hincl : incl (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (list_inter (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P15 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P6 :: P7 :: P8 :: P9 :: P10 :: P15 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P6 :: P7 :: P8 :: P9 :: P10 :: P15 :: nil) ((P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: nil) ++ (P6 :: P7 :: P8 :: P9 :: P10 :: P15 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: nil) 5 5 5 HP6P7P8P9P10P11Mtmp HP6P7P8P9P10P15Mtmp HP6P7P8P9P10mtmp Hincl);
+	try assert(HApBpCpDpEpIeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: nil) = 5) by (apply LApBpCpDpEpI with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpIMtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: nil) <= 5) by (solve_hyps_max HApBpCpDpEpIeq HApBpCpDpEpIM5).
+	try assert(HApBpCpDpEpMeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: M :: nil) = 5) by (apply LApBpCpDpEpM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpMMtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: M :: nil) <= 5) by (solve_hyps_max HApBpCpDpEpMeq HApBpCpDpEpMM5).
+	try assert(HApBpCpDpEpeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) = 5) by (apply LApBpCpDpEp with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpmtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) >= 5) by (solve_hyps_min HApBpCpDpEpeq HApBpCpDpEpm5).
+	assert(Hincl : incl (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (list_inter (Ap :: Bp :: Cp :: Dp :: Ep :: I :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: M :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: Ap :: Bp :: Cp :: Dp :: Ep :: M :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Ap :: Bp :: Cp :: Dp :: Ep :: I :: Ap :: Bp :: Cp :: Dp :: Ep :: M :: nil) ((Ap :: Bp :: Cp :: Dp :: Ep :: I :: nil) ++ (Ap :: Bp :: Cp :: Dp :: Ep :: M :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (Ap :: Bp :: Cp :: Dp :: Ep :: I :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: nil) 5 5 5 HApBpCpDpEpIMtmp HApBpCpDpEpMMtmp HApBpCpDpEpmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
-try clear HP6P7P8P9P10P11M1. try clear HP6P7P8P9P10P11M2. try clear HP6P7P8P9P10P11M3. try clear HP6P7P8P9P10P11M4. try clear HP6P7P8P9P10P11M5. try clear HP6P7P8P9P10P11M6. try clear HP6P7P8P9P10P11M7. try clear HP6P7P8P9P10P11m7. try clear HP6P7P8P9P10P11m6. try clear HP6P7P8P9P10P11m5. try clear HP6P7P8P9P10P11m4. try clear HP6P7P8P9P10P11m3. try clear HP6P7P8P9P10P11m2. try clear HP6P7P8P9P10P11m1. try clear HP6P7P8P9P10P15M1. try clear HP6P7P8P9P10P15M2. try clear HP6P7P8P9P10P15M3. try clear HP6P7P8P9P10P15M4. try clear HP6P7P8P9P10P15M5. try clear HP6P7P8P9P10P15M6. try clear HP6P7P8P9P10P15M7. try clear HP6P7P8P9P10P15m7. try clear HP6P7P8P9P10P15m6. try clear HP6P7P8P9P10P15m5. try clear HP6P7P8P9P10P15m4. try clear HP6P7P8P9P10P15m3. try clear HP6P7P8P9P10P15m2. try clear HP6P7P8P9P10P15m1. 
+try clear HApBpCpDpEpIM1. try clear HApBpCpDpEpIM2. try clear HApBpCpDpEpIM3. try clear HApBpCpDpEpIM4. try clear HApBpCpDpEpIM5. try clear HApBpCpDpEpIM6. try clear HApBpCpDpEpIM7. try clear HApBpCpDpEpIm7. try clear HApBpCpDpEpIm6. try clear HApBpCpDpEpIm5. try clear HApBpCpDpEpIm4. try clear HApBpCpDpEpIm3. try clear HApBpCpDpEpIm2. try clear HApBpCpDpEpIm1. try clear HApBpCpDpEpMM1. try clear HApBpCpDpEpMM2. try clear HApBpCpDpEpMM3. try clear HApBpCpDpEpMM4. try clear HApBpCpDpEpMM5. try clear HApBpCpDpEpMM6. try clear HApBpCpDpEpMM7. try clear HApBpCpDpEpMm7. try clear HApBpCpDpEpMm6. try clear HApBpCpDpEpMm5. try clear HApBpCpDpEpMm4. try clear HApBpCpDpEpMm3. try clear HApBpCpDpEpMm2. try clear HApBpCpDpEpMm1. 
 
-assert(HP6P7P8P9P10P11P15M : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP6P7P8P9P10P11P15m : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10P11P15eq HP6P7P8P9P10P11P15m1).
+assert(HApBpCpDpEpIMM : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HApBpCpDpEpIMm : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: M ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpIMeq HApBpCpDpEpIMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P11P12P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 ::  nil) = 5.
+Lemma LABCDEIJM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: I :: J :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour P1P2P3P4P5P11P12P15 requis par la preuve de (?)P1P2P3P4P5P11P12P15 pour la règle 1  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour P1P2P3P4P5P11P12P15 requis par la preuve de (?)P1P2P3P4P5P11P12P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour ABCDEIJM requis par la preuve de (?)ABCDEIJM pour la règle 1  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour ABCDEIJM requis par la preuve de (?)ABCDEIJM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP1P2P3P4P5P11P12P15m5 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil) >= 5).
+assert(HABCDEIJMm5 : rk(A :: B :: C :: D :: E :: I :: J :: M :: nil) >= 5).
 {
-	try assert(HP1P2P3P4P5eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) = 5) by (apply LP1P2P3P4P5 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 5) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m5).
+	try assert(HABCDEeq : rk(A :: B :: C :: D :: E :: nil) = 5) by (apply LABCDE with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEmtmp : rk(A :: B :: C :: D :: E :: nil) >= 5) by (solve_hyps_min HABCDEeq HABCDEm5).
 	assert(Hcomp : 5 <= 5) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil) 5 5 HP1P2P3P4P5mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: I :: J :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: I :: J :: M :: nil) 5 5 HABCDEmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
-assert(HP1P2P3P4P5P11P12P15M5 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil) <= 5).
+assert(HABCDEIJMM5 : rk(A :: B :: C :: D :: E :: I :: J :: M :: nil) <= 5).
 {
-	try assert(HP1P2P3P4P5P12eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 :: nil) = 5) by (apply LP1P2P3P4P5P12 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P12Mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 :: nil) <= 5) by (solve_hyps_max HP1P2P3P4P5P12eq HP1P2P3P4P5P12M5).
-	try assert(HP1P2P3P4P5P11P15eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil) = 5) by (apply LP1P2P3P4P5P11P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P11P15Mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil) <= 5) by (solve_hyps_max HP1P2P3P4P5P11P15eq HP1P2P3P4P5P11P15M5).
-	try assert(HP1P2P3P4P5eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) = 5) by (apply LP1P2P3P4P5 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 5) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m5).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (list_inter (P1 :: P2 :: P3 :: P4 :: P5 :: P12 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P12 :: P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P12 :: P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil) ((P1 :: P2 :: P3 :: P4 :: P5 :: P12 :: nil) ++ (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P1 :: P2 :: P3 :: P4 :: P5 :: P12 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P15 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil) 5 5 5 HP1P2P3P4P5P12Mtmp HP1P2P3P4P5P11P15Mtmp HP1P2P3P4P5mtmp Hincl);
+	try assert(HABCDEJeq : rk(A :: B :: C :: D :: E :: J :: nil) = 5) by (apply LABCDEJ with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEJMtmp : rk(A :: B :: C :: D :: E :: J :: nil) <= 5) by (solve_hyps_max HABCDEJeq HABCDEJM5).
+	try assert(HABCDEIMeq : rk(A :: B :: C :: D :: E :: I :: M :: nil) = 5) by (apply LABCDEIM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEIMMtmp : rk(A :: B :: C :: D :: E :: I :: M :: nil) <= 5) by (solve_hyps_max HABCDEIMeq HABCDEIMM5).
+	try assert(HABCDEeq : rk(A :: B :: C :: D :: E :: nil) = 5) by (apply LABCDE with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEmtmp : rk(A :: B :: C :: D :: E :: nil) >= 5) by (solve_hyps_min HABCDEeq HABCDEm5).
+	assert(Hincl : incl (A :: B :: C :: D :: E :: nil) (list_inter (A :: B :: C :: D :: E :: J :: nil) (A :: B :: C :: D :: E :: I :: M :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (A :: B :: C :: D :: E :: I :: J :: M :: nil) (A :: B :: C :: D :: E :: J :: A :: B :: C :: D :: E :: I :: M :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (A :: B :: C :: D :: E :: J :: A :: B :: C :: D :: E :: I :: M :: nil) ((A :: B :: C :: D :: E :: J :: nil) ++ (A :: B :: C :: D :: E :: I :: M :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (A :: B :: C :: D :: E :: J :: nil) (A :: B :: C :: D :: E :: I :: M :: nil) (A :: B :: C :: D :: E :: nil) 5 5 5 HABCDEJMtmp HABCDEIMMtmp HABCDEmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
-try clear HP1P2P3P4P5P12M1. try clear HP1P2P3P4P5P12M2. try clear HP1P2P3P4P5P12M3. try clear HP1P2P3P4P5P12M4. try clear HP1P2P3P4P5P12M5. try clear HP1P2P3P4P5P12M6. try clear HP1P2P3P4P5P12M7. try clear HP1P2P3P4P5P12m7. try clear HP1P2P3P4P5P12m6. try clear HP1P2P3P4P5P12m5. try clear HP1P2P3P4P5P12m4. try clear HP1P2P3P4P5P12m3. try clear HP1P2P3P4P5P12m2. try clear HP1P2P3P4P5P12m1. 
+try clear HABCDEJM1. try clear HABCDEJM2. try clear HABCDEJM3. try clear HABCDEJM4. try clear HABCDEJM5. try clear HABCDEJM6. try clear HABCDEJM7. try clear HABCDEJm7. try clear HABCDEJm6. try clear HABCDEJm5. try clear HABCDEJm4. try clear HABCDEJm3. try clear HABCDEJm2. try clear HABCDEJm1. 
 
-assert(HP1P2P3P4P5P11P12P15M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P11P12P15m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P11P12P15eq HP1P2P3P4P5P11P12P15m1).
+assert(HABCDEIJMM : rk(A :: B :: C :: D :: E :: I :: J :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEIJMm : rk(A :: B :: C :: D :: E :: I :: J :: M ::  nil) >= 1) by (solve_hyps_min HABCDEIJMeq HABCDEIJMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10P11P12P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 ::  nil) = 5.
+Lemma LApBpCpDpEpIJM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour P6P7P8P9P10P11P12P15 requis par la preuve de (?)P6P7P8P9P10P11P12P15 pour la règle 1  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour P6P7P8P9P10P11P12P15 requis par la preuve de (?)P6P7P8P9P10P11P12P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour ApBpCpDpEpIJM requis par la preuve de (?)ApBpCpDpEpIJM pour la règle 1  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour ApBpCpDpEpIJM requis par la preuve de (?)ApBpCpDpEpIJM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP6P7P8P9P10P11P12P15m5 : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil) >= 5).
+assert(HApBpCpDpEpIJMm5 : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil) >= 5).
 {
-	try assert(HP6P7P8P9P10eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) = 5) by (apply LP6P7P8P9P10 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) >= 5) by (solve_hyps_min HP6P7P8P9P10eq HP6P7P8P9P10m5).
+	try assert(HApBpCpDpEpeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) = 5) by (apply LApBpCpDpEp with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpmtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) >= 5) by (solve_hyps_min HApBpCpDpEpeq HApBpCpDpEpm5).
 	assert(Hcomp : 5 <= 5) by (repeat constructor).
-	assert(Hincl : incl (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil) 5 5 HP6P7P8P9P10mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil) 5 5 HApBpCpDpEpmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
-assert(HP6P7P8P9P10P11P12P15M5 : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil) <= 5).
+assert(HApBpCpDpEpIJMM5 : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil) <= 5).
 {
-	try assert(HP6P7P8P9P10P12eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 :: nil) = 5) by (apply LP6P7P8P9P10P12 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10P12Mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 :: nil) <= 5) by (solve_hyps_max HP6P7P8P9P10P12eq HP6P7P8P9P10P12M5).
-	try assert(HP6P7P8P9P10P11P15eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil) = 5) by (apply LP6P7P8P9P10P11P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10P11P15Mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil) <= 5) by (solve_hyps_max HP6P7P8P9P10P11P15eq HP6P7P8P9P10P11P15M5).
-	try assert(HP6P7P8P9P10eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) = 5) by (apply LP6P7P8P9P10 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) >= 5) by (solve_hyps_min HP6P7P8P9P10eq HP6P7P8P9P10m5).
-	assert(Hincl : incl (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (list_inter (P6 :: P7 :: P8 :: P9 :: P10 :: P12 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P12 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P6 :: P7 :: P8 :: P9 :: P10 :: P12 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil) ((P6 :: P7 :: P8 :: P9 :: P10 :: P12 :: nil) ++ (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P6 :: P7 :: P8 :: P9 :: P10 :: P12 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: nil) 5 5 5 HP6P7P8P9P10P12Mtmp HP6P7P8P9P10P11P15Mtmp HP6P7P8P9P10mtmp Hincl);
+	try assert(HApBpCpDpEpJeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: J :: nil) = 5) by (apply LApBpCpDpEpJ with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpJMtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: J :: nil) <= 5) by (solve_hyps_max HApBpCpDpEpJeq HApBpCpDpEpJM5).
+	try assert(HApBpCpDpEpIMeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil) = 5) by (apply LApBpCpDpEpIM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpIMMtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil) <= 5) by (solve_hyps_max HApBpCpDpEpIMeq HApBpCpDpEpIMM5).
+	try assert(HApBpCpDpEpeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) = 5) by (apply LApBpCpDpEp with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpmtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) >= 5) by (solve_hyps_min HApBpCpDpEpeq HApBpCpDpEpm5).
+	assert(Hincl : incl (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (list_inter (Ap :: Bp :: Cp :: Dp :: Ep :: J :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: J :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Ap :: Bp :: Cp :: Dp :: Ep :: J :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil) ((Ap :: Bp :: Cp :: Dp :: Ep :: J :: nil) ++ (Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (Ap :: Bp :: Cp :: Dp :: Ep :: J :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: nil) 5 5 5 HApBpCpDpEpJMtmp HApBpCpDpEpIMMtmp HApBpCpDpEpmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
-try clear HP6P7P8P9P10P12M1. try clear HP6P7P8P9P10P12M2. try clear HP6P7P8P9P10P12M3. try clear HP6P7P8P9P10P12M4. try clear HP6P7P8P9P10P12M5. try clear HP6P7P8P9P10P12M6. try clear HP6P7P8P9P10P12M7. try clear HP6P7P8P9P10P12m7. try clear HP6P7P8P9P10P12m6. try clear HP6P7P8P9P10P12m5. try clear HP6P7P8P9P10P12m4. try clear HP6P7P8P9P10P12m3. try clear HP6P7P8P9P10P12m2. try clear HP6P7P8P9P10P12m1. 
+try clear HApBpCpDpEpJM1. try clear HApBpCpDpEpJM2. try clear HApBpCpDpEpJM3. try clear HApBpCpDpEpJM4. try clear HApBpCpDpEpJM5. try clear HApBpCpDpEpJM6. try clear HApBpCpDpEpJM7. try clear HApBpCpDpEpJm7. try clear HApBpCpDpEpJm6. try clear HApBpCpDpEpJm5. try clear HApBpCpDpEpJm4. try clear HApBpCpDpEpJm3. try clear HApBpCpDpEpJm2. try clear HApBpCpDpEpJm1. 
 
-assert(HP6P7P8P9P10P11P12P15M : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP6P7P8P9P10P11P12P15m : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10P11P12P15eq HP6P7P8P9P10P11P12P15m1).
+assert(HApBpCpDpEpIJMM : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HApBpCpDpEpIJMm : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpIJMeq HApBpCpDpEpIJMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P11P12P13P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 ::  nil) = 5.
+Lemma LABCDEIJKM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: I :: J :: K :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour P1P2P3P4P5P11P12P13P15 requis par la preuve de (?)P1P2P3P4P5P11P12P13P15 pour la règle 1  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour P1P2P3P4P5P11P12P13P15 requis par la preuve de (?)P1P2P3P4P5P11P12P13P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour ABCDEIJKM requis par la preuve de (?)ABCDEIJKM pour la règle 1  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour ABCDEIJKM requis par la preuve de (?)ABCDEIJKM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP1P2P3P4P5P11P12P13P15m5 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil) >= 5).
+assert(HABCDEIJKMm5 : rk(A :: B :: C :: D :: E :: I :: J :: K :: M :: nil) >= 5).
 {
-	try assert(HP1P2P3P4P5eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) = 5) by (apply LP1P2P3P4P5 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 5) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m5).
+	try assert(HABCDEeq : rk(A :: B :: C :: D :: E :: nil) = 5) by (apply LABCDE with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEmtmp : rk(A :: B :: C :: D :: E :: nil) >= 5) by (solve_hyps_min HABCDEeq HABCDEm5).
 	assert(Hcomp : 5 <= 5) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil) 5 5 HP1P2P3P4P5mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: I :: J :: K :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: I :: J :: K :: M :: nil) 5 5 HABCDEmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
-assert(HP1P2P3P4P5P11P12P13P15M5 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil) <= 5).
+assert(HABCDEIJKMM5 : rk(A :: B :: C :: D :: E :: I :: J :: K :: M :: nil) <= 5).
 {
-	try assert(HP1P2P3P4P5P13eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 :: nil) = 5) by (apply LP1P2P3P4P5P13 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P13Mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 :: nil) <= 5) by (solve_hyps_max HP1P2P3P4P5P13eq HP1P2P3P4P5P13M5).
-	try assert(HP1P2P3P4P5P11P12P15eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil) = 5) by (apply LP1P2P3P4P5P11P12P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P11P12P15Mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil) <= 5) by (solve_hyps_max HP1P2P3P4P5P11P12P15eq HP1P2P3P4P5P11P12P15M5).
-	try assert(HP1P2P3P4P5eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) = 5) by (apply LP1P2P3P4P5 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 5) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m5).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (list_inter (P1 :: P2 :: P3 :: P4 :: P5 :: P13 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P13 :: P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P13 :: P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil) ((P1 :: P2 :: P3 :: P4 :: P5 :: P13 :: nil) ++ (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P1 :: P2 :: P3 :: P4 :: P5 :: P13 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P15 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil) 5 5 5 HP1P2P3P4P5P13Mtmp HP1P2P3P4P5P11P12P15Mtmp HP1P2P3P4P5mtmp Hincl);
+	try assert(HABCDEKeq : rk(A :: B :: C :: D :: E :: K :: nil) = 5) by (apply LABCDEK with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEKMtmp : rk(A :: B :: C :: D :: E :: K :: nil) <= 5) by (solve_hyps_max HABCDEKeq HABCDEKM5).
+	try assert(HABCDEIJMeq : rk(A :: B :: C :: D :: E :: I :: J :: M :: nil) = 5) by (apply LABCDEIJM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEIJMMtmp : rk(A :: B :: C :: D :: E :: I :: J :: M :: nil) <= 5) by (solve_hyps_max HABCDEIJMeq HABCDEIJMM5).
+	try assert(HABCDEeq : rk(A :: B :: C :: D :: E :: nil) = 5) by (apply LABCDE with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEmtmp : rk(A :: B :: C :: D :: E :: nil) >= 5) by (solve_hyps_min HABCDEeq HABCDEm5).
+	assert(Hincl : incl (A :: B :: C :: D :: E :: nil) (list_inter (A :: B :: C :: D :: E :: K :: nil) (A :: B :: C :: D :: E :: I :: J :: M :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (A :: B :: C :: D :: E :: I :: J :: K :: M :: nil) (A :: B :: C :: D :: E :: K :: A :: B :: C :: D :: E :: I :: J :: M :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (A :: B :: C :: D :: E :: K :: A :: B :: C :: D :: E :: I :: J :: M :: nil) ((A :: B :: C :: D :: E :: K :: nil) ++ (A :: B :: C :: D :: E :: I :: J :: M :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (A :: B :: C :: D :: E :: K :: nil) (A :: B :: C :: D :: E :: I :: J :: M :: nil) (A :: B :: C :: D :: E :: nil) 5 5 5 HABCDEKMtmp HABCDEIJMMtmp HABCDEmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
-try clear HP1P2P3P4P5P13M1. try clear HP1P2P3P4P5P13M2. try clear HP1P2P3P4P5P13M3. try clear HP1P2P3P4P5P13M4. try clear HP1P2P3P4P5P13M5. try clear HP1P2P3P4P5P13M6. try clear HP1P2P3P4P5P13M7. try clear HP1P2P3P4P5P13m7. try clear HP1P2P3P4P5P13m6. try clear HP1P2P3P4P5P13m5. try clear HP1P2P3P4P5P13m4. try clear HP1P2P3P4P5P13m3. try clear HP1P2P3P4P5P13m2. try clear HP1P2P3P4P5P13m1. 
+try clear HABCDEKM1. try clear HABCDEKM2. try clear HABCDEKM3. try clear HABCDEKM4. try clear HABCDEKM5. try clear HABCDEKM6. try clear HABCDEKM7. try clear HABCDEKm7. try clear HABCDEKm6. try clear HABCDEKm5. try clear HABCDEKm4. try clear HABCDEKm3. try clear HABCDEKm2. try clear HABCDEKm1. 
 
-assert(HP1P2P3P4P5P11P12P13P15M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P11P12P13P15m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P11P12P13P15eq HP1P2P3P4P5P11P12P13P15m1).
+assert(HABCDEIJKMM : rk(A :: B :: C :: D :: E :: I :: J :: K :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEIJKMm : rk(A :: B :: C :: D :: E :: I :: J :: K :: M ::  nil) >= 1) by (solve_hyps_min HABCDEIJKMeq HABCDEIJKMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10P11P12P13P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 ::  nil) = 5.
+Lemma LApBpCpDpEpIJKM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour P6P7P8P9P10P11P12P13P15 requis par la preuve de (?)P6P7P8P9P10P11P12P13P15 pour la règle 1  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour P6P7P8P9P10P11P12P13P15 requis par la preuve de (?)P6P7P8P9P10P11P12P13P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour ApBpCpDpEpIJKM requis par la preuve de (?)ApBpCpDpEpIJKM pour la règle 1  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour ApBpCpDpEpIJKM requis par la preuve de (?)ApBpCpDpEpIJKM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP6P7P8P9P10P11P12P13P15m5 : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil) >= 5).
+assert(HApBpCpDpEpIJKMm5 : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil) >= 5).
 {
-	try assert(HP6P7P8P9P10eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) = 5) by (apply LP6P7P8P9P10 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) >= 5) by (solve_hyps_min HP6P7P8P9P10eq HP6P7P8P9P10m5).
+	try assert(HApBpCpDpEpeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) = 5) by (apply LApBpCpDpEp with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpmtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) >= 5) by (solve_hyps_min HApBpCpDpEpeq HApBpCpDpEpm5).
 	assert(Hcomp : 5 <= 5) by (repeat constructor).
-	assert(Hincl : incl (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil) 5 5 HP6P7P8P9P10mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil) 5 5 HApBpCpDpEpmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
-assert(HP6P7P8P9P10P11P12P13P15M5 : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil) <= 5).
+assert(HApBpCpDpEpIJKMM5 : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil) <= 5).
 {
-	try assert(HP6P7P8P9P10P13eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 :: nil) = 5) by (apply LP6P7P8P9P10P13 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10P13Mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 :: nil) <= 5) by (solve_hyps_max HP6P7P8P9P10P13eq HP6P7P8P9P10P13M5).
-	try assert(HP6P7P8P9P10P11P12P15eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil) = 5) by (apply LP6P7P8P9P10P11P12P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10P11P12P15Mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil) <= 5) by (solve_hyps_max HP6P7P8P9P10P11P12P15eq HP6P7P8P9P10P11P12P15M5).
-	try assert(HP6P7P8P9P10eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) = 5) by (apply LP6P7P8P9P10 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) >= 5) by (solve_hyps_min HP6P7P8P9P10eq HP6P7P8P9P10m5).
-	assert(Hincl : incl (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (list_inter (P6 :: P7 :: P8 :: P9 :: P10 :: P13 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P13 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P6 :: P7 :: P8 :: P9 :: P10 :: P13 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil) ((P6 :: P7 :: P8 :: P9 :: P10 :: P13 :: nil) ++ (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P6 :: P7 :: P8 :: P9 :: P10 :: P13 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: nil) 5 5 5 HP6P7P8P9P10P13Mtmp HP6P7P8P9P10P11P12P15Mtmp HP6P7P8P9P10mtmp Hincl);
+	try assert(HApBpCpDpEpKeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: K :: nil) = 5) by (apply LApBpCpDpEpK with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpKMtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: K :: nil) <= 5) by (solve_hyps_max HApBpCpDpEpKeq HApBpCpDpEpKM5).
+	try assert(HApBpCpDpEpIJMeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil) = 5) by (apply LApBpCpDpEpIJM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpIJMMtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil) <= 5) by (solve_hyps_max HApBpCpDpEpIJMeq HApBpCpDpEpIJMM5).
+	try assert(HApBpCpDpEpeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) = 5) by (apply LApBpCpDpEp with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpmtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) >= 5) by (solve_hyps_min HApBpCpDpEpeq HApBpCpDpEpm5).
+	assert(Hincl : incl (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (list_inter (Ap :: Bp :: Cp :: Dp :: Ep :: K :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: K :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Ap :: Bp :: Cp :: Dp :: Ep :: K :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil) ((Ap :: Bp :: Cp :: Dp :: Ep :: K :: nil) ++ (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (Ap :: Bp :: Cp :: Dp :: Ep :: K :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: nil) 5 5 5 HApBpCpDpEpKMtmp HApBpCpDpEpIJMMtmp HApBpCpDpEpmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
-try clear HP6P7P8P9P10P13M1. try clear HP6P7P8P9P10P13M2. try clear HP6P7P8P9P10P13M3. try clear HP6P7P8P9P10P13M4. try clear HP6P7P8P9P10P13M5. try clear HP6P7P8P9P10P13M6. try clear HP6P7P8P9P10P13M7. try clear HP6P7P8P9P10P13m7. try clear HP6P7P8P9P10P13m6. try clear HP6P7P8P9P10P13m5. try clear HP6P7P8P9P10P13m4. try clear HP6P7P8P9P10P13m3. try clear HP6P7P8P9P10P13m2. try clear HP6P7P8P9P10P13m1. 
+try clear HApBpCpDpEpKM1. try clear HApBpCpDpEpKM2. try clear HApBpCpDpEpKM3. try clear HApBpCpDpEpKM4. try clear HApBpCpDpEpKM5. try clear HApBpCpDpEpKM6. try clear HApBpCpDpEpKM7. try clear HApBpCpDpEpKm7. try clear HApBpCpDpEpKm6. try clear HApBpCpDpEpKm5. try clear HApBpCpDpEpKm4. try clear HApBpCpDpEpKm3. try clear HApBpCpDpEpKm2. try clear HApBpCpDpEpKm1. 
 
-assert(HP6P7P8P9P10P11P12P13P15M : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP6P7P8P9P10P11P12P13P15m : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10P11P12P13P15eq HP6P7P8P9P10P11P12P13P15m1).
+assert(HApBpCpDpEpIJKMM : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HApBpCpDpEpIJKMm : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpIJKMeq HApBpCpDpEpIJKMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P11P12P13P14P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 ::  nil) = 5.
+Lemma LABCDEIJKLM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: I :: J :: K :: L :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour P1P2P3P4P5P11P12P13P14P15 requis par la preuve de (?)P1P2P3P4P5P11P12P13P14P15 pour la règle 1  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour P1P2P3P4P5P11P12P13P14P15 requis par la preuve de (?)P1P2P3P4P5P11P12P13P14P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour ABCDEIJKLM requis par la preuve de (?)ABCDEIJKLM pour la règle 1  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour ABCDEIJKLM requis par la preuve de (?)ABCDEIJKLM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP1P2P3P4P5P11P12P13P14P15m5 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) >= 5).
+assert(HABCDEIJKLMm5 : rk(A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil) >= 5).
 {
-	try assert(HP1P2P3P4P5eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) = 5) by (apply LP1P2P3P4P5 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 5) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m5).
+	try assert(HABCDEeq : rk(A :: B :: C :: D :: E :: nil) = 5) by (apply LABCDE with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEmtmp : rk(A :: B :: C :: D :: E :: nil) >= 5) by (solve_hyps_min HABCDEeq HABCDEm5).
 	assert(Hcomp : 5 <= 5) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) 5 5 HP1P2P3P4P5mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil) 5 5 HABCDEmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
-assert(HP1P2P3P4P5P11P12P13P14P15M5 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) <= 5).
+assert(HABCDEIJKLMM5 : rk(A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil) <= 5).
 {
-	try assert(HP1P2P3P4P5P14eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 :: nil) = 5) by (apply LP1P2P3P4P5P14 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P14Mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 :: nil) <= 5) by (solve_hyps_max HP1P2P3P4P5P14eq HP1P2P3P4P5P14M5).
-	try assert(HP1P2P3P4P5P11P12P13P15eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil) = 5) by (apply LP1P2P3P4P5P11P12P13P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P11P12P13P15Mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil) <= 5) by (solve_hyps_max HP1P2P3P4P5P11P12P13P15eq HP1P2P3P4P5P11P12P13P15M5).
-	try assert(HP1P2P3P4P5eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) = 5) by (apply LP1P2P3P4P5 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 5) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m5).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (list_inter (P1 :: P2 :: P3 :: P4 :: P5 :: P14 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P14 :: P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P14 :: P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil) ((P1 :: P2 :: P3 :: P4 :: P5 :: P14 :: nil) ++ (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P1 :: P2 :: P3 :: P4 :: P5 :: P14 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P15 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: nil) 5 5 5 HP1P2P3P4P5P14Mtmp HP1P2P3P4P5P11P12P13P15Mtmp HP1P2P3P4P5mtmp Hincl);
+	try assert(HABCDELeq : rk(A :: B :: C :: D :: E :: L :: nil) = 5) by (apply LABCDEL with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDELMtmp : rk(A :: B :: C :: D :: E :: L :: nil) <= 5) by (solve_hyps_max HABCDELeq HABCDELM5).
+	try assert(HABCDEIJKMeq : rk(A :: B :: C :: D :: E :: I :: J :: K :: M :: nil) = 5) by (apply LABCDEIJKM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEIJKMMtmp : rk(A :: B :: C :: D :: E :: I :: J :: K :: M :: nil) <= 5) by (solve_hyps_max HABCDEIJKMeq HABCDEIJKMM5).
+	try assert(HABCDEeq : rk(A :: B :: C :: D :: E :: nil) = 5) by (apply LABCDE with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEmtmp : rk(A :: B :: C :: D :: E :: nil) >= 5) by (solve_hyps_min HABCDEeq HABCDEm5).
+	assert(Hincl : incl (A :: B :: C :: D :: E :: nil) (list_inter (A :: B :: C :: D :: E :: L :: nil) (A :: B :: C :: D :: E :: I :: J :: K :: M :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil) (A :: B :: C :: D :: E :: L :: A :: B :: C :: D :: E :: I :: J :: K :: M :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (A :: B :: C :: D :: E :: L :: A :: B :: C :: D :: E :: I :: J :: K :: M :: nil) ((A :: B :: C :: D :: E :: L :: nil) ++ (A :: B :: C :: D :: E :: I :: J :: K :: M :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (A :: B :: C :: D :: E :: L :: nil) (A :: B :: C :: D :: E :: I :: J :: K :: M :: nil) (A :: B :: C :: D :: E :: nil) 5 5 5 HABCDELMtmp HABCDEIJKMMtmp HABCDEmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
-try clear HP1P2P3P4P5P14M1. try clear HP1P2P3P4P5P14M2. try clear HP1P2P3P4P5P14M3. try clear HP1P2P3P4P5P14M4. try clear HP1P2P3P4P5P14M5. try clear HP1P2P3P4P5P14M6. try clear HP1P2P3P4P5P14M7. try clear HP1P2P3P4P5P14m7. try clear HP1P2P3P4P5P14m6. try clear HP1P2P3P4P5P14m5. try clear HP1P2P3P4P5P14m4. try clear HP1P2P3P4P5P14m3. try clear HP1P2P3P4P5P14m2. try clear HP1P2P3P4P5P14m1. 
+try clear HABCDELM1. try clear HABCDELM2. try clear HABCDELM3. try clear HABCDELM4. try clear HABCDELM5. try clear HABCDELM6. try clear HABCDELM7. try clear HABCDELm7. try clear HABCDELm6. try clear HABCDELm5. try clear HABCDELm4. try clear HABCDELm3. try clear HABCDELm2. try clear HABCDELm1. 
 
-assert(HP1P2P3P4P5P11P12P13P14P15M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P11P12P13P14P15m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P11P12P13P14P15eq HP1P2P3P4P5P11P12P13P14P15m1).
+assert(HABCDEIJKLMM : rk(A :: B :: C :: D :: E :: I :: J :: K :: L :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEIJKLMm : rk(A :: B :: C :: D :: E :: I :: J :: K :: L :: M ::  nil) >= 1) by (solve_hyps_min HABCDEIJKLMeq HABCDEIJKLMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP6P7P8P9P10P11P12P13P14P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 ::  nil) = 5.
+Lemma LApBpCpDpEpIJKLM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M ::  nil) = 5.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour P6P7P8P9P10P11P12P13P14P15 requis par la preuve de (?)P6P7P8P9P10P11P12P13P14P15 pour la règle 1  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour P6P7P8P9P10P11P12P13P14P15 requis par la preuve de (?)P6P7P8P9P10P11P12P13P14P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour ApBpCpDpEpIJKLM requis par la preuve de (?)ApBpCpDpEpIJKLM pour la règle 1  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour ApBpCpDpEpIJKLM requis par la preuve de (?)ApBpCpDpEpIJKLM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP6P7P8P9P10P11P12P13P14P15m5 : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) >= 5).
+assert(HApBpCpDpEpIJKLMm5 : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) >= 5).
 {
-	try assert(HP6P7P8P9P10eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) = 5) by (apply LP6P7P8P9P10 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) >= 5) by (solve_hyps_min HP6P7P8P9P10eq HP6P7P8P9P10m5).
+	try assert(HApBpCpDpEpeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) = 5) by (apply LApBpCpDpEp with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpmtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) >= 5) by (solve_hyps_min HApBpCpDpEpeq HApBpCpDpEpm5).
 	assert(Hcomp : 5 <= 5) by (repeat constructor).
-	assert(Hincl : incl (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) 5 5 HP6P7P8P9P10mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) 5 5 HApBpCpDpEpmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
-assert(HP6P7P8P9P10P11P12P13P14P15M5 : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) <= 5).
+assert(HApBpCpDpEpIJKLMM5 : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) <= 5).
 {
-	try assert(HP6P7P8P9P10P14eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 :: nil) = 5) by (apply LP6P7P8P9P10P14 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10P14Mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 :: nil) <= 5) by (solve_hyps_max HP6P7P8P9P10P14eq HP6P7P8P9P10P14M5).
-	try assert(HP6P7P8P9P10P11P12P13P15eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil) = 5) by (apply LP6P7P8P9P10P11P12P13P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10P11P12P13P15Mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil) <= 5) by (solve_hyps_max HP6P7P8P9P10P11P12P13P15eq HP6P7P8P9P10P11P12P13P15M5).
-	try assert(HP6P7P8P9P10eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) = 5) by (apply LP6P7P8P9P10 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: nil) >= 5) by (solve_hyps_min HP6P7P8P9P10eq HP6P7P8P9P10m5).
-	assert(Hincl : incl (P6 :: P7 :: P8 :: P9 :: P10 :: nil) (list_inter (P6 :: P7 :: P8 :: P9 :: P10 :: P14 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P14 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P6 :: P7 :: P8 :: P9 :: P10 :: P14 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil) ((P6 :: P7 :: P8 :: P9 :: P10 :: P14 :: nil) ++ (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P6 :: P7 :: P8 :: P9 :: P10 :: P14 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: nil) 5 5 5 HP6P7P8P9P10P14Mtmp HP6P7P8P9P10P11P12P13P15Mtmp HP6P7P8P9P10mtmp Hincl);
+	try assert(HApBpCpDpEpLeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: L :: nil) = 5) by (apply LApBpCpDpEpL with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpLMtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: L :: nil) <= 5) by (solve_hyps_max HApBpCpDpEpLeq HApBpCpDpEpLM5).
+	try assert(HApBpCpDpEpIJKMeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil) = 5) by (apply LApBpCpDpEpIJKM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpIJKMMtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil) <= 5) by (solve_hyps_max HApBpCpDpEpIJKMeq HApBpCpDpEpIJKMM5).
+	try assert(HApBpCpDpEpeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) = 5) by (apply LApBpCpDpEp with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpmtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: nil) >= 5) by (solve_hyps_min HApBpCpDpEpeq HApBpCpDpEpm5).
+	assert(Hincl : incl (Ap :: Bp :: Cp :: Dp :: Ep :: nil) (list_inter (Ap :: Bp :: Cp :: Dp :: Ep :: L :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: L :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Ap :: Bp :: Cp :: Dp :: Ep :: L :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil) ((Ap :: Bp :: Cp :: Dp :: Ep :: L :: nil) ++ (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (Ap :: Bp :: Cp :: Dp :: Ep :: L :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: nil) 5 5 5 HApBpCpDpEpLMtmp HApBpCpDpEpIJKMMtmp HApBpCpDpEpmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
-try clear HP6P7P8P9P10P14M1. try clear HP6P7P8P9P10P14M2. try clear HP6P7P8P9P10P14M3. try clear HP6P7P8P9P10P14M4. try clear HP6P7P8P9P10P14M5. try clear HP6P7P8P9P10P14M6. try clear HP6P7P8P9P10P14M7. try clear HP6P7P8P9P10P14m7. try clear HP6P7P8P9P10P14m6. try clear HP6P7P8P9P10P14m5. try clear HP6P7P8P9P10P14m4. try clear HP6P7P8P9P10P14m3. try clear HP6P7P8P9P10P14m2. try clear HP6P7P8P9P10P14m1. 
+try clear HApBpCpDpEpLM1. try clear HApBpCpDpEpLM2. try clear HApBpCpDpEpLM3. try clear HApBpCpDpEpLM4. try clear HApBpCpDpEpLM5. try clear HApBpCpDpEpLM6. try clear HApBpCpDpEpLM7. try clear HApBpCpDpEpLm7. try clear HApBpCpDpEpLm6. try clear HApBpCpDpEpLm5. try clear HApBpCpDpEpLm4. try clear HApBpCpDpEpLm3. try clear HApBpCpDpEpLm2. try clear HApBpCpDpEpLm1. 
 
-assert(HP6P7P8P9P10P11P12P13P14P15M : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP6P7P8P9P10P11P12P13P14P15m : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 ::  nil) >= 1) by (solve_hyps_min HP6P7P8P9P10P11P12P13P14P15eq HP6P7P8P9P10P11P12P13P14P15m1).
+assert(HApBpCpDpEpIJKLMM : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HApBpCpDpEpIJKLMm : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M ::  nil) >= 1) by (solve_hyps_min HApBpCpDpEpIJKLMeq HApBpCpDpEpIJKLMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 ::  nil) = 6.
+Lemma LABCDEApBpCpDpEpIJKLM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M ::  nil) = 6.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour P1P2P3P4P5P6P7P8P9P10P11P12P13P14P15 requis par la preuve de (?)P1P2P3P4P5P6P7P8P9P10P11P12P13P14P15 pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour P1P2P3P4P5P6P7P8P9P10P11P12P13P14P15 requis par la preuve de (?)P1P2P3P4P5P6P7P8P9P10P11P12P13P14P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 5 <= rg <= 6 pour ABCDEApBpCpDpEpIJKLM requis par la preuve de (?)ABCDEApBpCpDpEpIJKLM pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 6 pour ABCDEApBpCpDpEpIJKLM requis par la preuve de (?)ABCDEApBpCpDpEpIJKLM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15m5 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) >= 5).
+assert(HABCDEApBpCpDpEpIJKLMm5 : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) >= 5).
 {
-	try assert(HP1P2P3P4P5eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) = 5) by (apply LP1P2P3P4P5 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: nil) >= 5) by (solve_hyps_min HP1P2P3P4P5eq HP1P2P3P4P5m5).
+	try assert(HABCDEeq : rk(A :: B :: C :: D :: E :: nil) = 5) by (apply LABCDE with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEmtmp : rk(A :: B :: C :: D :: E :: nil) >= 5) by (solve_hyps_min HABCDEeq HABCDEm5).
 	assert(Hcomp : 5 <= 5) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: P4 :: P5 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) 5 5 HP1P2P3P4P5mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (A :: B :: C :: D :: E :: nil) (A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) 5 5 HABCDEmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15m6 : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) >= 6).
+assert(HABCDEApBpCpDpEpIJKLMm6 : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) >= 6).
 {
-	try assert(HP1P2P3P4P5P6P7P8P9P10eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: nil) = 6) by (apply LP1P2P3P4P5P6P7P8P9P10 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P6P7P8P9P10mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: nil) >= 6) by (solve_hyps_min HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10m6).
+	try assert(HABCDEApBpCpDpEpeq : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: nil) = 6) by (apply LABCDEApBpCpDpEp with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEApBpCpDpEpmtmp : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: nil) >= 6) by (solve_hyps_min HABCDEApBpCpDpEpeq HABCDEApBpCpDpEpm6).
 	assert(Hcomp : 6 <= 6) by (repeat constructor).
-	assert(Hincl : incl (P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) 6 6 HP1P2P3P4P5P6P7P8P9P10mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: nil) (A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: nil) (A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) 6 6 HABCDEApBpCpDpEpmtmp Hcomp Hincl);apply HT.
 }
-try clear HP1P2P3P4P5P6P7P8P9P10M1. try clear HP1P2P3P4P5P6P7P8P9P10M2. try clear HP1P2P3P4P5P6P7P8P9P10M3. try clear HP1P2P3P4P5P6P7P8P9P10M4. try clear HP1P2P3P4P5P6P7P8P9P10M5. try clear HP1P2P3P4P5P6P7P8P9P10M6. try clear HP1P2P3P4P5P6P7P8P9P10M7. try clear HP1P2P3P4P5P6P7P8P9P10m7. try clear HP1P2P3P4P5P6P7P8P9P10m6. try clear HP1P2P3P4P5P6P7P8P9P10m5. try clear HP1P2P3P4P5P6P7P8P9P10m4. try clear HP1P2P3P4P5P6P7P8P9P10m3. try clear HP1P2P3P4P5P6P7P8P9P10m2. try clear HP1P2P3P4P5P6P7P8P9P10m1. 
+try clear HABCDEApBpCpDpEpM1. try clear HABCDEApBpCpDpEpM2. try clear HABCDEApBpCpDpEpM3. try clear HABCDEApBpCpDpEpM4. try clear HABCDEApBpCpDpEpM5. try clear HABCDEApBpCpDpEpM6. try clear HABCDEApBpCpDpEpM7. try clear HABCDEApBpCpDpEpm7. try clear HABCDEApBpCpDpEpm6. try clear HABCDEApBpCpDpEpm5. try clear HABCDEApBpCpDpEpm4. try clear HABCDEApBpCpDpEpm3. try clear HABCDEApBpCpDpEpm2. try clear HABCDEApBpCpDpEpm1. 
 
-assert(HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15M : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 ::  nil) <= 6) by (apply rk_upper_dim).
-assert(HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15m : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 ::  nil) >= 1) by (solve_hyps_min HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15eq HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15m1).
+assert(HABCDEApBpCpDpEpIJKLMM : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M ::  nil) <= 6) by (apply rk_upper_dim).
+assert(HABCDEApBpCpDpEpIJKLMm : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M ::  nil) >= 1) by (solve_hyps_min HABCDEApBpCpDpEpIJKLMeq HABCDEApBpCpDpEpIJKLMm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LP11P12P13P14P15 : forall P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 ,
-rk(P1 :: P2 :: P3 :: P4 :: P5 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 ::  nil) = 6 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P12 ::  nil) = 5 ->
-rk(P6 :: P7 :: P8 :: P9 :: P10 :: P12 ::  nil) = 5 -> rk(P1 :: P2 :: P3 :: P4 :: P5 :: P13 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P13 ::  nil) = 5 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P14 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P14 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P14 ::  nil) = 4 ->
-rk(P1 :: P2 :: P3 :: P4 :: P5 :: P15 ::  nil) = 5 -> rk(P6 :: P7 :: P8 :: P9 :: P10 :: P15 ::  nil) = 5 -> rk(P11 :: P12 :: P13 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P14 :: P15 ::  nil) = 4 -> rk(P11 :: P13 :: P14 :: P15 ::  nil) = 4 -> rk(P12 :: P13 :: P14 :: P15 ::  nil) = 4 ->
-rk(P11 :: P12 :: P13 :: P14 :: P15 ::  nil) = 4.
+Lemma LIJKLM : forall A B C D E Ap Bp Cp Dp Ep I J K L M ,
+rk(A :: B :: C :: D :: E ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep ::  nil) = 6 ->
+rk(A :: B :: C :: D :: E :: I ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: I ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: J ::  nil) = 5 ->
+rk(Ap :: Bp :: Cp :: Dp :: Ep :: J ::  nil) = 5 -> rk(A :: B :: C :: D :: E :: K ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: K ::  nil) = 5 ->
+rk(A :: B :: C :: D :: E :: L ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: L ::  nil) = 5 -> rk(I :: J :: K :: L ::  nil) = 4 ->
+rk(A :: B :: C :: D :: E :: M ::  nil) = 5 -> rk(Ap :: Bp :: Cp :: Dp :: Ep :: M ::  nil) = 5 -> rk(I :: J :: K :: M ::  nil) = 4 ->
+rk(I :: J :: L :: M ::  nil) = 4 -> rk(I :: K :: L :: M ::  nil) = 4 -> rk(J :: K :: L :: M ::  nil) = 4 ->
+rk(I :: J :: K :: L :: M ::  nil) = 4.
 Proof.
 
-intros P1 P2 P3 P4 P5 P6 P7 P8 P9 P10 P11 P12 P13 P14 P15 
-HP1P2P3P4P5eq HP6P7P8P9P10eq HP1P2P3P4P5P6P7P8P9P10eq HP1P2P3P4P5P11eq HP6P7P8P9P10P11eq HP1P2P3P4P5P12eq HP6P7P8P9P10P12eq HP1P2P3P4P5P13eq HP6P7P8P9P10P13eq HP1P2P3P4P5P14eq
-HP6P7P8P9P10P14eq HP11P12P13P14eq HP1P2P3P4P5P15eq HP6P7P8P9P10P15eq HP11P12P13P15eq HP11P12P14P15eq HP11P13P14P15eq HP12P13P14P15eq .
+intros A B C D E Ap Bp Cp Dp Ep I J K L M 
+HABCDEeq HApBpCpDpEpeq HABCDEApBpCpDpEpeq HABCDEIeq HApBpCpDpEpIeq HABCDEJeq HApBpCpDpEpJeq HABCDEKeq HApBpCpDpEpKeq HABCDELeq
+HApBpCpDpEpLeq HIJKLeq HABCDEMeq HApBpCpDpEpMeq HIJKMeq HIJLMeq HIKLMeq HJKLMeq .
 
-(* dans constructProofaux(), preuve de 4 <= rg <= 5 pour P11P12P13P14P15 requis par la preuve de (?)P11P12P13P14P15 pour la règle 3  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 5 pour P11P12P13P14P15 requis par la preuve de (?)P11P12P13P14P15 pour la règle 5  *)
+(* dans constructProofaux(), preuve de 4 <= rg <= 5 pour IJKLM requis par la preuve de (?)IJKLM pour la règle 3  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 5 pour IJKLM requis par la preuve de (?)IJKLM pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HP11P12P13P14P15m4 : rk(P11 :: P12 :: P13 :: P14 :: P15 :: nil) >= 4).
+assert(HIJKLMm4 : rk(I :: J :: K :: L :: M :: nil) >= 4).
 {
-	try assert(HP11P12P13P14eq : rk(P11 :: P12 :: P13 :: P14 :: nil) = 4) by (apply LP11P12P13P14 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP11P12P13P14mtmp : rk(P11 :: P12 :: P13 :: P14 :: nil) >= 4) by (solve_hyps_min HP11P12P13P14eq HP11P12P13P14m4).
+	try assert(HIJKLeq : rk(I :: J :: K :: L :: nil) = 4) by (apply LIJKL with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HIJKLmtmp : rk(I :: J :: K :: L :: nil) >= 4) by (solve_hyps_min HIJKLeq HIJKLm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P11 :: P12 :: P13 :: P14 :: nil) (P11 :: P12 :: P13 :: P14 :: P15 :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P11 :: P12 :: P13 :: P14 :: nil) (P11 :: P12 :: P13 :: P14 :: P15 :: nil) 4 4 HP11P12P13P14mtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (I :: J :: K :: L :: nil) (I :: J :: K :: L :: M :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (I :: J :: K :: L :: nil) (I :: J :: K :: L :: M :: nil) 4 4 HIJKLmtmp Hcomp Hincl);apply HT.
 }
-try clear HP11P12P13P14M1. try clear HP11P12P13P14M2. try clear HP11P12P13P14M3. try clear HP11P12P13P14M4. try clear HP11P12P13P14M5. try clear HP11P12P13P14M6. try clear HP11P12P13P14M7. try clear HP11P12P13P14m7. try clear HP11P12P13P14m6. try clear HP11P12P13P14m5. try clear HP11P12P13P14m4. try clear HP11P12P13P14m3. try clear HP11P12P13P14m2. try clear HP11P12P13P14m1. 
+try clear HIJKLM1. try clear HIJKLM2. try clear HIJKLM3. try clear HIJKLM4. try clear HIJKLM5. try clear HIJKLM6. try clear HIJKLM7. try clear HIJKLm7. try clear HIJKLm6. try clear HIJKLm5. try clear HIJKLm4. try clear HIJKLm3. try clear HIJKLm2. try clear HIJKLm1. 
 
 (* Application de la règle 3 code (6 dans la thèse) *)
 (* marque des antécédents A B AUB: 4 4 et 4*)
-assert(HP11P12P13P14P15M4 : rk(P11 :: P12 :: P13 :: P14 :: P15 :: nil) <= 4).
+assert(HIJKLMM4 : rk(I :: J :: K :: L :: M :: nil) <= 4).
 {
-	try assert(HP1P2P3P4P5P11P12P13P14P15eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) = 5) by (apply LP1P2P3P4P5P11P12P13P14P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P11P12P13P14P15Mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) <= 5) by (solve_hyps_max HP1P2P3P4P5P11P12P13P14P15eq HP1P2P3P4P5P11P12P13P14P15M5).
-	try assert(HP6P7P8P9P10P11P12P13P14P15eq : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) = 5) by (apply LP6P7P8P9P10P11P12P13P14P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP6P7P8P9P10P11P12P13P14P15Mtmp : rk(P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) <= 5) by (solve_hyps_max HP6P7P8P9P10P11P12P13P14P15eq HP6P7P8P9P10P11P12P13P14P15M5).
-	try assert(HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15eq : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) = 6) by (apply LP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15 with (P1 := P1) (P2 := P2) (P3 := P3) (P4 := P4) (P5 := P5) (P6 := P6) (P7 := P7) (P8 := P8) (P9 := P9) (P10 := P10) (P11 := P11) (P12 := P12) (P13 := P13) (P14 := P14) (P15 := P15) ;try assumption).
-	assert(HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15mtmp : rk(P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) >= 6) by (solve_hyps_min HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15eq HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15m6).
-	assert(Hincl : incl (P11 :: P12 :: P13 :: P14 :: P15 :: nil) (list_inter (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) ((P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) ++ (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15mtmp;try rewrite HT2 in HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15mtmp.
-	assert(HT := rule_3 (P1 :: P2 :: P3 :: P4 :: P5 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) (P6 :: P7 :: P8 :: P9 :: P10 :: P11 :: P12 :: P13 :: P14 :: P15 :: nil) (P11 :: P12 :: P13 :: P14 :: P15 :: nil) 5 5 6 HP1P2P3P4P5P11P12P13P14P15Mtmp HP6P7P8P9P10P11P12P13P14P15Mtmp HP1P2P3P4P5P6P7P8P9P10P11P12P13P14P15mtmp Hincl);apply HT.
+	try assert(HABCDEIJKLMeq : rk(A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil) = 5) by (apply LABCDEIJKLM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEIJKLMMtmp : rk(A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil) <= 5) by (solve_hyps_max HABCDEIJKLMeq HABCDEIJKLMM5).
+	try assert(HApBpCpDpEpIJKLMeq : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) = 5) by (apply LApBpCpDpEpIJKLM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HApBpCpDpEpIJKLMMtmp : rk(Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) <= 5) by (solve_hyps_max HApBpCpDpEpIJKLMeq HApBpCpDpEpIJKLMM5).
+	try assert(HABCDEApBpCpDpEpIJKLMeq : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) = 6) by (apply LABCDEApBpCpDpEpIJKLM with (A := A) (B := B) (C := C) (D := D) (E := E) (Ap := Ap) (Bp := Bp) (Cp := Cp) (Dp := Dp) (Ep := Ep) (I := I) (J := J) (K := K) (L := L) (M := M) ;try assumption).
+	assert(HABCDEApBpCpDpEpIJKLMmtmp : rk(A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) >= 6) by (solve_hyps_min HABCDEApBpCpDpEpIJKLMeq HABCDEApBpCpDpEpIJKLMm6).
+	assert(Hincl : incl (I :: J :: K :: L :: M :: nil) (list_inter (A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (A :: B :: C :: D :: E :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) (A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) ((A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil) ++ (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HABCDEApBpCpDpEpIJKLMmtmp;try rewrite HT2 in HABCDEApBpCpDpEpIJKLMmtmp.
+	assert(HT := rule_3 (A :: B :: C :: D :: E :: I :: J :: K :: L :: M :: nil) (Ap :: Bp :: Cp :: Dp :: Ep :: I :: J :: K :: L :: M :: nil) (I :: J :: K :: L :: M :: nil) 5 5 6 HABCDEIJKLMMtmp HApBpCpDpEpIJKLMMtmp HABCDEApBpCpDpEpIJKLMmtmp Hincl);apply HT.
 }
 
 
-assert(HP11P12P13P14P15M : rk(P11 :: P12 :: P13 :: P14 :: P15 ::  nil) <= 5) by (solve_hyps_max HP11P12P13P14P15eq HP11P12P13P14P15M5).
-assert(HP11P12P13P14P15m : rk(P11 :: P12 :: P13 :: P14 :: P15 ::  nil) >= 1) by (solve_hyps_min HP11P12P13P14P15eq HP11P12P13P14P15m1).
+assert(HIJKLMM : rk(I :: J :: K :: L :: M ::  nil) <= 5) (* dim : 5 *) by (solve_hyps_max HIJKLMeq HIJKLMM5).
+assert(HIJKLMm : rk(I :: J :: K :: L :: M ::  nil) >= 1) by (solve_hyps_min HIJKLMeq HIJKLMm1).
 intuition.
 Qed.
 
