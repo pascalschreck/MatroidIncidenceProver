@@ -1,6 +1,8 @@
+# version alternative de DG2Pappus 
+# (l'existence du point R est justifiéé ailleurs)
+# on consif=dère tous les points (dans une autre version, on enlève P et Q)
 context
-    dimension # commentaire ici ?
-    3
+    dimension 3
     layers 1
 endofcontext
 layer donnees

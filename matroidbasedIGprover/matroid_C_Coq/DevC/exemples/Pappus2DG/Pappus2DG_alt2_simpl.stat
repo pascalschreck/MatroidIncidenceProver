@@ -4,7 +4,7 @@ context
 endofcontext
 layer donnees
     points
-         Oo A B C Ap Bp Cp X Y Z M N Sp T U V R
+         Oo A B C Ap Bp Cp X Y Z M N Sp T U V R # on ne met pas P et Q
     hypotheses
         Oo A : 2
         Oo B : 2
