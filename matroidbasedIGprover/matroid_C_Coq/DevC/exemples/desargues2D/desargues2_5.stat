@@ -1,0 +1,43 @@
+# Lemma desargues_3D : forall P Q R P’ Q’ R’ Oo alpha beta gamma : Point,
+# rk(P, P’) = 2 -> rk(Q, Q’) = 2 -> rk(R, R’) = 2 ->
+# rk(P, P’, O) = 2 -> rk(Q, Q’, O) = 2) -> rk(R, R’, O) = 2 ->
+# rk(P, Q, R) = 3 -> rk(P’, Q’, R’) = 3 -> rk(P, Q, R, P’, Q’, R’) = 4 ->
+# rk(P, Q, beta) = 2-> rk(P’, Q’, beta) = 2 ->
+# rk(P, R, alpha) = 2 -> rk(P’, R’, alpha) = 2 ->
+# rk(Q, R, gamma) = 2 -> rk(Q’, R’, gamma) = 2 ->
+# rk(alpha, beta, gamma) = 2.
+# - énoncé pas complet : voir ci-dessous
+context
+    dimension 3
+    layers 1
+endofcontext
+layer donnees
+    points P Q R Pp Qp Rp Oo alpha beta gamma # O tout seul fait bugger Coq :(((
+    hypotheses
+        P Pp : 2
+        Q Qp : 2
+        R Rp : 2
+        P Pp Oo : 2
+        Q Qp Oo : 2
+        R Rp Oo : 2
+        Oo P : 2
+        Oo Pp : 2
+        Oo Q : 2
+        Oo Qp : 2
+        Oo R : 2
+        Oo Rp : 2
+        P Q R : 3
+        Pp Qp Rp : 3
+        P Q R Pp Qp Rp : 4     # independence
+        P Q beta : 2           # alpha, beta, gamma definitions
+        Pp Qp beta : 2
+        P R alpha : 2
+        Pp Rp alpha : 2
+        Q R gamma : 2
+        Qp Rp gamma : 2
+    conclusion
+        alpha beta gamma : 2
+endoflayer 
+conclusion
+    alpha beta gamma : 2
+end

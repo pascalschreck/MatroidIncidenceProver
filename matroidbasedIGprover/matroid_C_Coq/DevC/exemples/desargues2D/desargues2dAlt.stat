@@ -1,0 +1,80 @@
+# Lemma desargues_2D : forall P Q R P’ Q’ R’ P’’ Q’’ R’’ O’ O Sc alpha beta gamma : Point,
+# rk(P, P’) = 2 -> rk(Q, Q’) = 2 -> rk(R, R’) = 2 ->
+# rk(P, P’, O) = 2 -> rk(Q, Q’, O) = 2) -> rk(R, R’, O) = 2 ->
+# rk(P, Q, R) = 3 -> rk(P’, Q’, R’) = 3 -> rk(P, Q, R, P’, Q’, R’, O’) = 3 ->
+# rk(P, Q, R, S) = 4 -> rk(P, Q, R, O) = 4 ->
+# rk(S, O) = 2 -> rk(O’, O, S) = 2 ->
+# rk(P, P’’, O) = 2 -> rk(Q, Q’’, O) = 2 -> rk(R, R’’, O) = 2 ->
+# rk(P’, P’’, S) = 2 -> rk(Q’, Q’’, S) = 2 -> rk(R’, R’’, S) = 2 ->
+# rk(P, Q, beta) = 2 -> rk(P’’, Q’’, beta) ->
+# rk(P, R, alpha) = 2 -> rk(P’’, R’’, alpha) ->
+# rk(Q, R, gamma) = 2 -> rk(Q’’, R’’, gamma) ->
+# rk(alpha, beta, gamma) = 2.
+# -
+context
+    dimension 3
+    layers 1
+endofcontext
+layer donnees
+    points P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
+                # O tout seul fait bugger Coq :(((
+                # ... et Sc aussi :((((((((
+    hypotheses
+        P Q R : 3
+        P Q Pp : 3
+        P Q Qp : 3
+        P Q Rp : 3
+        P Q Op : 3
+        P R Pp : 3
+        P R Qp : 3
+        P R Rp : 3
+        P R Op : 3
+        P Pp Qp : 3
+        P Pp Rp : 3
+        P Pp Op : 2             # 1 alignement
+        P Qp Rp : 3
+        P Qp Op : 3
+        P Rp Op : 3             # fin P
+        Q R Pp : 3
+        Q R Qp : 3
+        Q R Rp : 3
+        Q R Op : 3
+        Q Pp Qp : 3 
+        Q Pp Rp : 3 
+        Q Pp Op : 3
+        Q Qp Rp : 3
+        Q Qp Op : 2              # 1 alignement
+        Q Rp Op : 3             # fin Q
+        R Pp Qp : 3
+        R Pp Rp : 3
+        R Pp Op : 3
+        R Qp Rp : 3
+        R Qp Op : 3
+        R Rp Op : 2              # 1 alignement, fin R
+        Pp Qp Rp : 3
+        Pp Qp Op : 3
+        Pp Rp Op : 3            # fin Pp
+        Qp Rp Op : 3
+        P  Q  R Pp Qp Rp Op : 3 # coplanarité de la figure de base
+        P  Q  R  Sc : 4          # on choisit Sc hors du plan P Q R
+        P  Q  R  Oo : 4         # on choisit Oo
+        Oo Sc : 2                # Sc et Oo sont différents
+        Op  Oo  Sc : 2           # et alignés avec Op
+        Ps P  Oo : 2            # définition de Ps
+        Ps Pp  Sc : 2
+        Qs Q  Oo : 2            # définition de Qs
+        Qs Qp  Sc : 2
+        Rs R  Oo : 2            # definition de Rs
+        Rs Rp  Sc : 2 
+        P  R  alpha : 2       # definition de alpha
+        Pp Rp  alpha : 2
+        Q  R beta : 2         # definition de beta
+        Qp Rp  beta : 2 
+        P  Q gamma : 2        # definition de gamma
+        Pp Qp  gamma : 2
+    conclusion
+        alpha beta gamma : 2
+endoflayer 
+conclusion
+    alpha beta gamma : 2
+end
