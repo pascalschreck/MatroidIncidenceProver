@@ -1,0 +1,55 @@
+# fichier desargues3D_xconc.stat
+context
+   dimension  3 
+   layers   1
+endofcontext
+layer triangles
+  points
+    Oo A B C Ap Bp Cp ab ac bc D Dp ad bd cd
+  hypotheses
+    Oo A B C : 4
+    Oo Ap Bp Cp : 4
+    Ap A B C : 4
+    Bp A B C : 4
+    Cp A B C : 4
+    Oo A Ap : 2
+    Oo B Bp : 2
+    Oo C Cp : 2
+    A B ab : 2
+    Ap Bp ab : 2
+    A C ac : 2
+    Ap Cp ac : 2
+    B C bc : 2
+    Bp Cp bc : 2
+    A B C D : 4
+    Ap Bp Cp Dp : 4
+    Oo A B C : 4
+    Oo A B D : 4
+    Oo A C D : 4
+    Oo B C D : 4
+    Oo Ap Bp Dp : 4
+    Oo Ap Cp Dp : 4
+    Oo Bp Cp Dp : 4
+    Dp B C D : 4
+    Dp A C D : 4
+    Dp A B D : 4
+    Oo D Dp : 2
+    ad A D : 2
+    ad Ap Dp : 2
+    bd B D : 2
+    bd Bp Dp : 2
+    cd C D : 2
+    cd Cp Dp : 2
+    Ap Bp Dp : 3
+    Ap Cp Dp : 3
+    Bp Cp Dp : 3
+conclusion
+    None
+endoflayer 
+conclusion
+    ab ac ad bc bd cd : 3
+    bc bd cd : 2
+    ac ad cd : 2
+    ab ad bd : 2
+    ab ac bc : 2
+end
