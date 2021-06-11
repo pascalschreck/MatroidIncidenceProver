@@ -10,10 +10,18 @@
 * tester plus en profondeur les raisonnements par contradiction (c'est un cas où la propagation de contrainte (avant ou arrière) pourrait bien fonctionner)
 * TODO regarder la perte de marquage et/ou de reconstruction de théorèmes qui seraient dus (?) à la gestion des couches de raisonnement.
 * TODO regarder le cas multi couche avec  le nouveu parcours pour construire la preuve.
-* TODO on peut facilement ajouter plusieurs conclusion : ça peut être utile pour prouver un théorème de Desargues assez complet en dim 3 et 4
+* TODO faire une sauvegarde du raisonnement complet dans un fichier "core dump" pour pouvoir ensuite reprendre ce fichier pour démontrer d'autres théorèmes avec la même configuration + éventuellement des conditions supplémentaires.
+
 
 ### In progress
+Permettre des conclusions plus compliquées que la simple valeur d'un rang dans un théorème :
+* TODO on peut facilement ajouter plusieurs conclusion : ça peut être utile pour prouver un théorème de Desargues assez complet en dim 3 et 4
 
+Reprise après plusieurs mois. Cela devrait pouvoir être fait simplement :
+    * changer le format et le traitment des énoncés pour autoriser plusieurs conclusions
+    * lors de la saturation : vérifier que tous les termes de la conclusion ont été prouvés, sinon signaler les problèmes et éviter la construction de la preuve en Coq
+    * lors du marquage : faire du chaînage arrière pour marquer comme utilisé tous les antécédents de tous les termes de la conclusion
+    * la reconstrucion de la preuve en Coq devrait se faire de la même manière avec la technique de mettre systématiquement des bouts de preuves en Lemmes.
 
 ### Done
 * les commentaires vides font planter l'entrée
@@ -38,6 +46,7 @@
         4. examen des arguments pour preuves ... si les arguments sont encore au stade 1, on les marque à 2 ... mais ils ne sont pas sous fome de lemme sinon ils auraient le statut 1.
 
     Solution envisagée : différer l'écriture dans le fichier de la preuve jusqu'à ce que tous les pbs. des antécédents soient réglés. Cela peut se faire simplement en testant les antécédents avant d'écrire le lemme. 
+
 ## Couches (again)
 Lorsqu'on déclare plusieurs couche, chaque couche donne lieu à un graphe distinct des autres couches. Cela implique des
 opérations de recopie et de transfert d'information (notamment dans les marquages), mais cle n'est pas encore suffisant dans la version actuelle où des informtions sur les déducions sont oubliées.

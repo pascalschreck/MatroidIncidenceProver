@@ -81,10 +81,10 @@ int main(int argc, char * argv[])
     // pourrait être commenté
 
     // initialisation de variables liées à l'énoncé
-    int nb_layers = st->nb_layers;              // nombre de couche en principe < MAX_LAYERS
-    int nbp=0;                                  // nombre de points pour la couche courante
-    unsigned long long res;                     // conclusion pour la couche courante
-    unsigned long long resf=st->conclusion.set; // conclusion finale
+    int nb_layers = st->nb_layers;                  // nombre de couche en principe < MAX_LAYERS
+    int nbp=0;                                      // nombre de points pour la couche courante
+    unsigned long long res;                        // conclusion pour la couche courante
+    unsigned long long resf=st->conclusion[0].set; // 1er terme de la conclusion finale (compatibilité)
 
 	allocSize sizeTab = allocSizeTab(nb_layers,2); // tableau de structures pour gérer les couches
 	graph g[MAX_LAYERS];                           // tableau de graphe (rangés hiérarchiquement)
@@ -99,7 +99,7 @@ int main(int argc, char * argv[])
         cly = st->layers[iocl];
         fprintf(stderr,"-------------- initialisation couche %d (%s)\n\n",iocl,cly->name);
         nbp = cly->nbp;
-        res = cly->conclusion.set;
+        res = cly->conclusion.set;                  // n'est pas utilisé en fait
         g[iocl] = allocGraph(nbp);
         g[iocl].effectiveAllocPow = nbp;    
         g[iocl].effectiveSize = (1u<<nbp)-1;  
@@ -152,13 +152,19 @@ int main(int argc, char * argv[])
 
 	// exploration simple du fichier : on cherche le rang correspondant à la conclusion et
 	// les rangs des lignes supplémentaires
-	rewind(wp_out);
-	long long unsigned nw_line = st->conclusion.set;
-    resf = nw_line;
-	int srk = st->conclusion.rk;
-	char buf[255];
-	for(int j=0; j <= nw_line; j++) fgets(buf, 255, wp_out);
-	printf("conclusion (ligne %lld), rang attendu %d\n  %s\n", nw_line, srk, buf);
+
+    // modification juin 2021
+    // la conclusion est un ensemble de termes
+    for(int i=0; i < st->nbconc; i++)
+    {
+        rewind(wp_out);
+        long long unsigned nw_line = st->conclusion[i].set;
+        resf = nw_line;
+        int srk = st->conclusion[i].rk;
+        char buf[255];
+        for(int j=0; j <= nw_line; j++) fgets(buf, 255, wp_out);
+        printf("conclusion (ligne %lld), rang attendu %d\n  %s\n", nw_line, srk, buf);
+    }
 
 	for(int i=0;i< st->nbs; i++) // nbs : nombre de lignes supplémentaires
 		{	rewind(wp_out); 	// on revient à 0 parce qu'on est pas sûr que tous les suppléments sont
@@ -171,6 +177,12 @@ int main(int argc, char * argv[])
   fclose(wp_out);
 
 
+
+// TODO 
+// la conclusion est maintenant un ensemble de termes 
+// la suite n'a pas encore été traitée.
+//
+//
 
   	// on ouvre ensuite le fichier de sortie pour la preuve coq
 	// c'est soit le fichier standard, soit celui lu à la ligne de commande

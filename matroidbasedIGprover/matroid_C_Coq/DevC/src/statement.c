@@ -253,28 +253,35 @@ statement st_read(FILE *stat_name)
         {printf("syntax error : 'conclusion' expected instead of %s\n", buff); exit(1);}
 
     // reading conclusion
+    // modification : la conclusion est maintenant un ensemble de plusieurs termes
+    //                rangé dans un tableau de rangs, avec st->nbconc lignes occupées
     fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
-    if(!strcmp(buff,":")) 
-        {printf("syntax error : point name expected instead of %s\n",buff); exit(1);}
-    { int rk, nbp_rk;
-      unsigned long long set = 0ull;
-        for(nbp_rk = 0; nbp_rk < MAX_PPR && strcmp(buff,":"); nbp_rk++)
-        {
-            int ref = find_ref(buff,st);
-            if(ref==-1){printf("erreur in conclusion %s point non reconnu",buff); exit(2);}
-            st->conclusion.points[nbp_rk] = ref;
-            set = set | 1ull << ref;
-            fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
+    int nb_termes=0;
+    for(;nb_termes < MAX_RANKS && strcmp(buff,"supplements") && strcmp(buff,"end");nb_termes++)
+    {
+        if(!strcmp(buff,":")) 
+            {printf("syntax error : point name expected instead of %s\n",buff); exit(1);}
+        { int rk, nbp_rk;
+        unsigned long long set = 0ull;
+            for(nbp_rk = 0; nbp_rk < MAX_PPR && strcmp(buff,":"); nbp_rk++)
+            {
+                int ref = find_ref(buff,st);
+                if(ref==-1){printf("erreur in conclusion %s point non reconnu",buff); exit(2);}
+                st->conclusion.points[nbp_rk] = ref;
+                set = set | 1ull << ref;
+                fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
+            }
+            if(strcmp(buff,":")) 
+                {printf("syntax error : ':' expected instead of %s\n", buff); exit(1);}
+            fscanf(stat_name,"%d\n",&rk); st_comment(stat_name, buff);
+            if(rk > nbp_rk) {printf("error in conclusion : %d rank is too big in conclusion \n",rk), exit(1);}
+            st->conclusion[nb_termes].nbp = nbp_rk;
+            st->conclusion[nb_termes].set = set - 1;
+            st->conclusion[nb_termes].rk = rk;
         }
-        if(strcmp(buff,":")) 
-            {printf("syntax error : ':' expected instead of %s\n", buff); exit(1);}
-        fscanf(stat_name,"%d\n",&rk); st_comment(stat_name, buff);
-        if(rk > nbp_rk) {printf("error in conclusion : %d rank is too big in conclusion \n",rk), exit(1);}
-        st->conclusion.nbp = nbp_rk;
-        st->conclusion.set = set - 1;
-        st->conclusion.rk = rk;
+        fscanf(stat_name,"%s\n",buff);st_comment(stat_name, buff);
     }
-fscanf(stat_name,"%s\n",buff);st_comment(stat_name, buff);
+st->nbconc = nb_termes;
 // if(strcmp(buff,"supplements")) 
 //    {printf("syntax error : 'supplements' expected instead of %s\n",buff); exit(1);}
 if(!strcmp(buff,"supplements"))
@@ -364,13 +371,15 @@ void st_print(statement st)
     }
     printf("--------------------------------------------\n");
     printf("fin des couches\n");
-    
-    rang r = st->conclusion;
-      printf("conclusion (ensemble %llu): \n",r.set);   
-        for(int j=0; j < r.nbp; j++) printf("%s(%d) ", st->p_names[r.points[j]], r.points[j]);
-        printf(" devrait avoir pour rang %d\n", r.rk);
-      putchar('\n');
-
+    // modif PS juin 2021 : la conclusion est un tableau de rangs
+    for(int i=0; i< st->nbconc; i++)
+    {
+        rang r = st->conclusion[i];
+        printf("conclusion (ensemble %llu): \n",r.set);   
+            for(int j=0; j < r.nbp; j++) printf("%s(%d) ", st->p_names[r.points[j]], r.points[j]);
+            printf(" devrait avoir pour rang %d\n", r.rk);
+        putchar('\n');
+    }
       printf("supplements : %d\n", st->nbs);
      for(int i=0; i< st->nbs; i++)
         {
