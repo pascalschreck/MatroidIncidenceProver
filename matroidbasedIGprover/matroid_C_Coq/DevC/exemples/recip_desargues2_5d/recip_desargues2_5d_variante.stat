@@ -1,0 +1,35 @@
+# fichier recip_desargues2_5d.stat
+# énoncé :
+# soit deux triangles ABC et ApBpCp tels que 
+#    aucun point de l'un ne soit dans la plan défini par l'autre
+#    et A B Ap et Bp sont coplanaires
+#    et A C Ap et Cp sont coplanaires
+#    et B C Bp et Cp sont coplanaires
+#    ( ça n'intervient pas ici, mais alpha beta et gamma sont alignés)
+#    (alors AAp et BBp se coupent en un point Oo (Pasch)
+#    et alpha beta gamma lignés
+# alors Oo est aussi sur CCp  
+ context
+    dimension 3
+    layers 1
+endofcontext
+layer donnees
+    points A B C Ap Bp Cp Oo
+    hypotheses
+        A B C Ap : 4
+        A B C Bp : 4
+        A B C Cp : 4
+        Ap Bp Cp A : 4
+        Ap Bp Cp B : 4
+        Ap Bp Cp C : 4
+        A B Ap Bp : 3
+        A C Ap Cp : 3
+        B C Bp Cp : 3
+        A Ap Oo : 2
+        B Bp Oo : 2 
+    conclusion
+        None
+endoflayer 
+conclusion
+        C Cp Oo : 2
+end

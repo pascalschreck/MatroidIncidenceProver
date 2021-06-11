@@ -1,0 +1,43 @@
+# fichier harmonic.stat
+# énoncé pris dans la thèse traduit directement
+ context
+    dimension 3
+    layers 1
+endofcontext
+layer donnees
+    points A B C P Q R Pp Qp Rp U Up D Dp Oo
+    hypotheses
+        A B C : 2
+		A B : 2
+		A C : 2
+		B C : 2
+		P Q R : 3
+		Pp Qp Rp : 3
+		A B R Rp : 4
+		A B R : 3
+		A B Q : 3
+       # B P Q : 3   # ajoutés pour voir : ça élimine une des incertitudes mentionnées
+       # B Q R : 3   # mais la preuve reste correcte si on omet ces hypotheses
+		A Q R : 2
+		B P R : 2
+		C P Q : 2
+		A P U : 2
+		B Q U : 2
+		D R U : 2
+        A B Rp : 3
+		A B Qp : 3
+        A Qp Rp : 2
+		B Pp Rp : 2
+		C Pp Qp : 2
+		A Pp Up : 2
+		B Qp Up : 2
+		Dp Rp Up : 2
+		A B C D Dp : 2
+		P Pp Oo : 2
+		Q Qp Oo : 2
+    conclusion
+        D Dp : 1
+endoflayer 
+conclusion
+        D Dp : 1
+end

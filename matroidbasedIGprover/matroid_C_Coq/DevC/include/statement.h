@@ -36,7 +36,10 @@ typedef struct s_statement {                // un énoncé est en gros une suite
     int nbp;                                // nombre de point total
     layer layers[MAX_LAYERS];               // tableaux des différentes couches
     unsigned nb_layers;                          // nombre effectif de couches
-    rang conclusion;                        // rang codant la conclusion
+                                            // modif : on a maintenant (juin 2021) un tableau
+    rang conclusion[MAX_RANKS];             // de rangs codant les termes de la conclusion
+    int nbconc;                             // et ajout du nombre de termes dans la conclusion
+                                            // PS
     rang supp[MAX_RANKS];                   // rang supplémentaires à afficher à la fin
     int nbs;                                // nombre de ces "conclusion" supplémentaires
                                             // ces "conclusions" ne sont pas passées au solveur
