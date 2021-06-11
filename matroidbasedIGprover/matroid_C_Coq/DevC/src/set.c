@@ -1,6 +1,6 @@
 #include "set.h"
 
-// Variables golbales 
+// Variables globales 
 // attention surtout avec dim
 // (avant, c'était un define (pas terrible non plus))
 unsigned dim = 2; // default  

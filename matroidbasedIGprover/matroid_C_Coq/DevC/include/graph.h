@@ -2,7 +2,6 @@
 #define __GRAPH_H_
 
 #include "set.h"
-#include "maths_addon.h"
 
 typedef struct s_node s_node,*node;
 

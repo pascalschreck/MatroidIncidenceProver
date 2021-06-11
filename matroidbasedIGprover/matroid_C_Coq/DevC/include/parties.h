@@ -2,7 +2,13 @@
 #define __PARTIES_H_
 
 #include "graph.h"
-#include "maths_addon.h"
+
+// format d'écrite des noms des points
+// ABC pour avoir les noms de l'énoncé
+// P1P2 pour avoir comme nom P<numéro>
+#define ABC
+// #define P1P2
+
 
 #define R_ZERO(Node) ((Node))
 #define R_FIRST(Node) ((Node)->ante->n)
@@ -79,6 +85,9 @@ void constructProofaux (FILE* file, node n, myType res, allocSize tab, int previ
 void constructProof (FILE* file, node n, allocSize tab, int previousConstruct); 
 		// Fonction qui reconstruit la fin de la preuve de l'énoncé dans le fichier 
 		// file à partir du noeud n
+
+void printAllPoints(FILE *file, graph g);
+		// écrit dans file la liste de tous les points de g séparés par un espace
 
 void printSetFile (FILE* file, myType e); 
 		// Fonction qui reconstruit dans un fichier file un entier binaire e sous forme 

@@ -1,0 +1,94 @@
+# fichier trois_triangles_3d.stat
+# énoncé :
+# soit trois triangles ABC, ApBpCp et AsBsCs tels que 
+#    aucun point de l'un ne soit dans la plan défini par un autre
+#    et AB coupe ApBp en gamma
+#    et AB coupe AsBs en gamma
+#    et AC coupe ApCp en beta
+#    et AC coupe AsCs en beta
+#    et BC coupe BpCp en alpha
+#    et BC coupe BsCs en alpha
+#     (alors alpha beta et gamma sont alignés dans le plan ABC et ApBpCp et AsBsCs)
+#     (alors AAp et BBp se coupent en un point Oo (Pasch)
+#    et alpha beta gamma lignés
+# alors Oo est aussi sur CCp  
+ context
+    dimension 3
+    layers 1
+endofcontext
+layer donnees
+    points A B C Ap Bp Cp As Bs Cs alpha beta gamma Oo Op Os
+    hypotheses
+        A B C Ap : 4
+        A B C Bp : 4
+        A B C Cp : 4
+        A B C As : 4
+        A B C Bs : 4
+        A B C Cs : 4
+        Ap Bp Cp A : 4
+        Ap Bp Cp B : 4
+        Ap Bp Cp C : 4
+        Ap Bp Cp As : 4
+        Ap Bp Cp Bs : 4
+        Ap Bp Cp Cs : 4
+        As Bs Cs A : 4
+        As Bs Cs B : 4
+        As Bs Cs C : 4
+        As Bs Cs Ap : 4
+        As Bs Cs Bp : 4
+        As Bs Cs Cp : 4
+        A Ap As Bs : 4    # des cas de dégénéressence
+        A Ap Bs Cs : 4
+        A Ap As Cs : 4
+        A Bp As Bs : 4
+        A Bp Bs Cs : 4
+        A Bp Cs As : 4
+        A Cp As Bs : 4
+        A Cp Bs Cs : 4
+        A Cp Cs As : 4
+        B Ap As Bs : 4
+        B Ap Bs Cs : 4
+        B Ap Cs As : 4
+        B Bp As Bs : 4
+        B Bp Bs Cs : 4
+        B Bp Cs As : 4
+        B Cp As Bs : 4
+        B Cp Bs Cs : 4
+        B Cp Cs As : 4
+        C Ap As Bs : 4
+        C Ap Bs Cs : 4
+        C Ap Cs As : 4
+        C Bp As Bs : 4
+        C Bp Bs Cs : 4
+        C Bp Cs As : 4
+        C Cp As Bs : 4
+        C Cp Bs Cs : 4
+        C Cp Cs As : 4    # est-ce qu'il faut tout mettre ?
+        B C Ap As : 4       # ajout
+        B C Bp As : 4       # ajout
+        A B gamma : 2
+        Ap Bp gamma : 2
+        As Bs gamma : 2
+        A C beta : 2
+        Ap Cp beta : 2
+        As Cs beta : 2
+        B C alpha : 2
+        Bp Cp alpha : 2
+        Bs Cs alpha : 2
+        A Ap Os : 2
+        B Bp Os : 2 
+        A As Op : 2
+        B Bs Op : 2
+        Ap As Oo : 2
+        Bp Bs Oo : 2
+    conclusion
+        None
+endoflayer 
+conclusion
+       Oo Op Os : 2
+supplements
+        A B Ap : 3
+        C Cp Os : 2
+        C Cs Op : 2
+        Cp Cs Oo : 2
+end

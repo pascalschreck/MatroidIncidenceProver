@@ -1,0 +1,42 @@
+context
+    dimension 3
+    layers 1
+endofcontext
+layer donnees
+    points
+         A Ap B Bp C Cp R P Q N M L Np Mp Lp O alpha beta gamma
+    hypotheses
+    B Cp P L : 2        # line a 
+    Bp C P Lp : 2           # line ap 
+    Ap Q C M : 2            # line b 
+    A Q Cp Mp : 2           # line bp 
+    R A Bp N : 2            # line c 
+    R Ap B Np : 2          # line cp 
+    Ap B C Cp P Q : 4       # a & b 
+    A B Bp Cp P R : 4       # a & c 
+    A Ap Bp C  Q R : 4      # b & c 
+    A Bp C Cp P Q : 4       # ap & bp 
+    Ap B Bp C P R : 4       # ap & cp 
+    A Ap B Cp Q R : 4       # bp & cp 
+    N M L O : 2             # line e 
+    Np Mp Lp O : 2          # line e 
+    A Cp P Q B Mp : 3       # plane [a & bp] & Mp 
+    B Cp P Np Mp Lp : 4     # a & ep 
+    Ap C Q Np Mp Lp : 4     # b & ep 
+    A Bp R Np Mp Lp : 4     # c & ep 
+    Bp C P N M L : 4        # ap & e 
+    A Cp Q N M L : 4        # bp & e 
+    Ap B R N M L : 4        # cp & e 
+    N Lp alpha : 2 
+    Np L alpha : 2          # premier point Pappus 
+    Mp L beta : 2 
+    M Lp beta : 2           # deuxième point Pappus 
+    N Mp gamma : 2 
+    Np M gamma : 2          # troisième point Pappus 
+    alpha beta gamma : 2    # applic. de pappus
+    conclusion
+        A Cp Q Mp : 2
+endoflayer 
+conclusion
+    A Cp Q Mp : 2
+end 

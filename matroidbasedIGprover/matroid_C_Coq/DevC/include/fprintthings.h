@@ -5,7 +5,6 @@
 #include "parties.h"
 #include "set.h"
 #include "graph.h"
-#include"maths_addon.h"
 
 // Toutes les fonctions suivantes existent déjà dans une version
 // où l'affichage se fait sur la sortie standard

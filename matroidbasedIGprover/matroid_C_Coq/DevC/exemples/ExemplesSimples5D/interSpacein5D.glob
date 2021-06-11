@@ -1,22 +1,2 @@
-DIGEST 395eba4feb97c111f2989024b3d8c738
+DIGEST 044a2c0597a6358af2b48c84b420b6d3
 FinterSpacein5D
-prf 6:21 <> LP11P12P13P14P15
-R127:130 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R174:177 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R251:254 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R304:307 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R358:361 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R411:414 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R465:468 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R518:521 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R572:575 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R625:628 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R679:682 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R723:726 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R776:779 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R830:833 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R874:877 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R918:921 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R962:965 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R1006:1009 Coq.Init.Logic <> :type_scope:x_'->'_x not
-R1053:1055 Coq.Init.Logic <> :type_scope:x_'='_x not

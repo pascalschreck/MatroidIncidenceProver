@@ -2,13 +2,29 @@
 
 ## FIXME
 ### To do
-* Enlever les infos de déboggage quand ça fonctionnera ou mieux les mettres dans la compilation
+* corriger tous les bugs dans la production de la preuve :
+    - DONE des Lemmes ne sont pas écrits (toujours pas !) alors qu'ils sont utilisés
+    - (?) une utilsation de la tactique matroid2 devrait être faite mais ne l'est pas. Pire, le terme matroid2 n'aparaît pas 
+    dans le fichier parties.c où la preuve est censée être  écrite. 
+* DONE Enlever les infos de déboggage quand ça fonctionnera ou mieux les mettres dans la compilation
 * tester plus en profondeur les raisonnements par contradiction (c'est un cas où la propagation de contrainte (avant ou arrière) pourrait bien fonctionner)
-* regarder la perte de marquage et/ou de reconstruction de théorèmes qui seraient dus (?) à la gestion des couches de raisonnement.
-* regarder le as multi couche avec  le nouveu parcours pour construire la preuve.
-* on peut facilement ajouter plusieurs conclusion : ça peut être utile pour prouver un théorème de Deasragues assez complet en dim 3 et 4
+* TODO regarder la perte de marquage et/ou de reconstruction de théorèmes qui seraient dus (?) à la gestion des couches de raisonnement.
+* TODO regarder le cas multi couche avec  le nouveu parcours pour construire la preuve.
+* TODO on peut facilement ajouter plusieurs conclusion : ça peut être utile pour prouver un théorème de Desargues assez complet en dim 3 et 4
 
 ### In progress
+
+
+### Done
+* les commentaires vides font planter l'entrée
+
+* ajouter le mot clé "none" ou None" pour signifier qu'il n'y a pas de conclusion (remarque, il faut toujours une conclusion finale dans l'énoncé)
+
+* Filtrage des lemmes inutiles : 
+    - conclusion avec un singleton
+    - conclusion dans les hypothèses    
+    mais c'est en commentaire pour le moment : il y avait de problème dans l'utilisation des lemmes. 
+
 *  il y a un problème assez fondamental dans la manière dont la preuve est écrite avec l'algo. de David :
    *  si un noeud est marqué à 1 'U_NOT_WRITTEN_IN_PROOF' on écrit un lemme dans cet ordre
   
@@ -22,10 +38,30 @@
         4. examen des arguments pour preuves ... si les arguments sont encore au stade 1, on les marque à 2 ... mais ils ne sont pas sous fome de lemme sinon ils auraient le statut 1.
 
     Solution envisagée : différer l'écriture dans le fichier de la preuve jusqu'à ce que tous les pbs. des antécédents soient réglés. Cela peut se faire simplement en testant les antécédents avant d'écrire le lemme. 
+## Couches (again)
+Lorsqu'on déclare plusieurs couche, chaque couche donne lieu à un graphe distinct des autres couches. Cela implique des
+opérations de recopie et de transfert d'information (notamment dans les marquages), mais cle n'est pas encore suffisant dans la version actuelle où des informtions sur les déducions sont oubliées.
+Ne pourrait-on pas considérer un seul graphe et gérer les couches dans ce seul graphe ?
 
-### Done
-* les commentaires vides font planter l'entrée
-* ajouter le mot clé "none" ou None" pour signifier qu'il n'y a pas de conclusion (remarque, il faut toujours une conclusion finale dans l'énoncé)
+## Constriction et incidence
+Après étude plus approfondie, la question des couches est moins pregnante qu'il n'apparaissait de prime abord. Elle peut cependant être utile si on veut structure (dans l'énoncé) le raisonnement et dans une certaine mesure, dans la production des lemmes utilisés. C'est aussi utile pour déboguer les énoncé : on a une indiation de l couche incriminée en cas de faute, 
+on peut essayer de repérer des problèmes dans la propagation des rangs e arrêter le calcul plu rapidement au lieu d'attendre des heures ....
+
+Comme cela est indiqué en commentaire dans le code de "parties.c" (fonction copyGrap()), pour le moment, le partage en couches se fait par recopie d'un graphe dans le graphe de la couche supérieure mais sans recopier le graphe de déduction (ce sont juste les initialisation des rangs + quelques info qui sont faites). Cela implique que les renseignements liés aux noeud qui seront marqués soient consignés dans un lemme qui sera utilisé dans la couche supérieure ... il vaudrait donc mieux que les lemmes en questions aient pour conclusion des égalités de rang et non des indégalités restantes (à moins que dans Coq on ait un procédé plus robuste de construction de la preuve).
+Ainsi, il me semble préférabledu point de vue de la structure de l'énoncé et de la structure de la preuve que les points introduits dans une couch soient définis quand on passe à a couche supérieure.
+E donc, on peut se poser la question de la bonne constriction d'un point en géométrie d'incidence dans un contexte donnée. Le cas le plus simple est celui-ci :
+```  
+points
+    layer ABCD # import des points A, B, C et D qui ne contiennent pas des alignements et ont bien définis
+    point M
+hypothèses
+    A B M : 2
+    C D M : 2
+conclusion
+    M : construit   # ou construits s'il y a plusieurs points
+```
+Ca peut rester déclaratif, bien sûr, mais on peut aussi se poser la question de la bonne constriction des ces points.
+
 
 ## Décomposition et construction de la preuve
 Dans les preuves (je ne les ai pas toutes regardées), on note la fabrication d'un grand nombre de lemmes inutiles : par exemple des lemmes où la conclusion est que le rang d'un ensemble avec un seul point est 1 (est-ce bug qui prend en compte des restes de l'initialisation ?) ou alors dont la conclusion est incluse dans les prémisses.
@@ -35,10 +71,6 @@ Par ailleurs, la décomposition et la reconstruction de lemmes correspond à une
 
 --> voir plus bas la question des lemmes intermédiaires
 
-### Filtrage des lemmes inutiles
-Pour le moment, je n'ai empêché que l'écriture des lemmes (et de leur preuve) dont la conclusion était que le rang d'un ensemble réduit à un point était 1.
-
-Une autre simplitfication serait de filtrer les lemmes dont la conclusion est dans les hypothèses : ce n'est pa dur à voir, mais il faut repenser la manière dont la preuve est écrite : pour le moment, il s'agit de trois fonctions : une pour écrire le lemme (dans un fichier) et deux pour écrire la preuve, on peut s'apercevoir pendant l'écriture du lemme qu'il va être inutile, mais à ce moment, le début du code est déjà écrit et on est dans la boucle qui écrit la preuve ( break ? :( ))
 
 
 ## Manipulation des règles 
@@ -58,7 +90,7 @@ C'est le cas de la règle de DG dont voici une formulation dans un langage mocku
 # qui est plutôt complexe.
 # je remarque qu'il est plus facile d'exprimer cette règle avec de la 
 # géométrie qu'avec des rang ... c'était sans doute aussi le cas 
-# de certains énoncés de thm ... sauf qu'en on arrive en dim. > 3
+# de certains énoncés de thm ... sauf qu'on arrive en dim. > 3
 rule
 hypotheses
     lines
@@ -159,10 +191,10 @@ On peut généraliser sans doute cette approche. Cependant, sans faire de change
 ## Utilité des couches
 En fait, la grande utilité des couches est de fabriquer des lemmes intermédiaires de sorte que la preuve de la conclusion ne soit pas trop longue : l'idée est que dans les couches tous les noeuds utilisés dans la preuve (marqués 1) donnent lieu à des lemmes.
 Du coup, l'idée est la suivante : est-ce qu'avec 2 couches, une contenant quasiment tout et la dernière juste un point ou deux pour que le maximum de lemmes soient fabriqués n'est-elle pas suffisante pour simplifier la preuve ?
-Même mieuw, on peut modifier un peu l'algorithme pour ne pas avoir à mettre de couches du tout !
-
+Même mieux, on peut modifier un peu l'algorithme pour ne pas avoir à mettre de couches du tout !
+--> c'est ce qui a été fait.
 ### Discussion 
-En fait, rien n'empêche d'avoir une implantation non-hiérarchique des couches : il y a quelques retouches à faire dans la fonction main() (par exemple, ne pas faire de recopie du graphe qui doit être complété par de nouveaux points) et dans le marquage des sommets du graphe et dans le parcours pour déterminer la preuve par rétro-propagation. Cependant, l'utilité des morceaux "indépendants" n'est pas claire : on ne peut pas les utiliser dans le calcul des rangs (car cela serait beaucoup trop coûteux d'isoler tous les sommets "hypothèses") et donc ils ne seront pas non plus utilisés pour simplifier une longue preuve. 
+Rien n'empêche d'avoir une implantation non-hiérarchique des couches : il y a quelques retouches à faire dans la fonction main() (par exemple, ne pas faire de recopie du graphe qui doit être complété par de nouveaux points) et dans le marquage des sommets du graphe et dans le parcours pour déterminer la preuve par rétro-propagation. Cependant, l'utilité des morceaux "indépendants" n'est pas claire : on ne peut pas les utiliser dans le calcul des rangs (car cela serait beaucoup trop coûteux d'isoler tous les sommets "hypothèses") et donc ils ne seront pas non plus utilisés pour simplifier une longue preuve. 
 
 C'est une des limites de cette approche qui avait comme objectif initial de faire des petites preuves et dont David a essayé de pousser plus loin pour prouver le théorème de Dandelin-Gallucci.
 

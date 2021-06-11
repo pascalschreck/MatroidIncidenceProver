@@ -2,6 +2,7 @@
 #ifndef __GLOBALS_H__
 #define __GLOBALS_H__
 #include <stdbool.h>
+#include "statement.h"
 
 extern unsigned dim;
 extern const unsigned sizemyType;
@@ -9,6 +10,8 @@ extern unsigned realSizemyType;
 extern bool debug_mode;
 extern bool trace;
 myType traced;
+
+extern statement STATEMENT;     // on rend l'accès à l'énoncé global
 
 #define dft_statement_name "dft_statement.stat"
 #define dft_rankoutput_name "dft_rankoutput.txt"
@@ -42,5 +45,6 @@ myType traced;
 #define U_WAITING_FOR_PREVIOUS_PROOF 2
 #define U_PROOF_BEING_WRITTEN 3
 #define PROOF_ALREADY_DONE 4
+#define PROOF_WRITTEN_in_Lemma 5
 
 #endif

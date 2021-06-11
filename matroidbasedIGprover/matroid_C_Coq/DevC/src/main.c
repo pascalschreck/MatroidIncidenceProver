@@ -9,6 +9,8 @@
 #include "globals.h"		    // ajouté par PS constantes et des variables globales
 #include <string.h>
 
+statement STATEMENT;
+
 // fonctions locales
 void read_comd_line(int argc, char *argv[]);
         // lecture et analyse de la ligne de commande
@@ -44,7 +46,9 @@ int main(int argc, char * argv[])
         debug_file = fopen("debug.log","w");
 
     statement st = st_read(stat);			// lecture de l'énoncé pour remplir la structure statement
+    STATEMENT = st;                         // STATEMENT procure un accès global à l'énoncé (c'est une variable globale à tout le projet)
     fclose(stat);
+
         /*----------------------traçage-----------------------------*/
             if(trace)
             {
@@ -103,7 +107,7 @@ int main(int argc, char * argv[])
   	    {
 		    rang r = cly->hypoth[i];
 		    int set = r.set;
-		    g[iocl].tab[set]-> e = setMinMax(g[iocl].tab[set]->e,r.rk,r.rk);
+		    g[iocl].tab[set]-> e = setMinMax(g[iocl].tab[set]->e,r.rk,r.rk);  // hypothèses (rang) de l'énoncé
 		    g[iocl].tab[set]->color = -1;
   	    }
     fprintf(stderr,"-------- convergence couche 0 \n");
@@ -129,7 +133,7 @@ int main(int argc, char * argv[])
   	    {
 		    rang r = cly->hypoth[i];
 		    int set = r.set;
-		    g[iocl].tab[set]-> e = setMinMax(g[iocl].tab[set]->e,r.rk,r.rk);
+		    g[iocl].tab[set]-> e = setMinMax(g[iocl].tab[set]->e,r.rk,r.rk);    // hypothèses (rang) de l'énoncé
 		    g[iocl].tab[set]->color = -1;
   	    }
         fprintf(stderr,"-------- convergence couche %d \n", iocl);
@@ -141,7 +145,7 @@ int main(int argc, char * argv[])
 			
 
 	 
-	// fin de la preuve, sortie des rangs dans un fichier dont le nom est donné sur la lc
+	// fin de la preuve, sortie des rangs dans un fichier dont le nom est donné sur la ligne de commande
 	FILE *wp_out = fopen(rankoutput_name,"w+");
 	fprintGraphWithoutProof(wp_out, g[nb_layers-1]);				// écriture dans le fichier 
 
@@ -171,6 +175,7 @@ int main(int argc, char * argv[])
   	// on ouvre ensuite le fichier de sortie pour la preuve coq
 	// c'est soit le fichier standard, soit celui lu à la ligne de commande
 	FILE* file = fopen(coqoutput_name,"w");	
+    fprintf(file, "Require Import lemmas_automation_g.\n\n\n");
 
     fprintf(stderr,"--------------- reconstruction\n\n");
 	
@@ -187,7 +192,7 @@ int main(int argc, char * argv[])
                   en Coq par des lemmes
                 * dans la dernière couche seul le noeud correspondant à l'ensemble resf  donne lieu à
                   un lemme
-                Issue : 
+                Issues : 
                     * je (PS) ne sais pas bien comment se propage le marquage. Avec ma reprise du code
                     il y a des problèmes de bout de preuves qui ne sont pas produits (les causes possibles sont
                     la recopie de graphe qui ne reporte pas les listes ante et succ, le marquage qui pourrait ne
@@ -195,17 +200,20 @@ int main(int argc, char * argv[])
                     à une preuve déjà faite))
                     * je ne pense pas que fabriquer des couches soit intéressant.
                     *
-            - mono-couches où j'ai opré le changment suivant : tous les sommets marqués donnent lieu à
+            - mono-couches où j'ai opéré le changment suivant : tous les sommets marqués donnent lieu à
                 des lemmes. On a ainsi des lemmes peu intéressants pour lesquels j'ai fait des filtres
                 qui sont pour le moment désactivés car ils semblent perturber l'écriture de la preuve
         Dans la suite, on distingue les deux cas pour voir.
 
-        Remarque : je me demande aussi si le parcours du graphe des déductions est fait dans un bon ordre :
-            on parcours les ensembles dans l'ordre de leur traduction binaire alors que le marquage s'est fait
-            autrement, ensuite est ce que la tableau de noeud contient le dernier noeud (celui qui contient les 
-            rangs finaux ou un autre ?)
+        Remarque : j'ai aussi fait des changement dans la reconstruction de la preuve : on n'écrit pas un lemme
+            sans qu'un certain nombre de lemmes intermédiaires n'aient pas eux-mêmes été écrits. On n'utilise un lemme
+            dans une preuve que s'il a effectivement été écrit. Il reste cependant des cas identifiés dans lequels la preuve
+            d'une pémisse qui aurait pu faire l'objet d'un lemme, reste locale à une preuve.
     */
-    if(nb_layers==1) // cas monocouche 
+    if(nb_layers==1) 
+    // ==========================
+    // cas monocouche 
+    // ==========================
     {
         long long unsigned int i ;
         int last = 0;
@@ -218,10 +226,9 @@ int main(int argc, char * argv[])
                 TAB; fprintf(debug_file," marquage dans la (dernière) couche %d\n", last);
                 NL; DEB_PS("********************************************");NL;NL;
             }
-        
+         
         // marquage en arrière à partir de resf
         preMark(g[last].tab[resf]);  
-                
         // construction en avant de la preuve (les filtres ne sont pas écrits)
         i = 0ull;
 
@@ -230,12 +237,15 @@ int main(int argc, char * argv[])
         {   
             if(g[last].tab[i]->mark == U_NOT_WRITTEN_IN_PROOF && i != resf) 
             {
-
                 constructLemma(file,g[last],g[last].tab[i],sizeTab, last);  
+                // la fonction constructLemma a été revisitée : elle examine tous les noeuds qui sont requis
+                // pour écrire la preuve et en fait des lemmes. Les deux fonctions dont les appels sont commentés
+                // ci-dessous sont faits dans la fonction constructctLemma ainsi, on peut mieux contrôler l'écriture
+                // dans le fichier.
                 // constructIntro(file, g[last]);
                 // constructProof(file,g[last].tab[i], sizeTab, 1); 
                 g[last].tab[i]->mark = PROOF_ALREADY_DONE; // 4
-                unMark(g[last].tab[i]);   // peut-être y a-t-il un pb ici avec les noeuds marqués 3 (U_PROOF_BEING_WRITTEN)
+               unMark(g[last].tab[i]);   // on remet à 1 () les noeuds qui ont été mis à 5
             }
             
         }
@@ -250,7 +260,11 @@ int main(int argc, char * argv[])
         fclose(file);
         if(debug_mode) fclose(debug_file);
     }
-    else  // cas multi-couches ... contient encore des bugs
+    else  
+    // ======================================
+    // cas multi-couches 
+    // ... contient encore des bugs
+    // =====================================
     {
         long long unsigned int i ;
         int last = nb_layers-1;
@@ -296,48 +310,22 @@ int main(int argc, char * argv[])
         {
             for(; i < g[iocl].effectiveSize;i++)
             {   
-            // TODO : lorsque l'on n'écrit pas un lemme (soit parce que le cardinal de la conculusion est un, 
-            // soit parce que la conclusion est dans la hypothèse), il faut peut-être quand même nettoyer le graphe
-            // et faire attention que la preuve soit bien correcte
-            // pour le moment, il manque des lemmes semble-t-il (étude de Nicolas)
-            // ajout dans la condition suivante (à la fin) :
-            // test sur la cardinalité du noeud à montrer : l'ens. doit avoir plus d'UN élément
-            // TENTION : la suite e été un peu modifiée (avec aussi la fonction constructionLemma) 
-            // pour conserver l'ancien fonctionnement où même les lemmes "bidons" sont écrits
-                if(g[iocl+1].tab[i]->mark == 1 && i != resf /* && cardinal(g[iocl].tab[i]->e)!=1 */ )  // TENTION ne teste pas si la conclusion est sur un singleton
+
+                if(g[iocl+1].tab[i]->mark == 1 && i != resf ) 
                 // i.e si le lemme est marqué dans la couche suivante, c'est qu'on en a besoin
                 // comme c'est on agit de lanière ascendante dans les couches, c'est la première occurence
                 // on en fait un lemme
                 {
-                    // if(constructLemma(file,g[iocl],g[iocl].tab[i],iocl)) // retourne faux si le lemme n'est pas écrit
-                    {
-                        constructLemma(file,g[iocl],g[iocl].tab[i],sizeTab, iocl);  // à commenter après test
-                        // constructIntro(file, g[iocl]);
-                        // constructProof(file,g[iocl].tab[i], sizeTab, 1); // le dernier argument correspond à previousconstruct, c'est toujours 1 ?
+                        constructLemma(file,g[iocl],g[iocl].tab[i],sizeTab, iocl);
                         g[iocl].tab[i]->mark = 4;
                         g[iocl+1].tab[i]->mark = 4;     // ajout dans la couche suivante pour que le lemme soit pris en compte
-                        unMark(g[iocl].tab[i]);
-                    }
                 
                 }
                 
             }
         }
 
-        // traitement de la dernière couche :
-        // ATTENTION : tab[res]
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // TODO
-        // C'est ici qu'on pourrait prendre en compte plusieurs conclusion 
-        // seule la conclusion <res> est traitée !
-        // 
-        // if(constructLemma(file, g[last], g[last].tab[resf],last))  // devrait être toujours vrai
-        {
-            constructLemma(file, g[last], g[last].tab[resf],sizeTab, last);  // à commenter après test
-            // constructIntro(file, g[last]);
-           //  constructProof(file, g[last].tab[resf], sizeTab, 1);
-        }
-
+        constructLemma(file, g[last], g[last].tab[resf],sizeTab, last); 
         
         fclose(file);
         if(debug_mode) fclose(debug_file);
@@ -406,8 +394,12 @@ void read_comd_line(int argc, char *argv[])
                     opt_flag |= coq_flag;
                     i++;    // on attends alors le nom d'un fichier
                             // mais on ne fait pas d'ouverture ni de test pour le moment
-                    printf("output : la preuve coq sera contenue dans le fichier : %s\n",argv[i]); 
-                    strcpy(coqoutput_name,argv[i]);
+                    // le petit bout de code suivant fait que le nom du fichier est celui entré jusqu'au séparateur '.'
+                    // et complété par ".v"
+                        char *pt = argv[i], *ptt = coqoutput_name;
+                        for(;*pt && *pt != '.'; pt++, ptt++) *ptt = *pt ;
+                        *ptt++ ='.'; *ptt++='v'; *ptt='\0';
+                    printf("output : la preuve coq sera contenue dans le fichier : %s\n",coqoutput_name); 
                 }
             else if (!strcmp(argv[i],"-n"))
                 {
@@ -439,7 +431,12 @@ void read_comd_line(int argc, char *argv[])
     }
 if(!(opt_flag & coq_flag))
     {
-        strcpy(coqoutput_name,statement_name); strcat(coqoutput_name,".v");
+        // le petit bout de code suivant fait que le nom du fichier est celui entré jusqu'au séparateur '.'
+        // et complété par ".v"
+            char *pt = statement_name, *ptt = coqoutput_name;
+            for(;*pt && *pt != '.'; pt++, ptt++) *ptt = *pt ;
+            *ptt++ ='.'; *ptt++='v'; *ptt='\0';
+        // strcpy(coqoutput_name,statement_name); strcat(coqoutput_name,".v");
     }
 if(!(opt_flag & rank_flag))
     {

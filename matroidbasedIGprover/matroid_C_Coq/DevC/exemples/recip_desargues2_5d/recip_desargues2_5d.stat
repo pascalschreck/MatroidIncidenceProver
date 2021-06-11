@@ -1,0 +1,37 @@
+# fichier recip_desargues2_5d.stat
+# énoncé :
+# soit deux triangles ABC et ApBpCp tels que 
+#    aucun point de l'un ne soit dans la plan défini par l'autre
+#    et AB coupe ApBp (en gamma)
+#    et AC coupe ApCp (en beta)
+#    et BC coupe BpCp (en alpha)
+#    (alors AAp et BBp se coupent en un point Oo (Pasch)
+#    et alpha beta gamma lignés
+# alors Oo est aussi sur CCp  
+ context
+    dimension 3
+    layers 1
+endofcontext
+layer donnees
+    points A B C Ap Bp Cp alpha beta gamma Oo
+    hypotheses
+        A B C Ap : 4
+        A B C Bp : 4
+        A B C Cp : 4
+        Ap Bp Cp A : 4
+        Ap Bp Cp B : 4
+        Ap Bp Cp C : 4
+        A B gamma : 2
+        Ap Bp gamma : 2
+        A C beta : 2
+        Ap Cp beta : 2
+        B C alpha : 2
+        Bp Cp alpha : 2
+        A Ap Oo : 2
+        B Bp Oo : 2 
+    conclusion
+        None
+endoflayer 
+conclusion
+        C Cp Oo : 2
+end
