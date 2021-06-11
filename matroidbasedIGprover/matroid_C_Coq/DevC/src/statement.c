@@ -267,7 +267,7 @@ statement st_read(FILE *stat_name)
             {
                 int ref = find_ref(buff,st);
                 if(ref==-1){printf("erreur in conclusion %s point non reconnu",buff); exit(2);}
-                st->conclusion.points[nbp_rk] = ref;
+                st->conclusion[nb_termes].points[nbp_rk] = ref;
                 set = set | 1ull << ref;
                 fscanf(stat_name,"%s ",buff);st_comment(stat_name, buff);
             }

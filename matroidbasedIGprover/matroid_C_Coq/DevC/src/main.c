@@ -152,16 +152,17 @@ int main(int argc, char * argv[])
 
 	// exploration simple du fichier : on cherche le rang correspondant à la conclusion et
 	// les rangs des lignes supplémentaires
-
+    long long unsigned nw_line;
+    int srk;
+    char buf[255];
     // modification juin 2021
     // la conclusion est un ensemble de termes
     for(int i=0; i < st->nbconc; i++)
     {
         rewind(wp_out);
-        long long unsigned nw_line = st->conclusion[i].set;
+        nw_line = st->conclusion[i].set;
         resf = nw_line;
-        int srk = st->conclusion[i].rk;
-        char buf[255];
+        srk = st->conclusion[i].rk;
         for(int j=0; j <= nw_line; j++) fgets(buf, 255, wp_out);
         printf("conclusion (ligne %lld), rang attendu %d\n  %s\n", nw_line, srk, buf);
     }
@@ -240,7 +241,15 @@ int main(int argc, char * argv[])
             }
          
         // marquage en arrière à partir de resf
-        preMark(g[last].tab[resf]);  
+        // par défaut resf = st->conclusion[0].set
+        // il faut faire une boucle pour prémarquer tous les termes de la conclusion
+        for(int i=0; i < st->nbconc; i++)
+        { 
+            resf = st->conclusion[i].set;
+            preMark(g[last].tab[resf]);  
+        }
+        
+        
         // construction en avant de la preuve (les filtres ne sont pas écrits)
         i = 0ull;
 
