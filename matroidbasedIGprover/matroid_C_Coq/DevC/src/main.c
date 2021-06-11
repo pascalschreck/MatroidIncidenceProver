@@ -301,9 +301,16 @@ int main(int argc, char * argv[])
         
         /*--------*/
         //          marquage de la dernière couche
+        //    les modifs pour tenir compte de tous les termes de la concluison
+        //    ont été faites : c'est la boucle juste ci-dessous
         /*---------*/
-        preMark(g[last].tab[resf]);  // marque tous les prédecesseurs de resf dans 
-                                    // le dernier graphe (qui contient tout les points) 
+        for(int i=0; i < st->nbconc; i++)
+        { 
+            resf = st->conclusion[i].set;
+            preMark(g[last].tab[resf]);  
+        }
+        // marque tous les prédecesseurs de resf dans 
+        // le dernier graphe (qui contient tout les points) 
 
         /*--------*/
         //          marquage des autres couches

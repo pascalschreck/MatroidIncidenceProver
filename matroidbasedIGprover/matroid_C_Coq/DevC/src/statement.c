@@ -281,7 +281,9 @@ statement st_read(FILE *stat_name)
         }
         fscanf(stat_name,"%s\n",buff);st_comment(stat_name, buff);
     }
+if(nb_termes == 0) { printf(" no conclusion = nothing to do"); exit(1);}
 st->nbconc = nb_termes;
+
 // if(strcmp(buff,"supplements")) 
 //    {printf("syntax error : 'supplements' expected instead of %s\n",buff); exit(1);}
 if(!strcmp(buff,"supplements"))
