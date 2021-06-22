@@ -10,7 +10,7 @@
 #    et BC coupe BsCs en alpha
 #     (alors alpha beta et gamma sont alignés dans le plan ABC et ApBpCp et AsBsCs)
 #     (alors AAp et BBp se coupent en un point Oo (Pasch)
-#    et alpha beta gamma lignés
+#    et alpha beta gamma alignés
 # alors Oo est aussi sur CCp  
  context
     dimension 3
