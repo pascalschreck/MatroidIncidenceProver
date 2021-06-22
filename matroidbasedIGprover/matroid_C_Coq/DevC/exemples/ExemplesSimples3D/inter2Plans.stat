@@ -18,8 +18,6 @@ layer 0
     N Ap Bp Cp : 3
     P Ap Bp Cp : 3
     M N : 2
-    M P : 2
-    N P : 2
   conclusion
     M N P : 2
 endoflayer

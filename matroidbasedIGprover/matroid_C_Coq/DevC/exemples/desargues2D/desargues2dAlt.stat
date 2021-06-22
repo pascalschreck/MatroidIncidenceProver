@@ -17,10 +17,10 @@ context
 endofcontext
 layer donnees
     points P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-                # O tout seul fait bugger Coq :(((
-                # ... et Sc aussi :((((((((
+                # O means 0 in Coq, thus O -> Oo
+                # ... the same for S :((
     hypotheses
-        P Q R : 3
+        P Q R : 3               # independence relations headed by point P
         P Q Pp : 3
         P Q Qp : 3
         P Q Rp : 3
@@ -31,10 +31,10 @@ layer donnees
         P R Op : 3
         P Pp Qp : 3
         P Pp Rp : 3
-        P Pp Op : 2             # 1 alignement
+        P Pp Op : 2             # collinearity
         P Qp Rp : 3
         P Qp Op : 3
-        P Rp Op : 3             # fin P
+        P Rp Op : 3             # end for point P
         Q R Pp : 3
         Q R Qp : 3
         Q R Rp : 3
@@ -43,37 +43,37 @@ layer donnees
         Q Pp Rp : 3 
         Q Pp Op : 3
         Q Qp Rp : 3
-        Q Qp Op : 2              # 1 alignement
-        Q Rp Op : 3             # fin Q
+        Q Qp Op : 2              # collinearity
+        Q Rp Op : 3              # end for point Q
         R Pp Qp : 3
         R Pp Rp : 3
         R Pp Op : 3
         R Qp Rp : 3
         R Qp Op : 3
-        R Rp Op : 2              # 1 alignement, fin R
+        R Rp Op : 2              # collinearity, end for point R
         Pp Qp Rp : 3
         Pp Qp Op : 3
-        Pp Rp Op : 3            # fin Pp
+        Pp Rp Op : 3             # fin Pp
         Qp Rp Op : 3
-        P  Q  R Pp Qp Rp Op : 3 # coplanarité de la figure de base
-        P  Q  R  Sc : 4          # on choisit Sc hors du plan P Q R
-        P  Q  R  Oo : 4         # on choisit Oo
-        Oo Sc : 2                # Sc et Oo sont différents
-        Op  Oo  Sc : 2           # et alignés avec Op
-        Ps P  Oo : 2            # définition de Ps
+        P  Q  R Pp Qp Rp Op : 3  # coplanarity of the initial figure
+        P  Q  R  Sc : 4          # point Sc is chosen outside of plane P Q R
+        P  Q  R  Oo : 4          # the same for point Oo
+        Oo Sc : 2                # Sc and Oo are différent
+        Op  Oo  Sc : 2           # and collinear with Op
+        Ps P  Oo : 2             # definition of Ps
         Ps Pp  Sc : 2
-        Qs Q  Oo : 2            # définition de Qs
+        Qs Q  Oo : 2             # definition of Qs
         Qs Qp  Sc : 2
-        Rs R  Oo : 2            # definition de Rs
+        Rs R  Oo : 2             # definition of Rs
         Rs Rp  Sc : 2 
-        P  R  alpha : 2       # definition de alpha
+        P  R  alpha : 2          # definition of alpha
         Pp Rp  alpha : 2
-        Q  R beta : 2         # definition de beta
+        Q  R beta : 2            # definition of beta
         Qp Rp  beta : 2 
-        P  Q gamma : 2        # definition de gamma
+        P  Q gamma : 2           # definition of gamma
         Pp Qp  gamma : 2
     conclusion
-        alpha beta gamma : 2
+        None
 endoflayer 
 conclusion
     alpha beta gamma : 2
