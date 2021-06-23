@@ -1,3 +1,4 @@
+# file desargues2dAlt.stat
 # Lemma desargues_2D : forall P Q R P’ Q’ R’ P’’ Q’’ R’’ O’ O Sc alpha beta gamma : Point,
 # rk(P, P’) = 2 -> rk(Q, Q’) = 2 -> rk(R, R’) = 2 ->
 # rk(P, P’, O) = 2 -> rk(Q, Q’, O) = 2) -> rk(R, R’, O) = 2 ->
@@ -10,7 +11,7 @@
 # rk(P, R, alpha) = 2 -> rk(P’’, R’’, alpha) ->
 # rk(Q, R, gamma) = 2 -> rk(Q’’, R’’, gamma) ->
 # rk(alpha, beta, gamma) = 2.
-# -
+# -- more conditions have to be added in ordre to avoid degeneracy
 context
     dimension 3
     layers 1
@@ -18,34 +19,35 @@ endofcontext
 layer donnees
     points P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
                 # O means 0 in Coq, thus O -> Oo
-                # ... the same for S :((
+                # ... the same for S, thus S -> Sc
+                # moreover Pp stands for P' and Ps stands for P''
     hypotheses
-        P Q R : 3               # independence relations headed by point P
-        P Q Pp : 3
-        P Q Qp : 3
-        P Q Rp : 3
-        P Q Op : 3
-        P R Pp : 3
-        P R Qp : 3
+        P Q R : 3       # independence relations headed by point P
+        P Q Pp : 3      # for instance this implies that P Q Pp Qp and Op are collinear
+        P Q Qp : 3      # idem
+                            # P Q Rp can be 2 or 3
+        P Q Op : 3      # idem
+        P R Pp : 3      # idem for P Pp R Rp and Op
+                            # P R Qp : 2 or 3
         P R Rp : 3
         P R Op : 3
         P Pp Qp : 3
         P Pp Rp : 3
         P Pp Op : 2             # collinearity
-        P Qp Rp : 3
+                            # P Qp Rp : 2 or 3
         P Qp Op : 3
         P Rp Op : 3             # end for point P
-        Q R Pp : 3
+                            # Q R Pp : 2 or 3
         Q R Qp : 3
         Q R Rp : 3
         Q R Op : 3
         Q Pp Qp : 3 
-        Q Pp Rp : 3 
+                    # Q Pp Rp : 3 
         Q Pp Op : 3
         Q Qp Rp : 3
         Q Qp Op : 2              # collinearity
         Q Rp Op : 3              # end for point Q
-        R Pp Qp : 3
+                    # R Pp Qp : 3
         R Pp Rp : 3
         R Pp Op : 3
         R Qp Rp : 3

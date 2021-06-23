@@ -535,11 +535,9 @@ solve[apply matroid1_b_useful2;simpl;repeat constructor
 (* dans la couche 0 *)
 Lemma LP : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -555,12 +553,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPM : rk(P ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HPeq HPM1).
 assert(HPm : rk(P ::  nil) >= 1) by (solve_hyps_min HPeq HPm1).
@@ -570,11 +567,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQ : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -590,12 +585,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQM : rk(Q ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HQeq HQM1).
 assert(HQm : rk(Q ::  nil) >= 1) by (solve_hyps_min HQeq HQm1).
@@ -605,11 +599,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LR : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -625,12 +617,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(R ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HRM : rk(R ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HReq HRM1).
 assert(HRm : rk(R ::  nil) >= 1) by (solve_hyps_min HReq HRm1).
@@ -640,11 +631,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQR : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -660,12 +649,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPQRM : rk(P :: Q :: R ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQReq HPQRM3).
 assert(HPQRm : rk(P :: Q :: R ::  nil) >= 1) by (solve_hyps_min HPQReq HPQRm1).
@@ -675,11 +663,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -695,12 +681,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPpM : rk(Pp ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HPpeq HPpM1).
 assert(HPpm : rk(Pp ::  nil) >= 1) by (solve_hyps_min HPpeq HPpm1).
@@ -710,11 +695,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -730,12 +713,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPQPpM : rk(P :: Q :: Pp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQPpeq HPQPpM3).
 assert(HPQPpm : rk(P :: Q :: Pp ::  nil) >= 1) by (solve_hyps_min HPQPpeq HPQPpm1).
@@ -745,11 +727,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -765,12 +745,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPRPpM : rk(P :: R :: Pp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPRPpeq HPRPpM3).
 assert(HPRPpm : rk(P :: R :: Pp ::  nil) >= 1) by (solve_hyps_min HPRPpeq HPRPpm1).
@@ -781,11 +760,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpQpRpOp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -801,12 +778,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Rp :: Op ::  
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPQRPpQpRpOpM : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Op ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HPQRPpQpRpOpm : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Op ::  nil) >= 1) by (solve_hyps_min HPQRPpQpRpOpeq HPQRPpQpRpOpm1).
@@ -816,11 +792,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -836,12 +810,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPp requis par la preuve de (?)PQRPp pour la règle 6  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPp requis par la preuve de (?)PQRPp pour la règle 5  *)
@@ -877,11 +850,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -897,12 +868,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Qp ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQpM : rk(Qp ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HQpeq HQpM1).
 assert(HQpm : rk(Qp ::  nil) >= 1) by (solve_hyps_min HQpeq HQpm1).
@@ -912,11 +882,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQQp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -932,12 +900,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Qp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPQQpM : rk(P :: Q :: Qp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQQpeq HPQQpM3).
 assert(HPQQpm : rk(P :: Q :: Qp ::  nil) >= 1) by (solve_hyps_min HPQQpeq HPQQpm1).
@@ -947,11 +914,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQRQp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -967,12 +932,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: R :: Qp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQRQpM : rk(Q :: R :: Qp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQRQpeq HQRQpM3).
 assert(HQRQpm : rk(Q :: R :: Qp ::  nil) >= 1) by (solve_hyps_min HQRQpeq HQRQpm1).
@@ -982,11 +946,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1002,12 +964,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQp requis par la preuve de (?)PQRQp pour la règle 6  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQp requis par la preuve de (?)PQRQp pour la règle 5  *)
@@ -1043,11 +1004,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpQp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1063,12 +1022,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPPpQpM : rk(P :: Pp :: Qp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPPpQpeq HPPpQpM3).
 assert(HPPpQpm : rk(P :: Pp :: Qp ::  nil) >= 1) by (solve_hyps_min HPPpQpeq HPPpQpm1).
@@ -1078,11 +1036,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQPpQp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1098,12 +1054,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Pp :: Qp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQPpQpM : rk(Q :: Pp :: Qp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQPpQpeq HQPpQpM3).
 assert(HQPpQpm : rk(Q :: Pp :: Qp ::  nil) >= 1) by (solve_hyps_min HQPpQpeq HQPpQpm1).
@@ -1113,11 +1068,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPpQp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1133,12 +1086,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQp requis par la preuve de (?)PRPpQp pour la règle 6  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQp requis par la preuve de (?)PRPpQp pour la règle 5  *)
@@ -1174,11 +1126,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LRp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1194,12 +1144,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Rp ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HRpM : rk(Rp ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HRpeq HRpM1).
 assert(HRpm : rk(Rp ::  nil) >= 1) by (solve_hyps_min HRpeq HRpm1).
@@ -1209,11 +1158,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRRp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1229,12 +1176,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Rp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRRp requis par la preuve de (?)PQRRp pour la règle 6  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRRp requis par la preuve de (?)PQRRp pour la règle 5  *)
@@ -1270,11 +1216,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpRp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1290,12 +1234,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPPpRpM : rk(P :: Pp :: Rp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPPpRpeq HPPpRpM3).
 assert(HPPpRpm : rk(P :: Pp :: Rp ::  nil) >= 1) by (solve_hyps_min HPPpRpeq HPPpRpm1).
@@ -1305,11 +1248,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpRp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1325,12 +1266,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Rp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpRp requis par la preuve de (?)PQPpRp pour la règle 6  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpRp requis par la preuve de (?)PQPpRp pour la règle 5  *)
@@ -1366,11 +1306,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LRPpRp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1386,12 +1324,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(R :: Pp :: Rp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HRPpRpM : rk(R :: Pp :: Rp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HRPpRpeq HRPpRpM3).
 assert(HRPpRpm : rk(R :: Pp :: Rp ::  nil) >= 1) by (solve_hyps_min HRPpRpeq HRPpRpm1).
@@ -1401,11 +1338,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQpRp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1421,12 +1356,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Rp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQQpRpM : rk(Q :: Qp :: Rp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQQpRpeq HQQpRpM3).
 assert(HQQpRpm : rk(Q :: Qp :: Rp ::  nil) >= 1) by (solve_hyps_min HQQpRpeq HQQpRpm1).
@@ -1436,11 +1370,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPs : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1456,12 +1388,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Ps ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPsM : rk(Ps ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HPseq HPsM1).
 assert(HPsm : rk(Ps ::  nil) >= 1) by (solve_hyps_min HPseq HPsm1).
@@ -1471,11 +1402,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQs : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1491,12 +1420,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Qs ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQsM : rk(Qs ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HQseq HQsM1).
 assert(HQsm : rk(Qs ::  nil) >= 1) by (solve_hyps_min HQseq HQsm1).
@@ -1510,11 +1438,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQROo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1530,12 +1456,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPQROoM : rk(P :: Q :: R :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HPQROom : rk(P :: Q :: R :: Oo ::  nil) >= 1) by (solve_hyps_min HPQROoeq HPQROom1).
@@ -1545,11 +1470,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPsQsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1565,12 +1488,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPsQsOoalpha requis par la preuve de (?)PQRPsQsOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPsQsOoalpha requis par la preuve de (?)PQRPsQsOoalpha pour la règle 5  *)
@@ -1608,11 +1530,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpRpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1628,12 +1548,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PPpRpalpha requis par la preuve de (?)PPpRpalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpRpalpha requis par la preuve de (?)PPpRpalpha pour la règle 4  *)
@@ -1708,11 +1627,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma Lalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1728,12 +1645,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(alpha ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HalphaM : rk(alpha ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max Halphaeq HalphaM1).
 assert(Halpham : rk(alpha ::  nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
@@ -1744,11 +1660,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpRpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1764,12 +1678,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Rp :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPpRpalphaM : rk(Pp :: Rp :: alpha ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPpRpalphaeq HPpRpalphaM3).
 assert(HPpRpalpham : rk(Pp :: Rp :: alpha ::  nil) >= 1) by (solve_hyps_min HPpRpalphaeq HPpRpalpham1).
@@ -1779,11 +1692,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1799,12 +1710,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Palpha requis par la preuve de (?)Palpha pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -1834,11 +1744,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1854,12 +1762,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPRalphaM : rk(P :: R :: alpha ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPRalphaeq HPRalphaM3).
 assert(HPRalpham : rk(P :: R :: alpha ::  nil) >= 1) by (solve_hyps_min HPRalphaeq HPRalpham1).
@@ -1869,11 +1776,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsQsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -1889,12 +1794,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Qs :: Oo :: alpha ::  ni
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsQsOoalpha requis par la preuve de (?)PQPsQsOoalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 3 pour PQOo requis par la preuve de (?)PQPsQsOoalpha pour la règle 5  *)
@@ -2037,11 +1941,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2057,12 +1959,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Oo :: alpha ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpOoalpha requis par la preuve de (?)PQRPpOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpOoalpha requis par la preuve de (?)PQRPpOoalpha pour la règle 5  *)
@@ -2100,11 +2001,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2120,12 +2019,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PQRalpha requis par la preuve de (?)PQRalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRalpha requis par la preuve de (?)PQRalpha pour la règle 1  *)
@@ -2166,11 +2064,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2186,12 +2082,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpalpha requis par la preuve de (?)PQRPpalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpalpha requis par la preuve de (?)PQRPpalpha pour la règle 5  *)
@@ -2233,11 +2128,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2253,12 +2146,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOo requis par la preuve de (?)PQPpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpOo requis par la preuve de (?)PQPpOo pour la règle 5  *)
@@ -2300,11 +2192,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpRpOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2320,12 +2210,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Rp :: Oo :: alpha ::  ni
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpRpOoalpha requis par la preuve de (?)PQPpRpOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpRpOoalpha requis par la preuve de (?)PQPpRpOoalpha pour la règle 5  *)
@@ -2362,11 +2251,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpRpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2382,12 +2269,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Rp :: alpha ::  nil) = 3
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpRpalpha requis par la preuve de (?)PQPpRpalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpRpalpha requis par la preuve de (?)PQPpRpalpha pour la règle 5  *)
@@ -2429,11 +2315,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpRpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2449,12 +2333,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpRpOo requis par la preuve de (?)PPpRpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpRpOo requis par la preuve de (?)PPpRpOo pour la règle 5  *)
@@ -2496,11 +2379,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpRpPsOoScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2516,12 +2397,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpRpPsOoScalpha requis par la preuve de (?)PPpRpPsOoScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpRpPsOoScalpha requis par la preuve de (?)PPpRpPsOoScalpha pour la règle 5  *)
@@ -2561,11 +2441,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpQpQsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2581,12 +2459,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Qs :: Oo :: S
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpQsOoSc requis par la preuve de (?)PQRPpQpQsOoSc pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpQsOoSc requis par la preuve de (?)PQRPpQpQsOoSc pour la règle 5  *)
@@ -2623,11 +2500,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2643,12 +2518,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpOo requis par la preuve de (?)PQRPpOo pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpOo requis par la preuve de (?)PQRPpOo pour la règle 5  *)
@@ -2684,11 +2558,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpQpQsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2704,12 +2576,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpQpQsOoSc requis par la preuve de (?)PQPpQpQsOoSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpQpQsOoSc requis par la preuve de (?)PQPpQpQsOoSc pour la règle 5  *)
@@ -2754,11 +2625,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpQpOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2774,12 +2643,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PQRPpQpOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PQRPpQpOoalpha pour la règle 5  *)
@@ -2816,11 +2684,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpQpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2836,12 +2702,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: alpha ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpalpha requis par la preuve de (?)PQRPpQpalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpalpha requis par la preuve de (?)PQRPpQpalpha pour la règle 5  *)
@@ -2883,11 +2748,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQPpQpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2903,12 +2766,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Pp :: Qp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPpQpOo requis par la preuve de (?)QPpQpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QPpQpOo requis par la preuve de (?)QPpQpOo pour la règle 5  *)
@@ -2952,11 +2814,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpQpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -2972,12 +2832,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Oo ::  nil) =
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PQRPpQpOo pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PQRPpQpOo pour la règle 5  *)
@@ -3013,11 +2872,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpQpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3033,12 +2890,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Qp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpQpOo requis par la preuve de (?)PQPpQpOo pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpQpOo requis par la preuve de (?)PQPpQpOo pour la règle 5  *)
@@ -3081,11 +2937,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQPpQpQsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3101,12 +2955,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Pp :: Qp :: Qs :: Oo :: Sc ::  nil)
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPpQpQsOoSc requis par la preuve de (?)QPpQpQsOoSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QPpQpQsOoSc requis par la preuve de (?)QPpQpQsOoSc pour la règle 5  *)
@@ -3150,11 +3003,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3170,12 +3021,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Oo :: Sc ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HOoScM : rk(Oo :: Sc ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HOoSceq HOoScM2).
 assert(HOoScm : rk(Oo :: Sc ::  nil) >= 1) by (solve_hyps_min HOoSceq HOoScm1).
@@ -3187,11 +3037,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQsOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3207,12 +3055,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qs :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQQsOoM : rk(Q :: Qs :: Oo ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQQsOoeq HQQsOoM3).
 assert(HQQsOom : rk(Q :: Qs :: Oo ::  nil) >= 1) by (solve_hyps_min HQQsOoeq HQQsOom1).
@@ -3223,11 +3070,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQpQsSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3243,12 +3088,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Qp :: Qs :: Sc ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQpQsScM : rk(Qp :: Qs :: Sc ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQpQsSceq HQpQsScM3).
 assert(HQpQsScm : rk(Qp :: Qs :: Sc ::  nil) >= 1) by (solve_hyps_min HQpQsSceq HQpQsScm1).
@@ -3258,11 +3102,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQpQsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3278,12 +3120,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Qs :: Oo :: Sc ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QQpQsOoSc requis par la preuve de (?)QQpQsOoSc pour la règle 1  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQQpPsQsOoSc requis par la preuve de (?)QQpQsOoSc pour la règle 4  *)
@@ -3559,11 +3400,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3579,12 +3418,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Oo :: Sc ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PpOoSc requis par la preuve de (?)PpOoSc pour la règle 2  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpOoSc requis par la preuve de (?)PpOoSc pour la règle 4  *)
@@ -3682,11 +3520,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpPsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3702,12 +3538,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Ps :: Oo :: Sc ::  
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpPsOoSc requis par la preuve de (?)PQRPpPsOoSc pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpPsOoSc requis par la preuve de (?)PQRPpPsOoSc pour la règle 5  *)
@@ -3743,11 +3578,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpPsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3763,12 +3596,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Ps :: Oo :: Sc ::  nil) 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpPsOoSc requis par la preuve de (?)PQPpPsOoSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpPsOoSc requis par la preuve de (?)PQPpPsOoSc pour la règle 5  *)
@@ -3812,11 +3644,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPsOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3832,12 +3662,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Ps :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPPsOoM : rk(P :: Ps :: Oo ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPPsOoeq HPPsOoM3).
 assert(HPPsOom : rk(P :: Ps :: Oo ::  nil) >= 1) by (solve_hyps_min HPPsOoeq HPPsOom1).
@@ -3850,11 +3679,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3870,12 +3697,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Oo ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HOoM : rk(Oo ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HOoeq HOoM1).
 assert(HOom : rk(Oo ::  nil) >= 1) by (solve_hyps_min HOoeq HOom1).
@@ -3886,11 +3712,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LROo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3906,12 +3730,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour ROo requis par la preuve de (?)ROo pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
@@ -3941,11 +3764,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -3961,12 +3782,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQOo requis par la preuve de (?)PQOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PQ requis par la preuve de (?)PQOo pour la règle 4  *)
@@ -4015,11 +3835,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4035,12 +3853,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQPsOo requis par la preuve de (?)PQPsOo pour la règle 5  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQPs requis par la preuve de (?)PQPsOo pour la règle 5  *)
@@ -4126,11 +3943,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpPsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4146,12 +3961,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Ps :: Oo :: Sc ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PPpPsOoSc requis par la preuve de (?)PPpPsOoSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 2 pour PpPsSc requis par la preuve de (?)PPpPsOoSc pour la règle 1  *)
@@ -4233,11 +4047,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4253,12 +4065,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Oo :: Sc ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpOoSc requis par la preuve de (?)PPpOoSc pour la règle 6  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 2 pour POo requis par la preuve de (?)PPpOoSc pour la règle 4  *)
@@ -4333,11 +4144,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpRpPsOoScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4353,12 +4162,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Rp :: Ps :: Oo :: Sc :: alpha ::  
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PpRpPsOoScalpha requis par la preuve de (?)PpRpPsOoScalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PsOo requis par la preuve de (?)PpRpPsOoScalpha pour la règle 4  *)
@@ -4443,11 +4251,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4463,12 +4269,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRPpalpha requis par la preuve de (?)PRPpalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpalpha requis par la preuve de (?)PRPpalpha pour la règle 4  *)
@@ -4542,11 +4347,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4562,12 +4365,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Ppalpha requis par la preuve de (?)Ppalpha pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
@@ -4597,11 +4399,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpPsOoScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4617,12 +4417,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Ps :: Oo :: Sc :: alpha ::  nil) =
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PpPsOoScalpha requis par la preuve de (?)PpPsOoScalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PpPsOoScalpha requis par la preuve de (?)PpPsOoScalpha pour la règle 5  *)
@@ -4736,11 +4535,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4756,12 +4553,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Sc ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPQRScM : rk(P :: Q :: R :: Sc ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HPQRScm : rk(P :: Q :: R :: Sc ::  nil) >= 1) by (solve_hyps_min HPQRSceq HPQRScm1).
@@ -4771,11 +4567,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4791,12 +4585,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Sc :: alpha ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpScalpha requis par la preuve de (?)PQRPpScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpScalpha requis par la preuve de (?)PQRPpScalpha pour la règle 5  *)
@@ -4832,11 +4625,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPpSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4852,12 +4643,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Sc ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpSc requis par la preuve de (?)PRPpSc pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpSc requis par la preuve de (?)PRPpSc pour la règle 5  *)
@@ -4899,11 +4689,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPpPsScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4919,12 +4707,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Ps :: Sc :: alpha ::  ni
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpPsScalpha requis par la preuve de (?)PRPpPsScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpPsScalpha requis par la preuve de (?)PRPpPsScalpha pour la règle 5  *)
@@ -4961,11 +4748,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpPsSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -4981,12 +4766,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Ps :: Sc ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPpPsScM : rk(Pp :: Ps :: Sc ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPpPsSceq HPpPsScM3).
 assert(HPpPsScm : rk(Pp :: Ps :: Sc ::  nil) >= 1) by (solve_hyps_min HPpPsSceq HPpPsScm1).
@@ -4996,11 +4780,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPsalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -5016,12 +4798,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Ps :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRPsalpha requis par la preuve de (?)PRPsalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPsalpha requis par la preuve de (?)PRPsalpha pour la règle 4  *)
@@ -5102,11 +4883,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPsalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -5122,12 +4901,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Ps :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Psalpha requis par la preuve de (?)Psalpha pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
@@ -5158,11 +4936,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpPsScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -5178,12 +4954,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Ps :: Sc :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PpPsScalpha requis par la preuve de (?)PpPsScalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PpPsScalpha requis par la preuve de (?)PpPsScalpha pour la règle 1  *)
@@ -5277,11 +5052,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -5297,12 +5070,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Ps :: Oo :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PsOoalpha requis par la preuve de (?)PsOoalpha pour la règle 2  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 3 pour PRPsOoalpha requis par la preuve de (?)PsOoalpha pour la règle 4  *)
@@ -5478,11 +5250,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -5498,12 +5268,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Ps :: Oo :: alpha ::  nil) = 3
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPsOoalpha requis par la preuve de (?)PRPsOoalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 3 pour PROo requis par la preuve de (?)PRPsOoalpha pour la règle 5  *)
@@ -5638,11 +5407,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -5658,12 +5425,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Ps :: Oo :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PPsOoalpha requis par la preuve de (?)PPsOoalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PPsOoalpha requis par la preuve de (?)PPsOoalpha pour la règle 1  *)
@@ -5744,11 +5510,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQPsQsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -5764,12 +5528,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Ps :: Qs :: Oo :: alpha ::  nil) = 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPsQsOoalpha requis par la preuve de (?)QPsQsOoalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QPsQsOoalpha requis par la preuve de (?)QPsQsOoalpha pour la règle 4  *)
@@ -5854,11 +5617,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -5874,12 +5635,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qs :: Oo :: alpha ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQsOoalpha requis par la preuve de (?)PQRQsOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQsOoalpha requis par la preuve de (?)PQRQsOoalpha pour la règle 5  *)
@@ -5915,11 +5675,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -5935,12 +5693,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qs :: Oo :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QQsOoalpha requis par la preuve de (?)QQsOoalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QQsOoalpha requis par la preuve de (?)QQsOoalpha pour la règle 1  *)
@@ -6021,11 +5778,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPsQs : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6041,12 +5796,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Ps :: Qs ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PsQs requis par la preuve de (?)PsQs pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -6075,11 +5829,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LRs : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6095,12 +5847,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Rs ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HRsM : rk(Rs ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HRseq HRsM1).
 assert(HRsm : rk(Rs ::  nil) >= 1) by (solve_hyps_min HRseq HRsm1).
@@ -6110,11 +5861,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpOp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6130,12 +5879,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Op ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPPpOpM : rk(P :: Pp :: Op ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPPpOpeq HPPpOpM3).
 assert(HPPpOpm : rk(P :: Pp :: Op ::  nil) >= 1) by (solve_hyps_min HPPpOpeq HPPpOpm1).
@@ -6145,11 +5893,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQpOp : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6165,12 +5911,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Op ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQQpOpM : rk(Q :: Qp :: Op ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQQpOpeq HQQpOpM3).
 assert(HQQpOpm : rk(Q :: Qp :: Op ::  nil) >= 1) by (solve_hyps_min HQQpOpeq HQQpOpm1).
@@ -6180,11 +5925,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6200,12 +5943,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour POo requis par la preuve de (?)POo pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
@@ -6235,11 +5977,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6255,12 +5995,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QOo requis par la preuve de (?)QOo pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
@@ -6290,11 +6029,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPROo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6310,12 +6047,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PROo requis par la preuve de (?)PROo pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PR requis par la preuve de (?)PROo pour la règle 4  *)
@@ -6365,11 +6101,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQROo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6385,12 +6119,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: R :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QROo requis par la preuve de (?)QROo pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QR requis par la preuve de (?)QROo pour la règle 4  *)
@@ -6440,11 +6173,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6460,12 +6191,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PpOo requis par la preuve de (?)PpOo pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -6494,11 +6224,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6514,12 +6242,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpOo requis par la preuve de (?)PRPpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpOo requis par la preuve de (?)PRPpOo pour la règle 5  *)
@@ -6562,11 +6289,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQpOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6582,12 +6307,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp :: Oo :: alpha ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQpOoalpha requis par la preuve de (?)PQRQpOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQpOoalpha requis par la preuve de (?)PQRQpOoalpha pour la règle 5  *)
@@ -6624,11 +6348,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6644,12 +6366,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQpalpha requis par la preuve de (?)PQRQpalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQpalpha requis par la preuve de (?)PQRQpalpha pour la règle 5  *)
@@ -6691,11 +6412,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQQpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6711,12 +6430,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Qp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQQpOo requis par la preuve de (?)PQQpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQQpOo requis par la preuve de (?)PQQpOo pour la règle 5  *)
@@ -6758,11 +6476,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6778,12 +6494,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQpOo requis par la preuve de (?)PQRQpOo pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQpOo requis par la preuve de (?)PQRQpOo pour la règle 5  *)
@@ -6820,11 +6535,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPpQpOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6840,12 +6553,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: Oo :: alpha ::  ni
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpOoalpha requis par la preuve de (?)PRPpQpOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpOoalpha requis par la preuve de (?)PRPpQpOoalpha pour la règle 5  *)
@@ -6882,11 +6594,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPpQpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6902,12 +6612,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: alpha ::  nil) = 3
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpalpha requis par la preuve de (?)PRPpQpalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpalpha requis par la preuve de (?)PRPpQpalpha pour la règle 5  *)
@@ -6949,11 +6658,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpQpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -6969,12 +6676,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpOo requis par la preuve de (?)PPpQpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpQpOo requis par la preuve de (?)PPpQpOo pour la règle 5  *)
@@ -7017,11 +6723,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpRpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7037,12 +6741,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Rp :: Oo ::  nil) =
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpRpOo requis par la preuve de (?)PQRPpRpOo pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpRpOo requis par la preuve de (?)PQRPpRpOo pour la règle 5  *)
@@ -7078,11 +6781,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpRpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7098,12 +6799,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Rp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpRpOo requis par la preuve de (?)PQPpRpOo pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpRpOo requis par la preuve de (?)PQPpRpOo pour la règle 5  *)
@@ -7147,11 +6847,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQpRpOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7167,12 +6865,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp :: Rp :: Oo :: alpha :
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQpRpOoalpha requis par la preuve de (?)PQRQpRpOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQpRpOoalpha requis par la preuve de (?)PQRQpRpOoalpha pour la règle 5  *)
@@ -7209,11 +6906,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQpRpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7229,12 +6924,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp :: Rp :: alpha ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQpRpalpha requis par la preuve de (?)PQRQpRpalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQpRpalpha requis par la preuve de (?)PQRQpRpalpha pour la règle 5  *)
@@ -7276,11 +6970,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQpRpOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7296,12 +6988,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Rp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QQpRpOo requis par la preuve de (?)QQpRpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QQpRpOo requis par la preuve de (?)QQpRpOo pour la règle 5  *)
@@ -7343,11 +7034,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LRRsOo : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7363,12 +7052,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(R :: Rs :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HRRsOoM : rk(R :: Rs :: Oo ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HRRsOoeq HRRsOoM3).
 assert(HRRsOom : rk(R :: Rs :: Oo ::  nil) >= 1) by (solve_hyps_min HRRsOoeq HRRsOom1).
@@ -7378,11 +7066,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7398,12 +7084,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Sc ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HScM : rk(Sc ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HSceq HScM1).
 assert(HScm : rk(Sc ::  nil) >= 1) by (solve_hyps_min HSceq HScm1).
@@ -7413,11 +7098,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7433,12 +7116,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Sc ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpSc requis par la preuve de (?)PQPpSc pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpSc requis par la preuve de (?)PQPpSc pour la règle 5  *)
@@ -7484,11 +7166,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpQpPsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7504,12 +7184,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Ps :: Oo :: S
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpPsOoSc requis par la preuve de (?)PQRPpQpPsOoSc pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpPsOoSc requis par la preuve de (?)PQRPpQpPsOoSc pour la règle 5  *)
@@ -7545,11 +7224,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpQpPsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7565,12 +7242,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc :: 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpQpPsOoSc requis par la preuve de (?)PQPpQpPsOoSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpQpPsOoSc requis par la preuve de (?)PQPpQpPsOoSc pour la règle 5  *)
@@ -7613,11 +7289,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpQpPsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7633,12 +7307,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: Ps :: Oo :: Sc ::  nil)
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpPsOoSc requis par la preuve de (?)PPpQpPsOoSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpQpPsOoSc requis par la preuve de (?)PPpQpPsOoSc pour la règle 5  *)
@@ -7681,11 +7354,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpQpPsSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7701,12 +7372,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: Ps :: Sc ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PpQpPsSc requis par la preuve de (?)PpQpPsSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpPsSc requis par la preuve de (?)PpQpPsSc pour la règle 4  *)
@@ -7787,11 +7457,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQpSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7807,12 +7475,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Qp :: Sc ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QpSc requis par la preuve de (?)QpSc pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -7842,11 +7509,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQpScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7862,12 +7527,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp :: Sc :: alpha ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQpScalpha requis par la preuve de (?)PQRQpScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQpScalpha requis par la preuve de (?)PQRQpScalpha pour la règle 5  *)
@@ -7903,11 +7567,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQRQpSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7923,12 +7585,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: R :: Qp :: Sc ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRQpSc requis par la preuve de (?)QRQpSc pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QRQpSc requis par la preuve de (?)QRQpSc pour la règle 5  *)
@@ -7971,11 +7632,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPpQpScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -7991,12 +7650,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: Sc :: alpha ::  ni
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpScalpha requis par la preuve de (?)PRPpQpScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpScalpha requis par la preuve de (?)PRPpQpScalpha pour la règle 5  *)
@@ -8032,11 +7690,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpQpSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8052,12 +7708,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: Sc ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpSc requis par la preuve de (?)PPpQpSc pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpQpSc requis par la preuve de (?)PPpQpSc pour la règle 5  *)
@@ -8103,11 +7758,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpRpPsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8123,12 +7776,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Rp :: Ps :: Oo :: S
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpRpPsOoSc requis par la preuve de (?)PQRPpRpPsOoSc pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpRpPsOoSc requis par la preuve de (?)PQRPpRpPsOoSc pour la règle 5  *)
@@ -8164,11 +7816,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpRpPsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8184,12 +7834,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc :: 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpRpPsOoSc requis par la preuve de (?)PQPpRpPsOoSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpRpPsOoSc requis par la preuve de (?)PQPpRpPsOoSc pour la règle 5  *)
@@ -8232,11 +7881,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpRpPsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8252,12 +7899,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp :: Ps :: Oo :: Sc ::  nil)
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpRpPsOoSc requis par la preuve de (?)PPpRpPsOoSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpRpPsOoSc requis par la preuve de (?)PPpRpPsOoSc pour la règle 5  *)
@@ -8300,11 +7946,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpRpPsSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8320,12 +7964,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Rp :: Ps :: Sc ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PpRpPsSc requis par la preuve de (?)PpRpPsSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpRpPsSc requis par la preuve de (?)PpRpPsSc pour la règle 4  *)
@@ -8406,11 +8049,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LRpSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8426,12 +8067,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Rp :: Sc ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour RpSc requis par la preuve de (?)RpSc pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -8461,11 +8101,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpRpScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8481,12 +8119,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Rp :: Sc :: alpha ::  ni
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpRpScalpha requis par la preuve de (?)PQPpRpScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpRpScalpha requis par la preuve de (?)PQPpRpScalpha pour la règle 5  *)
@@ -8522,11 +8159,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpRpSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8542,12 +8177,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp :: Sc ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpRpSc requis par la preuve de (?)PPpRpSc pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpRpSc requis par la preuve de (?)PPpRpSc pour la règle 5  *)
@@ -8590,11 +8224,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQpRpScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8610,12 +8242,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp :: Rp :: Sc :: alpha :
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQpRpScalpha requis par la preuve de (?)PQRQpRpScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQpRpScalpha requis par la preuve de (?)PQRQpRpScalpha pour la règle 5  *)
@@ -8651,11 +8282,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQpRpSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8671,12 +8300,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Rp :: Sc ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QQpRpSc requis par la preuve de (?)QQpRpSc pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QQpRpSc requis par la preuve de (?)QQpRpSc pour la règle 5  *)
@@ -8718,11 +8346,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQPpPsSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8738,12 +8364,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Pp :: Ps :: Sc ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QPpPsSc requis par la preuve de (?)QPpPsSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpPsSc requis par la preuve de (?)QPpPsSc pour la règle 4  *)
@@ -8824,11 +8449,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LRpRsSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8844,12 +8467,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Rp :: Rs :: Sc ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HRpRsScM : rk(Rp :: Rs :: Sc ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HRpRsSceq HRpRsScM3).
 assert(HRpRsScm : rk(Rp :: Rs :: Sc ::  nil) >= 1) by (solve_hyps_min HRpRsSceq HRpRsScm1).
@@ -8859,11 +8481,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8879,12 +8499,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Oo :: Sc ::  nil) =
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpOoSc requis par la preuve de (?)PQRPpOoSc pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpOoSc requis par la preuve de (?)PQRPpOoSc pour la règle 5  *)
@@ -8921,11 +8540,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRQpPsQsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -8941,12 +8558,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp :: Ps :: Qs :: Oo :: S
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQpPsQsOoSc requis par la preuve de (?)PQRQpPsQsOoSc pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQpPsQsOoSc requis par la preuve de (?)PQRQpPsQsOoSc pour la règle 5  *)
@@ -8982,11 +8598,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQQpPsQsOoSc : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9002,12 +8616,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Qp :: Ps :: Qs :: Oo :: Sc :: 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQQpPsQsOoSc requis par la preuve de (?)PQQpPsQsOoSc pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQQpPsQsOoSc requis par la preuve de (?)PQQpPsQsOoSc pour la règle 5  *)
@@ -9050,11 +8663,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9070,12 +8681,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQalpha requis par la preuve de (?)PQalpha pour la règle 2  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOpalpha requis par la preuve de (?)PQalpha pour la règle 4  *)
@@ -9138,11 +8748,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LRPpRpalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9158,12 +8766,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(R :: Pp :: Rp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour RPpRpalpha requis par la preuve de (?)RPpRpalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpRpalpha requis par la preuve de (?)RPpRpalpha pour la règle 4  *)
@@ -9237,11 +8844,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LRalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9257,12 +8862,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(R :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Ralpha requis par la preuve de (?)Ralpha pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -9291,11 +8895,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPsalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9311,12 +8913,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Ps :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PPsalpha requis par la preuve de (?)PPsalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQPpPsScalpha requis par la preuve de (?)PPsalpha pour la règle 4  *)
@@ -9394,11 +8995,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9414,12 +9013,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Ps :: Oo :: alpha ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPsOoalpha requis par la preuve de (?)PQRPsOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPsOoalpha requis par la preuve de (?)PQRPsOoalpha pour la règle 5  *)
@@ -9455,11 +9053,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9475,12 +9071,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Oo :: alpha ::  nil) = 4
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsOoalpha requis par la preuve de (?)PQPsOoalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPsOoalpha requis par la preuve de (?)PQPsOoalpha pour la règle 5  *)
@@ -9556,11 +9151,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9576,12 +9169,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: alpha ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsalpha requis par la preuve de (?)PQPsalpha pour la règle 2  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQPpPsScalpha requis par la preuve de (?)PQPsalpha pour la règle 4  *)
@@ -9690,11 +9282,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRQsalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9710,12 +9300,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Qs :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRQsalpha requis par la preuve de (?)PRQsalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQsalpha requis par la preuve de (?)PRQsalpha pour la règle 4  *)
@@ -9796,11 +9385,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQsalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9816,12 +9403,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Qs :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Qsalpha requis par la preuve de (?)Qsalpha pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
@@ -9853,11 +9439,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPsRsOoalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9873,12 +9457,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Ps :: Rs :: Oo :: alpha ::  ni
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPsRsOoalpha requis par la preuve de (?)PRPsRsOoalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPsRsOoalpha requis par la preuve de (?)PRPsRsOoalpha pour la règle 5  *)
@@ -9953,11 +9536,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPsRsalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -9973,12 +9554,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Ps :: Rs :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPsRsalpha requis par la preuve de (?)PPsRsalpha pour la règle 6  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPsRsalpha requis par la preuve de (?)PPsRsalpha pour la règle 4  *)
@@ -10168,11 +9748,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpRpPsScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10188,12 +9766,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Rp :: Ps :: Sc :: alpha ::  nil) =
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PpRpPsScalpha requis par la preuve de (?)PpRpPsScalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PpRpPsScalpha requis par la preuve de (?)PpRpPsScalpha pour la règle 4  *)
@@ -10275,11 +9852,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpRpPsRsScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10295,12 +9870,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Rp :: Ps :: Rs :: Sc :: alpha ::  
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PpRpPsRsScalpha requis par la preuve de (?)PpRpPsRsScalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PPpRpPsRsOoScalpha requis par la preuve de (?)PpRpPsRsScalpha pour la règle 4  *)
@@ -10409,11 +9983,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpRpPsRsScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10429,12 +10001,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp :: Ps :: Rs :: Sc :: alpha
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpRpPsRsScalpha requis par la preuve de (?)PPpRpPsRsScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpRpPsRsScalpha requis par la preuve de (?)PPpRpPsRsScalpha pour la règle 5  *)
@@ -10470,11 +10041,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPsRsalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10490,12 +10059,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Ps :: Rs :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PsRsalpha requis par la preuve de (?)PsRsalpha pour la règle 3  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPsRsalpha requis par la preuve de (?)PsRsalpha pour la règle 4  *)
@@ -10623,11 +10191,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpPsScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10643,12 +10209,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Ps :: Sc :: alpha ::  ni
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpPsScalpha requis par la preuve de (?)PQPpPsScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpPsScalpha requis par la preuve de (?)PQPpPsScalpha pour la règle 5  *)
@@ -10684,11 +10249,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPRPpPsRsScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10704,12 +10267,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Ps :: Rs :: Sc :: alpha 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpPsRsScalpha requis par la preuve de (?)PRPpPsRsScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpPsRsScalpha requis par la preuve de (?)PRPpPsRsScalpha pour la règle 5  *)
@@ -10745,11 +10307,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpPsOoScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10765,12 +10325,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpPsOoScalpha requis par la preuve de (?)PQPpPsOoScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpPsOoScalpha requis par la preuve de (?)PQPpPsOoScalpha pour la règle 5  *)
@@ -10806,11 +10365,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPpPsOoScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10826,12 +10383,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Ps :: Oo :: Sc :: a
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpPsOoScalpha requis par la preuve de (?)PQRPpPsOoScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpPsOoScalpha requis par la preuve de (?)PQRPpPsOoScalpha pour la règle 5  *)
@@ -10867,11 +10423,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpRpPsRsOoScalpha : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10887,12 +10441,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp :: Ps :: Rs :: Oo :: Sc ::
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpRpPsRsOoScalpha requis par la preuve de (?)PPpRpPsRsOoScalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpRpPsRsOoScalpha requis par la preuve de (?)PPpRpPsRsOoScalpha pour la règle 5  *)
@@ -10928,11 +10481,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma Lbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10948,12 +10499,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(beta ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HbetaM : rk(beta ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max Hbetaeq HbetaM1).
 assert(Hbetam : rk(beta ::  nil) >= 1) by (solve_hyps_min Hbetaeq Hbetam1).
@@ -10964,11 +10514,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQpRpbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -10984,12 +10532,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Rp :: beta ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QQpRpbeta requis par la preuve de (?)QQpRpbeta pour la règle 5  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQQpRpbeta requis par la preuve de (?)QQpRpbeta pour la règle 4  *)
@@ -11064,11 +10611,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQpRpbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11084,12 +10629,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: beta ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQpRpbetaM : rk(Qp :: Rp :: beta ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQpRpbetaeq HQpRpbetaM3).
 assert(HQpRpbetam : rk(Qp :: Rp :: beta ::  nil) >= 1) by (solve_hyps_min HQpRpbetaeq HQpRpbetam1).
@@ -11099,11 +10643,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11119,12 +10661,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: beta ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Qbeta requis par la preuve de (?)Qbeta pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -11153,11 +10694,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQRbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11173,12 +10712,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: R :: beta ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HQRbetaM : rk(Q :: R :: beta ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQRbetaeq HQRbetaM3).
 assert(HQRbetam : rk(Q :: R :: beta ::  nil) >= 1) by (solve_hyps_min HQRbetaeq HQRbetam1).
@@ -11191,11 +10729,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQRQsOobeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11211,12 +10747,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: R :: Qs :: Oo :: beta ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRQsOobeta requis par la preuve de (?)QRQsOobeta pour la règle 1  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QRQsOobeta requis par la preuve de (?)QRQsOobeta pour la règle 5  *)
@@ -11291,11 +10826,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQRQsRsOobeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11311,12 +10844,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: R :: Qs :: Rs :: Oo :: beta ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRQsRsOobeta requis par la preuve de (?)QRQsRsOobeta pour la règle 1  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QRQsRsOobeta requis par la preuve de (?)QRQsRsOobeta pour la règle 5  *)
@@ -11391,11 +10923,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQsRsbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11411,12 +10941,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qs :: Rs :: beta ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QQsRsbeta requis par la preuve de (?)QQsRsbeta pour la règle 6  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRQsRsbeta requis par la preuve de (?)QQsRsbeta pour la règle 4  *)
@@ -11606,11 +11135,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQpRpQsScbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11626,12 +11153,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: Qs :: Sc :: beta ::  nil) = 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QpRpQsScbeta requis par la preuve de (?)QpRpQsScbeta pour la règle 1  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour QQpRpQsOoScbeta requis par la preuve de (?)QpRpQsScbeta pour la règle 4  *)
@@ -11739,11 +11265,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQpRpQsRsScbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11759,12 +11283,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: Qs :: Rs :: Sc :: beta ::  n
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QpRpQsRsScbeta requis par la preuve de (?)QpRpQsRsScbeta pour la règle 1  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour QQpRpQsRsOoScbeta requis par la preuve de (?)QpRpQsRsScbeta pour la règle 4  *)
@@ -11873,11 +11396,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQpRpQsRsScbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11893,12 +11414,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Rp :: Qs :: Rs :: Sc :: beta 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QQpRpQsRsScbeta requis par la preuve de (?)QQpRpQsRsScbeta pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QQpRpQsRsScbeta requis par la preuve de (?)QQpRpQsRsScbeta pour la règle 5  *)
@@ -11934,11 +11454,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQsRsbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -11954,12 +11472,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Qs :: Rs :: beta ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QsRsbeta requis par la preuve de (?)QsRsbeta pour la règle 3  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRQsRsbeta requis par la preuve de (?)QsRsbeta pour la règle 4  *)
@@ -12087,11 +11604,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQRQpQsRsScbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -12107,12 +11622,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRQpQsRsScbeta requis par la preuve de (?)QRQpQsRsScbeta pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QRQpQsRsScbeta requis par la preuve de (?)QRQpQsRsScbeta pour la règle 5  *)
@@ -12148,11 +11662,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQpRpQsOoScbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -12168,12 +11680,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Rp :: Qs :: Oo :: Sc :: beta 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QQpRpQsOoScbeta requis par la preuve de (?)QQpRpQsOoScbeta pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QQpRpQsOoScbeta requis par la preuve de (?)QQpRpQsOoScbeta pour la règle 5  *)
@@ -12209,11 +11720,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQQpRpQsRsOoScbeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -12229,12 +11738,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Rp :: Qs :: Rs :: Oo :: Sc ::
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QQpRpQsRsOoScbeta requis par la preuve de (?)QQpRpQsRsOoScbeta pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QQpRpQsRsOoScbeta requis par la preuve de (?)QQpRpQsRsOoScbeta pour la règle 5  *)
@@ -12271,11 +11779,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -12291,12 +11797,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: alpha :: beta ::  nil) = 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRalphabeta requis par la preuve de (?)PQRalphabeta pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRalphabeta requis par la preuve de (?)PQRalphabeta pour la règle 5  *)
@@ -12338,11 +11843,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -12358,12 +11861,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: alpha :: beta ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQalphabeta requis par la preuve de (?)PQalphabeta pour la règle 6  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQalphabeta requis par la preuve de (?)PQalphabeta pour la règle 5  *)
@@ -12433,11 +11935,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPsQsRsalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -12453,12 +11953,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Ps :: Qs :: Rs :: alpha :: beta ::  nil)
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PsQsRsalphabeta requis par la preuve de (?)PsQsRsalphabeta pour la règle 1  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour QPsQsRsOoalphabeta requis par la preuve de (?)PsQsRsalphabeta pour la règle 4  *)
@@ -12723,11 +12222,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPsQsalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -12743,12 +12240,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Ps :: Qs :: alpha :: beta ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PsQsalphabeta requis par la preuve de (?)PsQsalphabeta pour la règle 6  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour QPsQsOoalphabeta requis par la preuve de (?)PsQsalphabeta pour la règle 4  *)
@@ -13009,11 +12505,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPsQsOoalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13029,12 +12523,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPsQsOoalphabeta requis par la preuve de (?)PQRPsQsOoalphabeta pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPsQsOoalphabeta requis par la preuve de (?)PQRPsQsOoalphabeta pour la règle 5  *)
@@ -13070,11 +12563,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsQsOoalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13090,12 +12581,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: bet
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsQsOoalphabeta requis par la preuve de (?)PQPsQsOoalphabeta pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPsQsOoalphabeta requis par la preuve de (?)PQPsQsOoalphabeta pour la règle 5  *)
@@ -13171,11 +12661,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQPsQsOoalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13191,12 +12679,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPsQsOoalphabeta requis par la preuve de (?)QPsQsOoalphabeta pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QPsQsOoalphabeta requis par la preuve de (?)QPsQsOoalphabeta pour la règle 4  *)
@@ -13261,11 +12748,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPsQsRsOoalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13281,12 +12766,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: a
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPsQsRsOoalphabeta requis par la preuve de (?)PQRPsQsRsOoalphabeta pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPsQsRsOoalphabeta requis par la preuve de (?)PQRPsQsRsOoalphabeta pour la règle 5  *)
@@ -13322,11 +12806,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsQsRsOoalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13342,12 +12824,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsQsRsOoalphabeta requis par la preuve de (?)PQPsQsRsOoalphabeta pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPsQsRsOoalphabeta requis par la preuve de (?)PQPsQsRsOoalphabeta pour la règle 5  *)
@@ -13423,11 +12904,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQPsQsRsOoalphabeta : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13443,12 +12922,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: be
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPsQsRsOoalphabeta requis par la preuve de (?)QPsQsRsOoalphabeta pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QPsQsRsOoalphabeta requis par la preuve de (?)QPsQsRsOoalphabeta pour la règle 4  *)
@@ -13511,11 +12989,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma Lgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13531,12 +13007,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(gamma ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HgammaM : rk(gamma ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max Hgammaeq HgammaM1).
 assert(Hgammam : rk(gamma ::  nil) >= 1) by (solve_hyps_min Hgammaeq Hgammam1).
@@ -13547,11 +13022,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpQpgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13567,12 +13040,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PPpQpgamma requis par la preuve de (?)PPpQpgamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpQpgamma requis par la preuve de (?)PPpQpgamma pour la règle 4  *)
@@ -13647,11 +13119,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpQpgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13667,12 +13137,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: gamma ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPpQpgammaM : rk(Pp :: Qp :: gamma ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPpQpgammaeq HPpQpgammaM3).
 assert(HPpQpgammam : rk(Pp :: Qp :: gamma ::  nil) >= 1) by (solve_hyps_min HPpQpgammaeq HPpQpgammam1).
@@ -13682,11 +13151,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13702,12 +13169,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: gamma ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Pgamma requis par la preuve de (?)Pgamma pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -13736,11 +13202,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13756,12 +13220,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: gamma ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 assert(HPQgammaM : rk(P :: Q :: gamma ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQgammaeq HPQgammaM3).
 assert(HPQgammam : rk(P :: Q :: gamma ::  nil) >= 1) by (solve_hyps_min HPQgammaeq HPQgammam1).
@@ -13774,11 +13237,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsOogamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13794,12 +13255,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Oo :: gamma ::  nil) = 3
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsOogamma requis par la preuve de (?)PQPsOogamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPsOogamma requis par la preuve de (?)PQPsOogamma pour la règle 5  *)
@@ -13874,11 +13334,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsQsOogamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13894,12 +13352,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Qs :: Oo :: gamma ::  ni
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsQsOogamma requis par la preuve de (?)PQPsQsOogamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPsQsOogamma requis par la preuve de (?)PQPsQsOogamma pour la règle 5  *)
@@ -13974,11 +13431,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPsQsgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -13994,12 +13449,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Ps :: Qs :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPsQsgamma requis par la preuve de (?)PPsQsgamma pour la règle 6  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsQsgamma requis par la preuve de (?)PPsQsgamma pour la règle 4  *)
@@ -14189,11 +13643,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpQpPsScgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -14209,12 +13661,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: Ps :: Sc :: gamma ::  nil) =
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PpQpPsScgamma requis par la preuve de (?)PpQpPsScgamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PPpQpPsOoScgamma requis par la preuve de (?)PpQpPsScgamma pour la règle 4  *)
@@ -14322,11 +13773,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPpQpPsQsScgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -14342,12 +13791,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: Ps :: Qs :: Sc :: gamma ::  
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PpQpPsQsScgamma requis par la preuve de (?)PpQpPsQsScgamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PPpQpPsQsOoScgamma requis par la preuve de (?)PpQpPsQsScgamma pour la règle 4  *)
@@ -14456,11 +13904,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpQpPsQsScgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -14476,12 +13922,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: Ps :: Qs :: Sc :: gamma
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpPsQsScgamma requis par la preuve de (?)PPpQpPsQsScgamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpQpPsQsScgamma requis par la preuve de (?)PPpQpPsQsScgamma pour la règle 5  *)
@@ -14517,11 +13962,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPsQsgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -14537,12 +13980,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Ps :: Qs :: gamma ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PsQsgamma requis par la preuve de (?)PsQsgamma pour la règle 3  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour QPsQsOoalphagamma requis par la preuve de (?)PsQsgamma pour la règle 4  *)
@@ -14735,11 +14177,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpPsQsScgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -14755,12 +14195,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: gamma 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpPsQsScgamma requis par la preuve de (?)PQPpPsQsScgamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpPsQsScgamma requis par la preuve de (?)PQPpPsQsScgamma pour la règle 5  *)
@@ -14796,11 +14235,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpQpPsOoScgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -14816,12 +14253,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: gamma
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpPsOoScgamma requis par la preuve de (?)PPpQpPsOoScgamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpQpPsOoScgamma requis par la preuve de (?)PPpQpPsOoScgamma pour la règle 5  *)
@@ -14857,11 +14293,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPpQpPsQsOoScgamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -14877,12 +14311,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: Ps :: Qs :: Oo :: Sc ::
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpPsQsOoScgamma requis par la preuve de (?)PPpQpPsQsOoScgamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PPpQpPsQsOoScgamma requis par la preuve de (?)PPpQpPsQsOoScgamma pour la règle 5  *)
@@ -14918,11 +14351,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQalphagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -14938,12 +14369,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: alpha :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQalphagamma requis par la preuve de (?)PQalphagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQalphagamma requis par la preuve de (?)PQalphagamma pour la règle 1  *)
@@ -15019,11 +14449,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPsQsOoalphagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -15039,12 +14467,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPsQsOoalphagamma requis par la preuve de (?)PQRPsQsOoalphagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPsQsOoalphagamma requis par la preuve de (?)PQRPsQsOoalphagamma pour la règle 5  *)
@@ -15080,11 +14507,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsQsOoalphagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -15100,12 +14525,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gam
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsQsOoalphagamma requis par la preuve de (?)PQPsQsOoalphagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPsQsOoalphagamma requis par la preuve de (?)PQPsQsOoalphagamma pour la règle 5  *)
@@ -15181,11 +14605,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQPsQsOoalphagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -15201,12 +14623,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma ::
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPsQsOoalphagamma requis par la preuve de (?)QPsQsOoalphagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QPsQsOoalphagamma requis par la preuve de (?)QPsQsOoalphagamma pour la règle 4  *)
@@ -15270,11 +14691,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -15290,12 +14709,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: alpha :: beta :: gamma ::  nil
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 5  *)
@@ -15370,11 +14788,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -15390,12 +14806,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: alpha :: beta :: gamma ::  nil) = 3
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour Palphabetagamma requis par la preuve de (?)Palphabetagamma pour la règle 6  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour Palphabetagamma requis par la preuve de (?)Palphabetagamma pour la règle 4  *)
@@ -15491,11 +14906,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPsQsalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -15511,12 +14924,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Ps :: Qs :: alpha :: beta :: gamma ::  n
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PsQsalphabetagamma requis par la preuve de (?)PsQsalphabetagamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour QPsQsOoalphabetagamma requis par la preuve de (?)PsQsalphabetagamma pour la règle 4  *)
@@ -15782,11 +15194,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsQsalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -15802,12 +15212,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Qs :: alpha :: beta :: g
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsQsalphabetagamma requis par la preuve de (?)PQPsQsalphabetagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQPpPsQsScalphabetagamma requis par la preuve de (?)PQPsQsalphabetagamma pour la règle 4  *)
@@ -15909,11 +15318,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPPsQsalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -15929,12 +15336,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Ps :: Qs :: alpha :: beta :: gamma 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPsQsalphabetagamma requis par la preuve de (?)PPsQsalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPsQsalphabetagamma requis par la preuve de (?)PPsQsalphabetagamma pour la règle 4  *)
@@ -16131,11 +15537,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQRPsQsOoalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -16151,12 +15555,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPsQsOoalphabetagamma requis par la preuve de (?)PQRPsQsOoalphabetagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPsQsOoalphabetagamma requis par la preuve de (?)PQRPsQsOoalphabetagamma pour la règle 5  *)
@@ -16192,11 +15595,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPsQsOoalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -16212,12 +15613,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: bet
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPsQsOoalphabetagamma requis par la preuve de (?)PQPsQsOoalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPsQsOoalphabetagamma requis par la preuve de (?)PQPsQsOoalphabetagamma pour la règle 5  *)
@@ -16293,11 +15693,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LQPsQsOoalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -16313,12 +15711,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPsQsOoalphabetagamma requis par la preuve de (?)QPsQsOoalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QPsQsOoalphabetagamma requis par la preuve de (?)QPsQsOoalphabetagamma pour la règle 4  *)
@@ -16381,11 +15778,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma LPQPpPsQsScalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -16401,12 +15796,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: alpha 
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpPsQsScalphabetagamma requis par la preuve de (?)PQPpPsQsScalphabetagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpPsQsScalphabetagamma requis par la preuve de (?)PQPpPsQsScalphabetagamma pour la règle 5  *)
@@ -16442,11 +15836,9 @@ Qed.
 (* dans la couche 0 *)
 Lemma Lalphabetagamma : forall P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma ,
 rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Q :: Pp ::  nil) = 3 -> rk(P :: R :: Pp ::  nil) = 3 ->
-rk(Q :: R :: Pp ::  nil) = 3 -> rk(P :: Q :: Qp ::  nil) = 3 -> rk(P :: R :: Qp ::  nil) = 3 ->
-rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 -> rk(Q :: Pp :: Qp ::  nil) = 3 ->
-rk(R :: Pp :: Qp ::  nil) = 3 -> rk(P :: Q :: Rp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 ->
-rk(Q :: R :: Rp ::  nil) = 3 -> rk(P :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Pp :: Rp ::  nil) = 3 ->
-rk(R :: Pp :: Rp ::  nil) = 3 -> rk(P :: Qp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
+rk(P :: Q :: Qp ::  nil) = 3 -> rk(Q :: R :: Qp ::  nil) = 3 -> rk(P :: Pp :: Qp ::  nil) = 3 ->
+rk(Q :: Pp :: Qp ::  nil) = 3 -> rk(P :: R :: Rp ::  nil) = 3 -> rk(Q :: R :: Rp ::  nil) = 3 ->
+rk(P :: Pp :: Rp ::  nil) = 3 -> rk(R :: Pp :: Rp ::  nil) = 3 -> rk(Q :: Qp :: Rp ::  nil) = 3 ->
 rk(R :: Qp :: Rp ::  nil) = 3 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: Op ::  nil) = 3 ->
 rk(P :: R :: Op ::  nil) = 3 -> rk(Q :: R :: Op ::  nil) = 3 -> rk(P :: Pp :: Op ::  nil) = 2 ->
 rk(Q :: Pp :: Op ::  nil) = 3 -> rk(R :: Pp :: Op ::  nil) = 3 -> rk(P :: Qp :: Op ::  nil) = 3 ->
@@ -16462,12 +15854,11 @@ rk(Pp :: Qp :: gamma ::  nil) = 2 -> rk(alpha :: beta :: gamma ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Ps Qs Rs Op Oo Sc alpha beta gamma 
-HPQReq HPQPpeq HPRPpeq HQRPpeq HPQQpeq HPRQpeq HQRQpeq HPPpQpeq HQPpQpeq HRPpQpeq
-HPQRpeq HPRRpeq HQRRpeq HPPpRpeq HQPpRpeq HRPpRpeq HPQpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq
-HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq
-HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq
-HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq
-HPQgammaeq HPpQpgammaeq .
+HPQReq HPQPpeq HPRPpeq HPQQpeq HQRQpeq HPPpQpeq HQPpQpeq HPRRpeq HQRRpeq HPPpRpeq
+HRPpRpeq HQQpRpeq HRQpRpeq HPpQpRpeq HPQOpeq HPROpeq HQROpeq HPPpOpeq HQPpOpeq HRPpOpeq
+HPQpOpeq HQQpOpeq HRQpOpeq HPpQpOpeq HPRpOpeq HQRpOpeq HRRpOpeq HPpRpOpeq HQpRpOpeq HPQRPpQpRpOpeq
+HPQROoeq HPPsOoeq HQQsOoeq HRRsOoeq HPQRSceq HPpPsSceq HQpQsSceq HRpRsSceq HOoSceq HOpOoSceq
+HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour alphabetagamma requis par la preuve de (?)alphabetagamma pour la règle 3  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRalphabetagamma requis par la preuve de (?)alphabetagamma pour la règle 4  *)

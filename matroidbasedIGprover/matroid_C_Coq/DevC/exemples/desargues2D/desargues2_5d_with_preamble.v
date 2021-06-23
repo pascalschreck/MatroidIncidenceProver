@@ -534,20 +534,17 @@ solve[apply matroid1_b_useful2;simpl;repeat constructor
 
 (* dans la couche 0 *)
 Lemma LP : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HPM : rk(P ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HPeq HPM1).
 assert(HPm : rk(P ::  nil) >= 1) by (solve_hyps_min HPeq HPm1).
@@ -556,322 +553,55 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQ : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HQM : rk(Q ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HQeq HQM1).
 assert(HQm : rk(Q ::  nil) >= 1) by (solve_hyps_min HQeq HQm1).
 intuition.
 Qed.
 
-(* dans constructLemma(), requis par LPQ *)
-(* dans la couche 0 *)
-Lemma LPQRRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Rp ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-assert(HPQRRpM : rk(P :: Q :: R :: Rp ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRRpm : rk(P :: Q :: R :: Rp ::  nil) >= 1) by (solve_hyps_min HPQRRpeq HPQRRpm1).
-intuition.
-Qed.
-
-(* dans constructLemma(), requis par LPQ *)
-(* dans la couche 0 *)
-Lemma LRRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(R :: Rp ::  nil) = 2.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-assert(HRRpM : rk(R :: Rp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HRRpeq HRRpM2).
-assert(HRRpm : rk(R :: Rp ::  nil) >= 1) by (solve_hyps_min HRRpeq HRRpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPQ : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q ::  nil) = 2.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PQ requis par la preuve de (?)PQ pour la règle 2  *)
-(* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
-(* marque des antécédents AUB AiB B: 4 -1 et 4*)
-assert(HPQm2 : rk(P :: Q :: nil) >= 2).
-{
-	try assert(HRRpeq : rk(R :: Rp :: nil) = 2) by (apply LRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HRRpMtmp : rk(R :: Rp :: nil) <= 2) by (solve_hyps_max HRRpeq HRRpM2).
-	try assert(HPQRRpeq : rk(P :: Q :: R :: Rp :: nil) = 4) by (apply LPQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRRpmtmp : rk(P :: Q :: R :: Rp :: nil) >= 4) by (solve_hyps_min HPQRRpeq HPQRRpm4).
-	assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P :: Q :: nil) (R :: Rp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Rp :: nil) (P :: Q :: R :: Rp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Rp :: nil) ((P :: Q :: nil) ++ (R :: Rp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRRpmtmp;try rewrite HT2 in HPQRRpmtmp.
-	assert(HT := rule_2 (P :: Q :: nil) (R :: Rp :: nil) (nil) 4 0 2 HPQRRpmtmp Hmtmp HRRpMtmp Hincl);apply HT.
-}
-
-
-assert(HPQM : rk(P :: Q ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HPQeq HPQM2).
-assert(HPQm : rk(P :: Q ::  nil) >= 1) by (solve_hyps_min HPQeq HPQm1).
-intuition.
-Qed.
-
 (* dans la couche 0 *)
 Lemma LR : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(R ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HRM : rk(R ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HReq HRM1).
 assert(HRm : rk(R ::  nil) >= 1) by (solve_hyps_min HReq HRm1).
 intuition.
 Qed.
 
-(* dans constructLemma(), requis par LPR *)
-(* dans la couche 0 *)
-Lemma LPQRQp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-assert(HPQRQpM : rk(P :: Q :: R :: Qp ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRQpm : rk(P :: Q :: R :: Qp ::  nil) >= 1) by (solve_hyps_min HPQRQpeq HPQRQpm1).
-intuition.
-Qed.
-
-(* dans constructLemma(), requis par LPR *)
-(* dans la couche 0 *)
-Lemma LQQp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-assert(HQQpM : rk(Q :: Qp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HQQpeq HQQpM2).
-assert(HQQpm : rk(Q :: Qp ::  nil) >= 1) by (solve_hyps_min HQQpeq HQQpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPR : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R ::  nil) = 2.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PR requis par la preuve de (?)PR pour la règle 2  *)
-(* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
-(* marque des antécédents AUB AiB B: 4 -1 et 4*)
-assert(HPRm2 : rk(P :: R :: nil) >= 2).
-{
-	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQQpMtmp : rk(Q :: Qp :: nil) <= 2) by (solve_hyps_max HQQpeq HQQpM2).
-	try assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 4) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRQpmtmp : rk(P :: Q :: R :: Qp :: nil) >= 4) by (solve_hyps_min HPQRQpeq HPQRQpm4).
-	assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (P :: R :: nil) (Q :: Qp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Qp :: nil) (P :: R :: Q :: Qp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: Q :: Qp :: nil) ((P :: R :: nil) ++ (Q :: Qp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRQpmtmp;try rewrite HT2 in HPQRQpmtmp.
-	assert(HT := rule_2 (P :: R :: nil) (Q :: Qp :: nil) (nil) 4 0 2 HPQRQpmtmp Hmtmp HQQpMtmp Hincl);apply HT.
-}
-
-
-assert(HPRM : rk(P :: R ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HPReq HPRM2).
-assert(HPRm : rk(P :: R ::  nil) >= 1) by (solve_hyps_min HPReq HPRm1).
-intuition.
-Qed.
-
-(* dans constructLemma(), requis par LQR *)
-(* dans la couche 0 *)
-Lemma LPQRPp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-assert(HPQRPpM : rk(P :: Q :: R :: Pp ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpm : rk(P :: Q :: R :: Pp ::  nil) >= 1) by (solve_hyps_min HPQRPpeq HPQRPpm1).
-intuition.
-Qed.
-
-(* dans constructLemma(), requis par LQR *)
-(* dans la couche 0 *)
-Lemma LPPp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp ::  nil) = 2.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-assert(HPPpM : rk(P :: Pp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HPPpeq HPPpM2).
-assert(HPPpm : rk(P :: Pp ::  nil) >= 1) by (solve_hyps_min HPPpeq HPPpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LQR : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R ::  nil) = 2.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QR requis par la preuve de (?)QR pour la règle 2  *)
-(* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
-(* marque des antécédents AUB AiB B: 4 -1 et 4*)
-assert(HQRm2 : rk(Q :: R :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpMtmp : rk(P :: Pp :: nil) <= 2) by (solve_hyps_max HPPpeq HPPpM2).
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (Q :: R :: nil) (P :: Pp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: nil) (Q :: R :: P :: Pp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (Q :: R :: P :: Pp :: nil) ((Q :: R :: nil) ++ (P :: Pp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpmtmp;try rewrite HT2 in HPQRPpmtmp.
-	assert(HT := rule_2 (Q :: R :: nil) (P :: Pp :: nil) (nil) 4 0 2 HPQRPpmtmp Hmtmp HPPpMtmp Hincl);apply HT.
-}
-
-
-assert(HQRM : rk(Q :: R ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HQReq HQRM2).
-assert(HQRm : rk(Q :: R ::  nil) >= 1) by (solve_hyps_min HQReq HQRm1).
-intuition.
-Qed.
-
 (* dans la couche 0 *)
 Lemma LPQR : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HPQRM : rk(P :: Q :: R ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQReq HPQRM3).
 assert(HPQRm : rk(P :: Q :: R ::  nil) >= 1) by (solve_hyps_min HPQReq HPQRm1).
@@ -880,20 +610,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HPpM : rk(Pp ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HPpeq HPpM1).
 assert(HPpm : rk(Pp ::  nil) >= 1) by (solve_hyps_min HPpeq HPpm1).
@@ -901,189 +628,37 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LQPp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+Lemma LPPp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Pp ::  nil) = 2.
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QPp requis par la preuve de (?)QPp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp ::  de rang :  4 et 4 	 AiB : Q ::  de rang :  1 et 1 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HQPpm2 : rk(Q :: Pp :: nil) >= 2).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	try assert(HQeq : rk(Q :: nil) = 1) by (apply LQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQmtmp : rk(Q :: nil) >= 1) by (solve_hyps_min HQeq HQm1).
-	assert(Hincl : incl (Q :: nil) (list_inter (P :: Q :: R :: nil) (Q :: Pp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Q :: Pp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Q :: Pp :: nil) ((P :: Q :: R :: nil) ++ (Q :: Pp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpmtmp;try rewrite HT2 in HPQRPpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (Q :: Pp :: nil) (Q :: nil) 4 1 3 HPQRPpmtmp HQmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HQPpM : rk(Q :: Pp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HQPpeq HQPpM2).
-assert(HQPpm : rk(Q :: Pp ::  nil) >= 1) by (solve_hyps_min HQPpeq HQPpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPQPp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PQPp requis par la preuve de (?)PQPp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HPQPpm3 : rk(P :: Q :: Pp :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: nil) (P :: Q :: Pp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: P :: Q :: Pp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: P :: Q :: Pp :: nil) ((P :: Q :: R :: nil) ++ (P :: Q :: Pp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpmtmp;try rewrite HT2 in HPQRPpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: Q :: Pp :: nil) (P :: Q :: nil) 4 2 3 HPQRPpmtmp HPQmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HPQPpM : rk(P :: Q :: Pp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQPpeq HPQPpM3).
-assert(HPQPpm : rk(P :: Q :: Pp ::  nil) >= 1) by (solve_hyps_min HPQPpeq HPQPpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPRPp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PRPp requis par la preuve de (?)PRPp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp ::  de rang :  4 et 4 	 AiB : P :: R ::  de rang :  2 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HPRPpm3 : rk(P :: R :: Pp :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	try assert(HPReq : rk(P :: R :: nil) = 2) by (apply LPR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRmtmp : rk(P :: R :: nil) >= 2) by (solve_hyps_min HPReq HPRm2).
-	assert(Hincl : incl (P :: R :: nil) (list_inter (P :: Q :: R :: nil) (P :: R :: Pp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: P :: R :: Pp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: P :: R :: Pp :: nil) ((P :: Q :: R :: nil) ++ (P :: R :: Pp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpmtmp;try rewrite HT2 in HPQRPpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: R :: Pp :: nil) (P :: R :: nil) 4 2 3 HPQRPpmtmp HPRmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HPRPpM : rk(P :: R :: Pp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPRPpeq HPRPpM3).
-assert(HPRPpm : rk(P :: R :: Pp ::  nil) >= 1) by (solve_hyps_min HPRPpeq HPRPpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LQRPp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: Pp ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour QRPp requis par la preuve de (?)QRPp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp ::  de rang :  4 et 4 	 AiB : Q :: R ::  de rang :  2 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HQRPpm3 : rk(Q :: R :: Pp :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	try assert(HQReq : rk(Q :: R :: nil) = 2) by (apply LQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRmtmp : rk(Q :: R :: nil) >= 2) by (solve_hyps_min HQReq HQRm2).
-	assert(Hincl : incl (Q :: R :: nil) (list_inter (P :: Q :: R :: nil) (Q :: R :: Pp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Q :: R :: Pp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Q :: R :: Pp :: nil) ((P :: Q :: R :: nil) ++ (Q :: R :: Pp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpmtmp;try rewrite HT2 in HPQRPpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (Q :: R :: Pp :: nil) (Q :: R :: nil) 4 2 3 HPQRPpmtmp HQRmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HQRPpM : rk(Q :: R :: Pp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQRPpeq HQRPpM3).
-assert(HQRPpm : rk(Q :: R :: Pp ::  nil) >= 1) by (solve_hyps_min HQRPpeq HQRPpm1).
+assert(HPPpM : rk(P :: Pp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HPPpeq HPPpM2).
+assert(HPPpm : rk(P :: Pp ::  nil) >= 1) by (solve_hyps_min HPPpeq HPPpm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
 Lemma LQp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Qp ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HQpM : rk(Qp ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HQpeq HQpM1).
 assert(HQpm : rk(Qp ::  nil) >= 1) by (solve_hyps_min HQpeq HQpm1).
@@ -1091,153 +666,37 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LPQp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+Lemma LQQp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Qp ::  nil) = 2.
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PQp requis par la preuve de (?)PQp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Qp ::  de rang :  4 et 4 	 AiB : P ::  de rang :  1 et 1 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HPQpm2 : rk(P :: Qp :: nil) >= 2).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 4) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRQpmtmp : rk(P :: Q :: R :: Qp :: nil) >= 4) by (solve_hyps_min HPQRQpeq HPQRQpm4).
-	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
-	assert(Hincl : incl (P :: nil) (list_inter (P :: Q :: R :: nil) (P :: Qp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Qp :: nil) (P :: Q :: R :: P :: Qp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: P :: Qp :: nil) ((P :: Q :: R :: nil) ++ (P :: Qp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRQpmtmp;try rewrite HT2 in HPQRQpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: Qp :: nil) (P :: nil) 4 1 3 HPQRQpmtmp HPmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HPQpM : rk(P :: Qp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HPQpeq HPQpM2).
-assert(HPQpm : rk(P :: Qp ::  nil) >= 1) by (solve_hyps_min HPQpeq HPQpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPQQp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Qp ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PQQp requis par la preuve de (?)PQQp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Qp ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HPQQpm3 : rk(P :: Q :: Qp :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 4) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRQpmtmp : rk(P :: Q :: R :: Qp :: nil) >= 4) by (solve_hyps_min HPQRQpeq HPQRQpm4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: nil) (P :: Q :: Qp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Qp :: nil) (P :: Q :: R :: P :: Q :: Qp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: P :: Q :: Qp :: nil) ((P :: Q :: R :: nil) ++ (P :: Q :: Qp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRQpmtmp;try rewrite HT2 in HPQRQpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: Q :: Qp :: nil) (P :: Q :: nil) 4 2 3 HPQRQpmtmp HPQmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HPQQpM : rk(P :: Q :: Qp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQQpeq HPQQpM3).
-assert(HPQQpm : rk(P :: Q :: Qp ::  nil) >= 1) by (solve_hyps_min HPQQpeq HPQQpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPQRPpQp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQp requis par la preuve de (?)PQRPpQp pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQp requis par la preuve de (?)PQRPpQp pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpm3 : rk(P :: Q :: R :: Pp :: Qp :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpm4 : rk(P :: Q :: R :: Pp :: Qp :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQRPpQpM : rk(P :: Q :: R :: Pp :: Qp ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpm : rk(P :: Q :: R :: Pp :: Qp ::  nil) >= 1) by (solve_hyps_min HPQRPpQpeq HPQRPpQpm1).
+assert(HQQpM : rk(Q :: Qp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HQQpeq HQQpM2).
+assert(HQQpm : rk(Q :: Qp ::  nil) >= 1) by (solve_hyps_min HQQpeq HQQpm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
 Lemma LRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Rp ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HRpM : rk(Rp ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HRpeq HRpM1).
 assert(HRpm : rk(Rp ::  nil) >= 1) by (solve_hyps_min HRpeq HRpm1).
@@ -1245,231 +704,37 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LPRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+Lemma LRRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Rp ::  nil) = 2.
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(R :: Rp ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PRp requis par la preuve de (?)PRp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Rp ::  de rang :  4 et 4 	 AiB : P ::  de rang :  1 et 1 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HPRpm2 : rk(P :: Rp :: nil) >= 2).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRRpeq : rk(P :: Q :: R :: Rp :: nil) = 4) by (apply LPQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRRpmtmp : rk(P :: Q :: R :: Rp :: nil) >= 4) by (solve_hyps_min HPQRRpeq HPQRRpm4).
-	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
-	assert(Hincl : incl (P :: nil) (list_inter (P :: Q :: R :: nil) (P :: Rp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Rp :: nil) (P :: Q :: R :: P :: Rp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: P :: Rp :: nil) ((P :: Q :: R :: nil) ++ (P :: Rp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRRpmtmp;try rewrite HT2 in HPQRRpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: Rp :: nil) (P :: nil) 4 1 3 HPQRRpmtmp HPmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HPRpM : rk(P :: Rp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HPRpeq HPRpM2).
-assert(HPRpm : rk(P :: Rp ::  nil) >= 1) by (solve_hyps_min HPRpeq HPRpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LQRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Rp ::  nil) = 2.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QRp requis par la preuve de (?)QRp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Rp ::  de rang :  4 et 4 	 AiB : Q ::  de rang :  1 et 1 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HQRpm2 : rk(Q :: Rp :: nil) >= 2).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRRpeq : rk(P :: Q :: R :: Rp :: nil) = 4) by (apply LPQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRRpmtmp : rk(P :: Q :: R :: Rp :: nil) >= 4) by (solve_hyps_min HPQRRpeq HPQRRpm4).
-	try assert(HQeq : rk(Q :: nil) = 1) by (apply LQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQmtmp : rk(Q :: nil) >= 1) by (solve_hyps_min HQeq HQm1).
-	assert(Hincl : incl (Q :: nil) (list_inter (P :: Q :: R :: nil) (Q :: Rp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Rp :: nil) (P :: Q :: R :: Q :: Rp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Q :: Rp :: nil) ((P :: Q :: R :: nil) ++ (Q :: Rp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRRpmtmp;try rewrite HT2 in HPQRRpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (Q :: Rp :: nil) (Q :: nil) 4 1 3 HPQRRpmtmp HQmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HQRpM : rk(Q :: Rp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HQRpeq HQRpM2).
-assert(HQRpm : rk(Q :: Rp ::  nil) >= 1) by (solve_hyps_min HQRpeq HQRpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPQRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Rp ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PQRp requis par la preuve de (?)PQRp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Rp ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HPQRpm3 : rk(P :: Q :: Rp :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRRpeq : rk(P :: Q :: R :: Rp :: nil) = 4) by (apply LPQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRRpmtmp : rk(P :: Q :: R :: Rp :: nil) >= 4) by (solve_hyps_min HPQRRpeq HPQRRpm4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: nil) (P :: Q :: Rp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Rp :: nil) (P :: Q :: R :: P :: Q :: Rp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: P :: Q :: Rp :: nil) ((P :: Q :: R :: nil) ++ (P :: Q :: Rp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRRpmtmp;try rewrite HT2 in HPQRRpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: Q :: Rp :: nil) (P :: Q :: nil) 4 2 3 HPQRRpmtmp HPQmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HPQRpM : rk(P :: Q :: Rp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQRpeq HPQRpM3).
-assert(HPQRpm : rk(P :: Q :: Rp ::  nil) >= 1) by (solve_hyps_min HPQRpeq HPQRpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPRRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Rp ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PRRp requis par la preuve de (?)PRRp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Rp ::  de rang :  4 et 4 	 AiB : P :: R ::  de rang :  2 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HPRRpm3 : rk(P :: R :: Rp :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRRpeq : rk(P :: Q :: R :: Rp :: nil) = 4) by (apply LPQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRRpmtmp : rk(P :: Q :: R :: Rp :: nil) >= 4) by (solve_hyps_min HPQRRpeq HPQRRpm4).
-	try assert(HPReq : rk(P :: R :: nil) = 2) by (apply LPR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRmtmp : rk(P :: R :: nil) >= 2) by (solve_hyps_min HPReq HPRm2).
-	assert(Hincl : incl (P :: R :: nil) (list_inter (P :: Q :: R :: nil) (P :: R :: Rp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Rp :: nil) (P :: Q :: R :: P :: R :: Rp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: P :: R :: Rp :: nil) ((P :: Q :: R :: nil) ++ (P :: R :: Rp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRRpmtmp;try rewrite HT2 in HPQRRpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: R :: Rp :: nil) (P :: R :: nil) 4 2 3 HPQRRpmtmp HPRmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HPRRpM : rk(P :: R :: Rp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPRRpeq HPRRpM3).
-assert(HPRRpm : rk(P :: R :: Rp ::  nil) >= 1) by (solve_hyps_min HPRRpeq HPRRpm1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LQRRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: Rp ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour QRRp requis par la preuve de (?)QRRp pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Rp ::  de rang :  4 et 4 	 AiB : Q :: R ::  de rang :  2 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
-assert(HQRRpm3 : rk(Q :: R :: Rp :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
-	try assert(HPQRRpeq : rk(P :: Q :: R :: Rp :: nil) = 4) by (apply LPQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRRpmtmp : rk(P :: Q :: R :: Rp :: nil) >= 4) by (solve_hyps_min HPQRRpeq HPQRRpm4).
-	try assert(HQReq : rk(Q :: R :: nil) = 2) by (apply LQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRmtmp : rk(Q :: R :: nil) >= 2) by (solve_hyps_min HQReq HQRm2).
-	assert(Hincl : incl (Q :: R :: nil) (list_inter (P :: Q :: R :: nil) (Q :: R :: Rp :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Rp :: nil) (P :: Q :: R :: Q :: R :: Rp :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Q :: R :: Rp :: nil) ((P :: Q :: R :: nil) ++ (Q :: R :: Rp :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRRpmtmp;try rewrite HT2 in HPQRRpmtmp.
-	assert(HT := rule_4 (P :: Q :: R :: nil) (Q :: R :: Rp :: nil) (Q :: R :: nil) 4 2 3 HPQRRpmtmp HQRmtmp HPQRMtmp Hincl); apply HT.
-}
-
-
-assert(HQRRpM : rk(Q :: R :: Rp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQRRpeq HQRRpM3).
-assert(HQRRpm : rk(Q :: R :: Rp ::  nil) >= 1) by (solve_hyps_min HQRRpeq HQRRpm1).
+assert(HRRpM : rk(R :: Rp ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HRRpeq HRRpM2).
+assert(HRRpm : rk(R :: Rp ::  nil) >= 1) by (solve_hyps_min HRRpeq HRRpm1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
 Lemma LPpQpRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HPpQpRpM : rk(Pp :: Qp :: Rp ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPpQpRpeq HPpQpRpM3).
 assert(HPpQpRpm : rk(Pp :: Qp :: Rp ::  nil) >= 1) by (solve_hyps_min HPpQpRpeq HPpQpRpm1).
@@ -1477,372 +742,290 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
+Lemma LPQRPpQpRp : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4.
+Proof.
+
+intros P Q R Pp Qp Rp Oo alpha beta gamma 
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+
+assert(HPQRPpQpRpM : rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) <= 4) by (apply rk_upper_dim).
+assert(HPQRPpQpRpm : rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) >= 1) by (solve_hyps_min HPQRPpQpRpeq HPQRPpQpRpm1).
+intuition.
+Qed.
+
+(* dans la couche 0 *)
 Lemma LOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Oo ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HOoM : rk(Oo ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max HOoeq HOoM1).
 assert(HOom : rk(Oo ::  nil) >= 1) by (solve_hyps_min HOoeq HOom1).
 intuition.
 Qed.
 
+(* dans constructLemma(), requis par LPOo *)
+(* dans la couche 0 *)
+Lemma LPQROo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Oo ::  nil) = 4.
+Proof.
+
+intros P Q R Pp Qp Rp Oo alpha beta gamma 
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+
+assert(HPQROoM : rk(P :: Q :: R :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
+assert(HPQROom : rk(P :: Q :: R :: Oo ::  nil) >= 1) by (solve_hyps_min HPQROoeq HPQROom1).
+intuition.
+Qed.
+
 (* dans la couche 0 *)
 Lemma LPOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour POo requis par la preuve de (?)POo pour la règle 4  *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : P ::  de rang :  1 et 1 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
+assert(HPOom2 : rk(P :: Oo :: nil) >= 2).
+{
+	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
+	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
+	assert(Hincl : incl (P :: nil) (list_inter (P :: Q :: R :: nil) (P :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: P :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Q :: R :: P :: Oo :: nil) ((P :: Q :: R :: nil) ++ (P :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQROomtmp;try rewrite HT2 in HPQROomtmp.
+	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: Oo :: nil) (P :: nil) 4 1 3 HPQROomtmp HPmtmp HPQRMtmp Hincl); apply HT.
+}
+
 
 assert(HPOoM : rk(P :: Oo ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HPOoeq HPOoM2).
 assert(HPOom : rk(P :: Oo ::  nil) >= 1) by (solve_hyps_min HPOoeq HPOom1).
 intuition.
 Qed.
 
-(* dans constructLemma(), requis par LPQOo *)
 (* dans la couche 0 *)
-Lemma LPQPpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+Lemma LQOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Oo ::  nil) = 3.
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQPpOo requis par la preuve de (?)PQPpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PQPpOo requis par la preuve de (?)PQPpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 2 pour PPpOo requis par la preuve de (?)PQPpOo pour la règle 1  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpOo requis par la preuve de (?)PQPpOo pour la règle 1  *)
-(* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
-(* marque des antécédents A B AiB : 4 5 et 5*)
-assert(HPQPpOoM3 : rk(P :: Q :: Pp :: Oo :: nil) <= 3).
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QOo requis par la preuve de (?)QOo pour la règle 4  *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : Q ::  de rang :  1 et 1 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
+assert(HQOom2 : rk(Q :: Oo :: nil) >= 2).
 {
+	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
 	try assert(HQeq : rk(Q :: nil) = 1) by (apply LQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQMtmp : rk(Q :: nil) <= 1) by (solve_hyps_max HQeq HQM1).
-	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
-	assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (Q :: nil) (P :: Pp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: Pp :: Oo :: nil) (Q :: P :: Pp :: Oo :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (Q :: P :: Pp :: Oo :: nil) ((Q :: nil) ++ (P :: Pp :: Oo :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (Q :: nil) (P :: Pp :: Oo :: nil) (nil) 1 2 0 HQMtmp HPPpOoMtmp Hmtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
+	assert(HQmtmp : rk(Q :: nil) >= 1) by (solve_hyps_min HQeq HQm1).
+	assert(Hincl : incl (Q :: nil) (list_inter (P :: Q :: R :: nil) (Q :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Q :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Q :: R :: Q :: Oo :: nil) ((P :: Q :: R :: nil) ++ (Q :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQROomtmp;try rewrite HT2 in HPQROomtmp.
+	assert(HT := rule_4 (P :: Q :: R :: nil) (Q :: Oo :: nil) (Q :: nil) 4 1 3 HPQROomtmp HQmtmp HPQRMtmp Hincl); apply HT.
 }
 
 
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQPpOom2 : rk(P :: Q :: Pp :: Oo :: nil) >= 2).
-{
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: nil) (P :: Q :: Pp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: nil) (P :: Q :: Pp :: Oo :: nil) 2 2 HPQmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQPpOom3 : rk(P :: Q :: Pp :: Oo :: nil) >= 3).
-{
-	try assert(HPQPpeq : rk(P :: Q :: Pp :: nil) = 3) by (apply LPQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Oo :: nil) 3 3 HPQPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQPpOoM : rk(P :: Q :: Pp :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQPpOom : rk(P :: Q :: Pp :: Oo ::  nil) >= 1) by (solve_hyps_min HPQPpOoeq HPQPpOom1).
+assert(HQOoM : rk(Q :: Oo ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HQOoeq HQOoM2).
+assert(HQOom : rk(Q :: Oo ::  nil) >= 1) by (solve_hyps_min HQOoeq HQOom1).
 intuition.
 Qed.
 
 (* dans constructLemma(), requis par LPQOo *)
 (* dans la couche 0 *)
-Lemma LPPpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+Lemma LROo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Oo ::  nil) = 2.
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-assert(HPPpOoM : rk(P :: Pp :: Oo ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPPpOoeq HPPpOoM3).
-assert(HPPpOom : rk(P :: Pp :: Oo ::  nil) >= 1) by (solve_hyps_min HPPpOoeq HPPpOom1).
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour ROo requis par la preuve de (?)ROo pour la règle 4  *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : R ::  de rang :  1 et 1 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
+assert(HROom2 : rk(R :: Oo :: nil) >= 2).
+{
+	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
+	try assert(HReq : rk(R :: nil) = 1) by (apply LR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRmtmp : rk(R :: nil) >= 1) by (solve_hyps_min HReq HRm1).
+	assert(Hincl : incl (R :: nil) (list_inter (P :: Q :: R :: nil) (R :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: R :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Q :: R :: R :: Oo :: nil) ((P :: Q :: R :: nil) ++ (R :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQROomtmp;try rewrite HT2 in HPQROomtmp.
+	assert(HT := rule_4 (P :: Q :: R :: nil) (R :: Oo :: nil) (R :: nil) 4 1 3 HPQROomtmp HRmtmp HPQRMtmp Hincl); apply HT.
+}
+
+
+assert(HROoM : rk(R :: Oo ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HROoeq HROoM2).
+assert(HROom : rk(R :: Oo ::  nil) >= 1) by (solve_hyps_min HROoeq HROom1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
 Lemma LPQOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQOo requis par la preuve de (?)PQOo pour la règle 2  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PQOo pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PQRPpQpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PQRPpQpOo pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOom3 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOom4 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PQ requis par la preuve de (?)PQOo pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PQOo requis par la preuve de (?)PQOo pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 3) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Oo ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
+(* marque des antécédents AUB AiB A: 4 5 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  1 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
 assert(HPQOom2 : rk(P :: Q :: Oo :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpOomtmp : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HPQRPpQpOoeq HPQRPpQpOom4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Oo :: nil) (P :: Q :: R :: Pp :: Qp :: P :: Q :: Oo :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: Q :: Oo :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: Q :: Oo :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpOomtmp;try rewrite HT2 in HPQRPpQpOomtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: Oo :: nil) (P :: Q :: nil) 4 2 4 HPQRPpQpOomtmp HPQmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
+	assert(HPQmtmp : rk(P :: Q :: nil) >= 1) by (solve_hyps_min HPQeq HPQm1).
+	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: nil) (P :: Q :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: P :: Q :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Q :: R :: P :: Q :: Oo :: nil) ((P :: Q :: R :: nil) ++ (P :: Q :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQROomtmp;try rewrite HT2 in HPQROomtmp.
+	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: Q :: Oo :: nil) (P :: Q :: nil) 4 1 3 HPQROomtmp HPQmtmp HPQRMtmp Hincl); apply HT.
 }
-
+try clear HPQM1. try clear HPQM2. try clear HPQM3. try clear HPQm4. try clear HPQm3. try clear HPQm2. try clear HPQm1. 
 
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
 (* marque des antécédents AUB AiB B: 4 4 et 4*)
 assert(HPQOom3 : rk(P :: Q :: Oo :: nil) >= 3).
 {
-	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
-	try assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 3) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 3) by (solve_hyps_min HPQPpOoeq HPQPpOom3).
-	try assert(HPOoeq : rk(P :: Oo :: nil) = 2) by (apply LPOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPOomtmp : rk(P :: Oo :: nil) >= 2) by (solve_hyps_min HPOoeq HPOom2).
-	assert(Hincl : incl (P :: Oo :: nil) (list_inter (P :: Q :: Oo :: nil) (P :: Pp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: Pp :: Oo :: nil) (P :: Q :: Oo :: P :: Pp :: Oo :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: Oo :: P :: Pp :: Oo :: nil) ((P :: Q :: Oo :: nil) ++ (P :: Pp :: Oo :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQPpOomtmp;try rewrite HT2 in HPQPpOomtmp.
-	assert(HT := rule_2 (P :: Q :: Oo :: nil) (P :: Pp :: Oo :: nil) (P :: Oo :: nil) 3 2 2 HPQPpOomtmp HPOomtmp HPPpOoMtmp Hincl);apply HT.
+	try assert(HROoeq : rk(R :: Oo :: nil) = 2) by (apply LROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HROoMtmp : rk(R :: Oo :: nil) <= 2) by (solve_hyps_max HROoeq HROoM2).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
+	try assert(HOoeq : rk(Oo :: nil) = 1) by (apply LOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HOomtmp : rk(Oo :: nil) >= 1) by (solve_hyps_min HOoeq HOom1).
+	assert(Hincl : incl (Oo :: nil) (list_inter (P :: Q :: Oo :: nil) (R :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Oo :: nil) (P :: Q :: Oo :: R :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Q :: Oo :: R :: Oo :: nil) ((P :: Q :: Oo :: nil) ++ (R :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQROomtmp;try rewrite HT2 in HPQROomtmp.
+	assert(HT := rule_2 (P :: Q :: Oo :: nil) (R :: Oo :: nil) (Oo :: nil) 4 1 2 HPQROomtmp HOomtmp HROoMtmp Hincl);apply HT.
 }
-
+try clear HROoM1. try clear HROoM2. try clear HROoM3. try clear HROom4. try clear HROom3. try clear HROom2. try clear HROom1. 
 
 assert(HPQOoM : rk(P :: Q :: Oo ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQOoeq HPQOoM3).
 assert(HPQOom : rk(P :: Q :: Oo ::  nil) >= 1) by (solve_hyps_min HPQOoeq HPQOom1).
 intuition.
 Qed.
 
-(* dans constructLemma(), requis par LPROo *)
-(* dans la couche 0 *)
-Lemma LPRPpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Oo ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRPpOo requis par la preuve de (?)PRPpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PRPpOo requis par la preuve de (?)PRPpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpOo requis par la preuve de (?)PRPpOo pour la règle 1  *)
-(* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
-(* marque des antécédents A B AiB : 4 4 et 5*)
-assert(HPRPpOoM3 : rk(P :: R :: Pp :: Oo :: nil) <= 3).
-{
-	try assert(HReq : rk(R :: nil) = 1) by (apply LR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HRMtmp : rk(R :: nil) <= 1) by (solve_hyps_max HReq HRM1).
-	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
-	assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (R :: nil) (P :: Pp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Oo :: nil) (R :: P :: Pp :: Oo :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (R :: P :: Pp :: Oo :: nil) ((R :: nil) ++ (P :: Pp :: Oo :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (R :: nil) (P :: Pp :: Oo :: nil) (nil) 1 2 0 HRMtmp HPPpOoMtmp Hmtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpOom2 : rk(P :: R :: Pp :: Oo :: nil) >= 2).
-{
-	try assert(HPReq : rk(P :: R :: nil) = 2) by (apply LPR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRmtmp : rk(P :: R :: nil) >= 2) by (solve_hyps_min HPReq HPRm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: nil) (P :: R :: Pp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: nil) (P :: R :: Pp :: Oo :: nil) 2 2 HPRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpOom3 : rk(P :: R :: Pp :: Oo :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Oo :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPRPpOoM : rk(P :: R :: Pp :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPRPpOom : rk(P :: R :: Pp :: Oo ::  nil) >= 1) by (solve_hyps_min HPRPpOoeq HPRPpOom1).
-intuition.
-Qed.
-
 (* dans la couche 0 *)
 Lemma LPROo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PROo requis par la preuve de (?)PROo pour la règle 2  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PROo pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PQRPpQpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PQRPpQpOo pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOom3 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOom4 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
+(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PROo requis par la preuve de (?)PROo pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PR requis par la preuve de (?)PROo pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PROo requis par la preuve de (?)PROo pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 3) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Oo ::  de rang :  4 et 4 	 AiB : P :: R ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
+(* marque des antécédents AUB AiB A: 4 5 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : P :: R ::  de rang :  1 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
 assert(HPROom2 : rk(P :: R :: Oo :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpOomtmp : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HPQRPpQpOoeq HPQRPpQpOom4).
-	try assert(HPReq : rk(P :: R :: nil) = 2) by (apply LPR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRmtmp : rk(P :: R :: nil) >= 2) by (solve_hyps_min HPReq HPRm2).
-	assert(Hincl : incl (P :: R :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: R :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Oo :: nil) (P :: Q :: R :: Pp :: Qp :: P :: R :: Oo :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: R :: Oo :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: R :: Oo :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpOomtmp;try rewrite HT2 in HPQRPpQpOomtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: R :: Oo :: nil) (P :: R :: nil) 4 2 4 HPQRPpQpOomtmp HPRmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
+	assert(HPRmtmp : rk(P :: R :: nil) >= 1) by (solve_hyps_min HPReq HPRm1).
+	assert(Hincl : incl (P :: R :: nil) (list_inter (P :: Q :: R :: nil) (P :: R :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: P :: R :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Q :: R :: P :: R :: Oo :: nil) ((P :: Q :: R :: nil) ++ (P :: R :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQROomtmp;try rewrite HT2 in HPQROomtmp.
+	assert(HT := rule_4 (P :: Q :: R :: nil) (P :: R :: Oo :: nil) (P :: R :: nil) 4 1 3 HPQROomtmp HPRmtmp HPQRMtmp Hincl); apply HT.
 }
+try clear HPRM1. try clear HPRM2. try clear HPRM3. try clear HPRm4. try clear HPRm3. try clear HPRm2. try clear HPRm1. 
 
-
-(* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
-(* marque des antécédents AUB AiB B: 4 4 et 4*)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : Oo ::  de rang :  1 et 1 	 A : Q :: Oo ::   de rang : 2 et 2 *)
 assert(HPROom3 : rk(P :: R :: Oo :: nil) >= 3).
 {
-	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
-	try assert(HPRPpOoeq : rk(P :: R :: Pp :: Oo :: nil) = 3) by (apply LPRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpOomtmp : rk(P :: R :: Pp :: Oo :: nil) >= 3) by (solve_hyps_min HPRPpOoeq HPRPpOom3).
-	try assert(HPOoeq : rk(P :: Oo :: nil) = 2) by (apply LPOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPOomtmp : rk(P :: Oo :: nil) >= 2) by (solve_hyps_min HPOoeq HPOom2).
-	assert(Hincl : incl (P :: Oo :: nil) (list_inter (P :: R :: Oo :: nil) (P :: Pp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Oo :: nil) (P :: R :: Oo :: P :: Pp :: Oo :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: Oo :: P :: Pp :: Oo :: nil) ((P :: R :: Oo :: nil) ++ (P :: Pp :: Oo :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPRPpOomtmp;try rewrite HT2 in HPRPpOomtmp.
-	assert(HT := rule_2 (P :: R :: Oo :: nil) (P :: Pp :: Oo :: nil) (P :: Oo :: nil) 3 2 2 HPRPpOomtmp HPOomtmp HPPpOoMtmp Hincl);apply HT.
+	try assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoMtmp : rk(Q :: Oo :: nil) <= 2) by (solve_hyps_max HQOoeq HQOoM2).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
+	try assert(HOoeq : rk(Oo :: nil) = 1) by (apply LOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HOomtmp : rk(Oo :: nil) >= 1) by (solve_hyps_min HOoeq HOom1).
+	assert(Hincl : incl (Oo :: nil) (list_inter (Q :: Oo :: nil) (P :: R :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Oo :: nil) (Q :: Oo :: P :: R :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Q :: Oo :: P :: R :: Oo :: nil) ((Q :: Oo :: nil) ++ (P :: R :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQROomtmp;try rewrite HT2 in HPQROomtmp.
+	assert(HT := rule_4 (Q :: Oo :: nil) (P :: R :: Oo :: nil) (Oo :: nil) 4 1 2 HPQROomtmp HOomtmp HQOoMtmp Hincl); apply HT.
 }
 
 
@@ -1851,125 +1034,118 @@ assert(HPROom : rk(P :: R :: Oo ::  nil) >= 1) by (solve_hyps_min HPROoeq HPROom
 intuition.
 Qed.
 
-(* dans constructLemma(), requis par LPQROo *)
 (* dans la couche 0 *)
-Lemma LPQRPpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+Lemma LQROo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Oo ::  nil) = 4.
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpOo requis par la preuve de (?)PQRPpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpOo requis par la preuve de (?)PQRPpOo pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpOom3 : rk(P :: Q :: R :: Pp :: Oo :: nil) >= 3).
+(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QROo requis par la preuve de (?)QROo pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QR requis par la preuve de (?)QROo pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour QROo requis par la preuve de (?)QROo pour la règle 4  *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 3) *)
+(* marque des antécédents AUB AiB A: 4 5 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : Q :: R ::  de rang :  1 et 2 	 A : P :: Q :: R ::   de rang : 3 et 3 *)
+assert(HQROom2 : rk(Q :: R :: Oo :: nil) >= 2).
 {
 	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+	assert(HPQRMtmp : rk(P :: Q :: R :: nil) <= 3) by (solve_hyps_max HPQReq HPQRM3).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
+	assert(HQRmtmp : rk(Q :: R :: nil) >= 1) by (solve_hyps_min HQReq HQRm1).
+	assert(Hincl : incl (Q :: R :: nil) (list_inter (P :: Q :: R :: nil) (Q :: R :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Q :: R :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Q :: R :: Q :: R :: Oo :: nil) ((P :: Q :: R :: nil) ++ (Q :: R :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQROomtmp;try rewrite HT2 in HPQROomtmp.
+	assert(HT := rule_4 (P :: Q :: R :: nil) (Q :: R :: Oo :: nil) (Q :: R :: nil) 4 1 3 HPQROomtmp HQRmtmp HPQRMtmp Hincl); apply HT.
 }
+try clear HQRM1. try clear HQRM2. try clear HQRM3. try clear HQRm4. try clear HQRm3. try clear HQRm2. try clear HQRm1. 
 
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpOom4 : rk(P :: Q :: R :: Pp :: Oo :: nil) >= 4).
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : Oo ::  de rang :  1 et 1 	 A : P :: Oo ::   de rang : 2 et 2 *)
+assert(HQROom3 : rk(Q :: R :: Oo :: nil) >= 3).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Oo :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPOoeq : rk(P :: Oo :: nil) = 2) by (apply LPOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPOoMtmp : rk(P :: Oo :: nil) <= 2) by (solve_hyps_max HPOoeq HPOoM2).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
+	try assert(HOoeq : rk(Oo :: nil) = 1) by (apply LOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HOomtmp : rk(Oo :: nil) >= 1) by (solve_hyps_min HOoeq HOom1).
+	assert(Hincl : incl (Oo :: nil) (list_inter (P :: Oo :: nil) (Q :: R :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Oo :: nil) (P :: Oo :: Q :: R :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Oo :: Q :: R :: Oo :: nil) ((P :: Oo :: nil) ++ (Q :: R :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQROomtmp;try rewrite HT2 in HPQROomtmp.
+	assert(HT := rule_4 (P :: Oo :: nil) (Q :: R :: Oo :: nil) (Oo :: nil) 4 1 2 HPQROomtmp HOomtmp HPOoMtmp Hincl); apply HT.
 }
 
 
-assert(HPQRPpOoM : rk(P :: Q :: R :: Pp :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpOom : rk(P :: Q :: R :: Pp :: Oo ::  nil) >= 1) by (solve_hyps_min HPQRPpOoeq HPQRPpOom1).
+assert(HQROoM : rk(Q :: R :: Oo ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQROoeq HQROoM3).
+assert(HQROom : rk(Q :: R :: Oo ::  nil) >= 1) by (solve_hyps_min HQROoeq HQROom1).
 intuition.
 Qed.
 
+(* dans constructLemma(), requis par LPpOo *)
 (* dans la couche 0 *)
-Lemma LPQROo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+Lemma LPpQpRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Oo ::  nil) = 4.
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQROo requis par la preuve de (?)PQROo pour la règle 2  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQROo requis par la preuve de (?)PQROo pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQROom3 : rk(P :: Q :: R :: Oo :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
-(* marque des antécédents AUB AiB B: 4 4 et 4*)
-assert(HPQROom4 : rk(P :: Q :: R :: Oo :: nil) >= 4).
-{
-	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
-	try assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpOomtmp : rk(P :: Q :: R :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQRPpOoeq HPQRPpOom4).
-	try assert(HPOoeq : rk(P :: Oo :: nil) = 2) by (apply LPOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPOomtmp : rk(P :: Oo :: nil) >= 2) by (solve_hyps_min HPOoeq HPOom2).
-	assert(Hincl : incl (P :: Oo :: nil) (list_inter (P :: Q :: R :: Oo :: nil) (P :: Pp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Oo :: nil) (P :: Q :: R :: Oo :: P :: Pp :: Oo :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Oo :: P :: Pp :: Oo :: nil) ((P :: Q :: R :: Oo :: nil) ++ (P :: Pp :: Oo :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpOomtmp;try rewrite HT2 in HPQRPpOomtmp.
-	assert(HT := rule_2 (P :: Q :: R :: Oo :: nil) (P :: Pp :: Oo :: nil) (P :: Oo :: nil) 4 2 2 HPQRPpOomtmp HPOomtmp HPPpOoMtmp Hincl);apply HT.
-}
-
-
-assert(HPQROoM : rk(P :: Q :: R :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQROom : rk(P :: Q :: R :: Oo ::  nil) >= 1) by (solve_hyps_min HPQROoeq HPQROom1).
+assert(HPpQpRpOoM : rk(Pp :: Qp :: Rp :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
+assert(HPpQpRpOom : rk(Pp :: Qp :: Rp :: Oo ::  nil) >= 1) by (solve_hyps_min HPpQpRpOoeq HPpQpRpOom1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
 Lemma LPpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PpOo requis par la preuve de (?)PpOo pour la règle 4  *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : Pp :: Qp :: Rp :: Oo ::  de rang :  4 et 4 	 AiB : Pp ::  de rang :  1 et 1 	 A : Pp :: Qp :: Rp ::   de rang : 3 et 3 *)
+assert(HPpOom2 : rk(Pp :: Oo :: nil) >= 2).
+{
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpMtmp : rk(Pp :: Qp :: Rp :: nil) <= 3) by (solve_hyps_max HPpQpRpeq HPpQpRpM3).
+	try assert(HPpQpRpOoeq : rk(Pp :: Qp :: Rp :: Oo :: nil) = 4) by (apply LPpQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpOomtmp : rk(Pp :: Qp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HPpQpRpOoeq HPpQpRpOom4).
+	try assert(HPpeq : rk(Pp :: nil) = 1) by (apply LPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpmtmp : rk(Pp :: nil) >= 1) by (solve_hyps_min HPpeq HPpm1).
+	assert(Hincl : incl (Pp :: nil) (list_inter (Pp :: Qp :: Rp :: nil) (Pp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (Pp :: Qp :: Rp :: Oo :: nil) (Pp :: Qp :: Rp :: Pp :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Pp :: Qp :: Rp :: Pp :: Oo :: nil) ((Pp :: Qp :: Rp :: nil) ++ (Pp :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPpQpRpOomtmp;try rewrite HT2 in HPpQpRpOomtmp.
+	assert(HT := rule_4 (Pp :: Qp :: Rp :: nil) (Pp :: Oo :: nil) (Pp :: nil) 4 1 3 HPpQpRpOomtmp HPpmtmp HPpQpRpMtmp Hincl); apply HT.
+}
+
 
 assert(HPpOoM : rk(Pp :: Oo ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HPpOoeq HPpOoM2).
 assert(HPpOom : rk(Pp :: Oo ::  nil) >= 1) by (solve_hyps_min HPpOoeq HPpOom1).
@@ -1977,21 +1153,57 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
+Lemma LPPpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Oo ::  nil) = 2.
+Proof.
+
+intros P Q R Pp Qp Rp Oo alpha beta gamma 
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+
+assert(HPPpOoM : rk(P :: Pp :: Oo ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPPpOoeq HPPpOoM3).
+assert(HPPpOom : rk(P :: Pp :: Oo ::  nil) >= 1) by (solve_hyps_min HPPpOoeq HPPpOom1).
+intuition.
+Qed.
+
+(* dans la couche 0 *)
 Lemma LQpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QpOo requis par la preuve de (?)QpOo pour la règle 4  *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : Pp :: Qp :: Rp :: Oo ::  de rang :  4 et 4 	 AiB : Qp ::  de rang :  1 et 1 	 A : Pp :: Qp :: Rp ::   de rang : 3 et 3 *)
+assert(HQpOom2 : rk(Qp :: Oo :: nil) >= 2).
+{
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpMtmp : rk(Pp :: Qp :: Rp :: nil) <= 3) by (solve_hyps_max HPpQpRpeq HPpQpRpM3).
+	try assert(HPpQpRpOoeq : rk(Pp :: Qp :: Rp :: Oo :: nil) = 4) by (apply LPpQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpOomtmp : rk(Pp :: Qp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HPpQpRpOoeq HPpQpRpOom4).
+	try assert(HQpeq : rk(Qp :: nil) = 1) by (apply LQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQpmtmp : rk(Qp :: nil) >= 1) by (solve_hyps_min HQpeq HQpm1).
+	assert(Hincl : incl (Qp :: nil) (list_inter (Pp :: Qp :: Rp :: nil) (Qp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (Pp :: Qp :: Rp :: Oo :: nil) (Pp :: Qp :: Rp :: Qp :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Pp :: Qp :: Rp :: Qp :: Oo :: nil) ((Pp :: Qp :: Rp :: nil) ++ (Qp :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPpQpRpOomtmp;try rewrite HT2 in HPpQpRpOomtmp.
+	assert(HT := rule_4 (Pp :: Qp :: Rp :: nil) (Qp :: Oo :: nil) (Qp :: nil) 4 1 3 HPpQpRpOomtmp HQpmtmp HPpQpRpMtmp Hincl); apply HT.
+}
+
 
 assert(HQpOoM : rk(Qp :: Oo ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HQpOoeq HQpOoM2).
 assert(HQpOom : rk(Qp :: Oo ::  nil) >= 1) by (solve_hyps_min HQpOoeq HQpOom1).
@@ -2000,20 +1212,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQQpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HQQpOoM : rk(Q :: Qp :: Oo ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQQpOoeq HQQpOoM3).
 assert(HQQpOom : rk(Q :: Qp :: Oo ::  nil) >= 1) by (solve_hyps_min HQQpOoeq HQQpOom1).
@@ -2021,69 +1230,38 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LPQRPpQpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Oo ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PQRPpQpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOo requis par la preuve de (?)PQRPpQpOo pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOom3 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOom4 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQRPpQpOoM : rk(P :: Q :: R :: Pp :: Qp :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpOom : rk(P :: Q :: R :: Pp :: Qp :: Oo ::  nil) >= 1) by (solve_hyps_min HPQRPpQpOoeq HPQRPpQpOom1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
 Lemma LRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Rp :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour RpOo requis par la preuve de (?)RpOo pour la règle 4  *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : Pp :: Qp :: Rp :: Oo ::  de rang :  4 et 4 	 AiB : Rp ::  de rang :  1 et 1 	 A : Pp :: Qp :: Rp ::   de rang : 3 et 3 *)
+assert(HRpOom2 : rk(Rp :: Oo :: nil) >= 2).
+{
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpMtmp : rk(Pp :: Qp :: Rp :: nil) <= 3) by (solve_hyps_max HPpQpRpeq HPpQpRpM3).
+	try assert(HPpQpRpOoeq : rk(Pp :: Qp :: Rp :: Oo :: nil) = 4) by (apply LPpQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpOomtmp : rk(Pp :: Qp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HPpQpRpOoeq HPpQpRpOom4).
+	try assert(HRpeq : rk(Rp :: nil) = 1) by (apply LRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRpmtmp : rk(Rp :: nil) >= 1) by (solve_hyps_min HRpeq HRpm1).
+	assert(Hincl : incl (Rp :: nil) (list_inter (Pp :: Qp :: Rp :: nil) (Rp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (Pp :: Qp :: Rp :: Oo :: nil) (Pp :: Qp :: Rp :: Rp :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Pp :: Qp :: Rp :: Rp :: Oo :: nil) ((Pp :: Qp :: Rp :: nil) ++ (Rp :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPpQpRpOomtmp;try rewrite HT2 in HPpQpRpOomtmp.
+	assert(HT := rule_4 (Pp :: Qp :: Rp :: nil) (Rp :: Oo :: nil) (Rp :: nil) 4 1 3 HPpQpRpOomtmp HRpmtmp HPpQpRpMtmp Hincl); apply HT.
+}
+try clear HPpQpRpOoM1. try clear HPpQpRpOoM2. try clear HPpQpRpOoM3. try clear HPpQpRpOom4. try clear HPpQpRpOom3. try clear HPpQpRpOom2. try clear HPpQpRpOom1. 
 
 assert(HRpOoM : rk(Rp :: Oo ::  nil) <= 2) (* dim : 3 *) by (solve_hyps_max HRpOoeq HRpOoM2).
 assert(HRpOom : rk(Rp :: Oo ::  nil) >= 1) by (solve_hyps_min HRpOoeq HRpOom1).
@@ -2093,23 +1271,35 @@ Qed.
 (* dans constructLemma(), requis par LPRpOo *)
 (* dans la couche 0 *)
 Lemma LPRRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Rp :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRRpOo requis par la preuve de (?)PRRpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PRRpOo requis par la preuve de (?)PRRpOo pour la règle 5  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRRpOo requis par la preuve de (?)PRRpOo pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRRpOo requis par la preuve de (?)PQRRpOo pour la règle 5  *)
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPQRRpOom3 : rk(P :: Q :: R :: Rp :: Oo :: nil) >= 3).
+{
+	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Rp :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+}
+
+
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QRp requis par la preuve de (?)PRRpOo pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PRRpOo requis par la preuve de (?)PRRpOo pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 2 pour RRpOo requis par la preuve de (?)PRRpOo pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRRpOo requis par la preuve de (?)PRRpOo pour la règle 1  *)
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
@@ -2128,15 +1318,20 @@ assert(HPRRpOoM3 : rk(P :: R :: Rp :: Oo :: nil) <= 3).
 }
 
 
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 3) *)
+(* marque des antécédents AUB AiB A: 5 4 et 5*)
+(* ensembles concernés AUB : P :: Q :: R :: Rp :: Oo ::  de rang :  3 et 4 	 AiB : Rp ::  de rang :  1 et 1 	 A : Q :: Rp ::   de rang : 1 et 2 *)
 assert(HPRRpOom2 : rk(P :: R :: Rp :: Oo :: nil) >= 2).
 {
-	try assert(HPReq : rk(P :: R :: nil) = 2) by (apply LPR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRmtmp : rk(P :: R :: nil) >= 2) by (solve_hyps_min HPReq HPRm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: nil) (P :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: nil) (P :: R :: Rp :: Oo :: nil) 2 2 HPRmtmp Hcomp Hincl);apply HT.
+	assert(HQRpMtmp : rk(Q :: Rp :: nil) <= 2) by (solve_hyps_max HQRpeq HQRpM2).
+	assert(HPQRRpOomtmp : rk(P :: Q :: R :: Rp :: Oo :: nil) >= 3) by (solve_hyps_min HPQRRpOoeq HPQRRpOom3).
+	try assert(HRpeq : rk(Rp :: nil) = 1) by (apply LRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRpmtmp : rk(Rp :: nil) >= 1) by (solve_hyps_min HRpeq HRpm1).
+	assert(Hincl : incl (Rp :: nil) (list_inter (Q :: Rp :: nil) (P :: R :: Rp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Rp :: Oo :: nil) (Q :: Rp :: P :: R :: Rp :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Q :: Rp :: P :: R :: Rp :: Oo :: nil) ((Q :: Rp :: nil) ++ (P :: R :: Rp :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQRRpOomtmp;try rewrite HT2 in HPQRRpOomtmp.
+	assert(HT := rule_4 (Q :: Rp :: nil) (P :: R :: Rp :: Oo :: nil) (Rp :: nil) 3 1 2 HPQRRpOomtmp HRpmtmp HQRpMtmp Hincl); apply HT.
 }
 
 
@@ -2144,11 +1339,11 @@ assert(HPRRpOom2 : rk(P :: R :: Rp :: Oo :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPRRpOom3 : rk(P :: R :: Rp :: Oo :: nil) >= 3).
 {
-	try assert(HPRRpeq : rk(P :: R :: Rp :: nil) = 3) by (apply LPRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRRpmtmp : rk(P :: R :: Rp :: nil) >= 3) by (solve_hyps_min HPRRpeq HPRRpm3).
+	try assert(HPROoeq : rk(P :: R :: Oo :: nil) = 3) by (apply LPROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPROomtmp : rk(P :: R :: Oo :: nil) >= 3) by (solve_hyps_min HPROoeq HPROom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Rp :: nil) (P :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Rp :: nil) (P :: R :: Rp :: Oo :: nil) 3 3 HPRRpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: R :: Oo :: nil) (P :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: R :: Oo :: nil) (P :: R :: Rp :: Oo :: nil) 3 3 HPROomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -2160,20 +1355,17 @@ Qed.
 (* dans constructLemma(), requis par LPRpOo *)
 (* dans la couche 0 *)
 Lemma LRRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HRRpOoM : rk(R :: Rp :: Oo ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HRRpOoeq HRRpOoM3).
 assert(HRRpOom : rk(R :: Rp :: Oo ::  nil) >= 1) by (solve_hyps_min HRRpOoeq HRRpOom1).
@@ -2182,20 +1374,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Rp :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRpOo requis par la preuve de (?)PRpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PRpOo requis par la preuve de (?)PRpOo pour la règle 5  *)
@@ -2203,13 +1392,13 @@ HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HPRpOom2 : rk(P :: Rp :: Oo :: nil) >= 2).
 {
-	try assert(HPRpeq : rk(P :: Rp :: nil) = 2) by (apply LPRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRpmtmp : rk(P :: Rp :: nil) >= 2) by (solve_hyps_min HPRpeq HPRpm2).
+	try assert(HPOoeq : rk(P :: Oo :: nil) = 2) by (apply LPOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPOomtmp : rk(P :: Oo :: nil) >= 2) by (solve_hyps_min HPOoeq HPOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Rp :: nil) (P :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Rp :: nil) (P :: Rp :: Oo :: nil) 2 2 HPRpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Oo :: nil) (P :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Oo :: nil) (P :: Rp :: Oo :: nil) 2 2 HPOomtmp Hcomp Hincl);apply HT.
 }
-try clear HPRpM1. try clear HPRpM2. try clear HPRpM3. try clear HPRpm4. try clear HPRpm3. try clear HPRpm2. try clear HPRpm1. 
+
 
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
 (* marque des antécédents AUB AiB B: 4 4 et 4*)
@@ -2237,23 +1426,35 @@ Qed.
 (* dans constructLemma(), requis par LQRpOo *)
 (* dans la couche 0 *)
 Lemma LQRRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: Rp :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QRRpOo requis par la preuve de (?)QRRpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour QRRpOo requis par la preuve de (?)QRRpOo pour la règle 5  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRRpOo requis par la preuve de (?)QRRpOo pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRRpOo requis par la preuve de (?)PQRRpOo pour la règle 5  *)
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPQRRpOom3 : rk(P :: Q :: R :: Rp :: Oo :: nil) >= 3).
+{
+	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Rp :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+}
+
+
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour PRp requis par la preuve de (?)QRRpOo pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour QRRpOo requis par la preuve de (?)QRRpOo pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour QRRpOo requis par la preuve de (?)QRRpOo pour la règle 1  *)
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 5*)
@@ -2272,29 +1473,34 @@ assert(HQRRpOoM3 : rk(Q :: R :: Rp :: Oo :: nil) <= 3).
 }
 
 
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 3) *)
+(* marque des antécédents AUB AiB A: 5 4 et 5*)
+(* ensembles concernés AUB : P :: Q :: R :: Rp :: Oo ::  de rang :  3 et 4 	 AiB : Rp ::  de rang :  1 et 1 	 A : P :: Rp ::   de rang : 1 et 2 *)
 assert(HQRRpOom2 : rk(Q :: R :: Rp :: Oo :: nil) >= 2).
 {
-	try assert(HQReq : rk(Q :: R :: nil) = 2) by (apply LQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRmtmp : rk(Q :: R :: nil) >= 2) by (solve_hyps_min HQReq HQRm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (Q :: R :: nil) (Q :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: R :: nil) (Q :: R :: Rp :: Oo :: nil) 2 2 HQRmtmp Hcomp Hincl);apply HT.
+	assert(HPRpMtmp : rk(P :: Rp :: nil) <= 2) by (solve_hyps_max HPRpeq HPRpM2).
+	assert(HPQRRpOomtmp : rk(P :: Q :: R :: Rp :: Oo :: nil) >= 3) by (solve_hyps_min HPQRRpOoeq HPQRRpOom3).
+	try assert(HRpeq : rk(Rp :: nil) = 1) by (apply LRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRpmtmp : rk(Rp :: nil) >= 1) by (solve_hyps_min HRpeq HRpm1).
+	assert(Hincl : incl (Rp :: nil) (list_inter (P :: Rp :: nil) (Q :: R :: Rp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Rp :: Oo :: nil) (P :: Rp :: Q :: R :: Rp :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Rp :: Q :: R :: Rp :: Oo :: nil) ((P :: Rp :: nil) ++ (Q :: R :: Rp :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQRRpOomtmp;try rewrite HT2 in HPQRRpOomtmp.
+	assert(HT := rule_4 (P :: Rp :: nil) (Q :: R :: Rp :: Oo :: nil) (Rp :: nil) 3 1 2 HPQRRpOomtmp HRpmtmp HPRpMtmp Hincl); apply HT.
 }
-try clear HQRM1. try clear HQRM2. try clear HQRM3. try clear HQRm4. try clear HQRm3. try clear HQRm2. try clear HQRm1. 
+try clear HPRpM1. try clear HPRpM2. try clear HPRpM3. try clear HPRpm4. try clear HPRpm3. try clear HPRpm2. try clear HPRpm1. 
 
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
 assert(HQRRpOom3 : rk(Q :: R :: Rp :: Oo :: nil) >= 3).
 {
-	try assert(HQRRpeq : rk(Q :: R :: Rp :: nil) = 3) by (apply LQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRRpmtmp : rk(Q :: R :: Rp :: nil) >= 3) by (solve_hyps_min HQRRpeq HQRRpm3).
+	try assert(HQROoeq : rk(Q :: R :: Oo :: nil) = 3) by (apply LQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQROomtmp : rk(Q :: R :: Oo :: nil) >= 3) by (solve_hyps_min HQROoeq HQROom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (Q :: R :: Rp :: nil) (Q :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: R :: Rp :: nil) (Q :: R :: Rp :: Oo :: nil) 3 3 HQRRpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: R :: Oo :: nil) (Q :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: R :: Oo :: nil) (Q :: R :: Rp :: Oo :: nil) 3 3 HQROomtmp Hcomp Hincl);apply HT.
 }
-try clear HQRRpM1. try clear HQRRpM2. try clear HQRRpM3. try clear HQRRpm4. try clear HQRRpm3. try clear HQRRpm2. try clear HQRRpm1. 
+
 
 assert(HQRRpOoM : rk(Q :: R :: Rp :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HQRRpOom : rk(Q :: R :: Rp :: Oo ::  nil) >= 1) by (solve_hyps_min HQRRpOoeq HQRRpOom1).
@@ -2303,20 +1509,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Rp :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QRpOo requis par la preuve de (?)QRpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour QRpOo requis par la preuve de (?)QRpOo pour la règle 5  *)
@@ -2324,13 +1527,13 @@ HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HQRpOom2 : rk(Q :: Rp :: Oo :: nil) >= 2).
 {
-	try assert(HQRpeq : rk(Q :: Rp :: nil) = 2) by (apply LQRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRpmtmp : rk(Q :: Rp :: nil) >= 2) by (solve_hyps_min HQRpeq HQRpm2).
+	try assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (Q :: Rp :: nil) (Q :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: Rp :: nil) (Q :: Rp :: Oo :: nil) 2 2 HQRpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Oo :: nil) (Q :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Oo :: nil) (Q :: Rp :: Oo :: nil) 2 2 HQOomtmp Hcomp Hincl);apply HT.
 }
-try clear HQRpM1. try clear HQRpM2. try clear HQRpM3. try clear HQRpm4. try clear HQRpm3. try clear HQRpm2. try clear HQRpm1. 
+try clear HQOoM1. try clear HQOoM2. try clear HQOoM3. try clear HQOom4. try clear HQOom3. try clear HQOom2. try clear HQOom1. 
 
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
 (* marque des antécédents AUB AiB B: 4 4 et 4*)
@@ -2358,20 +1561,17 @@ Qed.
 (* dans constructLemma(), requis par LPQRpOo *)
 (* dans la couche 0 *)
 Lemma LPQRRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Rp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRRpOo requis par la preuve de (?)PQRRpOo pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRRpOo requis par la preuve de (?)PQRRpOo pour la règle 5  *)
@@ -2391,13 +1591,13 @@ assert(HPQRRpOom3 : rk(P :: Q :: R :: Rp :: Oo :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPQRRpOom4 : rk(P :: Q :: R :: Rp :: Oo :: nil) >= 4).
 {
-	try assert(HPQRRpeq : rk(P :: Q :: R :: Rp :: nil) = 4) by (apply LPQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRRpmtmp : rk(P :: Q :: R :: Rp :: nil) >= 4) by (solve_hyps_min HPQRRpeq HPQRRpm4).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Rp :: nil) (P :: Q :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Rp :: nil) (P :: Q :: R :: Rp :: Oo :: nil) 4 4 HPQRRpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Rp :: Oo :: nil) 4 4 HPQROomtmp Hcomp Hincl);apply HT.
 }
-try clear HPQRRpM1. try clear HPQRRpM2. try clear HPQRRpM3. try clear HPQRRpm4. try clear HPQRRpm3. try clear HPQRRpm2. try clear HPQRRpm1. 
+
 
 assert(HPQRRpOoM : rk(P :: Q :: R :: Rp :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HPQRRpOom : rk(P :: Q :: R :: Rp :: Oo ::  nil) >= 1) by (solve_hyps_min HPQRRpOoeq HPQRRpOom1).
@@ -2406,80 +1606,64 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPQRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Rp :: Oo ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRpOo requis par la preuve de (?)PQRpOo pour la règle 2  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQRpOo requis par la preuve de (?)PQRpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpRpOo requis par la preuve de (?)PQRpOo pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpRpOo requis par la preuve de (?)PQRPpQpRpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpRpOo requis par la preuve de (?)PQRPpQpRpOo pour la règle 5  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRRpOo requis par la preuve de (?)PQRpOo pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRRpOo requis par la preuve de (?)PQRRpOo pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpOom3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) >= 3).
+assert(HPQRRpOom3 : rk(P :: Q :: R :: Rp :: Oo :: nil) >= 3).
 {
 	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
 	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpOom4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Rp :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRpOo requis par la preuve de (?)PQRpOo pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
 (* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Rp :: Oo ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
+(* ensembles concernés AUB : P :: Q :: R :: Rp :: Oo ::  de rang :  3 et 4 	 AiB : Rp ::  de rang :  1 et 1 	 A : R :: Rp ::   de rang : 2 et 2 *)
 assert(HPQRpOom2 : rk(P :: Q :: Rp :: Oo :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpRpOomtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpOoeq HPQRPpQpRpOom4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: Rp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) (P :: Q :: R :: Pp :: Qp :: P :: Q :: Rp :: Oo :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: Q :: Rp :: Oo :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: Q :: Rp :: Oo :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpRpOomtmp;try rewrite HT2 in HPQRPpQpRpOomtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: Rp :: Oo :: nil) (P :: Q :: nil) 4 2 4 HPQRPpQpRpOomtmp HPQmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HRRpeq : rk(R :: Rp :: nil) = 2) by (apply LRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRRpMtmp : rk(R :: Rp :: nil) <= 2) by (solve_hyps_max HRRpeq HRRpM2).
+	assert(HPQRRpOomtmp : rk(P :: Q :: R :: Rp :: Oo :: nil) >= 3) by (solve_hyps_min HPQRRpOoeq HPQRRpOom3).
+	try assert(HRpeq : rk(Rp :: nil) = 1) by (apply LRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRpmtmp : rk(Rp :: nil) >= 1) by (solve_hyps_min HRpeq HRpm1).
+	assert(Hincl : incl (Rp :: nil) (list_inter (R :: Rp :: nil) (P :: Q :: Rp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Rp :: Oo :: nil) (R :: Rp :: P :: Q :: Rp :: Oo :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (R :: Rp :: P :: Q :: Rp :: Oo :: nil) ((R :: Rp :: nil) ++ (P :: Q :: Rp :: Oo :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQRRpOomtmp;try rewrite HT2 in HPQRRpOomtmp.
+	assert(HT := rule_4 (R :: Rp :: nil) (P :: Q :: Rp :: Oo :: nil) (Rp :: nil) 3 1 2 HPQRRpOomtmp HRpmtmp HRRpMtmp Hincl); apply HT.
 }
-try clear HPQRPpQpRpOoM1. try clear HPQRPpQpRpOoM2. try clear HPQRPpQpRpOoM3. try clear HPQRPpQpRpOom4. try clear HPQRPpQpRpOom3. try clear HPQRPpQpRpOom2. try clear HPQRPpQpRpOom1. 
+
 
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
 assert(HPQRpOom3 : rk(P :: Q :: Rp :: Oo :: nil) >= 3).
 {
-	try assert(HPQRpeq : rk(P :: Q :: Rp :: nil) = 3) by (apply LPQRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRpmtmp : rk(P :: Q :: Rp :: nil) >= 3) by (solve_hyps_min HPQRpeq HPQRpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Rp :: nil) (P :: Q :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Rp :: nil) (P :: Q :: Rp :: Oo :: nil) 3 3 HPQRpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Rp :: Oo :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
-try clear HPQRpM1. try clear HPQRpM2. try clear HPQRpM3. try clear HPQRpm4. try clear HPQRpm3. try clear HPQRpm2. try clear HPQRpm1. 
+
 
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
 (* marque des antécédents AUB AiB B: 4 4 et 4*)
@@ -2506,20 +1690,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPPpRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp :: Oo ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PPpRpOo requis par la preuve de (?)PPpRpOo pour la règle 5  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PPpRpOo requis par la preuve de (?)PPpRpOo pour la règle 1  *)
@@ -2571,136 +1752,18 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LPRPpRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Rp :: Oo ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpRpOo requis par la preuve de (?)PRPpRpOo pour la règle 1  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpRpOo requis par la preuve de (?)PRPpRpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpRpOo requis par la preuve de (?)PRPpRpOo pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpRpOom2 : rk(P :: R :: Pp :: Rp :: Oo :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Rp :: Oo :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpRpOom3 : rk(P :: R :: Pp :: Rp :: Oo :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Rp :: Oo :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
-(* marque des antécédents A B AiB : 4 4 et 4*)
-assert(HPRPpRpOoM3 : rk(P :: R :: Pp :: Rp :: Oo :: nil) <= 3).
-{
-	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
-	try assert(HRRpOoeq : rk(R :: Rp :: Oo :: nil) = 2) by (apply LRRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HRRpOoMtmp : rk(R :: Rp :: Oo :: nil) <= 2) by (solve_hyps_max HRRpOoeq HRRpOoM2).
-	try assert(HOoeq : rk(Oo :: nil) = 1) by (apply LOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HOomtmp : rk(Oo :: nil) >= 1) by (solve_hyps_min HOoeq HOom1).
-	assert(Hincl : incl (Oo :: nil) (list_inter (P :: Pp :: Oo :: nil) (R :: Rp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Rp :: Oo :: nil) (P :: Pp :: Oo :: R :: Rp :: Oo :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Pp :: Oo :: R :: Rp :: Oo :: nil) ((P :: Pp :: Oo :: nil) ++ (R :: Rp :: Oo :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (P :: Pp :: Oo :: nil) (R :: Rp :: Oo :: nil) (Oo :: nil) 2 2 1 HPPpOoMtmp HRRpOoMtmp HOomtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-
-assert(HPRPpRpOoM : rk(P :: R :: Pp :: Rp :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPRPpRpOom : rk(P :: R :: Pp :: Rp :: Oo ::  nil) >= 1) by (solve_hyps_min HPRPpRpOoeq HPRPpRpOom1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPQRPpQpRpOo : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpRpOo requis par la preuve de (?)PQRPpQpRpOo pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpRpOo requis par la preuve de (?)PQRPpQpRpOo pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpOom3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpOom4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQRPpQpRpOoM : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpRpOom : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo ::  nil) >= 1) by (solve_hyps_min HPQRPpQpRpOoeq HPQRPpQpRpOom1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
 Lemma Lalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(alpha ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HalphaM : rk(alpha ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max Halphaeq HalphaM1).
 assert(Halpham : rk(alpha ::  nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
@@ -2710,22 +1773,18 @@ Qed.
 (* dans constructLemma(), requis par LQalpha *)
 (* dans la couche 0 *)
 Lemma LPQRalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQRalpha requis par la preuve de (?)PQRalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PQRalpha requis par la preuve de (?)PQRalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 2 pour PRalpha requis par la preuve de (?)PQRalpha pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRalpha requis par la preuve de (?)PQRalpha pour la règle 1  *)
@@ -2742,18 +1801,6 @@ assert(HPQRalphaM3 : rk(P :: Q :: R :: alpha :: nil) <= 3).
 	assert(HT2 : equivlist (Q :: P :: R :: alpha :: nil) ((Q :: nil) ++ (P :: R :: alpha :: nil))) by (clear_all_rk;my_inO).
 	assert(HT := rule_1 (Q :: nil) (P :: R :: alpha :: nil) (nil) 1 2 0 HQMtmp HPRalphaMtmp Hmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRalpham2 : rk(P :: Q :: R :: alpha :: nil) >= 2).
-{
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: nil) (P :: Q :: R :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: nil) (P :: Q :: R :: alpha :: nil) 2 2 HPQmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -2777,20 +1824,17 @@ Qed.
 (* dans constructLemma(), requis par LQalpha *)
 (* dans la couche 0 *)
 Lemma LPRalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HPRalphaM : rk(P :: R :: alpha ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPRalphaeq HPRalphaM3).
 assert(HPRalpham : rk(P :: R :: alpha ::  nil) >= 1) by (solve_hyps_min HPRalphaeq HPRalpham1).
@@ -2799,20 +1843,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Qalpha requis par la preuve de (?)Qalpha pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -2839,24 +1880,86 @@ intuition.
 Qed.
 
 (* dans constructLemma(), requis par LPpalpha *)
+(* dans constructLemma(), requis par LPRPpalpha *)
+(* dans la couche 0 *)
+Lemma LPRPpOoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Oo :: alpha ::  nil) = 3.
+Proof.
+
+intros P Q R Pp Qp Rp Oo alpha beta gamma 
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpOoalpha requis par la preuve de (?)PRPpOoalpha pour la règle 1  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpOoalpha requis par la preuve de (?)PRPpOoalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpOoalpha requis par la preuve de (?)PRPpOoalpha pour la règle 5  *)
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPRPpOoalpham2 : rk(P :: R :: Pp :: Oo :: alpha :: nil) >= 2).
+{
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Oo :: alpha :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
+}
+
+
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPRPpOoalpham3 : rk(P :: R :: Pp :: Oo :: alpha :: nil) >= 3).
+{
+	try assert(HPROoeq : rk(P :: R :: Oo :: nil) = 3) by (apply LPROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPROomtmp : rk(P :: R :: Oo :: nil) >= 3) by (solve_hyps_min HPROoeq HPROom3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: R :: Oo :: nil) (P :: R :: Pp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: R :: Oo :: nil) (P :: R :: Pp :: Oo :: alpha :: nil) 3 3 HPROomtmp Hcomp Hincl);apply HT.
+}
+
+
+(* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
+(* marque des antécédents A B AiB : 4 4 et 4*)
+assert(HPRPpOoalphaM3 : rk(P :: R :: Pp :: Oo :: alpha :: nil) <= 3).
+{
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	try assert(HPRalphaeq : rk(P :: R :: alpha :: nil) = 2) by (apply LPRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
+	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
+	assert(Hincl : incl (P :: nil) (list_inter (P :: Pp :: Oo :: nil) (P :: R :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: R :: Pp :: Oo :: alpha :: nil) (P :: Pp :: Oo :: P :: R :: alpha :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: P :: R :: alpha :: nil) ((P :: Pp :: Oo :: nil) ++ (P :: R :: alpha :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (P :: Pp :: Oo :: nil) (P :: R :: alpha :: nil) (P :: nil) 2 2 1 HPPpOoMtmp HPRalphaMtmp HPmtmp Hincl);
+	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
+}
+
+
+assert(HPRPpOoalphaM : rk(P :: R :: Pp :: Oo :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
+assert(HPRPpOoalpham : rk(P :: R :: Pp :: Oo :: alpha ::  nil) >= 1) by (solve_hyps_min HPRPpOoalphaeq HPRPpOoalpham1).
+intuition.
+Qed.
+
 (* dans la couche 0 *)
 Lemma LPRPpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRPpalpha requis par la preuve de (?)PRPpalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRPpalpha requis par la preuve de (?)PRPpalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PRPpalpha requis par la preuve de (?)PRPpalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpalpha requis par la preuve de (?)PRPpalpha pour la règle 1  *)
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
@@ -2888,15 +1991,22 @@ assert(HPRPpalpham2 : rk(P :: R :: Pp :: alpha :: nil) >= 2).
 }
 
 
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : P :: R :: Pp :: Oo :: alpha ::  de rang :  3 et 3 	 AiB : P :: Pp ::  de rang :  2 et 2 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
 assert(HPRPpalpham3 : rk(P :: R :: Pp :: alpha :: nil) >= 3).
 {
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: alpha :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	try assert(HPRPpOoalphaeq : rk(P :: R :: Pp :: Oo :: alpha :: nil) = 3) by (apply LPRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpOoalphamtmp : rk(P :: R :: Pp :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPRPpOoalphaeq HPRPpOoalpham3).
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hincl : incl (P :: Pp :: nil) (list_inter (P :: Pp :: Oo :: nil) (P :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: R :: Pp :: Oo :: alpha :: nil) (P :: Pp :: Oo :: P :: R :: Pp :: alpha :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: P :: R :: Pp :: alpha :: nil) ((P :: Pp :: Oo :: nil) ++ (P :: R :: Pp :: alpha :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPRPpOoalphamtmp;try rewrite HT2 in HPRPpOoalphamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (P :: R :: Pp :: alpha :: nil) (P :: Pp :: nil) 3 2 2 HPRPpOoalphamtmp HPPpmtmp HPPpOoMtmp Hincl); apply HT.
 }
 
 
@@ -2907,20 +2017,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Ppalpha requis par la preuve de (?)Ppalpha pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
@@ -2948,210 +2055,91 @@ intuition.
 Qed.
 
 (* dans constructLemma(), requis par LPpQpalpha *)
-(* dans constructLemma(), requis par LPRPpQpalpha *)
-(* dans constructLemma(), requis par LPRPpQpRpOoalpha *)
 (* dans la couche 0 *)
-Lemma LPQRPpQpRpOoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+Lemma LPpQpRpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha ::  nil) = 4.
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpRpOoalpha requis par la preuve de (?)PQRPpQpRpOoalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpRpOoalpha requis par la preuve de (?)PQRPpQpRpOoalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PpQpRpalpha requis par la preuve de (?)PpQpRpalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 2 pour PpRpalpha requis par la preuve de (?)PpQpRpalpha pour la règle 1  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PpQpRpalpha requis par la preuve de (?)PpQpRpalpha pour la règle 1  *)
+(* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
+(* marque des antécédents A B AiB : 4 5 et 5*)
+assert(HPpQpRpalphaM3 : rk(Pp :: Qp :: Rp :: alpha :: nil) <= 3).
+{
+	try assert(HQpeq : rk(Qp :: nil) = 1) by (apply LQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQpMtmp : rk(Qp :: nil) <= 1) by (solve_hyps_max HQpeq HQpM1).
+	assert(HPpRpalphaMtmp : rk(Pp :: Rp :: alpha :: nil) <= 2) by (solve_hyps_max HPpRpalphaeq HPpRpalphaM2).
+	assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
+	assert(Hincl : incl (nil) (list_inter (Qp :: nil) (Pp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (Pp :: Qp :: Rp :: alpha :: nil) (Qp :: Pp :: Rp :: alpha :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Qp :: Pp :: Rp :: alpha :: nil) ((Qp :: nil) ++ (Pp :: Rp :: alpha :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (Qp :: nil) (Pp :: Rp :: alpha :: nil) (nil) 1 2 0 HQpMtmp HPpRpalphaMtmp Hmtmp Hincl);
+	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
+}
+
+
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpOoalpham3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) >= 3).
+assert(HPpQpRpalpham3 : rk(Pp :: Qp :: Rp :: alpha :: nil) >= 3).
 {
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpmtmp : rk(Pp :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HPpQpRpeq HPpQpRpm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Pp :: Qp :: Rp :: nil) (Pp :: Qp :: Rp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Pp :: Qp :: Rp :: nil) (Pp :: Qp :: Rp :: alpha :: nil) 3 3 HPpQpRpmtmp Hcomp Hincl);apply HT.
 }
 
 
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpOoalpham4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQRPpQpRpOoalphaM : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpRpOoalpham : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha ::  nil) >= 1) by (solve_hyps_min HPQRPpQpRpOoalphaeq HPQRPpQpRpOoalpham1).
+assert(HPpQpRpalphaM : rk(Pp :: Qp :: Rp :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
+assert(HPpQpRpalpham : rk(Pp :: Qp :: Rp :: alpha ::  nil) >= 1) by (solve_hyps_min HPpQpRpalphaeq HPpQpRpalpham1).
 intuition.
 Qed.
 
+(* dans constructLemma(), requis par LPpQpalpha *)
 (* dans la couche 0 *)
-Lemma LPRPpQpRpOoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+Lemma LPpRpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha ::  nil) = 4.
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Rp :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpRpOoalpha requis par la preuve de (?)PRPpQpRpOoalpha pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpRpOoalpha requis par la preuve de (?)PRPpQpRpOoalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpRpOoalpha requis par la preuve de (?)PRPpQpRpOoalpha pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpRpOoalpham2 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpRpOoalpham3 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 4 et 4) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha ::  de rang :  4 et 4 	 AiB : Qp :: Oo ::  de rang :  2 et 2 	 A : Q :: Qp :: Oo ::   de rang : 2 et 2 *)
-assert(HPRPpQpRpOoalpham4 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) >= 4).
-{
-	try assert(HQQpOoeq : rk(Q :: Qp :: Oo :: nil) = 2) by (apply LQQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQQpOoMtmp : rk(Q :: Qp :: Oo :: nil) <= 2) by (solve_hyps_max HQQpOoeq HQQpOoM2).
-	try assert(HPQRPpQpRpOoalphaeq : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpQpRpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpRpOoalphamtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpOoalphaeq HPQRPpQpRpOoalpham4).
-	try assert(HQpOoeq : rk(Qp :: Oo :: nil) = 2) by (apply LQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQpOomtmp : rk(Qp :: Oo :: nil) >= 2) by (solve_hyps_min HQpOoeq HQpOom2).
-	assert(Hincl : incl (Qp :: Oo :: nil) (list_inter (Q :: Qp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) (Q :: Qp :: Oo :: P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (Q :: Qp :: Oo :: P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) ((Q :: Qp :: Oo :: nil) ++ (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpRpOoalphamtmp;try rewrite HT2 in HPQRPpQpRpOoalphamtmp.
-	assert(HT := rule_4 (Q :: Qp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) (Qp :: Oo :: nil) 4 2 2 HPQRPpQpRpOoalphamtmp HQpOomtmp HQQpOoMtmp Hincl); apply HT.
-}
-
-
-assert(HPRPpQpRpOoalphaM : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPRPpQpRpOoalpham : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha ::  nil) >= 1) by (solve_hyps_min HPRPpQpRpOoalphaeq HPRPpQpRpOoalpham1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPRPpQpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: alpha ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpalpha requis par la preuve de (?)PRPpQpalpha pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpalpha requis par la preuve de (?)PRPpQpalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpalpha requis par la preuve de (?)PRPpQpalpha pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalpham2 : rk(P :: R :: Pp :: Qp :: alpha :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalpham3 : rk(P :: R :: Pp :: Qp :: alpha :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 4 et 4) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: R :: Pp :: Qp :: Rp :: Oo :: alpha ::  de rang :  4 et 4 	 AiB : P :: R :: Pp ::  de rang :  3 et 3 	 A : P :: R :: Pp :: Rp :: Oo ::   de rang : 3 et 3 *)
-assert(HPRPpQpalpham4 : rk(P :: R :: Pp :: Qp :: alpha :: nil) >= 4).
-{
-	try assert(HPRPpRpOoeq : rk(P :: R :: Pp :: Rp :: Oo :: nil) = 3) by (apply LPRPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpRpOoMtmp : rk(P :: R :: Pp :: Rp :: Oo :: nil) <= 3) by (solve_hyps_max HPRPpRpOoeq HPRPpRpOoM3).
-	try assert(HPRPpQpRpOoalphaeq : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) = 4) by (apply LPRPpQpRpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpQpRpOoalphamtmp : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPRPpQpRpOoalphaeq HPRPpQpRpOoalpham4).
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (list_inter (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: nil) (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: nil) ((P :: R :: Pp :: Rp :: Oo :: nil) ++ (P :: R :: Pp :: Qp :: alpha :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPRPpQpRpOoalphamtmp;try rewrite HT2 in HPRPpQpRpOoalphamtmp.
-	assert(HT := rule_4 (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: nil) (P :: R :: Pp :: nil) 4 3 3 HPRPpQpRpOoalphamtmp HPRPpmtmp HPRPpRpOoMtmp Hincl); apply HT.
-}
-
-
-assert(HPRPpQpalphaM : rk(P :: R :: Pp :: Qp :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPRPpQpalpham : rk(P :: R :: Pp :: Qp :: alpha ::  nil) >= 1) by (solve_hyps_min HPRPpQpalphaeq HPRPpQpalpham1).
+assert(HPpRpalphaM : rk(Pp :: Rp :: alpha ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPpRpalphaeq HPpRpalphaM3).
+assert(HPpRpalpham : rk(Pp :: Rp :: alpha ::  nil) >= 1) by (solve_hyps_min HPpRpalphaeq HPpRpalpham1).
 intuition.
 Qed.
 
 (* dans la couche 0 *)
 Lemma LPpQpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PpQpalpha requis par la preuve de (?)PpQpalpha pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PpQpalpha requis par la preuve de (?)PpQpalpha pour la règle 2  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPpQpOoalpha requis par la preuve de (?)PpQpalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpQpOoalpha requis par la preuve de (?)QPpQpOoalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpQpOoalpha requis par la preuve de (?)PQPpQpOoalpha pour la règle 5  *)
@@ -3172,11 +2160,11 @@ assert(HPQPpQpOoalpham2 : rk(P :: Q :: Pp :: Qp :: Oo :: alpha :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQPpQpOoalpham3 : rk(P :: Q :: Pp :: Qp :: Oo :: alpha :: nil) >= 3).
 {
-	try assert(HPQPpeq : rk(P :: Q :: Pp :: nil) = 3) by (apply LPQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: nil) 3 3 HPQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -3186,11 +2174,11 @@ assert(HPQPpQpOoalpham3 : rk(P :: Q :: Pp :: Qp :: Oo :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HQPpQpOoalpham2 : rk(Q :: Pp :: Qp :: Oo :: alpha :: nil) >= 2).
 {
-	try assert(HQPpeq : rk(Q :: Pp :: nil) = 2) by (apply LQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQPpmtmp : rk(Q :: Pp :: nil) >= 2) by (solve_hyps_min HQPpeq HQPpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: nil) 2 2 HQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -3231,22 +2219,21 @@ assert(HPpQpalpham2 : rk(Pp :: Qp :: alpha :: nil) >= 2).
 }
 try clear HQPpQpOoalphaM1. try clear HQPpQpOoalphaM2. try clear HQPpQpOoalphaM3. try clear HQPpQpOoalpham4. try clear HQPpQpOoalpham3. try clear HQPpQpOoalpham2. try clear HQPpQpOoalpham1. 
 
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: R :: Pp :: Qp :: alpha ::  de rang :  4 et 4 	 AiB : alpha ::  de rang :  1 et 1 	 A : P :: R :: alpha ::   de rang : 2 et 2 *)
+(* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
+(* marque des antécédents AUB AiB B: 4 4 et 4*)
 assert(HPpQpalpham3 : rk(Pp :: Qp :: alpha :: nil) >= 3).
 {
-	try assert(HPRalphaeq : rk(P :: R :: alpha :: nil) = 2) by (apply LPRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	try assert(HPRPpQpalphaeq : rk(P :: R :: Pp :: Qp :: alpha :: nil) = 4) by (apply LPRPpQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpQpalphamtmp : rk(P :: R :: Pp :: Qp :: alpha :: nil) >= 4) by (solve_hyps_min HPRPpQpalphaeq HPRPpQpalpham4).
-	try assert(Halphaeq : rk(alpha :: nil) = 1) by (apply Lalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
-	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Pp :: Qp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Qp :: alpha :: nil) (P :: R :: alpha :: Pp :: Qp :: alpha :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: alpha :: Pp :: Qp :: alpha :: nil) ((P :: R :: alpha :: nil) ++ (Pp :: Qp :: alpha :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPRPpQpalphamtmp;try rewrite HT2 in HPRPpQpalphamtmp.
-	assert(HT := rule_4 (P :: R :: alpha :: nil) (Pp :: Qp :: alpha :: nil) (alpha :: nil) 4 1 2 HPRPpQpalphamtmp Halphamtmp HPRalphaMtmp Hincl); apply HT.
+	try assert(HPpRpalphaeq : rk(Pp :: Rp :: alpha :: nil) = 2) by (apply LPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpRpalphaMtmp : rk(Pp :: Rp :: alpha :: nil) <= 2) by (solve_hyps_max HPpRpalphaeq HPpRpalphaM2).
+	try assert(HPpQpRpalphaeq : rk(Pp :: Qp :: Rp :: alpha :: nil) = 3) by (apply LPpQpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpalphamtmp : rk(Pp :: Qp :: Rp :: alpha :: nil) >= 3) by (solve_hyps_min HPpQpRpalphaeq HPpQpRpalpham3).
+	try assert(HPpalphaeq : rk(Pp :: alpha :: nil) = 2) by (apply LPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpalphamtmp : rk(Pp :: alpha :: nil) >= 2) by (solve_hyps_min HPpalphaeq HPpalpham2).
+	assert(Hincl : incl (Pp :: alpha :: nil) (list_inter (Pp :: Qp :: alpha :: nil) (Pp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (Pp :: Qp :: Rp :: alpha :: nil) (Pp :: Qp :: alpha :: Pp :: Rp :: alpha :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Pp :: Qp :: alpha :: Pp :: Rp :: alpha :: nil) ((Pp :: Qp :: alpha :: nil) ++ (Pp :: Rp :: alpha :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPpQpRpalphamtmp;try rewrite HT2 in HPpQpRpalphamtmp.
+	assert(HT := rule_2 (Pp :: Qp :: alpha :: nil) (Pp :: Rp :: alpha :: nil) (Pp :: alpha :: nil) 3 2 2 HPpQpRpalphamtmp HPpalphamtmp HPpRpalphaMtmp Hincl);apply HT.
 }
 
 
@@ -3256,71 +2243,103 @@ intuition.
 Qed.
 
 (* dans constructLemma(), requis par LRpalpha *)
+(* dans constructLemma(), requis par LPRRpalpha *)
+(* dans la couche 0 *)
+Lemma LPRRpOoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
+rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Rp :: Oo :: alpha ::  nil) = 3.
+Proof.
+
+intros P Q R Pp Qp Rp Oo alpha beta gamma 
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRRpOoalpha requis par la preuve de (?)PRRpOoalpha pour la règle 1  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRRpOoalpha requis par la preuve de (?)PRRpOoalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRRpOoalpha requis par la preuve de (?)PRRpOoalpha pour la règle 5  *)
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPRRpOoalpham2 : rk(P :: R :: Rp :: Oo :: alpha :: nil) >= 2).
+{
+	try assert(HRRpeq : rk(R :: Rp :: nil) = 2) by (apply LRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRRpmtmp : rk(R :: Rp :: nil) >= 2) by (solve_hyps_min HRRpeq HRRpm2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (R :: Rp :: nil) (P :: R :: Rp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (R :: Rp :: nil) (P :: R :: Rp :: Oo :: alpha :: nil) 2 2 HRRpmtmp Hcomp Hincl);apply HT.
+}
+
+
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPRRpOoalpham3 : rk(P :: R :: Rp :: Oo :: alpha :: nil) >= 3).
+{
+	try assert(HPROoeq : rk(P :: R :: Oo :: nil) = 3) by (apply LPROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPROomtmp : rk(P :: R :: Oo :: nil) >= 3) by (solve_hyps_min HPROoeq HPROom3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: R :: Oo :: nil) (P :: R :: Rp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: R :: Oo :: nil) (P :: R :: Rp :: Oo :: alpha :: nil) 3 3 HPROomtmp Hcomp Hincl);apply HT.
+}
+
+
+(* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
+(* marque des antécédents A B AiB : 4 4 et 4*)
+assert(HPRRpOoalphaM3 : rk(P :: R :: Rp :: Oo :: alpha :: nil) <= 3).
+{
+	try assert(HRRpOoeq : rk(R :: Rp :: Oo :: nil) = 2) by (apply LRRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRRpOoMtmp : rk(R :: Rp :: Oo :: nil) <= 2) by (solve_hyps_max HRRpOoeq HRRpOoM2).
+	try assert(HPRalphaeq : rk(P :: R :: alpha :: nil) = 2) by (apply LPRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
+	try assert(HReq : rk(R :: nil) = 1) by (apply LR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRmtmp : rk(R :: nil) >= 1) by (solve_hyps_min HReq HRm1).
+	assert(Hincl : incl (R :: nil) (list_inter (R :: Rp :: Oo :: nil) (P :: R :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: R :: Rp :: Oo :: alpha :: nil) (R :: Rp :: Oo :: P :: R :: alpha :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (R :: Rp :: Oo :: P :: R :: alpha :: nil) ((R :: Rp :: Oo :: nil) ++ (P :: R :: alpha :: nil))) by (clear_all_rk;my_inO).
+	assert(HT := rule_1 (R :: Rp :: Oo :: nil) (P :: R :: alpha :: nil) (R :: nil) 2 2 1 HRRpOoMtmp HPRalphaMtmp HRmtmp Hincl);
+	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
+}
+
+
+assert(HPRRpOoalphaM : rk(P :: R :: Rp :: Oo :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
+assert(HPRRpOoalpham : rk(P :: R :: Rp :: Oo :: alpha ::  nil) >= 1) by (solve_hyps_min HPRRpOoalphaeq HPRRpOoalpham1).
+intuition.
+Qed.
+
 (* dans la couche 0 *)
 Lemma LPRRpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Rp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRRpalpha requis par la preuve de (?)PRRpalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRRpalpha requis par la preuve de (?)PRRpalpha pour la règle 1  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpRpalpha requis par la preuve de (?)PRRpalpha pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpRpalpha requis par la preuve de (?)PQRPpQpRpalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpRpalpha requis par la preuve de (?)PQRPpQpRpalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PRRpalpha requis par la preuve de (?)PRRpalpha pour la règle 4  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRRpalpha requis par la preuve de (?)PRRpalpha pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRRpalpha requis par la preuve de (?)PQRRpalpha pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpalpham3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) >= 3).
+assert(HPQRRpalpham3 : rk(P :: Q :: R :: Rp :: alpha :: nil) >= 3).
 {
 	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
 	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Rp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Rp :: alpha :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
 }
 
 
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpalpham4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRRpalpha requis par la preuve de (?)PRRpalpha pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Rp :: alpha ::  de rang :  4 et 4 	 AiB : P :: R ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
-assert(HPRRpalpham2 : rk(P :: R :: Rp :: alpha :: nil) >= 2).
-{
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpRpalphamtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpalphaeq HPQRPpQpRpalpham4).
-	try assert(HPReq : rk(P :: R :: nil) = 2) by (apply LPR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRmtmp : rk(P :: R :: nil) >= 2) by (solve_hyps_min HPReq HPRm2).
-	assert(Hincl : incl (P :: R :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: R :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) (P :: Q :: R :: Pp :: Qp :: P :: R :: Rp :: alpha :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: R :: Rp :: alpha :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: R :: Rp :: alpha :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpRpalphamtmp;try rewrite HT2 in HPQRPpQpRpalphamtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: R :: Rp :: alpha :: nil) (P :: R :: nil) 4 2 4 HPQRPpQpRpalphamtmp HPRmtmp HPQRPpQpMtmp Hincl); apply HT.
-}
-try clear HPQRPpQpRpalphaM1. try clear HPQRPpQpRpalphaM2. try clear HPQRPpQpRpalphaM3. try clear HPQRPpQpRpalpham4. try clear HPQRPpQpRpalpham3. try clear HPQRPpQpRpalpham2. try clear HPQRPpQpRpalpham1. 
-
+(* dans constructProofaux(), preuve de 1 <= rg <= 2 pour QRp requis par la preuve de (?)PRRpalpha pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PRRpalpha requis par la preuve de (?)PRRpalpha pour la règle 4  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRRpalpha requis par la preuve de (?)PRRpalpha pour la règle 1  *)
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 5*)
 assert(HPRRpalphaM3 : rk(P :: R :: Rp :: alpha :: nil) <= 3).
@@ -3338,17 +2357,41 @@ assert(HPRRpalphaM3 : rk(P :: R :: Rp :: alpha :: nil) <= 3).
 }
 
 
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 3) *)
+(* marque des antécédents AUB AiB A: 5 4 et 5*)
+(* ensembles concernés AUB : P :: Q :: R :: Rp :: alpha ::  de rang :  3 et 4 	 AiB : Rp ::  de rang :  1 et 1 	 A : Q :: Rp ::   de rang : 1 et 2 *)
+assert(HPRRpalpham2 : rk(P :: R :: Rp :: alpha :: nil) >= 2).
+{
+	assert(HQRpMtmp : rk(Q :: Rp :: nil) <= 2) by (solve_hyps_max HQRpeq HQRpM2).
+	assert(HPQRRpalphamtmp : rk(P :: Q :: R :: Rp :: alpha :: nil) >= 3) by (solve_hyps_min HPQRRpalphaeq HPQRRpalpham3).
+	try assert(HRpeq : rk(Rp :: nil) = 1) by (apply LRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRpmtmp : rk(Rp :: nil) >= 1) by (solve_hyps_min HRpeq HRpm1).
+	assert(Hincl : incl (Rp :: nil) (list_inter (Q :: Rp :: nil) (P :: R :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Rp :: alpha :: nil) (Q :: Rp :: P :: R :: Rp :: alpha :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (Q :: Rp :: P :: R :: Rp :: alpha :: nil) ((Q :: Rp :: nil) ++ (P :: R :: Rp :: alpha :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQRRpalphamtmp;try rewrite HT2 in HPQRRpalphamtmp.
+	assert(HT := rule_4 (Q :: Rp :: nil) (P :: R :: Rp :: alpha :: nil) (Rp :: nil) 3 1 2 HPQRRpalphamtmp HRpmtmp HQRpMtmp Hincl); apply HT.
+}
+try clear HPQRRpalphaM1. try clear HPQRRpalphaM2. try clear HPQRRpalphaM3. try clear HPQRRpalpham4. try clear HPQRRpalpham3. try clear HPQRRpalpham2. try clear HPQRRpalpham1. 
+
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 3) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : P :: R :: Rp :: Oo :: alpha ::  de rang :  3 et 3 	 AiB : R :: Rp ::  de rang :  2 et 2 	 A : R :: Rp :: Oo ::   de rang : 2 et 2 *)
 assert(HPRRpalpham3 : rk(P :: R :: Rp :: alpha :: nil) >= 3).
 {
-	try assert(HPRRpeq : rk(P :: R :: Rp :: nil) = 3) by (apply LPRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRRpmtmp : rk(P :: R :: Rp :: nil) >= 3) by (solve_hyps_min HPRRpeq HPRRpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Rp :: nil) (P :: R :: Rp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Rp :: nil) (P :: R :: Rp :: alpha :: nil) 3 3 HPRRpmtmp Hcomp Hincl);apply HT.
+	try assert(HRRpOoeq : rk(R :: Rp :: Oo :: nil) = 2) by (apply LRRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRRpOoMtmp : rk(R :: Rp :: Oo :: nil) <= 2) by (solve_hyps_max HRRpOoeq HRRpOoM2).
+	try assert(HPRRpOoalphaeq : rk(P :: R :: Rp :: Oo :: alpha :: nil) = 3) by (apply LPRRpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRRpOoalphamtmp : rk(P :: R :: Rp :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPRRpOoalphaeq HPRRpOoalpham3).
+	try assert(HRRpeq : rk(R :: Rp :: nil) = 2) by (apply LRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRRpmtmp : rk(R :: Rp :: nil) >= 2) by (solve_hyps_min HRRpeq HRRpm2).
+	assert(Hincl : incl (R :: Rp :: nil) (list_inter (R :: Rp :: Oo :: nil) (P :: R :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: R :: Rp :: Oo :: alpha :: nil) (R :: Rp :: Oo :: P :: R :: Rp :: alpha :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (R :: Rp :: Oo :: P :: R :: Rp :: alpha :: nil) ((R :: Rp :: Oo :: nil) ++ (P :: R :: Rp :: alpha :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPRRpOoalphamtmp;try rewrite HT2 in HPRRpOoalphamtmp.
+	assert(HT := rule_4 (R :: Rp :: Oo :: nil) (P :: R :: Rp :: alpha :: nil) (R :: Rp :: nil) 3 2 2 HPRRpOoalphamtmp HRRpmtmp HRRpOoMtmp Hincl); apply HT.
 }
-try clear HPRRpM1. try clear HPRRpM2. try clear HPRRpM3. try clear HPRRpm4. try clear HPRRpm3. try clear HPRRpm2. try clear HPRRpm1. 
+
 
 assert(HPRRpalphaM : rk(P :: R :: Rp :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HPRRpalpham : rk(P :: R :: Rp :: alpha ::  nil) >= 1) by (solve_hyps_min HPRRpalphaeq HPRRpalpham1).
@@ -3357,20 +2400,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LRpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Rp :: alpha ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Rpalpha requis par la preuve de (?)Rpalpha pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 2) *)
@@ -3397,45 +2437,20 @@ assert(HRpalpham : rk(Rp :: alpha ::  nil) >= 1) by (solve_hyps_min HRpalphaeq H
 intuition.
 Qed.
 
-(* dans la couche 0 *)
-Lemma LPpRpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Rp :: alpha ::  nil) = 2.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-assert(HPpRpalphaM : rk(Pp :: Rp :: alpha ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPpRpalphaeq HPpRpalphaM3).
-assert(HPpRpalpham : rk(Pp :: Rp :: alpha ::  nil) >= 1) by (solve_hyps_min HPpRpalphaeq HPpRpalpham1).
-intuition.
-Qed.
-
 (* dans constructLemma(), requis par LPPpRpalpha *)
 (* dans la couche 0 *)
 Lemma LPQPpRpOoalphabeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Rp :: Oo :: alpha :: beta ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpRpOoalphabeta requis par la preuve de (?)PQPpRpOoalphabeta pour la règle 5  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpRpOoalphabeta requis par la preuve de (?)PQPpRpOoalphabeta pour la règle 5  *)
@@ -3456,11 +2471,11 @@ assert(HPQPpRpOoalphabetam2 : rk(P :: Q :: Pp :: Rp :: Oo :: alpha :: beta :: ni
 (* marque de l'antécédent : 4 *)
 assert(HPQPpRpOoalphabetam3 : rk(P :: Q :: Pp :: Rp :: Oo :: alpha :: beta :: nil) >= 3).
 {
-	try assert(HPQPpeq : rk(P :: Q :: Pp :: nil) = 3) by (apply LPQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Rp :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Rp :: Oo :: alpha :: beta :: nil) 3 3 HPQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Rp :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Rp :: Oo :: alpha :: beta :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -3485,20 +2500,17 @@ Qed.
 (* dans constructLemma(), requis par LPQPpOobeta *)
 (* dans la couche 0 *)
 Lemma LPQbeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HPQbetaM : rk(P :: Q :: beta ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPQbetaeq HPQbetaM3).
 assert(HPQbetam : rk(P :: Q :: beta ::  nil) >= 1) by (solve_hyps_min HPQbetaeq HPQbetam1).
@@ -3507,20 +2519,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPQPpOobeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Oo :: beta ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOobeta requis par la preuve de (?)PQPpOobeta pour la règle 1  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpOobeta requis par la preuve de (?)PQPpOobeta pour la règle 5  *)
@@ -3541,11 +2550,11 @@ assert(HPQPpOobetam2 : rk(P :: Q :: Pp :: Oo :: beta :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQPpOobetam3 : rk(P :: Q :: Pp :: Oo :: beta :: nil) >= 3).
 {
-	try assert(HPQPpeq : rk(P :: Q :: Pp :: nil) = 3) by (apply LPQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Oo :: beta :: nil) 3 3 HPQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: beta :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -3574,20 +2583,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPPpRpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Rp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PPpRpalpha requis par la preuve de (?)PPpRpalpha pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PPpRpalpha requis par la preuve de (?)PPpRpalpha pour la règle 5  *)
@@ -3646,23 +2652,47 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPRPpRpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Rp :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpRpalpha requis par la preuve de (?)PRPpRpalpha pour la règle 1  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpRpalpha requis par la preuve de (?)PRPpRpalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpRpOoalpha requis par la preuve de (?)PRPpRpalpha pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpRpOoalpha requis par la preuve de (?)PRPpRpOoalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpRpOoalpha requis par la preuve de (?)PRPpRpOoalpha pour la règle 5  *)
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPRPpRpOoalpham2 : rk(P :: R :: Pp :: Rp :: Oo :: alpha :: nil) >= 2).
+{
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Rp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Rp :: Oo :: alpha :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
+}
+
+
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPRPpRpOoalpham3 : rk(P :: R :: Pp :: Rp :: Oo :: alpha :: nil) >= 3).
+{
+	try assert(HPROoeq : rk(P :: R :: Oo :: nil) = 3) by (apply LPROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPROomtmp : rk(P :: R :: Oo :: nil) >= 3) by (solve_hyps_min HPROoeq HPROom3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: R :: Oo :: nil) (P :: R :: Pp :: Rp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: R :: Oo :: nil) (P :: R :: Pp :: Rp :: Oo :: alpha :: nil) 3 3 HPROomtmp Hcomp Hincl);apply HT.
+}
+
+
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpRpalpha requis par la preuve de (?)PRPpRpalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpRpalpha requis par la preuve de (?)PRPpRpalpha pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
@@ -3676,17 +2706,23 @@ assert(HPRPpRpalpham2 : rk(P :: R :: Pp :: Rp :: alpha :: nil) >= 2).
 }
 
 
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 4) *)
+(* marque des antécédents AUB AiB A: 5 4 et 4*)
+(* ensembles concernés AUB : P :: R :: Pp :: Rp :: Oo :: alpha ::  de rang :  3 et 4 	 AiB : P :: Pp ::  de rang :  2 et 2 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
 assert(HPRPpRpalpham3 : rk(P :: R :: Pp :: Rp :: alpha :: nil) >= 3).
 {
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Rp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Rp :: alpha :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	assert(HPRPpRpOoalphamtmp : rk(P :: R :: Pp :: Rp :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPRPpRpOoalphaeq HPRPpRpOoalpham3).
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hincl : incl (P :: Pp :: nil) (list_inter (P :: Pp :: Oo :: nil) (P :: R :: Pp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: R :: Pp :: Rp :: Oo :: alpha :: nil) (P :: Pp :: Oo :: P :: R :: Pp :: Rp :: alpha :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: P :: R :: Pp :: Rp :: alpha :: nil) ((P :: Pp :: Oo :: nil) ++ (P :: R :: Pp :: Rp :: alpha :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPRPpRpOoalphamtmp;try rewrite HT2 in HPRPpRpOoalphamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (P :: R :: Pp :: Rp :: alpha :: nil) (P :: Pp :: nil) 3 2 2 HPRPpRpOoalphamtmp HPPpmtmp HPPpOoMtmp Hincl); apply HT.
 }
-
+try clear HPRPpRpOoalphaM1. try clear HPRPpRpOoalphaM2. try clear HPRPpRpOoalphaM3. try clear HPRPpRpOoalpham4. try clear HPRPpRpOoalpham3. try clear HPRPpRpOoalpham2. try clear HPRPpRpOoalpham1. 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
@@ -3711,124 +2747,20 @@ assert(HPRPpRpalpham : rk(P :: R :: Pp :: Rp :: alpha ::  nil) >= 1) by (solve_h
 intuition.
 Qed.
 
-(* dans la couche 0 *)
-Lemma LPpQpRpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: alpha ::  nil) = 3.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PpQpRpalpha requis par la preuve de (?)PpQpRpalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PpQpRpalpha requis par la preuve de (?)PpQpRpalpha pour la règle 1  *)
-(* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
-(* marque des antécédents A B AiB : 4 4 et 5*)
-assert(HPpQpRpalphaM3 : rk(Pp :: Qp :: Rp :: alpha :: nil) <= 3).
-{
-	try assert(HQpeq : rk(Qp :: nil) = 1) by (apply LQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQpMtmp : rk(Qp :: nil) <= 1) by (solve_hyps_max HQpeq HQpM1).
-	try assert(HPpRpalphaeq : rk(Pp :: Rp :: alpha :: nil) = 2) by (apply LPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPpRpalphaMtmp : rk(Pp :: Rp :: alpha :: nil) <= 2) by (solve_hyps_max HPpRpalphaeq HPpRpalphaM2).
-	assert(Hmtmp : rk(nil) >= 0) by (solve_hyps_min Hnuleq Hm).
-	assert(Hincl : incl (nil) (list_inter (Qp :: nil) (Pp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (Pp :: Qp :: Rp :: alpha :: nil) (Qp :: Pp :: Rp :: alpha :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (Qp :: Pp :: Rp :: alpha :: nil) ((Qp :: nil) ++ (Pp :: Rp :: alpha :: nil))) by (clear_all_rk;my_inO).
-	assert(HT := rule_1 (Qp :: nil) (Pp :: Rp :: alpha :: nil) (nil) 1 2 0 HQpMtmp HPpRpalphaMtmp Hmtmp Hincl);
-	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPpQpRpalpham3 : rk(Pp :: Qp :: Rp :: alpha :: nil) >= 3).
-{
-	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPpQpRpmtmp : rk(Pp :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HPpQpRpeq HPpQpRpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (Pp :: Qp :: Rp :: nil) (Pp :: Qp :: Rp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Pp :: Qp :: Rp :: nil) (Pp :: Qp :: Rp :: alpha :: nil) 3 3 HPpQpRpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPpQpRpalphaM : rk(Pp :: Qp :: Rp :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPpQpRpalpham : rk(Pp :: Qp :: Rp :: alpha ::  nil) >= 1) by (solve_hyps_min HPpQpRpalphaeq HPpQpRpalpham1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPQRPpQpRpalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Rp :: alpha ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpRpalpha requis par la preuve de (?)PQRPpQpRpalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpRpalpha requis par la preuve de (?)PQRPpQpRpalpha pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpalpham3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpalpham4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: alpha :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQRPpQpRpalphaM : rk(P :: Q :: R :: Pp :: Qp :: Rp :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpRpalpham : rk(P :: Q :: R :: Pp :: Qp :: Rp :: alpha ::  nil) >= 1) by (solve_hyps_min HPQRPpQpRpalphaeq HPQRPpQpRpalpham1).
-intuition.
-Qed.
-
 (* dans constructLemma(), requis par LPOoalpha *)
 (* dans la couche 0 *)
 Lemma LPQPpOoalphabeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Pp :: Oo :: alpha :: beta ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOoalphabeta requis par la preuve de (?)PQPpOoalphabeta pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpOoalphabeta requis par la preuve de (?)PQPpOoalphabeta pour la règle 5  *)
@@ -3849,11 +2781,11 @@ assert(HPQPpOoalphabetam2 : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: nil) >= 2)
 (* marque de l'antécédent : 4 *)
 assert(HPQPpOoalphabetam3 : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: nil) >= 3).
 {
-	try assert(HPQPpeq : rk(P :: Q :: Pp :: nil) = 3) by (apply LPQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: nil) 3 3 HPQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -3883,20 +2815,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPOoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Oo :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour POoalpha requis par la preuve de (?)POoalpha pour la règle 2  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour POoalpha requis par la preuve de (?)POoalpha pour la règle 5  *)
@@ -3928,7 +2857,7 @@ assert(HPOoalpham3 : rk(P :: Oo :: alpha :: nil) >= 3).
 	try rewrite HT1 in HPQPpOoalphabetamtmp;try rewrite HT2 in HPQPpOoalphabetamtmp.
 	assert(HT := rule_2 (P :: Oo :: alpha :: nil) (P :: Q :: Pp :: Oo :: beta :: nil) (P :: Oo :: nil) 4 2 3 HPQPpOoalphabetamtmp HPOomtmp HPQPpOobetaMtmp Hincl);apply HT.
 }
-try clear HPOoM1. try clear HPOoM2. try clear HPOoM3. try clear HPOom4. try clear HPOom3. try clear HPOom2. try clear HPOom1. 
+
 
 assert(HPOoalphaM : rk(P :: Oo :: alpha ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPOoalphaeq HPOoalphaM3).
 assert(HPOoalpham : rk(P :: Oo :: alpha ::  nil) >= 1) by (solve_hyps_min HPOoalphaeq HPOoalpham1).
@@ -3938,20 +2867,17 @@ Qed.
 (* dans constructLemma(), requis par LPQOoalpha *)
 (* dans la couche 0 *)
 Lemma LPQROoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Oo :: alpha ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQROoalpha requis par la preuve de (?)PQROoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQROoalpha requis par la preuve de (?)PQROoalpha pour la règle 5  *)
@@ -3987,69 +2913,21 @@ Qed.
 (* dans constructLemma(), requis par LPQOoalpha *)
 (* dans la couche 0 *)
 Lemma LPROoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Oo :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PROoalpha requis par la preuve de (?)PROoalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PROoalpha requis par la preuve de (?)PROoalpha pour la règle 1  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PROoalpha pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PQRPpQpOoalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PQRPpQpOoalpha pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOoalpham3 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOoalpham4 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PROoalpha requis par la preuve de (?)PROoalpha pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Oo :: alpha ::  de rang :  4 et 4 	 AiB : P :: R ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
-assert(HPROoalpham2 : rk(P :: R :: Oo :: alpha :: nil) >= 2).
-{
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpOoalphamtmp : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpQpOoalphaeq HPQRPpQpOoalpham4).
-	try assert(HPReq : rk(P :: R :: nil) = 2) by (apply LPR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRmtmp : rk(P :: R :: nil) >= 2) by (solve_hyps_min HPReq HPRm2).
-	assert(Hincl : incl (P :: R :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: R :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) (P :: Q :: R :: Pp :: Qp :: P :: R :: Oo :: alpha :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: R :: Oo :: alpha :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: R :: Oo :: alpha :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpOoalphamtmp;try rewrite HT2 in HPQRPpQpOoalphamtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: R :: Oo :: alpha :: nil) (P :: R :: nil) 4 2 4 HPQRPpQpOoalphamtmp HPRmtmp HPQRPpQpMtmp Hincl); apply HT.
-}
-
-
+(* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PROoalpha requis par la preuve de (?)PROoalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PROoalpha requis par la preuve de (?)PROoalpha pour la règle 1  *)
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 5*)
 assert(HPROoalphaM3 : rk(P :: R :: Oo :: alpha :: nil) <= 3).
@@ -4066,6 +2944,18 @@ assert(HPROoalphaM3 : rk(P :: R :: Oo :: alpha :: nil) <= 3).
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
 try clear HOoM1. try clear HOoM2. try clear HOoM3. try clear HOom4. try clear HOom3. try clear HOom2. try clear HOom1. 
+
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPROoalpham2 : rk(P :: R :: Oo :: alpha :: nil) >= 2).
+{
+	try assert(HPOoeq : rk(P :: Oo :: nil) = 2) by (apply LPOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPOomtmp : rk(P :: Oo :: nil) >= 2) by (solve_hyps_min HPOoeq HPOom2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Oo :: nil) (P :: R :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Oo :: nil) (P :: R :: Oo :: alpha :: nil) 2 2 HPOomtmp Hcomp Hincl);apply HT.
+}
+
 
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
@@ -4086,66 +2976,30 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPQOoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Oo :: alpha ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQOoalpha requis par la preuve de (?)PQOoalpha pour la règle 2  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQOoalpha requis par la preuve de (?)PQOoalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PQOoalpha pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PQRPpQpOoalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PQRPpQpOoalpha pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQOoalpha requis par la preuve de (?)PQOoalpha pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOoalpham3 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOoalpham4 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQOoalpha requis par la preuve de (?)PQOoalpha pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Oo :: alpha ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
 assert(HPQOoalpham2 : rk(P :: Q :: Oo :: alpha :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpOoalphamtmp : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpQpOoalphaeq HPQRPpQpOoalpham4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) (P :: Q :: R :: Pp :: Qp :: P :: Q :: Oo :: alpha :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: Q :: Oo :: alpha :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: Q :: Oo :: alpha :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpOoalphamtmp;try rewrite HT2 in HPQRPpQpOoalphamtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: Oo :: alpha :: nil) (P :: Q :: nil) 4 2 4 HPQRPpQpOoalphamtmp HPQmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HPOoeq : rk(P :: Oo :: nil) = 2) by (apply LPOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPOomtmp : rk(P :: Oo :: nil) >= 2) by (solve_hyps_min HPOoeq HPOom2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Oo :: nil) (P :: Q :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Oo :: nil) (P :: Q :: Oo :: alpha :: nil) 2 2 HPOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -4187,20 +3041,17 @@ Qed.
 (* dans constructLemma(), requis par LQQpOoalpha *)
 (* dans la couche 0 *)
 Lemma LPQRQpOoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Qp :: Oo :: alpha ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRQpOoalpha requis par la preuve de (?)PQRQpOoalpha pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRQpOoalpha requis par la preuve de (?)PQRQpOoalpha pour la règle 5  *)
@@ -4220,13 +3071,13 @@ assert(HPQRQpOoalpham3 : rk(P :: Q :: R :: Qp :: Oo :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPQRQpOoalpham4 : rk(P :: Q :: R :: Qp :: Oo :: alpha :: nil) >= 4).
 {
-	try assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 4) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRQpmtmp : rk(P :: Q :: R :: Qp :: nil) >= 4) by (solve_hyps_min HPQRQpeq HPQRQpm4).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Qp :: nil) (P :: Q :: R :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Qp :: nil) (P :: Q :: R :: Qp :: Oo :: alpha :: nil) 4 4 HPQRQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Qp :: Oo :: alpha :: nil) 4 4 HPQROomtmp Hcomp Hincl);apply HT.
 }
-try clear HPQRQpM1. try clear HPQRQpM2. try clear HPQRQpM3. try clear HPQRQpm4. try clear HPQRQpm3. try clear HPQRQpm2. try clear HPQRQpm1. 
+
 
 assert(HPQRQpOoalphaM : rk(P :: Q :: R :: Qp :: Oo :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HPQRQpOoalpham : rk(P :: Q :: R :: Qp :: Oo :: alpha ::  nil) >= 1) by (solve_hyps_min HPQRQpOoalphaeq HPQRQpOoalpham1).
@@ -4235,20 +3086,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQQpOoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Oo :: alpha ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QQpOoalpha requis par la preuve de (?)QQpOoalpha pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QQpOoalpha requis par la preuve de (?)QQpOoalpha pour la règle 1  *)
@@ -4307,69 +3155,18 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LPQRPpQpOoalpha : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PQRPpQpOoalpha pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOoalpha requis par la preuve de (?)PQRPpQpOoalpha pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOoalpham3 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpOoalpham4 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQRPpQpOoalphaM : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpOoalpham : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha ::  nil) >= 1) by (solve_hyps_min HPQRPpQpOoalphaeq HPQRPpQpOoalpham1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
 Lemma Lbeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(beta ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HbetaM : rk(beta ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max Hbetaeq HbetaM1).
 assert(Hbetam : rk(beta ::  nil) >= 1) by (solve_hyps_min Hbetaeq Hbetam1).
@@ -4382,20 +3179,17 @@ Qed.
 (* dans constructLemma(), requis par LPRPpQpRpOobeta *)
 (* dans la couche 0 *)
 Lemma LPQRPpQpRpOobeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: beta ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpRpOobeta requis par la preuve de (?)PQRPpQpRpOobeta pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpRpOobeta requis par la preuve de (?)PQRPpQpRpOobeta pour la règle 5  *)
@@ -4415,11 +3209,11 @@ assert(HPQRPpQpRpOobetam3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: beta :: ni
 (* marque de l'antécédent : 4 *)
 assert(HPQRPpQpRpOobetam4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil) >= 4).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
+	try assert(HPQRPpQpRpeq : rk(P :: Q :: R :: Pp :: Qp :: Rp :: nil) = 4) by (apply LPQRPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpRpmtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpeq HPQRPpQpRpm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: Pp :: Qp :: Rp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: Pp :: Qp :: Rp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil) 4 4 HPQRPpQpRpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -4430,20 +3224,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPRPpQpRpOobeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: Rp :: Oo :: beta ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpRpOobeta requis par la preuve de (?)PRPpQpRpOobeta pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpRpOobeta requis par la preuve de (?)PRPpQpRpOobeta pour la règle 5  *)
@@ -4464,11 +3255,11 @@ assert(HPRPpQpRpOobetam2 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil) >= 
 (* marque de l'antécédent : 4 *)
 assert(HPRPpQpRpOobetam3 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil) >= 3).
 {
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpmtmp : rk(Pp :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HPpQpRpeq HPpQpRpm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: beta :: nil) 3 3 HPpQpRpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -4498,20 +3289,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPPpQpRpOobeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: Rp :: Oo :: beta ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpRpOobeta requis par la preuve de (?)PPpQpRpOobeta pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PPpQpRpOobeta requis par la preuve de (?)PPpQpRpOobeta pour la règle 5  *)
@@ -4566,20 +3354,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPPpQpbeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: beta ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PPpQpbeta requis par la preuve de (?)PPpQpbeta pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PPpQpbeta requis par la preuve de (?)PPpQpbeta pour la règle 5  *)
@@ -4640,20 +3425,17 @@ Qed.
 (* dans constructLemma(), requis par LPbeta *)
 (* dans la couche 0 *)
 Lemma LPpQpbeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HPpQpbetaM : rk(Pp :: Qp :: beta ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HPpQpbetaeq HPpQpbetaM3).
 assert(HPpQpbetam : rk(Pp :: Qp :: beta ::  nil) >= 1) by (solve_hyps_min HPpQpbetaeq HPpQpbetam1).
@@ -4662,20 +3444,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPbeta : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: beta ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Pbeta requis par la preuve de (?)Pbeta pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -4703,20 +3482,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma Lgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(gamma ::  nil) = 1.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HgammaM : rk(gamma ::  nil) <= 1) (* dim : 3 *) by (solve_hyps_max Hgammaeq HgammaM1).
 assert(Hgammam : rk(gamma ::  nil) >= 1) by (solve_hyps_min Hgammaeq Hgammam1).
@@ -4730,20 +3506,17 @@ Qed.
 (* dans constructLemma(), requis par LQRPpQpRpOoalphagamma *)
 (* dans la couche 0 *)
 Lemma LPQRPpQpRpOoalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpRpOoalphagamma requis par la preuve de (?)PQRPpQpRpOoalphagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpRpOoalphagamma requis par la preuve de (?)PQRPpQpRpOoalphagamma pour la règle 5  *)
@@ -4763,11 +3536,11 @@ assert(HPQRPpQpRpOoalphagammam3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alph
 (* marque de l'antécédent : 4 *)
 assert(HPQRPpQpRpOoalphagammam4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 4).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
+	try assert(HPQRPpQpRpeq : rk(P :: Q :: R :: Pp :: Qp :: Rp :: nil) = 4) by (apply LPQRPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpRpmtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpeq HPQRPpQpRpm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: Pp :: Qp :: Rp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: Pp :: Qp :: Rp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 4 4 HPQRPpQpRpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -4778,20 +3551,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQRPpQpRpOoalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRPpQpRpOoalphagamma requis par la preuve de (?)QRPpQpRpOoalphagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QRPpQpRpOoalphagamma requis par la preuve de (?)QRPpQpRpOoalphagamma pour la règle 5  *)
@@ -4832,11 +3602,11 @@ assert(HQRPpQpRpOoalphagammam2 : rk(Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: g
 (* marque de l'antécédent : 4 *)
 assert(HQRPpQpRpOoalphagammam3 : rk(Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 3).
 {
-	try assert(HQRPpeq : rk(Q :: R :: Pp :: nil) = 3) by (apply LQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRPpmtmp : rk(Q :: R :: Pp :: nil) >= 3) by (solve_hyps_min HQRPpeq HQRPpm3).
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpmtmp : rk(Pp :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HPpQpRpeq HPpQpRpm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 3 3 HQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Pp :: Qp :: Rp :: nil) (Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Pp :: Qp :: Rp :: nil) (Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 3 3 HPpQpRpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -4857,7 +3627,7 @@ assert(HQRPpQpRpOoalphagammam4 : rk(Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: g
 	try rewrite HT1 in HPQRPpQpRpOoalphagammamtmp;try rewrite HT2 in HPQRPpQpRpOoalphagammamtmp.
 	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) (Pp :: Oo :: nil) 4 2 2 HPQRPpQpRpOoalphagammamtmp HPpOomtmp HPPpOoMtmp Hincl); apply HT.
 }
-
+try clear HPQRPpQpRpOoalphagammaM1. try clear HPQRPpQpRpOoalphagammaM2. try clear HPQRPpQpRpOoalphagammaM3. try clear HPQRPpQpRpOoalphagammam4. try clear HPQRPpQpRpOoalphagammam3. try clear HPQRPpQpRpOoalphagammam2. try clear HPQRPpQpRpOoalphagammam1. 
 
 assert(HQRPpQpRpOoalphagammaM : rk(Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HQRPpQpRpOoalphagammam : rk(Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  nil) >= 1) by (solve_hyps_min HQRPpQpRpOoalphagammaeq HQRPpQpRpOoalphagammam1).
@@ -4866,20 +3636,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQPpQpRpOoalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPpQpRpOoalphagamma requis par la preuve de (?)QPpQpRpOoalphagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QPpQpRpOoalphagamma requis par la preuve de (?)QPpQpRpOoalphagamma pour la règle 5  *)
@@ -4888,11 +3655,11 @@ HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HQPpQpRpOoalphagammam2 : rk(Q :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 2).
 {
-	try assert(HQPpeq : rk(Q :: Pp :: nil) = 2) by (apply LQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQPpmtmp : rk(Q :: Pp :: nil) >= 2) by (solve_hyps_min HQPpeq HQPpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (Q :: Pp :: nil) (Q :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: Pp :: nil) (Q :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 2 2 HQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (Q :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (Q :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -4934,20 +3701,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQQpRpOoalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Rp :: Oo :: alpha :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QQpRpOoalphagamma requis par la preuve de (?)QQpRpOoalphagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QQpRpOoalphagamma requis par la preuve de (?)QQpRpOoalphagamma pour la règle 5  *)
@@ -5002,20 +3766,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQQpRpgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: Qp :: Rp :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour QQpRpgamma requis par la preuve de (?)QQpRpgamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour QQpRpgamma requis par la preuve de (?)QQpRpgamma pour la règle 5  *)
@@ -5076,20 +3837,17 @@ Qed.
 (* dans constructLemma(), requis par LQgamma *)
 (* dans la couche 0 *)
 Lemma LQpRpgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HQpRpgammaM : rk(Qp :: Rp :: gamma ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQpRpgammaeq HQpRpgammaM3).
 assert(HQpRpgammam : rk(Qp :: Rp :: gamma ::  nil) >= 1) by (solve_hyps_min HQpRpgammaeq HQpRpgammam1).
@@ -5098,20 +3856,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: gamma ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 2 pour Qgamma requis par la preuve de (?)Qgamma pour la règle 2  *)
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
@@ -5140,22 +3895,18 @@ Qed.
 (* dans constructLemma(), requis par LPQgamma *)
 (* dans la couche 0 *)
 Lemma LPQRgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
-(* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQRgamma requis par la preuve de (?)PQRgamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PQRgamma requis par la preuve de (?)PQRgamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 2 pour QRgamma requis par la preuve de (?)PQRgamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRgamma requis par la preuve de (?)PQRgamma pour la règle 1  *)
@@ -5172,18 +3923,6 @@ assert(HPQRgammaM3 : rk(P :: Q :: R :: gamma :: nil) <= 3).
 	assert(HT2 : equivlist (P :: Q :: R :: gamma :: nil) ((P :: nil) ++ (Q :: R :: gamma :: nil))) by (clear_all_rk;my_inO).
 	assert(HT := rule_1 (P :: nil) (Q :: R :: gamma :: nil) (nil) 1 2 0 HPMtmp HQRgammaMtmp Hmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRgammam2 : rk(P :: Q :: R :: gamma :: nil) >= 2).
-{
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: nil) (P :: Q :: R :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: nil) (P :: Q :: R :: gamma :: nil) 2 2 HPQmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -5207,20 +3946,17 @@ Qed.
 (* dans constructLemma(), requis par LPQgamma *)
 (* dans la couche 0 *)
 Lemma LQRgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: gamma ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 assert(HQRgammaM : rk(Q :: R :: gamma ::  nil) <= 3) (* dim : 3 *) by (solve_hyps_max HQRgammaeq HQRgammaM3).
 assert(HQRgammam : rk(Q :: R :: gamma ::  nil) >= 1) by (solve_hyps_min HQRgammaeq HQRgammam1).
@@ -5229,67 +3965,64 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPQgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQgamma requis par la preuve de (?)PQgamma pour la règle 2  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpgamma requis par la preuve de (?)PQgamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpgamma requis par la preuve de (?)PQRPpQpgamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpgamma requis par la preuve de (?)PQRPpQpgamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOogamma requis par la preuve de (?)PQgamma pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpOogamma requis par la preuve de (?)PQPpOogamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpOogamma requis par la preuve de (?)PQPpOogamma pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpgammam3 : rk(P :: Q :: R :: Pp :: Qp :: gamma :: nil) >= 3).
+assert(HPQPpOogammam2 : rk(P :: Q :: Pp :: Oo :: gamma :: nil) >= 2).
 {
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpgammam4 : rk(P :: Q :: R :: Pp :: Qp :: gamma :: nil) >= 4).
+assert(HPQPpOogammam3 : rk(P :: Q :: Pp :: Oo :: gamma :: nil) >= 3).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 3 pour PQgamma requis par la preuve de (?)PQgamma pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 3) *)
 (* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: gamma ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
+(* ensembles concernés AUB : P :: Q :: Pp :: Oo :: gamma ::  de rang :  3 et 4 	 AiB : P ::  de rang :  1 et 1 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
 assert(HPQgammam2 : rk(P :: Q :: gamma :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpgammamtmp : rk(P :: Q :: R :: Pp :: Qp :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpgammaeq HPQRPpQpgammam4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: gamma :: nil) (P :: Q :: R :: Pp :: Qp :: P :: Q :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: Q :: gamma :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: Q :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpgammamtmp;try rewrite HT2 in HPQRPpQpgammamtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: gamma :: nil) (P :: Q :: nil) 4 2 4 HPQRPpQpgammamtmp HPQmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	assert(HPQPpOogammamtmp : rk(P :: Q :: Pp :: Oo :: gamma :: nil) >= 3) by (solve_hyps_min HPQPpOogammaeq HPQPpOogammam3).
+	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
+	assert(Hincl : incl (P :: nil) (list_inter (P :: Pp :: Oo :: nil) (P :: Q :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: Pp :: Oo :: gamma :: nil) (P :: Pp :: Oo :: P :: Q :: gamma :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: P :: Q :: gamma :: nil) ((P :: Pp :: Oo :: nil) ++ (P :: Q :: gamma :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQPpOogammamtmp;try rewrite HT2 in HPQPpOogammamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (P :: Q :: gamma :: nil) (P :: nil) 3 1 2 HPQPpOogammamtmp HPmtmp HPPpOoMtmp Hincl); apply HT.
 }
-
+try clear HPQPpOogammaM1. try clear HPQPpOogammaM2. try clear HPQPpOogammaM3. try clear HPQPpOogammam4. try clear HPQPpOogammam3. try clear HPQPpOogammam2. try clear HPQPpOogammam1. 
 
 (* Application de la règle 2 code (7 ou 8 dans la thèse) conclusion A*)
 (* marque des antécédents AUB AiB B: 4 4 et 4*)
@@ -5319,20 +4052,17 @@ Qed.
 (* dans constructLemma(), requis par LQRPpQpOogamma *)
 (* dans la couche 0 *)
 Lemma LPQRPpQpOogamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Oo :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOogamma requis par la preuve de (?)PQRPpQpOogamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOogamma requis par la preuve de (?)PQRPpQpOogamma pour la règle 5  *)
@@ -5352,11 +4082,11 @@ assert(HPQRPpQpOogammam3 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) >= 
 (* marque de l'antécédent : 4 *)
 assert(HPQRPpQpOogammam4 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) >= 4).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) 4 4 HPQROomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -5367,20 +4097,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQRPpQpOogamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: Pp :: Qp :: Oo :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRPpQpOogamma requis par la preuve de (?)QRPpQpOogamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QRPpQpOogamma requis par la preuve de (?)QRPpQpOogamma pour la règle 5  *)
@@ -5421,11 +4148,11 @@ assert(HQRPpQpOogammam2 : rk(Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HQRPpQpOogammam3 : rk(Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) >= 3).
 {
-	try assert(HQRPpeq : rk(Q :: R :: Pp :: nil) = 3) by (apply LQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRPpmtmp : rk(Q :: R :: Pp :: nil) >= 3) by (solve_hyps_min HQRPpeq HQRPpm3).
+	try assert(HQROoeq : rk(Q :: R :: Oo :: nil) = 3) by (apply LQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQROomtmp : rk(Q :: R :: Oo :: nil) >= 3) by (solve_hyps_min HQROoeq HQROom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) 3 3 HQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: R :: Oo :: nil) (Q :: R :: Pp :: Qp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: R :: Oo :: nil) (Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) 3 3 HQROomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -5446,7 +4173,7 @@ assert(HQRPpQpOogammam4 : rk(Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) >= 4).
 	try rewrite HT1 in HPQRPpQpOogammamtmp;try rewrite HT2 in HPQRPpQpOogammamtmp.
 	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) (Pp :: Oo :: nil) 4 2 2 HPQRPpQpOogammamtmp HPpOomtmp HPPpOoMtmp Hincl); apply HT.
 }
-try clear HPQRPpQpOogammaM1. try clear HPQRPpQpOogammaM2. try clear HPQRPpQpOogammaM3. try clear HPQRPpQpOogammam4. try clear HPQRPpQpOogammam3. try clear HPQRPpQpOogammam2. try clear HPQRPpQpOogammam1. 
+
 
 assert(HQRPpQpOogammaM : rk(Q :: R :: Pp :: Qp :: Oo :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HQRPpQpOogammam : rk(Q :: R :: Pp :: Qp :: Oo :: gamma ::  nil) >= 1) by (solve_hyps_min HQRPpQpOogammaeq HQRPpQpOogammam1).
@@ -5455,23 +4182,20 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQRPpQpgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: Pp :: Qp :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRPpQpgamma requis par la preuve de (?)QRPpQpgamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QRPpQpgamma requis par la preuve de (?)QRPpQpgamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QRPpQpgamma requis par la preuve de (?)QRPpQpgamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpgamma requis par la preuve de (?)QRPpQpgamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpgamma requis par la preuve de (?)PQRPpQpgamma pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
@@ -5503,17 +4227,24 @@ assert(HQRPpQpgammam2 : rk(Q :: R :: Pp :: Qp :: gamma :: nil) >= 2).
 	try rewrite HT1 in HPQRPpQpgammamtmp;try rewrite HT2 in HPQRPpQpgammamtmp.
 	assert(HT := rule_4 (P :: Pp :: nil) (Q :: R :: Pp :: Qp :: gamma :: nil) (Pp :: nil) 3 1 2 HPQRPpQpgammamtmp HPpmtmp HPPpMtmp Hincl); apply HT.
 }
+try clear HPQRPpQpgammaM1. try clear HPQRPpQpgammaM2. try clear HPQRPpQpgammaM3. try clear HPQRPpQpgammam4. try clear HPQRPpQpgammam3. try clear HPQRPpQpgammam2. try clear HPQRPpQpgammam1. 
 
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 4) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Oo :: gamma ::  de rang :  4 et 4 	 AiB : Pp ::  de rang :  1 et 1 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
 assert(HQRPpQpgammam3 : rk(Q :: R :: Pp :: Qp :: gamma :: nil) >= 3).
 {
-	try assert(HQRPpeq : rk(Q :: R :: Pp :: nil) = 3) by (apply LQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRPpmtmp : rk(Q :: R :: Pp :: nil) >= 3) by (solve_hyps_min HQRPpeq HQRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: gamma :: nil) 3 3 HQRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	try assert(HPQRPpQpOogammaeq : rk(P :: Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) = 4) by (apply LPQRPpQpOogamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpOogammamtmp : rk(P :: Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpOogammaeq HPQRPpQpOogammam4).
+	try assert(HPpeq : rk(Pp :: nil) = 1) by (apply LPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpmtmp : rk(Pp :: nil) >= 1) by (solve_hyps_min HPpeq HPpm1).
+	assert(Hincl : incl (Pp :: nil) (list_inter (P :: Pp :: Oo :: nil) (Q :: R :: Pp :: Qp :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Oo :: gamma :: nil) (P :: Pp :: Oo :: Q :: R :: Pp :: Qp :: gamma :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: Q :: R :: Pp :: Qp :: gamma :: nil) ((P :: Pp :: Oo :: nil) ++ (Q :: R :: Pp :: Qp :: gamma :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQRPpQpOogammamtmp;try rewrite HT2 in HPQRPpQpOogammamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (Q :: R :: Pp :: Qp :: gamma :: nil) (Pp :: nil) 4 1 2 HPQRPpQpOogammamtmp HPpmtmp HPPpOoMtmp Hincl); apply HT.
 }
 
 
@@ -5543,20 +4274,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPpQpgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PpQpgamma requis par la preuve de (?)PpQpgamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPpQpOogamma requis par la preuve de (?)PpQpgamma pour la règle 4  *)
@@ -5579,11 +4307,11 @@ assert(HPQPpQpOogammam2 : rk(P :: Q :: Pp :: Qp :: Oo :: gamma :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQPpQpOogammam3 : rk(P :: Q :: Pp :: Qp :: Oo :: gamma :: nil) >= 3).
 {
-	try assert(HPQPpeq : rk(P :: Q :: Pp :: nil) = 3) by (apply LPQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: gamma :: nil) 3 3 HPQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -5593,11 +4321,11 @@ assert(HPQPpQpOogammam3 : rk(P :: Q :: Pp :: Qp :: Oo :: gamma :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HQPpQpOogammam2 : rk(Q :: Pp :: Qp :: Oo :: gamma :: nil) >= 2).
 {
-	try assert(HQPpeq : rk(Q :: Pp :: nil) = 2) by (apply LQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQPpmtmp : rk(Q :: Pp :: nil) >= 2) by (solve_hyps_min HQPpeq HQPpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: gamma :: nil) 2 2 HQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -5662,71 +4390,20 @@ assert(HPpQpgammam : rk(Pp :: Qp :: gamma ::  nil) >= 1) by (solve_hyps_min HPpQ
 intuition.
 Qed.
 
-(* dans la couche 0 *)
-Lemma LPQRPpQpgamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: gamma ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpgamma requis par la preuve de (?)PQRPpQpgamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpgamma requis par la preuve de (?)PQRPpQpgamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpgammam3 : rk(P :: Q :: R :: Pp :: Qp :: gamma :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpgammam4 : rk(P :: Q :: R :: Pp :: Qp :: gamma :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQRPpQpgammaM : rk(P :: Q :: R :: Pp :: Qp :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpgammam : rk(P :: Q :: R :: Pp :: Qp :: gamma ::  nil) >= 1) by (solve_hyps_min HPQRPpQpgammaeq HPQRPpQpgammam1).
-intuition.
-Qed.
-
 (* dans constructLemma(), requis par LPQalphagamma *)
 (* dans la couche 0 *)
 Lemma LPQRalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: alpha :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRalphagamma requis par la preuve de (?)PQRalphagamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRalphagamma requis par la preuve de (?)PQRalphagamma pour la règle 5  *)
@@ -5758,7 +4435,7 @@ assert(HPQRalphagammaM3 : rk(P :: Q :: R :: alpha :: gamma :: nil) <= 3).
 	assert(HT := rule_1 (P :: R :: alpha :: nil) (Q :: R :: gamma :: nil) (R :: nil) 2 2 1 HPRalphaMtmp HQRgammaMtmp HRmtmp Hincl);
 	rewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.
 }
-
+try clear HRM1. try clear HRM2. try clear HRM3. try clear HRm4. try clear HRm3. try clear HRm2. try clear HRm1. 
 
 assert(HPQRalphagammaM : rk(P :: Q :: R :: alpha :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HPQRalphagammam : rk(P :: Q :: R :: alpha :: gamma ::  nil) >= 1) by (solve_hyps_min HPQRalphagammaeq HPQRalphagammam1).
@@ -5767,20 +4444,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPQalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: alpha :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQalphagamma requis par la preuve de (?)PQalphagamma pour la règle 6  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQQpOoalphagamma requis par la preuve de (?)PQalphagamma pour la règle 4  *)
@@ -5791,11 +4465,11 @@ HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) >= 2).
 {
-	try assert(HPQpeq : rk(P :: Qp :: nil) = 2) by (apply LPQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQpmtmp : rk(P :: Qp :: nil) >= 2) by (solve_hyps_min HPQpeq HPQpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) 2 2 HPQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -5803,11 +4477,11 @@ assert(HPQQpOoalphagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) >= 
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphagammam3 : rk(P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) >= 3).
 {
-	try assert(HPQQpeq : rk(P :: Q :: Qp :: nil) = 3) by (apply LPQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQQpmtmp : rk(P :: Q :: Qp :: nil) >= 3) by (solve_hyps_min HPQQpeq HPQQpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) 3 3 HPQQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -5824,51 +4498,51 @@ assert(HPQQpOoalphagammam4 : rk(P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) >= 
 
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQalphagamma requis par la preuve de (?)PQalphagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpalphagamma requis par la preuve de (?)PQalphagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpalphagamma requis par la preuve de (?)PQRPpQpalphagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpalphagamma requis par la preuve de (?)PQRPpQpalphagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOoalphagamma requis par la preuve de (?)PQalphagamma pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpOoalphagamma requis par la preuve de (?)PQPpOoalphagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpOoalphagamma requis par la preuve de (?)PQPpOoalphagamma pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphagammam3 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 3).
+assert(HPQPpOoalphagammam2 : rk(P :: Q :: Pp :: Oo :: alpha :: gamma :: nil) >= 2).
 {
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphagammam4 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 4).
+assert(HPQPpOoalphagammam3 : rk(P :: Q :: Pp :: Oo :: alpha :: gamma :: nil) >= 3).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQalphagamma requis par la preuve de (?)PQalphagamma pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
 (* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: alpha :: gamma ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
+(* ensembles concernés AUB : P :: Q :: Pp :: Oo :: alpha :: gamma ::  de rang :  3 et 4 	 AiB : P ::  de rang :  1 et 1 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
 assert(HPQalphagammam2 : rk(P :: Q :: alpha :: gamma :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpalphagammamtmp : rk(P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpalphagammaeq HPQRPpQpalphagammam4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) (P :: Q :: R :: Pp :: Qp :: P :: Q :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: Q :: alpha :: gamma :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: Q :: alpha :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpalphagammamtmp;try rewrite HT2 in HPQRPpQpalphagammamtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: alpha :: gamma :: nil) (P :: Q :: nil) 4 2 4 HPQRPpQpalphagammamtmp HPQmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	assert(HPQPpOoalphagammamtmp : rk(P :: Q :: Pp :: Oo :: alpha :: gamma :: nil) >= 3) by (solve_hyps_min HPQPpOoalphagammaeq HPQPpOoalphagammam3).
+	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
+	assert(Hincl : incl (P :: nil) (list_inter (P :: Pp :: Oo :: nil) (P :: Q :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: Pp :: Oo :: alpha :: gamma :: nil) (P :: Pp :: Oo :: P :: Q :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: P :: Q :: alpha :: gamma :: nil) ((P :: Pp :: Oo :: nil) ++ (P :: Q :: alpha :: gamma :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQPpOoalphagammamtmp;try rewrite HT2 in HPQPpOoalphagammamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (P :: Q :: alpha :: gamma :: nil) (P :: nil) 3 1 2 HPQPpOoalphagammamtmp HPmtmp HPPpOoMtmp Hincl); apply HT.
 }
-try clear HPQRPpQpalphagammaM1. try clear HPQRPpQpalphagammaM2. try clear HPQRPpQpalphagammaM3. try clear HPQRPpQpalphagammam4. try clear HPQRPpQpalphagammam3. try clear HPQRPpQpalphagammam2. try clear HPQRPpQpalphagammam1. 
+try clear HPQPpOoalphagammaM1. try clear HPQPpOoalphagammaM2. try clear HPQPpOoalphagammaM3. try clear HPQPpOoalphagammam4. try clear HPQPpOoalphagammam3. try clear HPQPpOoalphagammam2. try clear HPQPpOoalphagammam1. 
 
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 4) *)
 (* marque des antécédents AUB AiB A: 5 4 et 4*)
@@ -5908,20 +4582,17 @@ Qed.
 (* dans constructLemma(), requis par LPpQpalphagamma *)
 (* dans la couche 0 *)
 Lemma LPpQpRpalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: alpha :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PpQpRpalphagamma requis par la preuve de (?)PpQpRpalphagamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PpQpRpalphagamma requis par la preuve de (?)PpQpRpalphagamma pour la règle 5  *)
@@ -5962,116 +4633,20 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPpQpalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: alpha :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PpQpalphagamma requis par la preuve de (?)PpQpalphagamma pour la règle 6  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PRPpQpalphagamma requis par la preuve de (?)PpQpalphagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PRPpQpRpOoalphagamma requis par la preuve de (?)PRPpQpalphagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpRpOoalphagamma requis par la preuve de (?)PRPpQpRpOoalphagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpRpOoalphagamma requis par la preuve de (?)PRPpQpRpOoalphagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpRpOoalphagamma requis par la preuve de (?)PRPpQpRpOoalphagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpRpOoalphagammam2 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpRpOoalphagammam3 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 4 et 4) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  de rang :  4 et 4 	 AiB : Qp :: Oo ::  de rang :  2 et 2 	 A : Q :: Qp :: Oo ::   de rang : 2 et 2 *)
-assert(HPRPpQpRpOoalphagammam4 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 4).
-{
-	try assert(HQQpOoeq : rk(Q :: Qp :: Oo :: nil) = 2) by (apply LQQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQQpOoMtmp : rk(Q :: Qp :: Oo :: nil) <= 2) by (solve_hyps_max HQQpOoeq HQQpOoM2).
-	try assert(HPQRPpQpRpOoalphagammaeq : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) = 4) by (apply LPQRPpQpRpOoalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpRpOoalphagammamtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpOoalphagammaeq HPQRPpQpRpOoalphagammam4).
-	try assert(HQpOoeq : rk(Qp :: Oo :: nil) = 2) by (apply LQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQpOomtmp : rk(Qp :: Oo :: nil) >= 2) by (solve_hyps_min HQpOoeq HQpOom2).
-	assert(Hincl : incl (Qp :: Oo :: nil) (list_inter (Q :: Qp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) (Q :: Qp :: Oo :: P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (Q :: Qp :: Oo :: P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) ((Q :: Qp :: Oo :: nil) ++ (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpRpOoalphagammamtmp;try rewrite HT2 in HPQRPpQpRpOoalphagammamtmp.
-	assert(HT := rule_4 (Q :: Qp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) (Qp :: Oo :: nil) 4 2 2 HPQRPpQpRpOoalphagammamtmp HQpOomtmp HQQpOoMtmp Hincl); apply HT.
-}
-
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpalphagamma requis par la preuve de (?)PRPpQpalphagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpalphagamma requis par la preuve de (?)PRPpQpalphagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpalphagamma requis par la preuve de (?)PRPpQpalphagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalphagammam2 : rk(P :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalphagammam3 : rk(P :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 4 et 4) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  de rang :  4 et 4 	 AiB : P :: R :: Pp ::  de rang :  3 et 3 	 A : P :: R :: Pp :: Rp :: Oo ::   de rang : 3 et 3 *)
-assert(HPRPpQpalphagammam4 : rk(P :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 4).
-{
-	try assert(HPRPpRpOoeq : rk(P :: R :: Pp :: Rp :: Oo :: nil) = 3) by (apply LPRPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpRpOoMtmp : rk(P :: R :: Pp :: Rp :: Oo :: nil) <= 3) by (solve_hyps_max HPRPpRpOoeq HPRPpRpOoM3).
-	assert(HPRPpQpRpOoalphagammamtmp : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPRPpQpRpOoalphagammaeq HPRPpQpRpOoalphagammam4).
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (list_inter (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: gamma :: nil) ((P :: R :: Pp :: Rp :: Oo :: nil) ++ (P :: R :: Pp :: Qp :: alpha :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPRPpQpRpOoalphagammamtmp;try rewrite HT2 in HPRPpQpRpOoalphagammamtmp.
-	assert(HT := rule_4 (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil) (P :: R :: Pp :: nil) 4 3 3 HPRPpQpRpOoalphagammamtmp HPRPpmtmp HPRPpRpOoMtmp Hincl); apply HT.
-}
-try clear HPRPpQpRpOoalphagammaM1. try clear HPRPpQpRpOoalphagammaM2. try clear HPRPpQpRpOoalphagammaM3. try clear HPRPpQpRpOoalphagammam4. try clear HPRPpQpRpOoalphagammam3. try clear HPRPpQpRpOoalphagammam2. try clear HPRPpQpRpOoalphagammam1. 
-
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PpQpalphagamma requis par la preuve de (?)PpQpalphagamma pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PpQpalphagamma requis par la preuve de (?)PpQpalphagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPpQpOoalphagamma requis par la preuve de (?)PpQpalphagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpQpOoalphagamma requis par la preuve de (?)QPpQpOoalphagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpQpOoalphagamma requis par la preuve de (?)PQPpQpOoalphagamma pour la règle 5  *)
@@ -6092,11 +4667,11 @@ assert(HPQPpQpOoalphagammam2 : rk(P :: Q :: Pp :: Qp :: Oo :: alpha :: gamma :: 
 (* marque de l'antécédent : 4 *)
 assert(HPQPpQpOoalphagammam3 : rk(P :: Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil) >= 3).
 {
-	try assert(HPQPpeq : rk(P :: Q :: Pp :: nil) = 3) by (apply LPQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil) 3 3 HPQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -6106,11 +4681,11 @@ assert(HPQPpQpOoalphagammam3 : rk(P :: Q :: Pp :: Qp :: Oo :: alpha :: gamma :: 
 (* marque de l'antécédent : 4 *)
 assert(HQPpQpOoalphagammam2 : rk(Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil) >= 2).
 {
-	try assert(HQPpeq : rk(Q :: Pp :: nil) = 2) by (apply LQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQPpmtmp : rk(Q :: Pp :: nil) >= 2) by (solve_hyps_min HQPpeq HQPpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil) 2 2 HQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -6151,23 +4726,17 @@ assert(HPpQpalphagammam2 : rk(Pp :: Qp :: alpha :: gamma :: nil) >= 2).
 }
 try clear HQPpQpOoalphagammaM1. try clear HQPpQpOoalphagammaM2. try clear HQPpQpOoalphagammaM3. try clear HQPpQpOoalphagammam4. try clear HQPpQpOoalphagammam3. try clear HQPpQpOoalphagammam2. try clear HQPpQpOoalphagammam1. 
 
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 4) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: R :: Pp :: Qp :: alpha :: gamma ::  de rang :  4 et 4 	 AiB : alpha ::  de rang :  1 et 1 	 A : P :: R :: alpha ::   de rang : 2 et 2 *)
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
 assert(HPpQpalphagammam3 : rk(Pp :: Qp :: alpha :: gamma :: nil) >= 3).
 {
-	try assert(HPRalphaeq : rk(P :: R :: alpha :: nil) = 2) by (apply LPRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPRPpQpalphagammamtmp : rk(P :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPRPpQpalphagammaeq HPRPpQpalphagammam4).
-	try assert(Halphaeq : rk(alpha :: nil) = 1) by (apply Lalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
-	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Pp :: Qp :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Qp :: alpha :: gamma :: nil) (P :: R :: alpha :: Pp :: Qp :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: alpha :: Pp :: Qp :: alpha :: gamma :: nil) ((P :: R :: alpha :: nil) ++ (Pp :: Qp :: alpha :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPRPpQpalphagammamtmp;try rewrite HT2 in HPRPpQpalphagammamtmp.
-	assert(HT := rule_4 (P :: R :: alpha :: nil) (Pp :: Qp :: alpha :: gamma :: nil) (alpha :: nil) 4 1 2 HPRPpQpalphagammamtmp Halphamtmp HPRalphaMtmp Hincl); apply HT.
+	try assert(HPpQpalphaeq : rk(Pp :: Qp :: alpha :: nil) = 3) by (apply LPpQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpalphamtmp : rk(Pp :: Qp :: alpha :: nil) >= 3) by (solve_hyps_min HPpQpalphaeq HPpQpalpham3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (Pp :: Qp :: alpha :: nil) (Pp :: Qp :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Pp :: Qp :: alpha :: nil) (Pp :: Qp :: alpha :: gamma :: nil) 3 3 HPpQpalphamtmp Hcomp Hincl);apply HT.
 }
-try clear HPRPpQpalphagammaM1. try clear HPRPpQpalphagammaM2. try clear HPRPpQpalphagammaM3. try clear HPRPpQpalphagammam4. try clear HPRPpQpalphagammam3. try clear HPRPpQpalphagammam2. try clear HPRPpQpalphagammam1. 
+
 
 (* Application de la règle 6 (code, 3 ou 4 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
@@ -6186,207 +4755,19 @@ assert(HPpQpalphagammam : rk(Pp :: Qp :: alpha :: gamma ::  nil) >= 1) by (solve
 intuition.
 Qed.
 
-(* dans constructLemma(), requis par LPRPpQpalphagamma *)
-(* dans la couche 0 *)
-Lemma LPRPpQpRpOoalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpRpOoalphagamma requis par la preuve de (?)PRPpQpRpOoalphagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpRpOoalphagamma requis par la preuve de (?)PRPpQpRpOoalphagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpRpOoalphagamma requis par la preuve de (?)PRPpQpRpOoalphagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpRpOoalphagammam2 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpRpOoalphagammam3 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 4 et 4) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  de rang :  4 et 4 	 AiB : Qp :: Oo ::  de rang :  2 et 2 	 A : Q :: Qp :: Oo ::   de rang : 2 et 2 *)
-assert(HPRPpQpRpOoalphagammam4 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 4).
-{
-	try assert(HQQpOoeq : rk(Q :: Qp :: Oo :: nil) = 2) by (apply LQQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQQpOoMtmp : rk(Q :: Qp :: Oo :: nil) <= 2) by (solve_hyps_max HQQpOoeq HQQpOoM2).
-	try assert(HPQRPpQpRpOoalphagammaeq : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) = 4) by (apply LPQRPpQpRpOoalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpRpOoalphagammamtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpOoalphagammaeq HPQRPpQpRpOoalphagammam4).
-	try assert(HQpOoeq : rk(Qp :: Oo :: nil) = 2) by (apply LQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQpOomtmp : rk(Qp :: Oo :: nil) >= 2) by (solve_hyps_min HQpOoeq HQpOom2).
-	assert(Hincl : incl (Qp :: Oo :: nil) (list_inter (Q :: Qp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) (Q :: Qp :: Oo :: P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (Q :: Qp :: Oo :: P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) ((Q :: Qp :: Oo :: nil) ++ (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpRpOoalphagammamtmp;try rewrite HT2 in HPQRPpQpRpOoalphagammamtmp.
-	assert(HT := rule_4 (Q :: Qp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) (Qp :: Oo :: nil) 4 2 2 HPQRPpQpRpOoalphagammamtmp HQpOomtmp HQQpOoMtmp Hincl); apply HT.
-}
-
-
-assert(HPRPpQpRpOoalphagammaM : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPRPpQpRpOoalphagammam : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  nil) >= 1) by (solve_hyps_min HPRPpQpRpOoalphagammaeq HPRPpQpRpOoalphagammam1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPRPpQpalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: alpha :: gamma ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpalphagamma requis par la preuve de (?)PRPpQpalphagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpalphagamma requis par la preuve de (?)PRPpQpalphagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpalphagamma requis par la preuve de (?)PRPpQpalphagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalphagammam2 : rk(P :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalphagammam3 : rk(P :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 4 et 4) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma ::  de rang :  4 et 4 	 AiB : P :: R :: Pp ::  de rang :  3 et 3 	 A : P :: R :: Pp :: Rp :: Oo ::   de rang : 3 et 3 *)
-assert(HPRPpQpalphagammam4 : rk(P :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 4).
-{
-	try assert(HPRPpRpOoeq : rk(P :: R :: Pp :: Rp :: Oo :: nil) = 3) by (apply LPRPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpRpOoMtmp : rk(P :: R :: Pp :: Rp :: Oo :: nil) <= 3) by (solve_hyps_max HPRPpRpOoeq HPRPpRpOoM3).
-	try assert(HPRPpQpRpOoalphagammaeq : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) = 4) by (apply LPRPpQpRpOoalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpQpRpOoalphagammamtmp : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPRPpQpRpOoalphagammaeq HPRPpQpRpOoalphagammam4).
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (list_inter (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: gamma :: nil) (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: gamma :: nil) ((P :: R :: Pp :: Rp :: Oo :: nil) ++ (P :: R :: Pp :: Qp :: alpha :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPRPpQpRpOoalphagammamtmp;try rewrite HT2 in HPRPpQpRpOoalphagammamtmp.
-	assert(HT := rule_4 (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: gamma :: nil) (P :: R :: Pp :: nil) 4 3 3 HPRPpQpRpOoalphagammamtmp HPRPpmtmp HPRPpRpOoMtmp Hincl); apply HT.
-}
-
-
-assert(HPRPpQpalphagammaM : rk(P :: R :: Pp :: Qp :: alpha :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPRPpQpalphagammam : rk(P :: R :: Pp :: Qp :: alpha :: gamma ::  nil) >= 1) by (solve_hyps_min HPRPpQpalphagammaeq HPRPpQpalphagammam1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPQRPpQpalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: alpha :: gamma ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpalphagamma requis par la preuve de (?)PQRPpQpalphagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpalphagamma requis par la preuve de (?)PQRPpQpalphagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphagammam3 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphagammam4 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQRPpQpalphagammaM : rk(P :: Q :: R :: Pp :: Qp :: alpha :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpalphagammam : rk(P :: Q :: R :: Pp :: Qp :: alpha :: gamma ::  nil) >= 1) by (solve_hyps_min HPQRPpQpalphagammaeq HPQRPpQpalphagammam1).
-intuition.
-Qed.
-
 (* dans la couche 0 *)
 Lemma LPQQpOoalphagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Qp :: Oo :: alpha :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQQpOoalphagamma requis par la preuve de (?)PQQpOoalphagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQQpOoalphagamma requis par la preuve de (?)PQQpOoalphagamma pour la règle 5  *)
@@ -6395,11 +4776,11 @@ HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) >= 2).
 {
-	try assert(HPQpeq : rk(P :: Qp :: nil) = 2) by (apply LPQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQpmtmp : rk(P :: Qp :: nil) >= 2) by (solve_hyps_min HPQpeq HPQpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) 2 2 HPQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -6407,11 +4788,11 @@ assert(HPQQpOoalphagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) >= 
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphagammam3 : rk(P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) >= 3).
 {
-	try assert(HPQQpeq : rk(P :: Q :: Qp :: nil) = 3) by (apply LPQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQQpmtmp : rk(P :: Q :: Qp :: nil) >= 3) by (solve_hyps_min HPQQpeq HPQQpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) 3 3 HPQQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -6434,68 +4815,65 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPQbetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: beta :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PQbetagamma requis par la preuve de (?)PQbetagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQbetagamma requis par la preuve de (?)PQbetagamma pour la règle 1  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpbetagamma requis par la preuve de (?)PQbetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpbetagamma requis par la preuve de (?)PQRPpQpbetagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpbetagamma requis par la preuve de (?)PQRPpQpbetagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOobetagamma requis par la preuve de (?)PQbetagamma pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpOobetagamma requis par la preuve de (?)PQPpOobetagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpOobetagamma requis par la preuve de (?)PQPpOobetagamma pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpbetagammam3 : rk(P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) >= 3).
+assert(HPQPpOobetagammam2 : rk(P :: Q :: Pp :: Oo :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: beta :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpbetagammam4 : rk(P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) >= 4).
+assert(HPQPpOobetagammam3 : rk(P :: Q :: Pp :: Oo :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: beta :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQbetagamma requis par la preuve de (?)PQbetagamma pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
 (* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: beta :: gamma ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
+(* ensembles concernés AUB : P :: Q :: Pp :: Oo :: beta :: gamma ::  de rang :  3 et 4 	 AiB : P ::  de rang :  1 et 1 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
 assert(HPQbetagammam2 : rk(P :: Q :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpbetagammamtmp : rk(P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpbetagammaeq HPQRPpQpbetagammam4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) (P :: Q :: R :: Pp :: Qp :: P :: Q :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: Q :: beta :: gamma :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: Q :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpbetagammamtmp;try rewrite HT2 in HPQRPpQpbetagammamtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: beta :: gamma :: nil) (P :: Q :: nil) 4 2 4 HPQRPpQpbetagammamtmp HPQmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	assert(HPQPpOobetagammamtmp : rk(P :: Q :: Pp :: Oo :: beta :: gamma :: nil) >= 3) by (solve_hyps_min HPQPpOobetagammaeq HPQPpOobetagammam3).
+	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
+	assert(Hincl : incl (P :: nil) (list_inter (P :: Pp :: Oo :: nil) (P :: Q :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: Pp :: Oo :: beta :: gamma :: nil) (P :: Pp :: Oo :: P :: Q :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: P :: Q :: beta :: gamma :: nil) ((P :: Pp :: Oo :: nil) ++ (P :: Q :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQPpOobetagammamtmp;try rewrite HT2 in HPQPpOobetagammamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (P :: Q :: beta :: gamma :: nil) (P :: nil) 3 1 2 HPQPpOobetagammamtmp HPmtmp HPPpOoMtmp Hincl); apply HT.
 }
-
+try clear HPQPpOobetagammaM1. try clear HPQPpOobetagammaM2. try clear HPQPpOobetagammaM3. try clear HPQPpOobetagammam4. try clear HPQPpOobetagammam3. try clear HPQPpOobetagammam2. try clear HPQPpOobetagammam1. 
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 5*)
@@ -6536,20 +4914,17 @@ Qed.
 (* dans constructLemma(), requis par LQRPpQpOobetagamma *)
 (* dans la couche 0 *)
 Lemma LPQRPpQpOobetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpOobetagamma requis par la preuve de (?)PQRPpQpOobetagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpOobetagamma requis par la preuve de (?)PQRPpQpOobetagamma pour la règle 5  *)
@@ -6569,11 +4944,11 @@ assert(HPQRPpQpOobetagammam3 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma
 (* marque de l'antécédent : 4 *)
 assert(HPQRPpQpOobetagammam4 : rk(P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) >= 4).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
+	try assert(HPQROoeq : rk(P :: Q :: R :: Oo :: nil) = 4) by (apply LPQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: Oo :: nil) (P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) 4 4 HPQROomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -6584,20 +4959,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQRPpQpOobetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: Pp :: Qp :: Oo :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRPpQpOobetagamma requis par la preuve de (?)QRPpQpOobetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QRPpQpOobetagamma requis par la preuve de (?)QRPpQpOobetagamma pour la règle 5  *)
@@ -6638,11 +5010,11 @@ assert(HQRPpQpOobetagammam2 : rk(Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: ni
 (* marque de l'antécédent : 4 *)
 assert(HQRPpQpOobetagammam3 : rk(Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HQRPpeq : rk(Q :: R :: Pp :: nil) = 3) by (apply LQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRPpmtmp : rk(Q :: R :: Pp :: nil) >= 3) by (solve_hyps_min HQRPpeq HQRPpm3).
+	try assert(HQROoeq : rk(Q :: R :: Oo :: nil) = 3) by (apply LQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQROomtmp : rk(Q :: R :: Oo :: nil) >= 3) by (solve_hyps_min HQROoeq HQROom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) 3 3 HQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: R :: Oo :: nil) (Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: R :: Oo :: nil) (Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) 3 3 HQROomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -6663,7 +5035,7 @@ assert(HQRPpQpOobetagammam4 : rk(Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: ni
 	try rewrite HT1 in HPQRPpQpOobetagammamtmp;try rewrite HT2 in HPQRPpQpOobetagammamtmp.
 	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) (Pp :: Oo :: nil) 4 2 2 HPQRPpQpOobetagammamtmp HPpOomtmp HPPpOoMtmp Hincl); apply HT.
 }
-try clear HPQRPpQpOobetagammaM1. try clear HPQRPpQpOobetagammaM2. try clear HPQRPpQpOobetagammaM3. try clear HPQRPpQpOobetagammam4. try clear HPQRPpQpOobetagammam3. try clear HPQRPpQpOobetagammam2. try clear HPQRPpQpOobetagammam1. 
+
 
 assert(HQRPpQpOobetagammaM : rk(Q :: R :: Pp :: Qp :: Oo :: beta :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HQRPpQpOobetagammam : rk(Q :: R :: Pp :: Qp :: Oo :: beta :: gamma ::  nil) >= 1) by (solve_hyps_min HQRPpQpOobetagammaeq HQRPpQpOobetagammam1).
@@ -6672,23 +5044,20 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LQRPpQpbetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Q :: R :: Pp :: Qp :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QRPpQpbetagamma requis par la preuve de (?)QRPpQpbetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QRPpQpbetagamma requis par la preuve de (?)QRPpQpbetagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour QRPpQpbetagamma requis par la preuve de (?)QRPpQpbetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpbetagamma requis par la preuve de (?)QRPpQpbetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpbetagamma requis par la preuve de (?)PQRPpQpbetagamma pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
@@ -6720,17 +5089,24 @@ assert(HQRPpQpbetagammam2 : rk(Q :: R :: Pp :: Qp :: beta :: gamma :: nil) >= 2)
 	try rewrite HT1 in HPQRPpQpbetagammamtmp;try rewrite HT2 in HPQRPpQpbetagammamtmp.
 	assert(HT := rule_4 (P :: Pp :: nil) (Q :: R :: Pp :: Qp :: beta :: gamma :: nil) (Pp :: nil) 3 1 2 HPQRPpQpbetagammamtmp HPpmtmp HPPpMtmp Hincl); apply HT.
 }
+try clear HPQRPpQpbetagammaM1. try clear HPQRPpQpbetagammaM2. try clear HPQRPpQpbetagammaM3. try clear HPQRPpQpbetagammam4. try clear HPQRPpQpbetagammam3. try clear HPQRPpQpbetagammam2. try clear HPQRPpQpbetagammam1. 
 
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 4) *)
+(* marque des antécédents AUB AiB A: 4 4 et 4*)
+(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma ::  de rang :  4 et 4 	 AiB : Pp ::  de rang :  1 et 1 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
 assert(HQRPpQpbetagammam3 : rk(Q :: R :: Pp :: Qp :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HQRPpeq : rk(Q :: R :: Pp :: nil) = 3) by (apply LQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQRPpmtmp : rk(Q :: R :: Pp :: nil) >= 3) by (solve_hyps_min HQRPpeq HQRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: R :: Pp :: nil) (Q :: R :: Pp :: Qp :: beta :: gamma :: nil) 3 3 HQRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	try assert(HPQRPpQpOobetagammaeq : rk(P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) = 4) by (apply LPQRPpQpOobetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpOobetagammamtmp : rk(P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpOobetagammaeq HPQRPpQpOobetagammam4).
+	try assert(HPpeq : rk(Pp :: nil) = 1) by (apply LPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpmtmp : rk(Pp :: nil) >= 1) by (solve_hyps_min HPpeq HPpm1).
+	assert(Hincl : incl (Pp :: nil) (list_inter (P :: Pp :: Oo :: nil) (Q :: R :: Pp :: Qp :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Oo :: beta :: gamma :: nil) (P :: Pp :: Oo :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) ((P :: Pp :: Oo :: nil) ++ (Q :: R :: Pp :: Qp :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQRPpQpOobetagammamtmp;try rewrite HT2 in HPQRPpQpOobetagammamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (Q :: R :: Pp :: Qp :: beta :: gamma :: nil) (Pp :: nil) 4 1 2 HPQRPpQpOobetagammamtmp HPpmtmp HPPpOoMtmp Hincl); apply HT.
 }
 
 
@@ -6760,20 +5136,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPpQpbetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: beta :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour PpQpbetagamma requis par la preuve de (?)PpQpbetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PpQpbetagamma requis par la preuve de (?)PpQpbetagamma pour la règle 1  *)
@@ -6797,11 +5170,11 @@ assert(HPQPpQpOobetagammam2 : rk(P :: Q :: Pp :: Qp :: Oo :: beta :: gamma :: ni
 (* marque de l'antécédent : 4 *)
 assert(HPQPpQpOobetagammam3 : rk(P :: Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPQPpeq : rk(P :: Q :: Pp :: nil) = 3) by (apply LPQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil) 3 3 HPQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -6811,11 +5184,11 @@ assert(HPQPpQpOobetagammam3 : rk(P :: Q :: Pp :: Qp :: Oo :: beta :: gamma :: ni
 (* marque de l'antécédent : 4 *)
 assert(HQPpQpOobetagammam2 : rk(Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HQPpeq : rk(Q :: Pp :: nil) = 2) by (apply LQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQPpmtmp : rk(Q :: Pp :: nil) >= 2) by (solve_hyps_min HQPpeq HQPpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil) 2 2 HQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: beta :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -6897,71 +5270,20 @@ assert(HPpQpbetagammam : rk(Pp :: Qp :: beta :: gamma ::  nil) >= 1) by (solve_h
 intuition.
 Qed.
 
-(* dans la couche 0 *)
-Lemma LPQRPpQpbetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: beta :: gamma ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpbetagamma requis par la preuve de (?)PQRPpQpbetagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpbetagamma requis par la preuve de (?)PQRPpQpbetagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpbetagammam3 : rk(P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpbetagammam4 : rk(P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: beta :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-assert(HPQRPpQpbetagammaM : rk(P :: Q :: R :: Pp :: Qp :: beta :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpbetagammam : rk(P :: Q :: R :: Pp :: Qp :: beta :: gamma ::  nil) >= 1) by (solve_hyps_min HPQRPpQpbetagammaeq HPQRPpQpbetagammam1).
-intuition.
-Qed.
-
 (* dans constructLemma(), requis par LPalphabetagamma *)
 (* dans la couche 0 *)
 Lemma LPQalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: alpha :: beta :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 1  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQQpOoalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
@@ -6972,11 +5294,11 @@ HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphabetagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQpeq : rk(P :: Qp :: nil) = 2) by (apply LPQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQpmtmp : rk(P :: Qp :: nil) >= 2) by (solve_hyps_min HPQpeq HPQpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HPQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -6984,11 +5306,11 @@ assert(HPQQpOoalphabetagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphabetagammam3 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPQQpeq : rk(P :: Q :: Qp :: nil) = 3) by (apply LPQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQQpmtmp : rk(P :: Q :: Qp :: nil) >= 3) by (solve_hyps_min HPQQpeq HPQQpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -7005,51 +5327,51 @@ assert(HPQQpOoalphabetagammam4 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma
 
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpalphabetagamma requis par la preuve de (?)PQRPpQpalphabetagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpalphabetagamma requis par la preuve de (?)PQRPpQpalphabetagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOoalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpOoalphabetagamma requis par la preuve de (?)PQPpOoalphabetagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpOoalphabetagamma requis par la preuve de (?)PQPpOoalphabetagamma pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphabetagammam3 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 3).
+assert(HPQPpOoalphabetagammam2 : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphabetagammam4 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 4).
+assert(HPQPpOoalphabetagammam3 : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
 (* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
+(* ensembles concernés AUB : P :: Q :: Pp :: Oo :: alpha :: beta :: gamma ::  de rang :  3 et 4 	 AiB : P ::  de rang :  1 et 1 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
 assert(HPQalphabetagammam2 : rk(P :: Q :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpalphabetagammamtmp : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpalphabetagammaeq HPQRPpQpalphabetagammam4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) (P :: Q :: R :: Pp :: Qp :: P :: Q :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: Q :: alpha :: beta :: gamma :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: Q :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpalphabetagammamtmp;try rewrite HT2 in HPQRPpQpalphabetagammamtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: alpha :: beta :: gamma :: nil) (P :: Q :: nil) 4 2 4 HPQRPpQpalphabetagammamtmp HPQmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	assert(HPQPpOoalphabetagammamtmp : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) >= 3) by (solve_hyps_min HPQPpOoalphabetagammaeq HPQPpOoalphabetagammam3).
+	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
+	assert(Hincl : incl (P :: nil) (list_inter (P :: Pp :: Oo :: nil) (P :: Q :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) (P :: Pp :: Oo :: P :: Q :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: P :: Q :: alpha :: beta :: gamma :: nil) ((P :: Pp :: Oo :: nil) ++ (P :: Q :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQPpOoalphabetagammamtmp;try rewrite HT2 in HPQPpOoalphabetagammamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (P :: Q :: alpha :: beta :: gamma :: nil) (P :: nil) 3 1 2 HPQPpOoalphabetagammamtmp HPmtmp HPPpOoMtmp Hincl); apply HT.
 }
-try clear HPQRPpQpalphabetagammaM1. try clear HPQRPpQpalphabetagammaM2. try clear HPQRPpQpalphabetagammaM3. try clear HPQRPpQpalphabetagammam4. try clear HPQRPpQpalphabetagammam3. try clear HPQRPpQpalphabetagammam2. try clear HPQRPpQpalphabetagammam1. 
+try clear HPQPpOoalphabetagammaM1. try clear HPQPpOoalphabetagammaM2. try clear HPQPpOoalphabetagammaM3. try clear HPQPpOoalphabetagammam4. try clear HPQPpOoalphabetagammam3. try clear HPQPpOoalphabetagammam2. try clear HPQPpOoalphabetagammam1. 
 
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 4) *)
 (* marque des antécédents AUB AiB A: 5 4 et 4*)
@@ -7094,20 +5416,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: alpha :: beta :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour Palphabetagamma requis par la preuve de (?)Palphabetagamma pour la règle 6  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)Palphabetagamma pour la règle 4  *)
@@ -7119,11 +5438,11 @@ HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphabetagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQpeq : rk(P :: Qp :: nil) = 2) by (apply LPQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQpmtmp : rk(P :: Qp :: nil) >= 2) by (solve_hyps_min HPQpeq HPQpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HPQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -7131,11 +5450,11 @@ assert(HPQQpOoalphabetagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphabetagammam3 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPQQpeq : rk(P :: Q :: Qp :: nil) = 3) by (apply LPQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQQpmtmp : rk(P :: Q :: Qp :: nil) >= 3) by (solve_hyps_min HPQQpeq HPQQpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -7152,51 +5471,51 @@ assert(HPQQpOoalphabetagammam4 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma
 
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpalphabetagamma requis par la preuve de (?)PQRPpQpalphabetagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpalphabetagamma requis par la preuve de (?)PQRPpQpalphabetagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOoalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpOoalphabetagamma requis par la preuve de (?)PQPpOoalphabetagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpOoalphabetagamma requis par la preuve de (?)PQPpOoalphabetagamma pour la règle 5  *)
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphabetagammam3 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 3).
+assert(HPQPpOoalphabetagammam2 : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
 }
 
 
 (* Application de la règle 5 code (1 ou 2 dans la thèse) *)
 (* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphabetagammam4 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 4).
+assert(HPQPpOoalphabetagammam3 : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
 (* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
+(* ensembles concernés AUB : P :: Q :: Pp :: Oo :: alpha :: beta :: gamma ::  de rang :  3 et 4 	 AiB : P ::  de rang :  1 et 1 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
 assert(HPQalphabetagammam2 : rk(P :: Q :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	assert(HPQRPpQpalphabetagammamtmp : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpalphabetagammaeq HPQRPpQpalphabetagammam4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) (P :: Q :: R :: Pp :: Qp :: P :: Q :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: Q :: alpha :: beta :: gamma :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: Q :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpalphabetagammamtmp;try rewrite HT2 in HPQRPpQpalphabetagammamtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: alpha :: beta :: gamma :: nil) (P :: Q :: nil) 4 2 4 HPQRPpQpalphabetagammamtmp HPQmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	assert(HPQPpOoalphabetagammamtmp : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) >= 3) by (solve_hyps_min HPQPpOoalphabetagammaeq HPQPpOoalphabetagammam3).
+	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
+	assert(Hincl : incl (P :: nil) (list_inter (P :: Pp :: Oo :: nil) (P :: Q :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) (P :: Pp :: Oo :: P :: Q :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: P :: Q :: alpha :: beta :: gamma :: nil) ((P :: Pp :: Oo :: nil) ++ (P :: Q :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQPpOoalphabetagammamtmp;try rewrite HT2 in HPQPpOoalphabetagammamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (P :: Q :: alpha :: beta :: gamma :: nil) (P :: nil) 3 1 2 HPQPpOoalphabetagammamtmp HPmtmp HPPpOoMtmp Hincl); apply HT.
 }
-try clear HPQRPpQpalphabetagammaM1. try clear HPQRPpQpalphabetagammaM2. try clear HPQRPpQpalphabetagammaM3. try clear HPQRPpQpalphabetagammam4. try clear HPQRPpQpalphabetagammam3. try clear HPQRPpQpalphabetagammam2. try clear HPQRPpQpalphabetagammam1. 
+try clear HPQPpOoalphabetagammaM1. try clear HPQPpOoalphabetagammaM2. try clear HPQPpOoalphabetagammaM3. try clear HPQPpOoalphabetagammam4. try clear HPQPpOoalphabetagammam3. try clear HPQPpOoalphabetagammam2. try clear HPQPpOoalphabetagammam1. 
 
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 4) *)
 (* marque des antécédents AUB AiB A: 5 4 et 4*)
@@ -7239,13 +5558,13 @@ assert(HPQRPpQpRpOoalphabetagammam3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: 
 (* marque de l'antécédent : 4 *)
 assert(HPQRPpQpRpOoalphabetagammam4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 4).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
+	try assert(HPQRPpQpRpeq : rk(P :: Q :: R :: Pp :: Qp :: Rp :: nil) = 4) by (apply LPQRPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpRpmtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpeq HPQRPpQpRpm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: Pp :: Qp :: Rp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: Pp :: Qp :: Rp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 4 4 HPQRPpQpRpmtmp Hcomp Hincl);apply HT.
 }
-try clear HPQRPpM1. try clear HPQRPpM2. try clear HPQRPpM3. try clear HPQRPpm4. try clear HPQRPpm3. try clear HPQRPpm2. try clear HPQRPpm1. 
+try clear HPQRPpQpRpM1. try clear HPQRPpQpRpM2. try clear HPQRPpQpRpM3. try clear HPQRPpQpRpm4. try clear HPQRPpQpRpm3. try clear HPQRPpQpRpm2. try clear HPQRPpQpRpm1. 
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpRpOoalphabetagamma requis par la preuve de (?)PRPpQpRpOoalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpRpOoalphabetagamma requis par la preuve de (?)PRPpQpRpOoalphabetagamma pour la règle 5  *)
@@ -7266,11 +5585,11 @@ assert(HPRPpQpRpOoalphabetagammam2 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha 
 (* marque de l'antécédent : 4 *)
 assert(HPRPpQpRpOoalphabetagammam3 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpmtmp : rk(Pp :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HPpQpRpeq HPpQpRpm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPpQpRpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -7311,11 +5630,11 @@ assert(HPRPpQpRpalphabetagammam2 : rk(P :: R :: Pp :: Qp :: Rp :: alpha :: beta 
 (* marque de l'antécédent : 4 *)
 assert(HPRPpQpRpalphabetagammam3 : rk(P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpmtmp : rk(Pp :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HPpQpRpeq HPpQpRpm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil) 3 3 HPpQpRpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -7335,7 +5654,7 @@ assert(HPRPpQpRpalphabetagammam4 : rk(P :: R :: Pp :: Qp :: Rp :: alpha :: beta 
 	try rewrite HT1 in HPRPpQpRpOoalphabetagammamtmp;try rewrite HT2 in HPRPpQpRpOoalphabetagammamtmp.
 	assert(HT := rule_4 (R :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil) (R :: Rp :: nil) 4 2 2 HPRPpQpRpOoalphabetagammamtmp HRRpmtmp HRRpOoMtmp Hincl); apply HT.
 }
-try clear HRRpM1. try clear HRRpM2. try clear HRRpM3. try clear HRRpm4. try clear HRRpm3. try clear HRRpm2. try clear HRRpm1. 
+
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpRpalphabetagamma requis par la preuve de (?)PPpQpRpalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PPpQpRpalphabetagamma requis par la preuve de (?)PPpQpRpalphabetagamma pour la règle 5  *)
@@ -7438,142 +5757,20 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPpQpalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(Pp :: Qp :: alpha :: beta :: gamma ::  nil) = 3.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PpQpalphabetagamma requis par la preuve de (?)PpQpalphabetagamma pour la règle 1  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PRPpQpalphabetagamma requis par la preuve de (?)PpQpalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PRPpQpRpOoalphabetagamma requis par la preuve de (?)PRPpQpalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PQRPpQpRpOoalphabetagamma requis par la preuve de (?)PRPpQpRpOoalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpRpOoalphabetagamma requis par la preuve de (?)PQRPpQpRpOoalphabetagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpRpOoalphabetagamma requis par la preuve de (?)PQRPpQpRpOoalphabetagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpOoalphabetagammam3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpRpOoalphabetagammam4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpRpOoalphabetagamma requis par la preuve de (?)PRPpQpRpOoalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpRpOoalphabetagamma requis par la preuve de (?)PRPpQpRpOoalphabetagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpRpOoalphabetagamma requis par la preuve de (?)PRPpQpRpOoalphabetagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpRpOoalphabetagammam2 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpRpOoalphabetagammam3 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 4 et 4) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : Qp :: Oo ::  de rang :  2 et 2 	 A : Q :: Qp :: Oo ::   de rang : 2 et 2 *)
-assert(HPRPpQpRpOoalphabetagammam4 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 4).
-{
-	try assert(HQQpOoeq : rk(Q :: Qp :: Oo :: nil) = 2) by (apply LQQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQQpOoMtmp : rk(Q :: Qp :: Oo :: nil) <= 2) by (solve_hyps_max HQQpOoeq HQQpOoM2).
-	assert(HPQRPpQpRpOoalphabetagammamtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpOoalphabetagammaeq HPQRPpQpRpOoalphabetagammam4).
-	try assert(HQpOoeq : rk(Qp :: Oo :: nil) = 2) by (apply LQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQpOomtmp : rk(Qp :: Oo :: nil) >= 2) by (solve_hyps_min HQpOoeq HQpOom2).
-	assert(Hincl : incl (Qp :: Oo :: nil) (list_inter (Q :: Qp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) (Q :: Qp :: Oo :: P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (Q :: Qp :: Oo :: P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) ((Q :: Qp :: Oo :: nil) ++ (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpRpOoalphabetagammamtmp;try rewrite HT2 in HPQRPpQpRpOoalphabetagammamtmp.
-	assert(HT := rule_4 (Q :: Qp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) (Qp :: Oo :: nil) 4 2 2 HPQRPpQpRpOoalphabetagammamtmp HQpOomtmp HQQpOoMtmp Hincl); apply HT.
-}
-try clear HQpOoM1. try clear HQpOoM2. try clear HQpOoM3. try clear HQpOom4. try clear HQpOom3. try clear HQpOom2. try clear HQpOom1. try clear HPQRPpQpRpOoalphabetagammaM1. try clear HPQRPpQpRpOoalphabetagammaM2. try clear HPQRPpQpRpOoalphabetagammaM3. try clear HPQRPpQpRpOoalphabetagammam4. try clear HPQRPpQpRpOoalphabetagammam3. try clear HPQRPpQpRpOoalphabetagammam2. try clear HPQRPpQpRpOoalphabetagammam1. 
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpalphabetagamma requis par la preuve de (?)PRPpQpalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpalphabetagamma requis par la preuve de (?)PRPpQpalphabetagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpalphabetagamma requis par la preuve de (?)PRPpQpalphabetagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalphabetagammam2 : rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalphabetagammam3 : rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 4 et 4) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : P :: R :: Pp ::  de rang :  3 et 3 	 A : P :: R :: Pp :: Rp :: Oo ::   de rang : 3 et 3 *)
-assert(HPRPpQpalphabetagammam4 : rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 4).
-{
-	try assert(HPRPpRpOoeq : rk(P :: R :: Pp :: Rp :: Oo :: nil) = 3) by (apply LPRPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpRpOoMtmp : rk(P :: R :: Pp :: Rp :: Oo :: nil) <= 3) by (solve_hyps_max HPRPpRpOoeq HPRPpRpOoM3).
-	assert(HPRPpQpRpOoalphabetagammamtmp : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPRPpQpRpOoalphabetagammaeq HPRPpQpRpOoalphabetagammam4).
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (list_inter (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) ((P :: R :: Pp :: Rp :: Oo :: nil) ++ (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPRPpQpRpOoalphabetagammamtmp;try rewrite HT2 in HPRPpQpRpOoalphabetagammamtmp.
-	assert(HT := rule_4 (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) (P :: R :: Pp :: nil) 4 3 3 HPRPpQpRpOoalphabetagammamtmp HPRPpmtmp HPRPpRpOoMtmp Hincl); apply HT.
-}
-
-
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PpQpalphabetagamma requis par la preuve de (?)PpQpalphabetagamma pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PpQpalphabetagamma requis par la preuve de (?)PpQpalphabetagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour QPpQpOoalphabetagamma requis par la preuve de (?)PpQpalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpQpOoalphabetagamma requis par la preuve de (?)QPpQpOoalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpQpOoalphabetagamma requis par la preuve de (?)PQPpQpOoalphabetagamma pour la règle 5  *)
@@ -7594,11 +5791,11 @@ assert(HPQPpQpOoalphabetagammam2 : rk(P :: Q :: Pp :: Qp :: Oo :: alpha :: beta 
 (* marque de l'antécédent : 4 *)
 assert(HPQPpQpOoalphabetagammam3 : rk(P :: Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPQPpeq : rk(P :: Q :: Pp :: nil) = 3) by (apply LPQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Pp :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -7608,11 +5805,11 @@ assert(HPQPpQpOoalphabetagammam3 : rk(P :: Q :: Pp :: Qp :: Oo :: alpha :: beta 
 (* marque de l'antécédent : 4 *)
 assert(HQPpQpOoalphabetagammam2 : rk(Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HQPpeq : rk(Q :: Pp :: nil) = 2) by (apply LQPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HQPpmtmp : rk(Q :: Pp :: nil) >= 2) by (solve_hyps_min HQPpeq HQPpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (Q :: Pp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HQPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (Q :: Pp :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -7653,23 +5850,17 @@ assert(HPpQpalphabetagammam2 : rk(Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 
 }
 try clear HQPpQpOoalphabetagammaM1. try clear HQPpQpOoalphabetagammaM2. try clear HQPpQpOoalphabetagammaM3. try clear HQPpQpOoalphabetagammam4. try clear HQPpQpOoalphabetagammam3. try clear HQPpQpOoalphabetagammam2. try clear HQPpQpOoalphabetagammam1. 
 
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 4) *)
-(* marque des antécédents AUB AiB A: 5 4 et 4*)
-(* ensembles concernés AUB : P :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : alpha ::  de rang :  1 et 1 	 A : P :: R :: alpha ::   de rang : 2 et 2 *)
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
 assert(HPpQpalphabetagammam3 : rk(Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPRalphaeq : rk(P :: R :: alpha :: nil) = 2) by (apply LPRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPRPpQpalphabetagammamtmp : rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPRPpQpalphabetagammaeq HPRPpQpalphabetagammam4).
-	try assert(Halphaeq : rk(alpha :: nil) = 1) by (apply Lalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
-	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Pp :: Qp :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) (P :: R :: alpha :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: alpha :: Pp :: Qp :: alpha :: beta :: gamma :: nil) ((P :: R :: alpha :: nil) ++ (Pp :: Qp :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPRPpQpalphabetagammamtmp;try rewrite HT2 in HPRPpQpalphabetagammamtmp.
-	assert(HT := rule_4 (P :: R :: alpha :: nil) (Pp :: Qp :: alpha :: beta :: gamma :: nil) (alpha :: nil) 4 1 2 HPRPpQpalphabetagammamtmp Halphamtmp HPRalphaMtmp Hincl); apply HT.
+	try assert(HPpQpalphaeq : rk(Pp :: Qp :: alpha :: nil) = 3) by (apply LPpQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpalphamtmp : rk(Pp :: Qp :: alpha :: nil) >= 3) by (solve_hyps_min HPpQpalphaeq HPpQpalpham3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (Pp :: Qp :: alpha :: nil) (Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Pp :: Qp :: alpha :: nil) (Pp :: Qp :: alpha :: beta :: gamma :: nil) 3 3 HPpQpalphamtmp Hcomp Hincl);apply HT.
 }
-try clear HPRPpQpalphabetagammaM1. try clear HPRPpQpalphabetagammaM2. try clear HPRPpQpalphabetagammaM3. try clear HPRPpQpalphabetagammam4. try clear HPRPpQpalphabetagammam3. try clear HPRPpQpalphabetagammam2. try clear HPRPpQpalphabetagammam1. 
+
 
 (* Application de la règle 1 code (5 dans la thèse) conclusion AUB *)
 (* marque des antécédents A B AiB : 4 4 et 4*)
@@ -7700,20 +5891,17 @@ Qed.
 (* dans constructLemma(), requis par LPRPpQpRpOoalphabetagamma *)
 (* dans la couche 0 *)
 Lemma LPQRPpQpRpOoalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpRpOoalphabetagamma requis par la preuve de (?)PQRPpQpRpOoalphabetagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpRpOoalphabetagamma requis par la preuve de (?)PQRPpQpRpOoalphabetagamma pour la règle 5  *)
@@ -7733,13 +5921,13 @@ assert(HPQRPpQpRpOoalphabetagammam3 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: 
 (* marque de l'antécédent : 4 *)
 assert(HPQRPpQpRpOoalphabetagammam4 : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 4).
 {
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
+	try assert(HPQRPpQpRpeq : rk(P :: Q :: R :: Pp :: Qp :: Rp :: nil) = 4) by (apply LPQRPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpRpmtmp : rk(P :: Q :: R :: Pp :: Qp :: Rp :: nil) >= 4) by (solve_hyps_min HPQRPpQpRpeq HPQRPpQpRpm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: R :: Pp :: Qp :: Rp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: R :: Pp :: Qp :: Rp :: nil) (P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 4 4 HPQRPpQpRpmtmp Hcomp Hincl);apply HT.
 }
-
+try clear HPQRPpQpRpM1. try clear HPQRPpQpRpM2. try clear HPQRPpQpRpM3. try clear HPQRPpQpRpm4. try clear HPQRPpQpRpm3. try clear HPQRPpQpRpm2. try clear HPQRPpQpRpm1. 
 
 assert(HPQRPpQpRpOoalphabetagammaM : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HPQRPpQpRpOoalphabetagammam : rk(P :: Q :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma ::  nil) >= 1) by (solve_hyps_min HPQRPpQpRpOoalphabetagammaeq HPQRPpQpRpOoalphabetagammam1).
@@ -7748,20 +5936,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPRPpQpRpOoalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpRpOoalphabetagamma requis par la preuve de (?)PRPpQpRpOoalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpRpOoalphabetagamma requis par la preuve de (?)PRPpQpRpOoalphabetagamma pour la règle 5  *)
@@ -7782,11 +5967,11 @@ assert(HPRPpQpRpOoalphabetagammam2 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha 
 (* marque de l'antécédent : 4 *)
 assert(HPRPpQpRpOoalphabetagammam3 : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpmtmp : rk(Pp :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HPpQpRpeq HPpQpRpm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPpQpRpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -7816,20 +6001,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPRPpQpRpalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpRpalphabetagamma requis par la preuve de (?)PRPpQpRpalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpRpalphabetagamma requis par la preuve de (?)PRPpQpRpalphabetagamma pour la règle 5  *)
@@ -7850,11 +6032,11 @@ assert(HPRPpQpRpalphabetagammam2 : rk(P :: R :: Pp :: Qp :: Rp :: alpha :: beta 
 (* marque de l'antécédent : 4 *)
 assert(HPRPpQpRpalphabetagammam3 : rk(P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
+	try assert(HPpQpRpeq : rk(Pp :: Qp :: Rp :: nil) = 3) by (apply LPpQpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpRpmtmp : rk(Pp :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HPpQpRpeq HPpQpRpm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Pp :: Qp :: Rp :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil) 3 3 HPpQpRpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -7875,7 +6057,7 @@ assert(HPRPpQpRpalphabetagammam4 : rk(P :: R :: Pp :: Qp :: Rp :: alpha :: beta 
 	try rewrite HT1 in HPRPpQpRpOoalphabetagammamtmp;try rewrite HT2 in HPRPpQpRpOoalphabetagammamtmp.
 	assert(HT := rule_4 (R :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma :: nil) (R :: Rp :: nil) 4 2 2 HPRPpQpRpOoalphabetagammamtmp HRRpmtmp HRRpOoMtmp Hincl); apply HT.
 }
-try clear HRRpM1. try clear HRRpM2. try clear HRRpM3. try clear HRRpm4. try clear HRRpm3. try clear HRRpm2. try clear HRRpm1. 
+
 
 assert(HPRPpQpRpalphabetagammaM : rk(P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
 assert(HPRPpQpRpalphabetagammam : rk(P :: R :: Pp :: Qp :: Rp :: alpha :: beta :: gamma ::  nil) >= 1) by (solve_hyps_min HPRPpQpRpalphabetagammaeq HPRPpQpRpalphabetagammam1).
@@ -7884,20 +6066,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPPpQpRpalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: Rp :: alpha :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpRpalphabetagamma requis par la preuve de (?)PPpQpRpalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PPpQpRpalphabetagamma requis par la preuve de (?)PPpQpRpalphabetagamma pour la règle 5  *)
@@ -7952,20 +6131,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPPpQpalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: alpha :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpalphabetagamma requis par la preuve de (?)PPpQpalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 4 <= rg <= 4 pour PPpQpRpOoalphabetagamma requis par la preuve de (?)PPpQpalphabetagamma pour la règle 4  *)
@@ -8072,137 +6248,18 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
-Lemma LPRPpQpalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PRPpQpalphabetagamma requis par la preuve de (?)PRPpQpalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PRPpQpalphabetagamma requis par la preuve de (?)PRPpQpalphabetagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PRPpQpalphabetagamma requis par la preuve de (?)PRPpQpalphabetagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalphabetagammam2 : rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 2).
-{
-	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
-	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPRPpQpalphabetagammam3 : rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 3).
-{
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: R :: Pp :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 3 3 HPRPpmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 4 et 4) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : P :: R :: Pp ::  de rang :  3 et 3 	 A : P :: R :: Pp :: Rp :: Oo ::   de rang : 3 et 3 *)
-assert(HPRPpQpalphabetagammam4 : rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 4).
-{
-	try assert(HPRPpRpOoeq : rk(P :: R :: Pp :: Rp :: Oo :: nil) = 3) by (apply LPRPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpRpOoMtmp : rk(P :: R :: Pp :: Rp :: Oo :: nil) <= 3) by (solve_hyps_max HPRPpRpOoeq HPRPpRpOoM3).
-	try assert(HPRPpQpRpOoalphabetagammaeq : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) = 4) by (apply LPRPpQpRpOoalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpQpRpOoalphabetagammamtmp : rk(P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPRPpQpRpOoalphabetagammaeq HPRPpQpRpOoalphabetagammam4).
-	try assert(HPRPpeq : rk(P :: R :: Pp :: nil) = 3) by (apply LPRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
-	assert(Hincl : incl (P :: R :: Pp :: nil) (list_inter (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: R :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma :: nil) (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: R :: Pp :: Rp :: Oo :: P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) ((P :: R :: Pp :: Rp :: Oo :: nil) ++ (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPRPpQpRpOoalphabetagammamtmp;try rewrite HT2 in HPRPpQpRpOoalphabetagammamtmp.
-	assert(HT := rule_4 (P :: R :: Pp :: Rp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) (P :: R :: Pp :: nil) 4 3 3 HPRPpQpRpOoalphabetagammamtmp HPRPpmtmp HPRPpRpOoMtmp Hincl); apply HT.
-}
-
-
-assert(HPRPpQpalphabetagammaM : rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPRPpQpalphabetagammam : rk(P :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  nil) >= 1) by (solve_hyps_min HPRPpQpalphabetagammaeq HPRPpQpalphabetagammam1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
-Lemma LPQRPpQpalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
-rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
-rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  nil) = 4.
-Proof.
-
-intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
-
-(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQRPpQpalphabetagamma requis par la preuve de (?)PQRPpQpalphabetagamma pour la règle 5  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQRPpQpalphabetagamma requis par la preuve de (?)PQRPpQpalphabetagamma pour la règle 5  *)
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphabetagammam3 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 3).
-{
-	try assert(HPQReq : rk(P :: Q :: R :: nil) = 3) by (apply LPQR with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
-	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 3 3 HPQRmtmp Hcomp Hincl);apply HT.
-}
-
-
-(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
-(* marque de l'antécédent : 4 *)
-assert(HPQRPpQpalphabetagammam4 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 4).
-{
-	try assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 4) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpmtmp : rk(P :: Q :: R :: Pp :: nil) >= 4) by (solve_hyps_min HPQRPpeq HPQRPpm4).
-	assert(Hcomp : 4 <= 4) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) 4 4 HPQRPpmtmp Hcomp Hincl);apply HT.
-}
-try clear HPQRPpM1. try clear HPQRPpM2. try clear HPQRPpM3. try clear HPQRPpm4. try clear HPQRPpm3. try clear HPQRPpm2. try clear HPQRPpm1. 
-
-assert(HPQRPpQpalphabetagammaM : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  nil) <= 4) by (apply rk_upper_dim).
-assert(HPQRPpQpalphabetagammam : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  nil) >= 1) by (solve_hyps_min HPQRPpQpalphabetagammaeq HPQRPpQpalphabetagammam1).
-intuition.
-Qed.
-
-(* dans la couche 0 *)
 Lemma LPQQpOoalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQQpOoalphabetagamma requis par la preuve de (?)PQQpOoalphabetagamma pour la règle 5  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQQpOoalphabetagamma requis par la preuve de (?)PQQpOoalphabetagamma pour la règle 5  *)
@@ -8211,11 +6268,11 @@ HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphabetagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQpeq : rk(P :: Qp :: nil) = 2) by (apply LPQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQpmtmp : rk(P :: Qp :: nil) >= 2) by (solve_hyps_min HPQpeq HPQpm2).
+	try assert(HQQpeq : rk(Q :: Qp :: nil) = 2) by (apply LQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpmtmp : rk(Q :: Qp :: nil) >= 2) by (solve_hyps_min HQQpeq HQQpm2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
-	assert(Hincl : incl (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HPQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HQQpmtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -8223,11 +6280,11 @@ assert(HPQQpOoalphabetagammam2 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma
 (* marque de l'antécédent : 4 *)
 assert(HPQQpOoalphabetagammam3 : rk(P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	try assert(HPQQpeq : rk(P :: Q :: Qp :: nil) = 3) by (apply LPQQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQQpmtmp : rk(P :: Q :: Qp :: nil) >= 3) by (solve_hyps_min HPQQpeq HPQQpm3).
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
-	assert(Hincl : incl (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
-	assert(HT := rule_5 (P :: Q :: Qp :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQQpmtmp Hcomp Hincl);apply HT.
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Qp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
 }
 
 
@@ -8250,20 +6307,17 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma LPPpQpRpOoalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(P :: Pp :: Qp :: Rp :: Oo :: alpha :: beta :: gamma ::  nil) = 4.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PPpQpRpOoalphabetagamma requis par la preuve de (?)PPpQpRpOoalphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PPpQpRpOoalphabetagamma requis par la preuve de (?)PPpQpRpOoalphabetagamma pour la règle 5  *)
@@ -8318,43 +6372,66 @@ Qed.
 
 (* dans la couche 0 *)
 Lemma Lalphabetagamma : forall P Q R Pp Qp Rp Oo alpha beta gamma ,
-rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(P :: Q :: R :: Pp ::  nil) = 4 ->
-rk(Q :: Qp ::  nil) = 2 -> rk(P :: Q :: R :: Qp ::  nil) = 4 -> rk(R :: Rp ::  nil) = 2 ->
-rk(P :: Q :: R :: Rp ::  nil) = 4 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Oo ::  nil) = 2 ->
-rk(Q :: Oo ::  nil) = 2 -> rk(R :: Oo ::  nil) = 2 -> rk(Pp :: Oo ::  nil) = 2 ->
-rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Qp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
-rk(Rp :: Oo ::  nil) = 2 -> rk(R :: Rp :: Oo ::  nil) = 2 -> rk(P :: R :: alpha ::  nil) = 2 ->
+rk(P :: Q :: R ::  nil) = 3 -> rk(P :: Pp ::  nil) = 2 -> rk(Q :: Qp ::  nil) = 2 ->
+rk(R :: Rp ::  nil) = 2 -> rk(Pp :: Qp :: Rp ::  nil) = 3 -> rk(P :: Q :: R :: Pp :: Qp :: Rp ::  nil) = 4 ->
+rk(P :: Q :: R :: Oo ::  nil) = 4 -> rk(P :: Pp :: Oo ::  nil) = 2 -> rk(Q :: Qp :: Oo ::  nil) = 2 ->
+rk(R :: Rp :: Oo ::  nil) = 2 -> rk(Pp :: Qp :: Rp :: Oo ::  nil) = 4 -> rk(P :: R :: alpha ::  nil) = 2 ->
 rk(Pp :: Rp :: alpha ::  nil) = 2 -> rk(P :: Q :: beta ::  nil) = 2 -> rk(Pp :: Qp :: beta ::  nil) = 2 ->
 rk(Q :: R :: gamma ::  nil) = 2 -> rk(Qp :: Rp :: gamma ::  nil) = 2 -> rk(alpha :: beta :: gamma ::  nil) = 2.
 Proof.
 
 intros P Q R Pp Qp Rp Oo alpha beta gamma 
-HPQReq HPPpeq HPQRPpeq HQQpeq HPQRQpeq HRRpeq HPQRRpeq HPpQpRpeq HPOoeq HQOoeq
-HROoeq HPpOoeq HPPpOoeq HQpOoeq HQQpOoeq HRpOoeq HRRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq
-HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
+HPQReq HPPpeq HQQpeq HRRpeq HPpQpRpeq HPQRPpQpRpeq HPQROoeq HPPpOoeq HQQpOoeq HRRpOoeq
+HPpQpRpOoeq HPRalphaeq HPpRpalphaeq HPQbetaeq HPpQpbetaeq HQRgammaeq HQpRpgammaeq .
 
 (* dans constructProofaux(), preuve de 2 <= rg <= 3 pour alphabetagamma requis par la preuve de (?)alphabetagamma pour la règle 3  *)
 (* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)alphabetagamma pour la règle 4  *)
 (* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
-(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
-(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
-(* marque des antécédents AUB AiB A: 4 4 et 4*)
-(* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : P :: Q ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Qp ::   de rang : 4 et 4 *)
-assert(HPQalphabetagammam2 : rk(P :: Q :: alpha :: beta :: gamma :: nil) >= 2).
+(* dans constructProofaux(), preuve de 3 <= rg <= 4 pour PQPpOoalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
+(* dans constructProofaux(), preuve de 2 <= rg <= 4 pour PQPpOoalphabetagamma requis par la preuve de (?)PQPpOoalphabetagamma pour la règle 5  *)
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQPpOoalphabetagamma requis par la preuve de (?)PQPpOoalphabetagamma pour la règle 5  *)
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPQPpOoalphabetagammam2 : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	try assert(HPQRPpQpeq : rk(P :: Q :: R :: Pp :: Qp :: nil) = 4) by (apply LPQRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpMtmp : rk(P :: Q :: R :: Pp :: Qp :: nil) <= 4) by (solve_hyps_max HPQRPpQpeq HPQRPpQpM4).
-	try assert(HPQRPpQpalphabetagammaeq : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) = 4) by (apply LPQRPpQpalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQRPpQpalphabetagammamtmp : rk(P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPpQpalphabetagammaeq HPQRPpQpalphabetagammam4).
-	try assert(HPQeq : rk(P :: Q :: nil) = 2) by (apply LPQ with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
-	assert(HPQmtmp : rk(P :: Q :: nil) >= 2) by (solve_hyps_min HPQeq HPQm2).
-	assert(Hincl : incl (P :: Q :: nil) (list_inter (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
-	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: alpha :: beta :: gamma :: nil) (P :: Q :: R :: Pp :: Qp :: P :: Q :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
-	assert(HT2 : equivlist (P :: Q :: R :: Pp :: Qp :: P :: Q :: alpha :: beta :: gamma :: nil) ((P :: Q :: R :: Pp :: Qp :: nil) ++ (P :: Q :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
-	try rewrite HT1 in HPQRPpQpalphabetagammamtmp;try rewrite HT2 in HPQRPpQpalphabetagammamtmp.
-	assert(HT := rule_4 (P :: Q :: R :: Pp :: Qp :: nil) (P :: Q :: alpha :: beta :: gamma :: nil) (P :: Q :: nil) 4 2 4 HPQRPpQpalphabetagammamtmp HPQmtmp HPQRPpQpMtmp Hincl); apply HT.
+	try assert(HPPpeq : rk(P :: Pp :: nil) = 2) by (apply LPPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpmtmp : rk(P :: Pp :: nil) >= 2) by (solve_hyps_min HPPpeq HPPpm2).
+	assert(Hcomp : 2 <= 2) by (repeat constructor).
+	assert(Hincl : incl (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Pp :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) 2 2 HPPpmtmp Hcomp Hincl);apply HT.
 }
 
+
+(* Application de la règle 5 code (1 ou 2 dans la thèse) *)
+(* marque de l'antécédent : 4 *)
+assert(HPQPpOoalphabetagammam3 : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
+{
+	try assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
+	assert(Hcomp : 3 <= 3) by (repeat constructor).
+	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
+	assert(HT := rule_5 (P :: Q :: Oo :: nil) (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) 3 3 HPQOomtmp Hcomp Hincl);apply HT.
+}
+
+
+(* dans constructProofaux(), preuve de 1 <= rg <= 4 pour PQalphabetagamma requis par la preuve de (?)PQalphabetagamma pour la règle 4  *)
+(* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 2 et 4) *)
+(* marque des antécédents AUB AiB A: 5 4 et 4*)
+(* ensembles concernés AUB : P :: Q :: Pp :: Oo :: alpha :: beta :: gamma ::  de rang :  3 et 4 	 AiB : P ::  de rang :  1 et 1 	 A : P :: Pp :: Oo ::   de rang : 2 et 2 *)
+assert(HPQalphabetagammam2 : rk(P :: Q :: alpha :: beta :: gamma :: nil) >= 2).
+{
+	try assert(HPPpOoeq : rk(P :: Pp :: Oo :: nil) = 2) by (apply LPPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoMtmp : rk(P :: Pp :: Oo :: nil) <= 2) by (solve_hyps_max HPPpOoeq HPPpOoM2).
+	assert(HPQPpOoalphabetagammamtmp : rk(P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) >= 3) by (solve_hyps_min HPQPpOoalphabetagammaeq HPQPpOoalphabetagammam3).
+	try assert(HPeq : rk(P :: nil) = 1) by (apply LP with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Oo := Oo) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPmtmp : rk(P :: nil) >= 1) by (solve_hyps_min HPeq HPm1).
+	assert(Hincl : incl (P :: nil) (list_inter (P :: Pp :: Oo :: nil) (P :: Q :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
+	assert(HT1 : equivlist (P :: Q :: Pp :: Oo :: alpha :: beta :: gamma :: nil) (P :: Pp :: Oo :: P :: Q :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
+	assert(HT2 : equivlist (P :: Pp :: Oo :: P :: Q :: alpha :: beta :: gamma :: nil) ((P :: Pp :: Oo :: nil) ++ (P :: Q :: alpha :: beta :: gamma :: nil))) by (clear_all_rk;my_inO).
+	try rewrite HT1 in HPQPpOoalphabetagammamtmp;try rewrite HT2 in HPQPpOoalphabetagammamtmp.
+	assert(HT := rule_4 (P :: Pp :: Oo :: nil) (P :: Q :: alpha :: beta :: gamma :: nil) (P :: nil) 3 1 2 HPQPpOoalphabetagammamtmp HPmtmp HPPpOoMtmp Hincl); apply HT.
+}
+try clear HPQPpOoalphabetagammaM1. try clear HPQPpOoalphabetagammaM2. try clear HPQPpOoalphabetagammaM3. try clear HPQPpOoalphabetagammam4. try clear HPQPpOoalphabetagammam3. try clear HPQPpOoalphabetagammam2. try clear HPQPpOoalphabetagammam1. 
 
 (* Application de la règle 4 code (7 ou 8 dans la thèse) concerne B (rang 3 et 4) *)
 (* marque des antécédents AUB AiB A: 4 4 et 4*)
