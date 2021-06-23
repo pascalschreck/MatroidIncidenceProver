@@ -1,0 +1,26 @@
+# inter2Planes_2.stat
+# in 3D, the intersection of two planes is a flat
+context
+      dimension 3
+      layers 1
+endofcontext
+layer 0
+  points
+    A B C Ap Bp Cp M N P 
+  hypotheses
+    A B C : 3
+    Ap Bp Cp : 3
+    A B C Ap Bp Cp : 4
+    M A B C : 3
+    N A B C : 3
+    M Ap Bp Cp : 3
+    N Ap Bp Cp : 3
+    M N : 2
+    M N P : 2
+  conclusion
+    None
+endoflayer
+  conclusion
+    A B C P : 3
+    Ap Bp Cp P : 3
+end

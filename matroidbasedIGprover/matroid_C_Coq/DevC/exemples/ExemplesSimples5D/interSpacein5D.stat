@@ -1,4 +1,4 @@
-# intersectionEspaces.txt
+# intersectionEspaces.stat
 # en dimension 5, l'intersection de deux espaces de dim 4 distincts est un 3-espace
 context
     dimension 5
