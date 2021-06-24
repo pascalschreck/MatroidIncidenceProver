@@ -1,0 +1,75 @@
+# fichier desargues4D_xconc.txt
+context
+   dimension 4
+   layers 1
+endofcontext
+layer 0
+  points
+    O A B C D E Ap Bp Cp Dp Ep ab ac ad  ae bc bd be cd ce de
+  hypotheses
+# tous les points donnés (de O à Ep) sont différents 2 à 2 : C(11,2) = 55
+# je n'ai mis ici que les plus importants ... on pourrait avoir une méta-contrainte
+# tous_differents suivi d'une liste de points
+    A B C D E : 5   # les sommets du 1er pentachore sont différents 
+    A Ap : 2
+    B Bp : 2
+    C Cp : 2
+    D Dp : 2
+    E Ep : 2    # les sommets en correspondance sont différents (5 lignes)
+    Ap Bp Cp Dp Ep : 5   # les sommets du 2ème pentachore sont différents
+                    # les 5 lignes suivantes traduisant le fait que les pentachores sont en perspectives depuis O
+    O A Ap : 2      # O A et Ap sont alignés
+    O B Bp : 2      # B
+    O C Cp : 2      # C
+    O D Dp : 2      # D
+    O E Ep : 2      # E
+    # les 20 lignes qui suivent introduisent les 10 points d'intersection
+    ab A B : 2
+    ab Ap Bp : 2    # 1 : ab = AAp inter BBp
+    ac A C : 2
+    ac Ap Cp : 2    # 2 : ac = AAp inter CCp
+    ad A D : 2
+    ad Ap Dp : 2    # 3 : ad = AAp inter DDp
+    ae A E : 2
+    ae Ap Ep : 2    # 4 : ae = AAP inter EEp
+    bc B C : 2
+    bc Bp Cp : 2    # 5 : bc = BBp inter CCp
+    bd B D : 2
+    bd Bp Dp : 2    # 6 : bd = Bp inter DDp
+    be B E : 2
+    be Bp Ep : 2    # 7 : be = BBp inter EEp
+    cd C D : 2
+    cd Cp Dp : 2    # 8 : cd = CCp inter DDp
+    ce C E : 2
+    ce Cp Ep : 2    # 9 : ce = CCp inter EEp
+    de D E : 2
+    de Dp Ep : 2    # 10 : de = DDp inter EEp
+    O B C D E : 5
+    A O C D E : 5
+    A B O D E : 5
+    A B C O E : 5
+    A B C D O : 5
+    A B C D E : 5
+    O Bp Cp Dp Ep : 5
+    Ap O Cp Dp Ep : 5
+    Ap Bp O Dp Ep : 5
+    Ap Bp Cp O Ep : 5
+    Ap Bp Cp Dp O : 5
+  conclusion
+    None
+endoflayer
+  conclusion
+    ab ac ad ae bc bd be cd ce de : 4
+    cd ce de : 2    # -a -b -> c d e
+    bd be de : 2    # -a -c -> b d e
+    bc be ce : 2    # -a -d -> b c e
+    bc bd cd : 2    # -a -e -> b c d
+    ad ae de : 2    # -b -c -> a d e
+    ac ae ce : 2    # -b -d -> a c e
+    ac ad cd : 2    # -b -e -> a c d 
+    ab ae be : 2    # -c -d -> a b e
+    ab ad bd : 2    # -c -e -> a b d
+    ad ac bc : 2    # -d -e -> a b c
+    # tetraèdre ab - bc bd be coupé en ac (sur ab bc), ad (sur ab bd) et ae (sur ab be) 
+    # donne les points de Desargues 2.5d cd (sur bc bd), bd (sur ab ad) et de (sur ad ae)
+end
