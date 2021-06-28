@@ -610,7 +610,7 @@ void unMark(node n) {		// démarquage des antécédents
 *       n'est pas fait pour le moment par peur de liens transversaux, mais je 				*
 *		m'interroge encore. 																*
 *	(4) on interdit explicitement l'écriture d'un lemme où le rang n'est pas défini			*
-*		à la fin. De tels lemmes seront prouvés à local à chaque fois que ce sera			*
+*		à la fin. De tels lemmes seront prouvés en local à chaque fois que ce sera			*
 *		nécessaire. Attention, cela risque peut-être de poser des problèmes avec			*
 *		l'implantation actuelle du multicouche car la fonction copyGraph() ne recopie		*
 *		pas les arbres de déduction attachés aux noeuds avec l'idée qu'une couche doit		*
@@ -809,7 +809,7 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 		}
 		else
 		{
-			if(dim >=4)
+			if(dim >=4) // ..... ce patch me paraît bizarre
 			{
 				fprintf(stderr,"Reconstruction impossible rangs non identiques pour le résultat en dimension 4+\n");
 				exit(1);
