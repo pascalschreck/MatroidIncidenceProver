@@ -188,7 +188,10 @@ int main(int argc, char * argv[])
   	// on ouvre ensuite le fichier de sortie pour la preuve coq
 	// c'est soit le fichier standard, soit celui lu à la ligne de commande
 	FILE* file = fopen(coqoutput_name,"w");	
-    fprintf(file, "Require Import lemmas_automation_g.\n\n\n");
+    // fprintf(file, "Require Import lemmas_automation_g.\n\n\n");
+    // par défaut, le préambule s'appelle preamblexD.v où x est la dimension
+    fprintf(file, "Load \"preamble%dD.v\".\n\n\n",dim);
+    
 
     fprintf(stderr,"--------------- reconstruction\n\n");
 	

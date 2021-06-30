@@ -29,6 +29,12 @@ extern statement STATEMENT;     // on rend l'accès à l'énoncé global
 #define NL	 fputc('\n', debug_file)
 #define DEB_PS(str) fputs((str), debug_file)
 
+// il faut décommenter la ligne suivante si on veut la version
+// avec les "try clear" des hypthèses
+// ce nettoyage n'est pas nécessaire lorsqu'on écrit systématiquement
+// des lemmes pour chaque ensemble utilisé dont on connaît le rang
+// #define MONOLITHE
+
 #define SetFrom(MT) ((MT) & 0x3FFFFFFFFFFFFFF)
 #define SETMASQ 0x3FFFFFFFFFFFFFF
 //
