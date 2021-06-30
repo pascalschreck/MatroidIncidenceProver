@@ -1320,6 +1320,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			fprintf(file,"\trewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.\n");
 			fprintf(file,"}\n");
 			
+#ifdef MONOLITHE
 			if(freeA == 1 && partAe != res)
 			{
 				int tmpRankM = 1;
@@ -1468,6 +1469,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 			}
 			fprintf(file,"\n");
+#endif
 		}
 		/*_______________________________________________________________
 
@@ -1734,7 +1736,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			printHypSetFile(file,partBe);
 			fprintf(file,"Mtmp Hincl);apply HT.\n");
 			fprintf(file,"}\n");
-			
+#ifdef MONOLITHE			
 			if(freeA == 1 && partAe != res)
 			{
 				int tmpRankM = 1;
@@ -1883,6 +1885,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 			}
 			fprintf(file,"\n");
+#endif
 		}
 		/*_______________________________________________________________
 
@@ -2793,7 +2796,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				printHypSetFile(file,partAe);
 				fprintf(file,"mtmp Hcomp Hincl);apply HT.\n");
 				fprintf(file,"}\n");
-			
+#ifdef MONOLITHE
 			if(freeA == 1 && partAe != res)
 			{
 				int tmpRankM = 1;
@@ -2870,6 +2873,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 			}
 			fprintf(file,"\n");
+#endif
 		}
 		/*_______________________________________________________________
 
@@ -2967,7 +2971,8 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			printHypSetFile(file,partBe);
 			fprintf(file,"Mtmp Hcomp Hincl);apply HT.\n");
 			fprintf(file,"}\n");
-			
+
+#ifdef MONOLITHE			
 			if(freeA == 1 && partAe != res)
 			{
 				int tmpRankM = 1;
@@ -3044,6 +3049,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 			}
 			fprintf(file,"\n");
+#endif
 		}
 		else if (n->rule == 7)
 		{
@@ -3137,7 +3143,8 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			printHypSetFile(file,partBe);
 			fprintf(file,"mtmp Hcomp Hincl); apply HT.\n");
 			fprintf(file,"}\n");
-			
+
+#ifdef MONOLITHE
 			if(freeA == 1 && partAe != res)
 			{
 				int tmpRankM = 1;
@@ -3214,6 +3221,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 			}
 			fprintf(file,"\n");
+#endif
 		}
 		else if (n->rule == 8)
 		{
@@ -3308,6 +3316,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			fprintf(file,"Mtmp Hcomp Hincl); apply HT.\n");
 			fprintf(file,"}\n");
 			
+#ifdef MONOLITHE
 			if(freeA == 1 && partAe != res)
 			{
 				int tmpRankM = 1;
@@ -3384,6 +3393,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 			}
 			fprintf(file,"\n");
+#endif
 		}
 		
 	}
