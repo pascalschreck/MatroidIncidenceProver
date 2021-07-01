@@ -450,7 +450,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 assert(HPalpham2 : rk(P :: alpha :: nil) >= 2).
 {
 	assert(HPpRpalphaMtmp : rk(Pp :: Rp :: alpha :: nil) <= 2) by (solve_hyps_max HPpRpalphaeq HPpRpalphaM2).
-	assert(HPPpRpalphaeq : rk(P :: Pp :: Rp :: alpha :: nil) = 3) by (apply LPPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpalphaeq : rk(P :: Pp :: Rp :: alpha :: nil) = 3) by (apply LPPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpalphamtmp : rk(P :: Pp :: Rp :: alpha :: nil) >= 3) by (solve_hyps_min HPPpRpalphaeq HPPpRpalpham3).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: alpha :: nil) (Pp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -588,9 +588,9 @@ assert(HPQPsQsOoalpham3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: nil) >= 3).
 assert(HPQPsQsOoalpham4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: nil) >= 4).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsOoalphaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQRPsQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsOoalphaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQRPsQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsOoalphamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphaeq HPQRPsQsOoalpham4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Qs :: Oo :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -769,9 +769,9 @@ assert(HPQRPpalpham3 : rk(P :: Q :: R :: Pp :: alpha :: nil) >= 3).
 (* marque des antécédents A B AiB : 4 4 et -4*)
 assert(HPQRPpalphaM3 : rk(P :: Q :: R :: Pp :: alpha :: nil) <= 3).
 {
-	assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 3) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpeq : rk(P :: Q :: R :: Pp :: nil) = 3) by (apply LPQRPp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpMtmp : rk(P :: Q :: R :: Pp :: nil) <= 3) by (solve_hyps_max HPQRPpeq HPQRPpM3).
-	assert(HPQRalphaeq : rk(P :: Q :: R :: alpha :: nil) = 3) by (apply LPQRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRalphaeq : rk(P :: Q :: R :: alpha :: nil) = 3) by (apply LPQRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRalphaMtmp : rk(P :: Q :: R :: alpha :: nil) <= 3) by (solve_hyps_max HPQRalphaeq HPQRalphaM3).
 	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
 	assert(Hincl : incl (P :: Q :: R :: nil) (list_inter (P :: Q :: R :: Pp :: nil) (P :: Q :: R :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -829,9 +829,9 @@ assert(HPQPpOom3 : rk(P :: Q :: Pp :: Oo :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPQPpOom4 : rk(P :: Q :: Pp :: Oo :: nil) >= 4).
 {
-	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpalphaMtmp : rk(P :: Q :: R :: Pp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRPpalphaeq HPQRPpalphaM3).
-	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoalphamtmp : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpOoalphaeq HPQRPpOoalpham4).
 	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
 	assert(Hincl : incl (P :: Q :: Pp :: nil) (list_inter (P :: Q :: Pp :: Oo :: nil) (P :: Q :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -889,7 +889,7 @@ assert(HPQPpRpOoalpham3 : rk(P :: Q :: Pp :: Rp :: Oo :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPQPpRpOoalpham4 : rk(P :: Q :: Pp :: Rp :: Oo :: alpha :: nil) >= 4).
 {
-	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQPpOoeq HPQPpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Oo :: nil) (P :: Q :: Pp :: Rp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -945,9 +945,9 @@ assert(HPQPpRpalpham3 : rk(P :: Q :: Pp :: Rp :: alpha :: nil) >= 3).
 (* marque des antécédents A B AiB : 4 4 et -4*)
 assert(HPQPpRpalphaM3 : rk(P :: Q :: Pp :: Rp :: alpha :: nil) <= 3).
 {
-	assert(HPQPpRpeq : rk(P :: Q :: Pp :: Rp :: nil) = 3) by (apply LPQPpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpRpeq : rk(P :: Q :: Pp :: Rp :: nil) = 3) by (apply LPQPpRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpRpMtmp : rk(P :: Q :: Pp :: Rp :: nil) <= 3) by (solve_hyps_max HPQPpRpeq HPQPpRpM3).
-	assert(HPPpRpalphaeq : rk(P :: Pp :: Rp :: alpha :: nil) = 3) by (apply LPPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpalphaeq : rk(P :: Pp :: Rp :: alpha :: nil) = 3) by (apply LPPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpalphaMtmp : rk(P :: Pp :: Rp :: alpha :: nil) <= 3) by (solve_hyps_max HPPpRpalphaeq HPPpRpalphaM3).
 	assert(HPPpRpmtmp : rk(P :: Pp :: Rp :: nil) >= 3) by (solve_hyps_min HPPpRpeq HPPpRpm3).
 	assert(Hincl : incl (P :: Pp :: Rp :: nil) (list_inter (P :: Q :: Pp :: Rp :: nil) (P :: Pp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -1005,9 +1005,9 @@ assert(HPPpRpOom3 : rk(P :: Pp :: Rp :: Oo :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPPpRpOom4 : rk(P :: Pp :: Rp :: Oo :: nil) >= 4).
 {
-	assert(HPQPpRpalphaeq : rk(P :: Q :: Pp :: Rp :: alpha :: nil) = 3) by (apply LPQPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpRpalphaeq : rk(P :: Q :: Pp :: Rp :: alpha :: nil) = 3) by (apply LPQPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpRpalphaMtmp : rk(P :: Q :: Pp :: Rp :: alpha :: nil) <= 3) by (solve_hyps_max HPQPpRpalphaeq HPQPpRpalphaM3).
-	assert(HPQPpRpOoalphaeq : rk(P :: Q :: Pp :: Rp :: Oo :: alpha :: nil) = 4) by (apply LPQPpRpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpRpOoalphaeq : rk(P :: Q :: Pp :: Rp :: Oo :: alpha :: nil) = 4) by (apply LPQPpRpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpRpOoalphamtmp : rk(P :: Q :: Pp :: Rp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQPpRpOoalphaeq HPQPpRpOoalpham4).
 	assert(HPPpRpmtmp : rk(P :: Pp :: Rp :: nil) >= 3) by (solve_hyps_min HPPpRpeq HPPpRpm3).
 	assert(Hincl : incl (P :: Pp :: Rp :: nil) (list_inter (P :: Pp :: Rp :: Oo :: nil) (P :: Q :: Pp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -1065,7 +1065,7 @@ assert(HPPpRpPsOoScalpham3 : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil)
 (* marque de l'antécédent : 4 *)
 assert(HPPpRpPsOoScalpham4 : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPPpRpOoeq : rk(P :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpOoeq : rk(P :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpOomtmp : rk(P :: Pp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HPPpRpOoeq HPPpRpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Rp :: Oo :: nil) (P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -1234,11 +1234,11 @@ assert(HPQPpQpQsOoScm3 : rk(P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Qs :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : P :: Q :: Pp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: R :: Pp :: Oo ::   de rang : 4 et 4 *)
 assert(HPQPpQpQsOoScm4 : rk(P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) >= 4).
 {
-	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoMtmp : rk(P :: Q :: R :: Pp :: Oo :: nil) <= 4) by (solve_hyps_max HPQRPpOoeq HPQRPpOoM4).
-	assert(HPQRPpQpQsOoSceq : rk(P :: Q :: R :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) = 4) by (apply LPQRPpQpQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpQsOoSceq : rk(P :: Q :: R :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) = 4) by (apply LPQRPpQpQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpQpQsOoScmtmp : rk(P :: Q :: R :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQRPpQpQsOoSceq HPQRPpQpQsOoScm4).
-	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQPpOoeq HPQPpOom4).
 	assert(Hincl : incl (P :: Q :: Pp :: Oo :: nil) (list_inter (P :: Q :: R :: Pp :: Oo :: nil) (P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) (P :: Q :: R :: Pp :: Oo :: P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil)) by (clear_all_rk;my_inO).
@@ -1352,9 +1352,9 @@ assert(HPQRPpQpalpham3 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: nil) >= 3).
 (* marque des antécédents A B AiB : 4 4 et -4*)
 assert(HPQRPpQpalphaM3 : rk(P :: Q :: R :: Pp :: Qp :: alpha :: nil) <= 3).
 {
-	assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 3) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 3) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpMtmp : rk(P :: Q :: R :: Qp :: nil) <= 3) by (solve_hyps_max HPQRQpeq HPQRQpM3).
-	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpalphaMtmp : rk(P :: Q :: R :: Pp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRPpalphaeq HPQRPpalphaM3).
 	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
 	assert(Hincl : incl (P :: Q :: R :: nil) (list_inter (P :: Q :: R :: Qp :: nil) (P :: Q :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -1412,9 +1412,9 @@ assert(HQPpQpOom3 : rk(Q :: Pp :: Qp :: Oo :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HQPpQpOom4 : rk(Q :: Pp :: Qp :: Oo :: nil) >= 4).
 {
-	assert(HPQRPpQpalphaeq : rk(P :: Q :: R :: Pp :: Qp :: alpha :: nil) = 3) by (apply LPQRPpQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpalphaeq : rk(P :: Q :: R :: Pp :: Qp :: alpha :: nil) = 3) by (apply LPQRPpQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpQpalphaMtmp : rk(P :: Q :: R :: Pp :: Qp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRPpQpalphaeq HPQRPpQpalphaM3).
-	assert(HPQRPpQpOoalphaeq : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpQpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpOoalphaeq : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpQpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpQpOoalphamtmp : rk(P :: Q :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpQpOoalphaeq HPQRPpQpOoalpham4).
 	assert(HQPpQpmtmp : rk(Q :: Pp :: Qp :: nil) >= 3) by (solve_hyps_min HQPpQpeq HQPpQpm3).
 	assert(Hincl : incl (Q :: Pp :: Qp :: nil) (list_inter (Q :: Pp :: Qp :: Oo :: nil) (P :: Q :: R :: Pp :: Qp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -1529,11 +1529,11 @@ assert(HPQPpQpOom3 : rk(P :: Q :: Pp :: Qp :: Oo :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Oo ::  de rang :  4 et 4 	 AiB : P :: Q :: Pp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: R :: Pp :: Oo ::   de rang : 4 et 4 *)
 assert(HPQPpQpOom4 : rk(P :: Q :: Pp :: Qp :: Oo :: nil) >= 4).
 {
-	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoMtmp : rk(P :: Q :: R :: Pp :: Oo :: nil) <= 4) by (solve_hyps_max HPQRPpOoeq HPQRPpOoM4).
-	assert(HPQRPpQpOoeq : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPQRPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpOoeq : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPQRPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpQpOomtmp : rk(P :: Q :: R :: Pp :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HPQRPpQpOoeq HPQRPpQpOom4).
-	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQPpOoeq HPQPpOom4).
 	assert(Hincl : incl (P :: Q :: Pp :: Oo :: nil) (list_inter (P :: Q :: R :: Pp :: Oo :: nil) (P :: Q :: Pp :: Qp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Oo :: nil) (P :: Q :: R :: Pp :: Oo :: P :: Q :: Pp :: Qp :: Oo :: nil)) by (clear_all_rk;my_inO).
@@ -1591,11 +1591,11 @@ assert(HQPpQpQsOoScm3 : rk(Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : Q :: Pp :: Qp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: Pp :: Qp :: Oo ::   de rang : 4 et 4 *)
 assert(HQPpQpQsOoScm4 : rk(Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) >= 4).
 {
-	assert(HPQPpQpOoeq : rk(P :: Q :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPQPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpQpOoeq : rk(P :: Q :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPQPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpQpOoMtmp : rk(P :: Q :: Pp :: Qp :: Oo :: nil) <= 4) by (solve_hyps_max HPQPpQpOoeq HPQPpQpOoM4).
-	assert(HPQPpQpQsOoSceq : rk(P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) = 4) by (apply LPQPpQpQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpQpQsOoSceq : rk(P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) = 4) by (apply LPQPpQpQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpQpQsOoScmtmp : rk(P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpQpQsOoSceq HPQPpQpQsOoScm4).
-	assert(HQPpQpOoeq : rk(Q :: Pp :: Qp :: Oo :: nil) = 4) by (apply LQPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQPpQpOoeq : rk(Q :: Pp :: Qp :: Oo :: nil) = 4) by (apply LQPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQPpQpOomtmp : rk(Q :: Pp :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HQPpQpOoeq HQPpQpOom4).
 	assert(Hincl : incl (Q :: Pp :: Qp :: Oo :: nil) (list_inter (P :: Q :: Pp :: Qp :: Oo :: nil) (Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) (P :: Q :: Pp :: Qp :: Oo :: Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil)) by (clear_all_rk;my_inO).
@@ -1703,9 +1703,9 @@ assert(HPQRQpalpham3 : rk(P :: Q :: R :: Qp :: alpha :: nil) >= 3).
 (* marque des antécédents A B AiB : 4 4 et -4*)
 assert(HPQRQpalphaM3 : rk(P :: Q :: R :: Qp :: alpha :: nil) <= 3).
 {
-	assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 3) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 3) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpMtmp : rk(P :: Q :: R :: Qp :: nil) <= 3) by (solve_hyps_max HPQRQpeq HPQRQpM3).
-	assert(HPQRalphaeq : rk(P :: Q :: R :: alpha :: nil) = 3) by (apply LPQRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRalphaeq : rk(P :: Q :: R :: alpha :: nil) = 3) by (apply LPQRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRalphaMtmp : rk(P :: Q :: R :: alpha :: nil) <= 3) by (solve_hyps_max HPQRalphaeq HPQRalphaM3).
 	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
 	assert(Hincl : incl (P :: Q :: R :: nil) (list_inter (P :: Q :: R :: Qp :: nil) (P :: Q :: R :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -1928,9 +1928,9 @@ assert(HPQRPpOoScm4 : rk(P :: Q :: R :: Pp :: Oo :: Sc :: nil) >= 4).
 (* marque des antécédents AUB AiB B: 4 -2 et 4*)
 assert(HPpOom2 : rk(Pp :: Oo :: nil) >= 2).
 {
-	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpalphaMtmp : rk(P :: Q :: R :: Pp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRPpalphaeq HPQRPpalphaM3).
-	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoalphamtmp : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpOoalphaeq HPQRPpOoalpham4).
 	assert(HPpmtmp : rk(Pp :: nil) >= 1) by (solve_hyps_min HPpeq HPpm1).
 	assert(Hincl : incl (Pp :: nil) (list_inter (Pp :: Oo :: nil) (P :: Q :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -1946,7 +1946,7 @@ assert(HPpOom2 : rk(Pp :: Oo :: nil) >= 2).
 (* ensembles concernés AUB : P :: Q :: R :: Pp :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : Pp :: Oo ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Oo ::   de rang : 4 et 4 *)
 assert(HPpOoScm2 : rk(Pp :: Oo :: Sc :: nil) >= 2).
 {
-	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoMtmp : rk(P :: Q :: R :: Pp :: Oo :: nil) <= 4) by (solve_hyps_max HPQRPpOoeq HPQRPpOoM4).
 	assert(HPQRPpOoScmtmp : rk(P :: Q :: R :: Pp :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQRPpOoSceq HPQRPpOoScm4).
 	assert(HPpOomtmp : rk(Pp :: Oo :: nil) >= 2) by (solve_hyps_min HPpOoeq HPpOom2).
@@ -1961,9 +1961,9 @@ assert(HPpOoScm2 : rk(Pp :: Oo :: Sc :: nil) >= 2).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPpOoScm3 : rk(Pp :: Oo :: Sc :: nil) >= 3).
 {
-	assert(HQQpQsOoSceq : rk(Q :: Qp :: Qs :: Oo :: Sc :: nil) = 3) by (apply LQQpQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpQsOoSceq : rk(Q :: Qp :: Qs :: Oo :: Sc :: nil) = 3) by (apply LQQpQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQpQsOoScMtmp : rk(Q :: Qp :: Qs :: Oo :: Sc :: nil) <= 3) by (solve_hyps_max HQQpQsOoSceq HQQpQsOoScM3).
-	assert(HQPpQpQsOoSceq : rk(Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) = 4) by (apply LQPpQpQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQPpQpQsOoSceq : rk(Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) = 4) by (apply LQPpQpQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQPpQpQsOoScmtmp : rk(Q :: Pp :: Qp :: Qs :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HQPpQpQsOoSceq HQPpQpQsOoScm4).
 	assert(HOoScmtmp : rk(Oo :: Sc :: nil) >= 2) by (solve_hyps_min HOoSceq HOoScm2).
 	assert(Hincl : incl (Oo :: Sc :: nil) (list_inter (Pp :: Oo :: Sc :: nil) (Q :: Qp :: Qs :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
@@ -2080,11 +2080,11 @@ assert(HPQPpPsOoScm3 : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: R :: Pp :: Ps :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : P :: Q :: Pp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: R :: Pp :: Oo ::   de rang : 4 et 4 *)
 assert(HPQPpPsOoScm4 : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) >= 4).
 {
-	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoMtmp : rk(P :: Q :: R :: Pp :: Oo :: nil) <= 4) by (solve_hyps_max HPQRPpOoeq HPQRPpOoM4).
-	assert(HPQRPpPsOoSceq : rk(P :: Q :: R :: Pp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQRPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpPsOoSceq : rk(P :: Q :: R :: Pp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQRPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpPsOoScmtmp : rk(P :: Q :: R :: Pp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQRPpPsOoSceq HPQRPpPsOoScm4).
-	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQPpOoeq HPQPpOom4).
 	assert(Hincl : incl (P :: Q :: Pp :: Oo :: nil) (list_inter (P :: Q :: R :: Pp :: Oo :: nil) (P :: Q :: Pp :: Ps :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Ps :: Oo :: Sc :: nil) (P :: Q :: R :: Pp :: Oo :: P :: Q :: Pp :: Ps :: Oo :: Sc :: nil)) by (clear_all_rk;my_inO).
@@ -2198,7 +2198,7 @@ assert(HPQOom2 : rk(P :: Q :: Oo :: nil) >= 2).
 (* marque des antécédents AUB AiB B: -4 -2 et 4*)
 assert(HPQOom3 : rk(P :: Q :: Oo :: nil) >= 3).
 {
-	assert(HROoeq : rk(R :: Oo :: nil) = 2) by (apply LROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HROoeq : rk(R :: Oo :: nil) = 2) by (apply LROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HROoMtmp : rk(R :: Oo :: nil) <= 2) by (solve_hyps_max HROoeq HROoM2).
 	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
 	assert(HOomtmp : rk(Oo :: nil) >= 1) by (solve_hyps_min HOoeq HOom1).
@@ -2300,7 +2300,7 @@ assert(HPQPsOom2 : rk(P :: Q :: Ps :: Oo :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQPsOom3 : rk(P :: Q :: Ps :: Oo :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Oo :: nil)) by (repeat clear_all_rk;my_inO).
@@ -2388,9 +2388,9 @@ assert(HPPpPsOoScM3 : rk(P :: Pp :: Ps :: Oo :: Sc :: nil) <= 3).
 (* ensembles concernés AUB : P :: Q :: Pp :: Ps :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : P :: Ps :: Oo ::  de rang :  2 et 2 	 A : P :: Q :: Ps :: Oo ::   de rang : 3 et 3 *)
 assert(HPPpPsOoScm3 : rk(P :: Pp :: Ps :: Oo :: Sc :: nil) >= 3).
 {
-	assert(HPQPsOoeq : rk(P :: Q :: Ps :: Oo :: nil) = 3) by (apply LPQPsOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsOoeq : rk(P :: Q :: Ps :: Oo :: nil) = 3) by (apply LPQPsOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsOoMtmp : rk(P :: Q :: Ps :: Oo :: nil) <= 3) by (solve_hyps_max HPQPsOoeq HPQPsOoM3).
-	assert(HPQPpPsOoSceq : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpPsOoSceq : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpPsOoScmtmp : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpPsOoSceq HPQPpPsOoScm4).
 	assert(HPPsOomtmp : rk(P :: Ps :: Oo :: nil) >= 2) by (solve_hyps_min HPPsOoeq HPPsOom2).
 	assert(Hincl : incl (P :: Ps :: Oo :: nil) (list_inter (P :: Q :: Ps :: Oo :: nil) (P :: Pp :: Ps :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
@@ -2467,9 +2467,9 @@ assert(HPPpOoScm2 : rk(P :: Pp :: Oo :: Sc :: nil) >= 2).
 (* ensembles concernés AUB : P :: Q :: Pp :: Ps :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : P :: Oo ::  de rang :  2 et 2 	 A : P :: Q :: Ps :: Oo ::   de rang : 3 et 3 *)
 assert(HPPpOoScm3 : rk(P :: Pp :: Oo :: Sc :: nil) >= 3).
 {
-	assert(HPQPsOoeq : rk(P :: Q :: Ps :: Oo :: nil) = 3) by (apply LPQPsOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsOoeq : rk(P :: Q :: Ps :: Oo :: nil) = 3) by (apply LPQPsOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsOoMtmp : rk(P :: Q :: Ps :: Oo :: nil) <= 3) by (solve_hyps_max HPQPsOoeq HPQPsOoM3).
-	assert(HPQPpPsOoSceq : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpPsOoSceq : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpPsOoScmtmp : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpPsOoSceq HPQPpPsOoScm4).
 	assert(HPOomtmp : rk(P :: Oo :: nil) >= 2) by (solve_hyps_min HPOoeq HPOom2).
 	assert(Hincl : incl (P :: Oo :: nil) (list_inter (P :: Q :: Ps :: Oo :: nil) (P :: Pp :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
@@ -2483,7 +2483,7 @@ assert(HPPpOoScm3 : rk(P :: Pp :: Oo :: Sc :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPPpOoScM3 : rk(P :: Pp :: Oo :: Sc :: nil) <= 3).
 {
-	assert(HPPpPsOoSceq : rk(P :: Pp :: Ps :: Oo :: Sc :: nil) = 3) by (apply LPPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpPsOoSceq : rk(P :: Pp :: Ps :: Oo :: Sc :: nil) = 3) by (apply LPPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpPsOoScMtmp : rk(P :: Pp :: Ps :: Oo :: Sc :: nil) <= 3) by (solve_hyps_max HPPpPsOoSceq HPPpPsOoScM3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Oo :: Sc :: nil) (P :: Pp :: Ps :: Oo :: Sc :: nil)) by (repeat clear_all_rk;my_inO).
@@ -2559,7 +2559,7 @@ assert(HPpRpPsOoScalpham2 : rk(Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) >= 2)
 assert(HPpRpPsOoScalpham3 : rk(Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) >= 3).
 {
 	assert(HPPsOoMtmp : rk(P :: Ps :: Oo :: nil) <= 2) by (solve_hyps_max HPPsOoeq HPPsOoM2).
-	assert(HPPpRpPsOoScalphaeq : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPPpRpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpPsOoScalphaeq : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPPpRpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpPsOoScalphamtmp : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPPpRpPsOoScalphaeq HPPpRpPsOoScalpham4).
 	assert(HPsOomtmp : rk(Ps :: Oo :: nil) >= 1) by (solve_hyps_min HPsOoeq HPsOom1).
 	assert(Hincl : incl (Ps :: Oo :: nil) (list_inter (P :: Ps :: Oo :: nil) (Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -2574,11 +2574,11 @@ assert(HPpRpPsOoScalpham3 : rk(Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) >= 3)
 (* ensembles concernés AUB : P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha ::  de rang :  4 et 4 	 AiB : Pp :: Oo :: Sc ::  de rang :  3 et 3 	 A : P :: Pp :: Oo :: Sc ::   de rang : 3 et 3 *)
 assert(HPpRpPsOoScalpham4 : rk(Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPPpOoSceq : rk(P :: Pp :: Oo :: Sc :: nil) = 3) by (apply LPPpOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpOoSceq : rk(P :: Pp :: Oo :: Sc :: nil) = 3) by (apply LPPpOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpOoScMtmp : rk(P :: Pp :: Oo :: Sc :: nil) <= 3) by (solve_hyps_max HPPpOoSceq HPPpOoScM3).
-	assert(HPPpRpPsOoScalphaeq : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPPpRpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpPsOoScalphaeq : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPPpRpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpPsOoScalphamtmp : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPPpRpPsOoScalphaeq HPPpRpPsOoScalpham4).
-	assert(HPpOoSceq : rk(Pp :: Oo :: Sc :: nil) = 3) by (apply LPpOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpOoSceq : rk(Pp :: Oo :: Sc :: nil) = 3) by (apply LPpOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpOoScmtmp : rk(Pp :: Oo :: Sc :: nil) >= 3) by (solve_hyps_min HPpOoSceq HPpOoScm3).
 	assert(Hincl : incl (Pp :: Oo :: Sc :: nil) (list_inter (P :: Pp :: Oo :: Sc :: nil) (Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) (P :: Pp :: Oo :: Sc :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -2715,7 +2715,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 assert(HPpalpham2 : rk(Pp :: alpha :: nil) >= 2).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPRPpalphaeq : rk(P :: R :: Pp :: alpha :: nil) = 3) by (apply LPRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpalphaeq : rk(P :: R :: Pp :: alpha :: nil) = 3) by (apply LPRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpalphamtmp : rk(P :: R :: Pp :: alpha :: nil) >= 3) by (solve_hyps_min HPRPpalphaeq HPRPpalpham3).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -2788,9 +2788,9 @@ assert(HPQRPpPsOoScalpham4 : rk(P :: Q :: R :: Pp :: Ps :: Oo :: Sc :: alpha :: 
 (* marque des antécédents AUB AiB B: 4 -2 et 4*)
 assert(HPpOom2 : rk(Pp :: Oo :: nil) >= 2).
 {
-	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpalphaMtmp : rk(P :: Q :: R :: Pp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRPpalphaeq HPQRPpalphaM3).
-	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoalphamtmp : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpOoalphaeq HPQRPpOoalpham4).
 	assert(HPpmtmp : rk(Pp :: nil) >= 1) by (solve_hyps_min HPpeq HPpm1).
 	assert(Hincl : incl (Pp :: nil) (list_inter (Pp :: Oo :: nil) (P :: Q :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -2806,7 +2806,7 @@ assert(HPpOom2 : rk(Pp :: Oo :: nil) >= 2).
 (* ensembles concernés AUB : P :: Q :: R :: Pp :: Ps :: Oo :: Sc :: alpha ::  de rang :  4 et 4 	 AiB : Pp :: Oo ::  de rang :  2 et 2 	 A : P :: Q :: R :: Pp :: Oo ::   de rang : 4 et 4 *)
 assert(HPpPsOoScalpham2 : rk(Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 2).
 {
-	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoMtmp : rk(P :: Q :: R :: Pp :: Oo :: nil) <= 4) by (solve_hyps_max HPQRPpOoeq HPQRPpOoM4).
 	assert(HPQRPpPsOoScalphamtmp : rk(P :: Q :: R :: Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpPsOoScalphaeq HPQRPpPsOoScalpham4).
 	assert(HPpOomtmp : rk(Pp :: Oo :: nil) >= 2) by (solve_hyps_min HPpOoeq HPpOom2).
@@ -2821,7 +2821,7 @@ assert(HPpPsOoScalpham2 : rk(Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPpPsOoScalpham3 : rk(Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 3).
 {
-	assert(HPpOoSceq : rk(Pp :: Oo :: Sc :: nil) = 3) by (apply LPpOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpOoSceq : rk(Pp :: Oo :: Sc :: nil) = 3) by (apply LPpOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpOoScmtmp : rk(Pp :: Oo :: Sc :: nil) >= 3) by (solve_hyps_min HPpOoSceq HPpOoScm3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (Pp :: Oo :: Sc :: nil) (Pp :: Ps :: Oo :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -2834,9 +2834,9 @@ assert(HPpPsOoScalpham3 : rk(Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 3).
 assert(HPpPsOoScalpham4 : rk(Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4).
 {
 	assert(HPpRpalphaMtmp : rk(Pp :: Rp :: alpha :: nil) <= 2) by (solve_hyps_max HPpRpalphaeq HPpRpalphaM2).
-	assert(HPpRpPsOoScalphaeq : rk(Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPpRpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpRpPsOoScalphaeq : rk(Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPpRpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpRpPsOoScalphamtmp : rk(Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPpRpPsOoScalphaeq HPpRpPsOoScalpham4).
-	assert(HPpalphaeq : rk(Pp :: alpha :: nil) = 2) by (apply LPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpalphaeq : rk(Pp :: alpha :: nil) = 2) by (apply LPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpalphamtmp : rk(Pp :: alpha :: nil) >= 2) by (solve_hyps_min HPpalphaeq HPpalpham2).
 	assert(Hincl : incl (Pp :: alpha :: nil) (list_inter (Pp :: Rp :: alpha :: nil) (Pp :: Ps :: Oo :: Sc :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) (Pp :: Rp :: alpha :: Pp :: Ps :: Oo :: Sc :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -2952,9 +2952,9 @@ assert(HPRPpScm3 : rk(P :: R :: Pp :: Sc :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPRPpScm4 : rk(P :: R :: Pp :: Sc :: nil) >= 4).
 {
-	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpalphaMtmp : rk(P :: Q :: R :: Pp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRPpalphaeq HPQRPpalphaM3).
-	assert(HPQRPpScalphaeq : rk(P :: Q :: R :: Pp :: Sc :: alpha :: nil) = 4) by (apply LPQRPpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpScalphaeq : rk(P :: Q :: R :: Pp :: Sc :: alpha :: nil) = 4) by (apply LPQRPpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpScalphamtmp : rk(P :: Q :: R :: Pp :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpScalphaeq HPQRPpScalpham4).
 	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
 	assert(Hincl : incl (P :: R :: Pp :: nil) (list_inter (P :: R :: Pp :: Sc :: nil) (P :: Q :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -3012,7 +3012,7 @@ assert(HPRPpPsScalpham3 : rk(P :: R :: Pp :: Ps :: Sc :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPRPpPsScalpham4 : rk(P :: R :: Pp :: Ps :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpScmtmp : rk(P :: R :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPRPpSceq HPRPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: R :: Pp :: Sc :: nil) (P :: R :: Pp :: Ps :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -3102,7 +3102,7 @@ assert(HPRPsalpham2 : rk(P :: R :: Ps :: alpha :: nil) >= 2).
 assert(HPRPsalpham3 : rk(P :: R :: Ps :: alpha :: nil) >= 3).
 {
 	assert(HPpPsScMtmp : rk(Pp :: Ps :: Sc :: nil) <= 2) by (solve_hyps_max HPpPsSceq HPpPsScM2).
-	assert(HPRPpPsScalphaeq : rk(P :: R :: Pp :: Ps :: Sc :: alpha :: nil) = 4) by (apply LPRPpPsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpPsScalphaeq : rk(P :: R :: Pp :: Ps :: Sc :: alpha :: nil) = 4) by (apply LPRPpPsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpPsScalphamtmp : rk(P :: R :: Pp :: Ps :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPRPpPsScalphaeq HPRPpPsScalpham4).
 	assert(HPsmtmp : rk(Ps :: nil) >= 1) by (solve_hyps_min HPseq HPsm1).
 	assert(Hincl : incl (Ps :: nil) (list_inter (Pp :: Ps :: Sc :: nil) (P :: R :: Ps :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -3151,7 +3151,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 assert(HPsalpham2 : rk(Ps :: alpha :: nil) >= 2).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPRPsalphaeq : rk(P :: R :: Ps :: alpha :: nil) = 3) by (apply LPRPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPsalphaeq : rk(P :: R :: Ps :: alpha :: nil) = 3) by (apply LPRPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPsalphamtmp : rk(P :: R :: Ps :: alpha :: nil) >= 3) by (solve_hyps_min HPRPsalphaeq HPRPsalpham3).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Ps :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -3213,7 +3213,7 @@ assert(HPQPpPsOoScalpham3 : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HPQPpPsOoScalpham4 : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQPpOoeq HPQPpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Oo :: nil) (P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -3226,7 +3226,7 @@ assert(HPQPpPsOoScalpham4 : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha :: nil) >
 (* ensembles concernés AUB : P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha ::  de rang :  4 et 4 	 AiB : Ps ::  de rang :  1 et 1 	 A : P :: Q :: Ps :: Oo ::   de rang : 3 et 3 *)
 assert(HPpPsScalpham2 : rk(Pp :: Ps :: Sc :: alpha :: nil) >= 2).
 {
-	assert(HPQPsOoeq : rk(P :: Q :: Ps :: Oo :: nil) = 3) by (apply LPQPsOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsOoeq : rk(P :: Q :: Ps :: Oo :: nil) = 3) by (apply LPQPsOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsOoMtmp : rk(P :: Q :: Ps :: Oo :: nil) <= 3) by (solve_hyps_max HPQPsOoeq HPQPsOoM3).
 	assert(HPQPpPsOoScalphamtmp : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPQPpPsOoScalphaeq HPQPpPsOoScalpham4).
 	assert(HPsmtmp : rk(Ps :: nil) >= 1) by (solve_hyps_min HPseq HPsm1).
@@ -3257,7 +3257,7 @@ assert(HPpPsScalphaM3 : rk(Pp :: Ps :: Sc :: alpha :: nil) <= 3).
 assert(HPpPsScalpham3 : rk(Pp :: Ps :: Sc :: alpha :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPRPpPsScalphaeq : rk(P :: R :: Pp :: Ps :: Sc :: alpha :: nil) = 4) by (apply LPRPpPsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpPsScalphaeq : rk(P :: R :: Pp :: Ps :: Sc :: alpha :: nil) = 4) by (apply LPRPpPsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpPsScalphamtmp : rk(P :: R :: Pp :: Ps :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPRPpPsScalphaeq HPRPpPsScalpham4).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Pp :: Ps :: Sc :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -3426,11 +3426,11 @@ assert(HPsOoalpham2 : rk(Ps :: Oo :: alpha :: nil) >= 2).
 (* marque des antécédents AUB AiB B: 4 4 et 4*)
 assert(HPsOoalpham3 : rk(Ps :: Oo :: alpha :: nil) >= 3).
 {
-	assert(HPpPsScalphaeq : rk(Pp :: Ps :: Sc :: alpha :: nil) = 3) by (apply LPpPsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpPsScalphaeq : rk(Pp :: Ps :: Sc :: alpha :: nil) = 3) by (apply LPpPsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpPsScalphaMtmp : rk(Pp :: Ps :: Sc :: alpha :: nil) <= 3) by (solve_hyps_max HPpPsScalphaeq HPpPsScalphaM3).
-	assert(HPpPsOoScalphaeq : rk(Pp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpPsOoScalphaeq : rk(Pp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpPsOoScalphamtmp : rk(Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPpPsOoScalphaeq HPpPsOoScalpham4).
-	assert(HPsalphaeq : rk(Ps :: alpha :: nil) = 2) by (apply LPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsalphaeq : rk(Ps :: alpha :: nil) = 2) by (apply LPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsalphamtmp : rk(Ps :: alpha :: nil) >= 2) by (solve_hyps_min HPsalphaeq HPsalpham2).
 	assert(Hincl : incl (Ps :: alpha :: nil) (list_inter (Ps :: Oo :: alpha :: nil) (Pp :: Ps :: Sc :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Pp :: Ps :: Oo :: Sc :: alpha :: nil) (Ps :: Oo :: alpha :: Pp :: Ps :: Sc :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -3660,9 +3660,9 @@ assert(HPPsOoalphaM3 : rk(P :: Ps :: Oo :: alpha :: nil) <= 3).
 assert(HPPsOoalpham3 : rk(P :: Ps :: Oo :: alpha :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPRPsOoalphaeq : rk(P :: R :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPRPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPsOoalphaeq : rk(P :: R :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPRPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPsOoalphamtmp : rk(P :: R :: Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPRPsOoalphaeq HPRPsOoalpham3).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Ps :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: R :: Ps :: Oo :: alpha :: nil) (P :: R :: alpha :: P :: Ps :: Oo :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -3739,7 +3739,7 @@ assert(HQPsQsOoalpham2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: nil) >= 2).
 assert(HQPsQsOoalpham3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsOoalphaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQRPsQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsOoalphaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQRPsQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsOoalphamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphaeq HPQRPsQsOoalpham4).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -3754,11 +3754,11 @@ assert(HQPsQsOoalpham3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: Ps :: Qs :: Oo :: alpha ::  de rang :  4 et 4 	 AiB : Ps :: Oo :: alpha ::  de rang :  3 et 3 	 A : P :: Ps :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HQPsQsOoalpham4 : rk(Q :: Ps :: Qs :: Oo :: alpha :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
-	assert(HPQPsQsOoalphaeq : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQPsQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsQsOoalphaeq : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQPsQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsQsOoalphamtmp : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQPsQsOoalphaeq HPQPsQsOoalpham4).
-	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsOoalphamtmp : rk(Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPsOoalphaeq HPsOoalpham3).
 	assert(Hincl : incl (Ps :: Oo :: alpha :: nil) (list_inter (P :: Ps :: Oo :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Oo :: alpha :: nil) (P :: Ps :: Oo :: alpha :: Q :: Ps :: Qs :: Oo :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -3905,7 +3905,7 @@ assert(HQQsOoalphaM3 : rk(Q :: Qs :: Oo :: alpha :: nil) <= 3).
 assert(HQQsOoalpham3 : rk(Q :: Qs :: Oo :: alpha :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRQsOoalphaeq : rk(P :: Q :: R :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQRQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQsOoalphaeq : rk(P :: Q :: R :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQRQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQsOoalphamtmp : rk(P :: Q :: R :: Qs :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRQsOoalphaeq HPQRQsOoalpham4).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Q :: Qs :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -3952,9 +3952,9 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 (* marque des antécédents AUB AiB B: 4 -2 et 4*)
 assert(HPsQsm2 : rk(Ps :: Qs :: nil) >= 2).
 {
-	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQsOoalphaMtmp : rk(Q :: Qs :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HQQsOoalphaeq HQQsOoalphaM3).
-	assert(HQPsQsOoalphaeq : rk(Q :: Ps :: Qs :: Oo :: alpha :: nil) = 4) by (apply LQPsQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQPsQsOoalphaeq : rk(Q :: Ps :: Qs :: Oo :: alpha :: nil) = 4) by (apply LQPsQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQPsQsOoalphamtmp : rk(Q :: Ps :: Qs :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HQPsQsOoalphaeq HQPsQsOoalpham4).
 	assert(HQsmtmp : rk(Qs :: nil) >= 1) by (solve_hyps_min HQseq HQsm1).
 	assert(Hincl : incl (Qs :: nil) (list_inter (Ps :: Qs :: nil) (Q :: Qs :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -4115,7 +4115,7 @@ assert(HPROom2 : rk(P :: R :: Oo :: nil) >= 2).
 (* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : Oo ::  de rang :  1 et 1 	 A : Q :: Oo ::   de rang : 2 et 2 *)
 assert(HPROom3 : rk(P :: R :: Oo :: nil) >= 3).
 {
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOoMtmp : rk(Q :: Oo :: nil) <= 2) by (solve_hyps_max HQOoeq HQOoM2).
 	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
 	assert(HOomtmp : rk(Oo :: nil) >= 1) by (solve_hyps_min HOoeq HOom1).
@@ -4181,7 +4181,7 @@ assert(HQROom2 : rk(Q :: R :: Oo :: nil) >= 2).
 (* ensembles concernés AUB : P :: Q :: R :: Oo ::  de rang :  4 et 4 	 AiB : Oo ::  de rang :  1 et 1 	 A : P :: Oo ::   de rang : 2 et 2 *)
 assert(HQROom3 : rk(Q :: R :: Oo :: nil) >= 3).
 {
-	assert(HPOoeq : rk(P :: Oo :: nil) = 2) by (apply LPOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPOoeq : rk(P :: Oo :: nil) = 2) by (apply LPOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPOoMtmp : rk(P :: Oo :: nil) <= 2) by (solve_hyps_max HPOoeq HPOoM2).
 	assert(HPQROomtmp : rk(P :: Q :: R :: Oo :: nil) >= 4) by (solve_hyps_min HPQROoeq HPQROom4).
 	assert(HOomtmp : rk(Oo :: nil) >= 1) by (solve_hyps_min HOoeq HOom1).
@@ -4229,9 +4229,9 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 (* marque des antécédents AUB AiB B: 4 -2 et 4*)
 assert(HPpOom2 : rk(Pp :: Oo :: nil) >= 2).
 {
-	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpalphaMtmp : rk(P :: Q :: R :: Pp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRPpalphaeq HPQRPpalphaM3).
-	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoalphamtmp : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpOoalphaeq HPQRPpOoalpham4).
 	assert(HPpmtmp : rk(Pp :: nil) >= 1) by (solve_hyps_min HPpeq HPpm1).
 	assert(Hincl : incl (Pp :: nil) (list_inter (Pp :: Oo :: nil) (P :: Q :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -4289,9 +4289,9 @@ assert(HPRPpOom3 : rk(P :: R :: Pp :: Oo :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPRPpOom4 : rk(P :: R :: Pp :: Oo :: nil) >= 4).
 {
-	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpalphaMtmp : rk(P :: Q :: R :: Pp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRPpalphaeq HPQRPpalphaM3).
-	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoalphaeq : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) = 4) by (apply LPQRPpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoalphamtmp : rk(P :: Q :: R :: Pp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpOoalphaeq HPQRPpOoalpham4).
 	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
 	assert(Hincl : incl (P :: R :: Pp :: nil) (list_inter (P :: R :: Pp :: Oo :: nil) (P :: Q :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -4405,9 +4405,9 @@ assert(HPQRQpalpham3 : rk(P :: Q :: R :: Qp :: alpha :: nil) >= 3).
 (* marque des antécédents A B AiB : 4 4 et -4*)
 assert(HPQRQpalphaM3 : rk(P :: Q :: R :: Qp :: alpha :: nil) <= 3).
 {
-	assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 3) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpeq : rk(P :: Q :: R :: Qp :: nil) = 3) by (apply LPQRQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpMtmp : rk(P :: Q :: R :: Qp :: nil) <= 3) by (solve_hyps_max HPQRQpeq HPQRQpM3).
-	assert(HPQRalphaeq : rk(P :: Q :: R :: alpha :: nil) = 3) by (apply LPQRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRalphaeq : rk(P :: Q :: R :: alpha :: nil) = 3) by (apply LPQRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRalphaMtmp : rk(P :: Q :: R :: alpha :: nil) <= 3) by (solve_hyps_max HPQRalphaeq HPQRalphaM3).
 	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
 	assert(Hincl : incl (P :: Q :: R :: nil) (list_inter (P :: Q :: R :: Qp :: nil) (P :: Q :: R :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -4465,9 +4465,9 @@ assert(HPQQpOom3 : rk(P :: Q :: Qp :: Oo :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPQQpOom4 : rk(P :: Q :: Qp :: Oo :: nil) >= 4).
 {
-	assert(HPQRQpalphaeq : rk(P :: Q :: R :: Qp :: alpha :: nil) = 3) by (apply LPQRQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpalphaeq : rk(P :: Q :: R :: Qp :: alpha :: nil) = 3) by (apply LPQRQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpalphaMtmp : rk(P :: Q :: R :: Qp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRQpalphaeq HPQRQpalphaM3).
-	assert(HPQRQpOoalphaeq : rk(P :: Q :: R :: Qp :: Oo :: alpha :: nil) = 4) by (apply LPQRQpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpOoalphaeq : rk(P :: Q :: R :: Qp :: Oo :: alpha :: nil) = 4) by (apply LPQRQpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpOoalphamtmp : rk(P :: Q :: R :: Qp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRQpOoalphaeq HPQRQpOoalpham4).
 	assert(HPQQpmtmp : rk(P :: Q :: Qp :: nil) >= 3) by (solve_hyps_min HPQQpeq HPQQpm3).
 	assert(Hincl : incl (P :: Q :: Qp :: nil) (list_inter (P :: Q :: Qp :: Oo :: nil) (P :: Q :: R :: Qp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -4580,7 +4580,7 @@ assert(HPRPpQpOoalpham3 : rk(P :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPRPpQpOoalpham4 : rk(P :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 4).
 {
-	assert(HPRPpOoeq : rk(P :: R :: Pp :: Oo :: nil) = 4) by (apply LPRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpOoeq : rk(P :: R :: Pp :: Oo :: nil) = 4) by (apply LPRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpOomtmp : rk(P :: R :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPRPpOoeq HPRPpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: R :: Pp :: Oo :: nil) (P :: R :: Pp :: Qp :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -4636,9 +4636,9 @@ assert(HPRPpQpalpham3 : rk(P :: R :: Pp :: Qp :: alpha :: nil) >= 3).
 (* marque des antécédents A B AiB : 4 4 et -4*)
 assert(HPRPpQpalphaM3 : rk(P :: R :: Pp :: Qp :: alpha :: nil) <= 3).
 {
-	assert(HPRPpQpeq : rk(P :: R :: Pp :: Qp :: nil) = 3) by (apply LPRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpQpeq : rk(P :: R :: Pp :: Qp :: nil) = 3) by (apply LPRPpQp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpQpMtmp : rk(P :: R :: Pp :: Qp :: nil) <= 3) by (solve_hyps_max HPRPpQpeq HPRPpQpM3).
-	assert(HPRPpalphaeq : rk(P :: R :: Pp :: alpha :: nil) = 3) by (apply LPRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpalphaeq : rk(P :: R :: Pp :: alpha :: nil) = 3) by (apply LPRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpalphaMtmp : rk(P :: R :: Pp :: alpha :: nil) <= 3) by (solve_hyps_max HPRPpalphaeq HPRPpalphaM3).
 	assert(HPRPpmtmp : rk(P :: R :: Pp :: nil) >= 3) by (solve_hyps_min HPRPpeq HPRPpm3).
 	assert(Hincl : incl (P :: R :: Pp :: nil) (list_inter (P :: R :: Pp :: Qp :: nil) (P :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -4696,9 +4696,9 @@ assert(HPPpQpOom3 : rk(P :: Pp :: Qp :: Oo :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPPpQpOom4 : rk(P :: Pp :: Qp :: Oo :: nil) >= 4).
 {
-	assert(HPRPpQpalphaeq : rk(P :: R :: Pp :: Qp :: alpha :: nil) = 3) by (apply LPRPpQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpQpalphaeq : rk(P :: R :: Pp :: Qp :: alpha :: nil) = 3) by (apply LPRPpQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpQpalphaMtmp : rk(P :: R :: Pp :: Qp :: alpha :: nil) <= 3) by (solve_hyps_max HPRPpQpalphaeq HPRPpQpalphaM3).
-	assert(HPRPpQpOoalphaeq : rk(P :: R :: Pp :: Qp :: Oo :: alpha :: nil) = 4) by (apply LPRPpQpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpQpOoalphaeq : rk(P :: R :: Pp :: Qp :: Oo :: alpha :: nil) = 4) by (apply LPRPpQpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpQpOoalphamtmp : rk(P :: R :: Pp :: Qp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPRPpQpOoalphaeq HPRPpQpOoalpham4).
 	assert(HPPpQpmtmp : rk(P :: Pp :: Qp :: nil) >= 3) by (solve_hyps_min HPPpQpeq HPPpQpm3).
 	assert(Hincl : incl (P :: Pp :: Qp :: nil) (list_inter (P :: Pp :: Qp :: Oo :: nil) (P :: R :: Pp :: Qp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -4812,11 +4812,11 @@ assert(HPQPpRpOom3 : rk(P :: Q :: Pp :: Rp :: Oo :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: R :: Pp :: Rp :: Oo ::  de rang :  4 et 4 	 AiB : P :: Q :: Pp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: R :: Pp :: Oo ::   de rang : 4 et 4 *)
 assert(HPQPpRpOom4 : rk(P :: Q :: Pp :: Rp :: Oo :: nil) >= 4).
 {
-	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoMtmp : rk(P :: Q :: R :: Pp :: Oo :: nil) <= 4) by (solve_hyps_max HPQRPpOoeq HPQRPpOoM4).
-	assert(HPQRPpRpOoeq : rk(P :: Q :: R :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPQRPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpRpOoeq : rk(P :: Q :: R :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPQRPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpRpOomtmp : rk(P :: Q :: R :: Pp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HPQRPpRpOoeq HPQRPpRpOom4).
-	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQPpOoeq HPQPpOom4).
 	assert(Hincl : incl (P :: Q :: Pp :: Oo :: nil) (list_inter (P :: Q :: R :: Pp :: Oo :: nil) (P :: Q :: Pp :: Rp :: Oo :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Rp :: Oo :: nil) (P :: Q :: R :: Pp :: Oo :: P :: Q :: Pp :: Rp :: Oo :: nil)) by (clear_all_rk;my_inO).
@@ -4929,9 +4929,9 @@ assert(HPQRQpRpalpham3 : rk(P :: Q :: R :: Qp :: Rp :: alpha :: nil) >= 3).
 (* marque des antécédents A B AiB : 4 4 et -4*)
 assert(HPQRQpRpalphaM3 : rk(P :: Q :: R :: Qp :: Rp :: alpha :: nil) <= 3).
 {
-	assert(HPQRRpeq : rk(P :: Q :: R :: Rp :: nil) = 3) by (apply LPQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRRpeq : rk(P :: Q :: R :: Rp :: nil) = 3) by (apply LPQRRp with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRRpMtmp : rk(P :: Q :: R :: Rp :: nil) <= 3) by (solve_hyps_max HPQRRpeq HPQRRpM3).
-	assert(HPQRQpalphaeq : rk(P :: Q :: R :: Qp :: alpha :: nil) = 3) by (apply LPQRQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpalphaeq : rk(P :: Q :: R :: Qp :: alpha :: nil) = 3) by (apply LPQRQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpalphaMtmp : rk(P :: Q :: R :: Qp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRQpalphaeq HPQRQpalphaM3).
 	assert(HPQRmtmp : rk(P :: Q :: R :: nil) >= 3) by (solve_hyps_min HPQReq HPQRm3).
 	assert(Hincl : incl (P :: Q :: R :: nil) (list_inter (P :: Q :: R :: Rp :: nil) (P :: Q :: R :: Qp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -4989,9 +4989,9 @@ assert(HQQpRpOom3 : rk(Q :: Qp :: Rp :: Oo :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HQQpRpOom4 : rk(Q :: Qp :: Rp :: Oo :: nil) >= 4).
 {
-	assert(HPQRQpRpalphaeq : rk(P :: Q :: R :: Qp :: Rp :: alpha :: nil) = 3) by (apply LPQRQpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpRpalphaeq : rk(P :: Q :: R :: Qp :: Rp :: alpha :: nil) = 3) by (apply LPQRQpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpRpalphaMtmp : rk(P :: Q :: R :: Qp :: Rp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRQpRpalphaeq HPQRQpRpalphaM3).
-	assert(HPQRQpRpOoalphaeq : rk(P :: Q :: R :: Qp :: Rp :: Oo :: alpha :: nil) = 4) by (apply LPQRQpRpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpRpOoalphaeq : rk(P :: Q :: R :: Qp :: Rp :: Oo :: alpha :: nil) = 4) by (apply LPQRQpRpOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpRpOoalphamtmp : rk(P :: Q :: R :: Qp :: Rp :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRQpRpOoalphaeq HPQRQpRpOoalpham4).
 	assert(HQQpRpmtmp : rk(Q :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HQQpRpeq HQQpRpm3).
 	assert(Hincl : incl (Q :: Qp :: Rp :: nil) (list_inter (Q :: Qp :: Rp :: Oo :: nil) (P :: Q :: R :: Qp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -5049,9 +5049,9 @@ assert(HPQPpScm3 : rk(P :: Q :: Pp :: Sc :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPQPpScm4 : rk(P :: Q :: Pp :: Sc :: nil) >= 4).
 {
-	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpalphaeq : rk(P :: Q :: R :: Pp :: alpha :: nil) = 3) by (apply LPQRPpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpalphaMtmp : rk(P :: Q :: R :: Pp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRPpalphaeq HPQRPpalphaM3).
-	assert(HPQRPpScalphaeq : rk(P :: Q :: R :: Pp :: Sc :: alpha :: nil) = 4) by (apply LPQRPpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpScalphaeq : rk(P :: Q :: R :: Pp :: Sc :: alpha :: nil) = 4) by (apply LPQRPpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpScalphamtmp : rk(P :: Q :: R :: Pp :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPpScalphaeq HPQRPpScalpham4).
 	assert(HPQPpmtmp : rk(P :: Q :: Pp :: nil) >= 3) by (solve_hyps_min HPQPpeq HPQPpm3).
 	assert(Hincl : incl (P :: Q :: Pp :: nil) (list_inter (P :: Q :: Pp :: Sc :: nil) (P :: Q :: R :: Pp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -5168,11 +5168,11 @@ assert(HPQPpQpPsOoScm3 : rk(P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: R :: Pp :: Qp :: Ps :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : P :: Q :: Pp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: R :: Pp :: Oo ::   de rang : 4 et 4 *)
 assert(HPQPpQpPsOoScm4 : rk(P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) >= 4).
 {
-	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoMtmp : rk(P :: Q :: R :: Pp :: Oo :: nil) <= 4) by (solve_hyps_max HPQRPpOoeq HPQRPpOoM4).
-	assert(HPQRPpQpPsOoSceq : rk(P :: Q :: R :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQRPpQpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpQpPsOoSceq : rk(P :: Q :: R :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQRPpQpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpQpPsOoScmtmp : rk(P :: Q :: R :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQRPpQpPsOoSceq HPQRPpQpPsOoScm4).
-	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQPpOoeq HPQPpOom4).
 	assert(Hincl : incl (P :: Q :: Pp :: Oo :: nil) (list_inter (P :: Q :: R :: Pp :: Oo :: nil) (P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) (P :: Q :: R :: Pp :: Oo :: P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc :: nil)) by (clear_all_rk;my_inO).
@@ -5230,11 +5230,11 @@ assert(HPPpQpPsOoScm3 : rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : P :: Pp :: Qp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: Pp :: Qp :: Oo ::   de rang : 4 et 4 *)
 assert(HPPpQpPsOoScm4 : rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) >= 4).
 {
-	assert(HPQPpQpOoeq : rk(P :: Q :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPQPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpQpOoeq : rk(P :: Q :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPQPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpQpOoMtmp : rk(P :: Q :: Pp :: Qp :: Oo :: nil) <= 4) by (solve_hyps_max HPQPpQpOoeq HPQPpQpOoM4).
-	assert(HPQPpQpPsOoSceq : rk(P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpQpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpQpPsOoSceq : rk(P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpQpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpQpPsOoScmtmp : rk(P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpQpPsOoSceq HPQPpQpPsOoScm4).
-	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpQpOomtmp : rk(P :: Pp :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HPPpQpOoeq HPPpQpOom4).
 	assert(Hincl : incl (P :: Pp :: Qp :: Oo :: nil) (list_inter (P :: Q :: Pp :: Qp :: Oo :: nil) (P :: Pp :: Qp :: Ps :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) (P :: Q :: Pp :: Qp :: Oo :: P :: Pp :: Qp :: Ps :: Oo :: Sc :: nil)) by (clear_all_rk;my_inO).
@@ -5326,7 +5326,7 @@ assert(HPpQpPsScm2 : rk(Pp :: Qp :: Ps :: Sc :: nil) >= 2).
 assert(HPpQpPsScm3 : rk(Pp :: Qp :: Ps :: Sc :: nil) >= 3).
 {
 	assert(HPPsOoMtmp : rk(P :: Ps :: Oo :: nil) <= 2) by (solve_hyps_max HPPsOoeq HPPsOoM2).
-	assert(HPPpQpPsOoSceq : rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPPpQpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpQpPsOoSceq : rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPPpQpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpQpPsOoScmtmp : rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPPpQpPsOoSceq HPPpQpPsOoScm4).
 	assert(HPsmtmp : rk(Ps :: nil) >= 1) by (solve_hyps_min HPseq HPsm1).
 	assert(Hincl : incl (Ps :: nil) (list_inter (P :: Ps :: Oo :: nil) (Pp :: Qp :: Ps :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
@@ -5374,7 +5374,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 assert(HQpScm2 : rk(Qp :: Sc :: nil) >= 2).
 {
 	assert(HPpPsScMtmp : rk(Pp :: Ps :: Sc :: nil) <= 2) by (solve_hyps_max HPpPsSceq HPpPsScM2).
-	assert(HPpQpPsSceq : rk(Pp :: Qp :: Ps :: Sc :: nil) = 3) by (apply LPpQpPsSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpPsSceq : rk(Pp :: Qp :: Ps :: Sc :: nil) = 3) by (apply LPpQpPsSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpQpPsScmtmp : rk(Pp :: Qp :: Ps :: Sc :: nil) >= 3) by (solve_hyps_min HPpQpPsSceq HPpQpPsScm3).
 	assert(HScmtmp : rk(Sc :: nil) >= 1) by (solve_hyps_min HSceq HScm1).
 	assert(Hincl : incl (Sc :: nil) (list_inter (Qp :: Sc :: nil) (Pp :: Ps :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
@@ -5487,9 +5487,9 @@ assert(HQRQpScm3 : rk(Q :: R :: Qp :: Sc :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HQRQpScm4 : rk(Q :: R :: Qp :: Sc :: nil) >= 4).
 {
-	assert(HPQRQpalphaeq : rk(P :: Q :: R :: Qp :: alpha :: nil) = 3) by (apply LPQRQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpalphaeq : rk(P :: Q :: R :: Qp :: alpha :: nil) = 3) by (apply LPQRQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpalphaMtmp : rk(P :: Q :: R :: Qp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRQpalphaeq HPQRQpalphaM3).
-	assert(HPQRQpScalphaeq : rk(P :: Q :: R :: Qp :: Sc :: alpha :: nil) = 4) by (apply LPQRQpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpScalphaeq : rk(P :: Q :: R :: Qp :: Sc :: alpha :: nil) = 4) by (apply LPQRQpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpScalphamtmp : rk(P :: Q :: R :: Qp :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPQRQpScalphaeq HPQRQpScalpham4).
 	assert(HQRQpmtmp : rk(Q :: R :: Qp :: nil) >= 3) by (solve_hyps_min HQRQpeq HQRQpm3).
 	assert(Hincl : incl (Q :: R :: Qp :: nil) (list_inter (Q :: R :: Qp :: Sc :: nil) (P :: Q :: R :: Qp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -5548,7 +5548,7 @@ assert(HPRPpQpScalpham3 : rk(P :: R :: Pp :: Qp :: Sc :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPRPpQpScalpham4 : rk(P :: R :: Pp :: Qp :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpScmtmp : rk(P :: R :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPRPpSceq HPRPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: R :: Pp :: Sc :: nil) (P :: R :: Pp :: Qp :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -5603,9 +5603,9 @@ assert(HPPpQpScm3 : rk(P :: Pp :: Qp :: Sc :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPPpQpScm4 : rk(P :: Pp :: Qp :: Sc :: nil) >= 4).
 {
-	assert(HPRPpQpalphaeq : rk(P :: R :: Pp :: Qp :: alpha :: nil) = 3) by (apply LPRPpQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpQpalphaeq : rk(P :: R :: Pp :: Qp :: alpha :: nil) = 3) by (apply LPRPpQpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpQpalphaMtmp : rk(P :: R :: Pp :: Qp :: alpha :: nil) <= 3) by (solve_hyps_max HPRPpQpalphaeq HPRPpQpalphaM3).
-	assert(HPRPpQpScalphaeq : rk(P :: R :: Pp :: Qp :: Sc :: alpha :: nil) = 4) by (apply LPRPpQpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpQpScalphaeq : rk(P :: R :: Pp :: Qp :: Sc :: alpha :: nil) = 4) by (apply LPRPpQpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpQpScalphamtmp : rk(P :: R :: Pp :: Qp :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPRPpQpScalphaeq HPRPpQpScalpham4).
 	assert(HPPpQpmtmp : rk(P :: Pp :: Qp :: nil) >= 3) by (solve_hyps_min HPPpQpeq HPPpQpm3).
 	assert(Hincl : incl (P :: Pp :: Qp :: nil) (list_inter (P :: Pp :: Qp :: Sc :: nil) (P :: R :: Pp :: Qp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -5722,11 +5722,11 @@ assert(HPQPpRpPsOoScm3 : rk(P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: R :: Pp :: Rp :: Ps :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : P :: Q :: Pp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: R :: Pp :: Oo ::   de rang : 4 et 4 *)
 assert(HPQPpRpPsOoScm4 : rk(P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) >= 4).
 {
-	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpOoeq : rk(P :: Q :: R :: Pp :: Oo :: nil) = 4) by (apply LPQRPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpOoMtmp : rk(P :: Q :: R :: Pp :: Oo :: nil) <= 4) by (solve_hyps_max HPQRPpOoeq HPQRPpOoM4).
-	assert(HPQRPpRpPsOoSceq : rk(P :: Q :: R :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQRPpRpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPpRpPsOoSceq : rk(P :: Q :: R :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQRPpRpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPpRpPsOoScmtmp : rk(P :: Q :: R :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQRPpRpPsOoSceq HPQRPpRpPsOoScm4).
-	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQPpOoeq HPQPpOom4).
 	assert(Hincl : incl (P :: Q :: Pp :: Oo :: nil) (list_inter (P :: Q :: R :: Pp :: Oo :: nil) (P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) (P :: Q :: R :: Pp :: Oo :: P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc :: nil)) by (clear_all_rk;my_inO).
@@ -5784,11 +5784,11 @@ assert(HPPpRpPsOoScm3 : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : P :: Pp :: Rp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: Pp :: Rp :: Oo ::   de rang : 4 et 4 *)
 assert(HPPpRpPsOoScm4 : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) >= 4).
 {
-	assert(HPQPpRpOoeq : rk(P :: Q :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPQPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpRpOoeq : rk(P :: Q :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPQPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpRpOoMtmp : rk(P :: Q :: Pp :: Rp :: Oo :: nil) <= 4) by (solve_hyps_max HPQPpRpOoeq HPQPpRpOoM4).
-	assert(HPQPpRpPsOoSceq : rk(P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpRpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpRpPsOoSceq : rk(P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpRpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpRpPsOoScmtmp : rk(P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpRpPsOoSceq HPQPpRpPsOoScm4).
-	assert(HPPpRpOoeq : rk(P :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpOoeq : rk(P :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpOomtmp : rk(P :: Pp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HPPpRpOoeq HPPpRpOom4).
 	assert(Hincl : incl (P :: Pp :: Rp :: Oo :: nil) (list_inter (P :: Q :: Pp :: Rp :: Oo :: nil) (P :: Pp :: Rp :: Ps :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) (P :: Q :: Pp :: Rp :: Oo :: P :: Pp :: Rp :: Ps :: Oo :: Sc :: nil)) by (clear_all_rk;my_inO).
@@ -5880,7 +5880,7 @@ assert(HPpRpPsScm2 : rk(Pp :: Rp :: Ps :: Sc :: nil) >= 2).
 assert(HPpRpPsScm3 : rk(Pp :: Rp :: Ps :: Sc :: nil) >= 3).
 {
 	assert(HPPsOoMtmp : rk(P :: Ps :: Oo :: nil) <= 2) by (solve_hyps_max HPPsOoeq HPPsOoM2).
-	assert(HPPpRpPsOoSceq : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPPpRpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpPsOoSceq : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPPpRpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpPsOoScmtmp : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPPpRpPsOoSceq HPPpRpPsOoScm4).
 	assert(HPsmtmp : rk(Ps :: nil) >= 1) by (solve_hyps_min HPseq HPsm1).
 	assert(Hincl : incl (Ps :: nil) (list_inter (P :: Ps :: Oo :: nil) (Pp :: Rp :: Ps :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
@@ -5928,7 +5928,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 assert(HRpScm2 : rk(Rp :: Sc :: nil) >= 2).
 {
 	assert(HPpPsScMtmp : rk(Pp :: Ps :: Sc :: nil) <= 2) by (solve_hyps_max HPpPsSceq HPpPsScM2).
-	assert(HPpRpPsSceq : rk(Pp :: Rp :: Ps :: Sc :: nil) = 3) by (apply LPpRpPsSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpRpPsSceq : rk(Pp :: Rp :: Ps :: Sc :: nil) = 3) by (apply LPpRpPsSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpRpPsScmtmp : rk(Pp :: Rp :: Ps :: Sc :: nil) >= 3) by (solve_hyps_min HPpRpPsSceq HPpRpPsScm3).
 	assert(HScmtmp : rk(Sc :: nil) >= 1) by (solve_hyps_min HSceq HScm1).
 	assert(Hincl : incl (Sc :: nil) (list_inter (Rp :: Sc :: nil) (Pp :: Ps :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
@@ -5987,7 +5987,7 @@ assert(HPQPpRpScalpham3 : rk(P :: Q :: Pp :: Rp :: Sc :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPQPpRpScalpham4 : rk(P :: Q :: Pp :: Rp :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpScmtmp : rk(P :: Q :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpSceq HPQPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Sc :: nil) (P :: Q :: Pp :: Rp :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -6042,9 +6042,9 @@ assert(HPPpRpScm3 : rk(P :: Pp :: Rp :: Sc :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HPPpRpScm4 : rk(P :: Pp :: Rp :: Sc :: nil) >= 4).
 {
-	assert(HPQPpRpalphaeq : rk(P :: Q :: Pp :: Rp :: alpha :: nil) = 3) by (apply LPQPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpRpalphaeq : rk(P :: Q :: Pp :: Rp :: alpha :: nil) = 3) by (apply LPQPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpRpalphaMtmp : rk(P :: Q :: Pp :: Rp :: alpha :: nil) <= 3) by (solve_hyps_max HPQPpRpalphaeq HPQPpRpalphaM3).
-	assert(HPQPpRpScalphaeq : rk(P :: Q :: Pp :: Rp :: Sc :: alpha :: nil) = 4) by (apply LPQPpRpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpRpScalphaeq : rk(P :: Q :: Pp :: Rp :: Sc :: alpha :: nil) = 4) by (apply LPQPpRpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpRpScalphamtmp : rk(P :: Q :: Pp :: Rp :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPQPpRpScalphaeq HPQPpRpScalpham4).
 	assert(HPPpRpmtmp : rk(P :: Pp :: Rp :: nil) >= 3) by (solve_hyps_min HPPpRpeq HPPpRpm3).
 	assert(Hincl : incl (P :: Pp :: Rp :: nil) (list_inter (P :: Pp :: Rp :: Sc :: nil) (P :: Q :: Pp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -6157,9 +6157,9 @@ assert(HQQpRpScm3 : rk(Q :: Qp :: Rp :: Sc :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 -4 et 4*)
 assert(HQQpRpScm4 : rk(Q :: Qp :: Rp :: Sc :: nil) >= 4).
 {
-	assert(HPQRQpRpalphaeq : rk(P :: Q :: R :: Qp :: Rp :: alpha :: nil) = 3) by (apply LPQRQpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpRpalphaeq : rk(P :: Q :: R :: Qp :: Rp :: alpha :: nil) = 3) by (apply LPQRQpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpRpalphaMtmp : rk(P :: Q :: R :: Qp :: Rp :: alpha :: nil) <= 3) by (solve_hyps_max HPQRQpRpalphaeq HPQRQpRpalphaM3).
-	assert(HPQRQpRpScalphaeq : rk(P :: Q :: R :: Qp :: Rp :: Sc :: alpha :: nil) = 4) by (apply LPQRQpRpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpRpScalphaeq : rk(P :: Q :: R :: Qp :: Rp :: Sc :: alpha :: nil) = 4) by (apply LPQRQpRpScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpRpScalphamtmp : rk(P :: Q :: R :: Qp :: Rp :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPQRQpRpScalphaeq HPQRQpRpScalpham4).
 	assert(HQQpRpmtmp : rk(Q :: Qp :: Rp :: nil) >= 3) by (solve_hyps_min HQQpRpeq HQQpRpm3).
 	assert(Hincl : incl (Q :: Qp :: Rp :: nil) (list_inter (Q :: Qp :: Rp :: Sc :: nil) (P :: Q :: R :: Qp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -6252,7 +6252,7 @@ assert(HQPpPsScm2 : rk(Q :: Pp :: Ps :: Sc :: nil) >= 2).
 assert(HQPpPsScm3 : rk(Q :: Pp :: Ps :: Sc :: nil) >= 3).
 {
 	assert(HPPsOoMtmp : rk(P :: Ps :: Oo :: nil) <= 2) by (solve_hyps_max HPPsOoeq HPPsOoM2).
-	assert(HPQPpPsOoSceq : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpPsOoSceq : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) = 4) by (apply LPQPpPsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpPsOoScmtmp : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpPsOoSceq HPQPpPsOoScm4).
 	assert(HPsmtmp : rk(Ps :: nil) >= 1) by (solve_hyps_min HPseq HPsm1).
 	assert(Hincl : incl (Ps :: nil) (list_inter (P :: Ps :: Oo :: nil) (Q :: Pp :: Ps :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
@@ -6420,11 +6420,11 @@ assert(HPQQpPsQsOoScm3 : rk(P :: Q :: Qp :: Ps :: Qs :: Oo :: Sc :: nil) >= 3).
 (* ensembles concernés AUB : P :: Q :: R :: Qp :: Ps :: Qs :: Oo :: Sc ::  de rang :  4 et 4 	 AiB : P :: Q :: Qp :: Oo ::  de rang :  4 et 4 	 A : P :: Q :: R :: Qp :: Oo ::   de rang : 4 et 4 *)
 assert(HPQQpPsQsOoScm4 : rk(P :: Q :: Qp :: Ps :: Qs :: Oo :: Sc :: nil) >= 4).
 {
-	assert(HPQRQpOoeq : rk(P :: Q :: R :: Qp :: Oo :: nil) = 4) by (apply LPQRQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpOoeq : rk(P :: Q :: R :: Qp :: Oo :: nil) = 4) by (apply LPQRQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpOoMtmp : rk(P :: Q :: R :: Qp :: Oo :: nil) <= 4) by (solve_hyps_max HPQRQpOoeq HPQRQpOoM4).
-	assert(HPQRQpPsQsOoSceq : rk(P :: Q :: R :: Qp :: Ps :: Qs :: Oo :: Sc :: nil) = 4) by (apply LPQRQpPsQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQpPsQsOoSceq : rk(P :: Q :: R :: Qp :: Ps :: Qs :: Oo :: Sc :: nil) = 4) by (apply LPQRQpPsQsOoSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQpPsQsOoScmtmp : rk(P :: Q :: R :: Qp :: Ps :: Qs :: Oo :: Sc :: nil) >= 4) by (solve_hyps_min HPQRQpPsQsOoSceq HPQRQpPsQsOoScm4).
-	assert(HPQQpOoeq : rk(P :: Q :: Qp :: Oo :: nil) = 4) by (apply LPQQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQQpOoeq : rk(P :: Q :: Qp :: Oo :: nil) = 4) by (apply LPQQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQQpOomtmp : rk(P :: Q :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HPQQpOoeq HPQQpOom4).
 	assert(Hincl : incl (P :: Q :: Qp :: Oo :: nil) (list_inter (P :: Q :: R :: Qp :: Oo :: nil) (P :: Q :: Qp :: Ps :: Qs :: Oo :: Sc :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Qp :: Ps :: Qs :: Oo :: Sc :: nil) (P :: Q :: R :: Qp :: Oo :: P :: Q :: Qp :: Ps :: Qs :: Oo :: Sc :: nil)) by (clear_all_rk;my_inO).
@@ -6499,9 +6499,9 @@ assert(HPQalpham2 : rk(P :: Q :: alpha :: nil) >= 2).
 assert(HPQalpham3 : rk(P :: Q :: alpha :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRalphaeq : rk(P :: Q :: R :: alpha :: nil) = 3) by (apply LPQRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRalphaeq : rk(P :: Q :: R :: alpha :: nil) = 3) by (apply LPQRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRalphamtmp : rk(P :: Q :: R :: alpha :: nil) >= 3) by (solve_hyps_min HPQRalphaeq HPQRalpham3).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: Q :: alpha :: nil) (P :: R :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: alpha :: nil) (P :: Q :: alpha :: P :: R :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -6636,7 +6636,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 assert(HRalpham2 : rk(R :: alpha :: nil) >= 2).
 {
 	assert(HPpRpalphaMtmp : rk(Pp :: Rp :: alpha :: nil) <= 2) by (solve_hyps_max HPpRpalphaeq HPpRpalphaM2).
-	assert(HRPpRpalphaeq : rk(R :: Pp :: Rp :: alpha :: nil) = 3) by (apply LRPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRPpRpalphaeq : rk(R :: Pp :: Rp :: alpha :: nil) = 3) by (apply LRPpRpalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HRPpRpalphamtmp : rk(R :: Pp :: Rp :: alpha :: nil) >= 3) by (solve_hyps_min HRPpRpalphaeq HRPpRpalpham3).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (R :: alpha :: nil) (Pp :: Rp :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -6696,7 +6696,7 @@ assert(HPQPpPsScalpham3 : rk(P :: Q :: Pp :: Ps :: Sc :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPQPpPsScalpham4 : rk(P :: Q :: Pp :: Ps :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpScmtmp : rk(P :: Q :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpSceq HPQPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Sc :: nil) (P :: Q :: Pp :: Ps :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -6709,7 +6709,7 @@ assert(HPQPpPsScalpham4 : rk(P :: Q :: Pp :: Ps :: Sc :: alpha :: nil) >= 4).
 (* ensembles concernés AUB : P :: Q :: Pp :: Ps :: Sc :: alpha ::  de rang :  4 et 4 	 AiB : Ps ::  de rang :  1 et 1 	 A : Q :: Pp :: Ps :: Sc ::   de rang : 3 et 3 *)
 assert(HPPsalpham2 : rk(P :: Ps :: alpha :: nil) >= 2).
 {
-	assert(HQPpPsSceq : rk(Q :: Pp :: Ps :: Sc :: nil) = 3) by (apply LQPpPsSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQPpPsSceq : rk(Q :: Pp :: Ps :: Sc :: nil) = 3) by (apply LQPpPsSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQPpPsScMtmp : rk(Q :: Pp :: Ps :: Sc :: nil) <= 3) by (solve_hyps_max HQPpPsSceq HQPpPsScM3).
 	assert(HPQPpPsScalphamtmp : rk(P :: Q :: Pp :: Ps :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPQPpPsScalphaeq HPQPpPsScalpham4).
 	assert(HPsmtmp : rk(Ps :: nil) >= 1) by (solve_hyps_min HPseq HPsm1).
@@ -6726,9 +6726,9 @@ assert(HPPsalpham2 : rk(P :: Ps :: alpha :: nil) >= 2).
 assert(HPPsalpham3 : rk(P :: Ps :: alpha :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPRPsalphaeq : rk(P :: R :: Ps :: alpha :: nil) = 3) by (apply LPRPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPsalphaeq : rk(P :: R :: Ps :: alpha :: nil) = 3) by (apply LPRPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPsalphamtmp : rk(P :: R :: Ps :: alpha :: nil) >= 3) by (solve_hyps_min HPRPsalphaeq HPRPsalpham3).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Ps :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: R :: Ps :: alpha :: nil) (P :: R :: alpha :: P :: Ps :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -6859,7 +6859,7 @@ assert(HPQPsOoalpham2 : rk(P :: Q :: Ps :: Oo :: alpha :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQPsOoalpham3 : rk(P :: Q :: Ps :: Oo :: alpha :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -6872,9 +6872,9 @@ assert(HPQPsOoalpham3 : rk(P :: Q :: Ps :: Oo :: alpha :: nil) >= 3).
 assert(HPQPsOoalpham4 : rk(P :: Q :: Ps :: Oo :: alpha :: nil) >= 4).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsOoalphaeq : rk(P :: Q :: R :: Ps :: Oo :: alpha :: nil) = 4) by (apply LPQRPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsOoalphaeq : rk(P :: Q :: R :: Ps :: Oo :: alpha :: nil) = 4) by (apply LPQRPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsOoalphamtmp : rk(P :: Q :: R :: Ps :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRPsOoalphaeq HPQRPsOoalpham4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Oo :: alpha :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Oo :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -6933,7 +6933,7 @@ assert(HPQPpPsScalpham3 : rk(P :: Q :: Pp :: Ps :: Sc :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPQPpPsScalpham4 : rk(P :: Q :: Pp :: Ps :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpScmtmp : rk(P :: Q :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpSceq HPQPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Sc :: nil) (P :: Q :: Pp :: Ps :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -6988,11 +6988,11 @@ assert(HPQPsalpham3 : rk(P :: Q :: Ps :: alpha :: nil) >= 3).
 (* marque des antécédents AUB AiB B: 4 4 et 4*)
 assert(HPQPsalpham4 : rk(P :: Q :: Ps :: alpha :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
-	assert(HPQPsOoalphaeq : rk(P :: Q :: Ps :: Oo :: alpha :: nil) = 4) by (apply LPQPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsOoalphaeq : rk(P :: Q :: Ps :: Oo :: alpha :: nil) = 4) by (apply LPQPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsOoalphamtmp : rk(P :: Q :: Ps :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQPsOoalphaeq HPQPsOoalpham4).
-	assert(HPPsalphaeq : rk(P :: Ps :: alpha :: nil) = 3) by (apply LPPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsalphaeq : rk(P :: Ps :: alpha :: nil) = 3) by (apply LPPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsalphamtmp : rk(P :: Ps :: alpha :: nil) >= 3) by (solve_hyps_min HPPsalphaeq HPPsalpham3).
 	assert(Hincl : incl (P :: Ps :: alpha :: nil) (list_inter (P :: Q :: Ps :: alpha :: nil) (P :: Ps :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Oo :: alpha :: nil) (P :: Q :: Ps :: alpha :: P :: Ps :: Oo :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -7085,7 +7085,7 @@ assert(HPRQsalpham2 : rk(P :: R :: Qs :: alpha :: nil) >= 2).
 assert(HPRQsalpham3 : rk(P :: R :: Qs :: alpha :: nil) >= 3).
 {
 	assert(HQQsOoMtmp : rk(Q :: Qs :: Oo :: nil) <= 2) by (solve_hyps_max HQQsOoeq HQQsOoM2).
-	assert(HPQRQsOoalphaeq : rk(P :: Q :: R :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQRQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRQsOoalphaeq : rk(P :: Q :: R :: Qs :: Oo :: alpha :: nil) = 4) by (apply LPQRQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRQsOoalphamtmp : rk(P :: Q :: R :: Qs :: Oo :: alpha :: nil) >= 4) by (solve_hyps_min HPQRQsOoalphaeq HPQRQsOoalpham4).
 	assert(HQsmtmp : rk(Qs :: nil) >= 1) by (solve_hyps_min HQseq HQsm1).
 	assert(Hincl : incl (Qs :: nil) (list_inter (Q :: Qs :: Oo :: nil) (P :: R :: Qs :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -7134,7 +7134,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 assert(HQsalpham2 : rk(Qs :: alpha :: nil) >= 2).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPRQsalphaeq : rk(P :: R :: Qs :: alpha :: nil) = 3) by (apply LPRQsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRQsalphaeq : rk(P :: R :: Qs :: alpha :: nil) = 3) by (apply LPRQsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRQsalphamtmp : rk(P :: R :: Qs :: alpha :: nil) >= 3) by (solve_hyps_min HPRQsalphaeq HPRQsalpham3).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Qs :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -7212,7 +7212,7 @@ assert(HPRPsRsOoalpham2 : rk(P :: R :: Ps :: Rs :: Oo :: alpha :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPRPsRsOoalpham3 : rk(P :: R :: Ps :: Rs :: Oo :: alpha :: nil) >= 3).
 {
-	assert(HPROoeq : rk(P :: R :: Oo :: nil) = 3) by (apply LPROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPROoeq : rk(P :: R :: Oo :: nil) = 3) by (apply LPROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPROomtmp : rk(P :: R :: Oo :: nil) >= 3) by (solve_hyps_min HPROoeq HPROom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: R :: Oo :: nil) (P :: R :: Ps :: Rs :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -7224,9 +7224,9 @@ assert(HPRPsRsOoalpham3 : rk(P :: R :: Ps :: Rs :: Oo :: alpha :: nil) >= 3).
 assert(HPRPsRsOoalphaM3 : rk(P :: R :: Ps :: Rs :: Oo :: alpha :: nil) <= 3).
 {
 	assert(HRRsOoMtmp : rk(R :: Rs :: Oo :: nil) <= 2) by (solve_hyps_max HRRsOoeq HRRsOoM2).
-	assert(HPRPsOoalphaeq : rk(P :: R :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPRPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPsOoalphaeq : rk(P :: R :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPRPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPsOoalphaMtmp : rk(P :: R :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPRPsOoalphaeq HPRPsOoalphaM3).
-	assert(HROoeq : rk(R :: Oo :: nil) = 2) by (apply LROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HROoeq : rk(R :: Oo :: nil) = 2) by (apply LROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HROomtmp : rk(R :: Oo :: nil) >= 2) by (solve_hyps_min HROoeq HROom2).
 	assert(Hincl : incl (R :: Oo :: nil) (list_inter (R :: Rs :: Oo :: nil) (P :: R :: Ps :: Oo :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: R :: Ps :: Rs :: Oo :: alpha :: nil) (R :: Rs :: Oo :: P :: R :: Ps :: Oo :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -7286,7 +7286,7 @@ assert(HPRPpPsRsScalpham3 : rk(P :: R :: Pp :: Ps :: Rs :: Sc :: alpha :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HPRPpPsRsScalpham4 : rk(P :: R :: Pp :: Ps :: Rs :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpScmtmp : rk(P :: R :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPRPpSceq HPRPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: R :: Pp :: Sc :: nil) (P :: R :: Pp :: Ps :: Rs :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -7372,7 +7372,7 @@ assert(HPRPsRsOoalpham2 : rk(P :: R :: Ps :: Rs :: Oo :: alpha :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPRPsRsOoalpham3 : rk(P :: R :: Ps :: Rs :: Oo :: alpha :: nil) >= 3).
 {
-	assert(HPROoeq : rk(P :: R :: Oo :: nil) = 3) by (apply LPROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPROoeq : rk(P :: R :: Oo :: nil) = 3) by (apply LPROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPROomtmp : rk(P :: R :: Oo :: nil) >= 3) by (solve_hyps_min HPROoeq HPROom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: R :: Oo :: nil) (P :: R :: Ps :: Rs :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -7402,7 +7402,7 @@ assert(HPPsRsalpham3 : rk(P :: Ps :: Rs :: alpha :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
 	assert(HPRPsRsalphamtmp : rk(P :: R :: Ps :: Rs :: alpha :: nil) >= 3) by (solve_hyps_min HPRPsRsalphaeq HPRPsRsalpham3).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Ps :: Rs :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: R :: Ps :: Rs :: alpha :: nil) (P :: R :: alpha :: P :: Ps :: Rs :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -7415,7 +7415,7 @@ assert(HPPsRsalpham3 : rk(P :: Ps :: Rs :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPPsRsalphaM3 : rk(P :: Ps :: Rs :: alpha :: nil) <= 3).
 {
-	assert(HPRPsRsOoalphaeq : rk(P :: R :: Ps :: Rs :: Oo :: alpha :: nil) = 3) by (apply LPRPsRsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPsRsOoalphaeq : rk(P :: R :: Ps :: Rs :: Oo :: alpha :: nil) = 3) by (apply LPRPsRsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPsRsOoalphaMtmp : rk(P :: R :: Ps :: Rs :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPRPsRsOoalphaeq HPRPsRsOoalphaM3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Ps :: Rs :: alpha :: nil) (P :: R :: Ps :: Rs :: Oo :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -7492,7 +7492,7 @@ assert(HPpRpPsScalpham2 : rk(Pp :: Rp :: Ps :: Sc :: alpha :: nil) >= 2).
 assert(HPpRpPsScalpham3 : rk(Pp :: Rp :: Ps :: Sc :: alpha :: nil) >= 3).
 {
 	assert(HPPsOoMtmp : rk(P :: Ps :: Oo :: nil) <= 2) by (solve_hyps_max HPPsOoeq HPPsOoM2).
-	assert(HPPpRpPsOoScalphaeq : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPPpRpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpPsOoScalphaeq : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) = 4) by (apply LPPpRpPsOoScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpPsOoScalphamtmp : rk(P :: Pp :: Rp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPPpRpPsOoScalphaeq HPPpRpPsOoScalpham4).
 	assert(HPsmtmp : rk(Ps :: nil) >= 1) by (solve_hyps_min HPseq HPsm1).
 	assert(Hincl : incl (Ps :: nil) (list_inter (P :: Ps :: Oo :: nil) (Pp :: Rp :: Ps :: Sc :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
@@ -7566,7 +7566,7 @@ assert(HPPpRpPsRsOoScalpham3 : rk(P :: Pp :: Rp :: Ps :: Rs :: Oo :: Sc :: alpha
 (* marque de l'antécédent : 4 *)
 assert(HPPpRpPsRsOoScalpham4 : rk(P :: Pp :: Rp :: Ps :: Rs :: Oo :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPPpRpOoeq : rk(P :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpOoeq : rk(P :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpOomtmp : rk(P :: Pp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HPPpRpOoeq HPPpRpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Rp :: Oo :: nil) (P :: Pp :: Rp :: Ps :: Rs :: Oo :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -7622,9 +7622,9 @@ assert(HPpRpPsRsScalpham3 : rk(Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) >= 3)
 assert(HPpRpPsRsScalphaM3 : rk(Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) <= 3).
 {
 	assert(HRpRsScMtmp : rk(Rp :: Rs :: Sc :: nil) <= 2) by (solve_hyps_max HRpRsSceq HRpRsScM2).
-	assert(HPpRpPsScalphaeq : rk(Pp :: Rp :: Ps :: Sc :: alpha :: nil) = 3) by (apply LPpRpPsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpRpPsScalphaeq : rk(Pp :: Rp :: Ps :: Sc :: alpha :: nil) = 3) by (apply LPpRpPsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpRpPsScalphaMtmp : rk(Pp :: Rp :: Ps :: Sc :: alpha :: nil) <= 3) by (solve_hyps_max HPpRpPsScalphaeq HPpRpPsScalphaM3).
-	assert(HRpSceq : rk(Rp :: Sc :: nil) = 2) by (apply LRpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRpSceq : rk(Rp :: Sc :: nil) = 2) by (apply LRpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HRpScmtmp : rk(Rp :: Sc :: nil) >= 2) by (solve_hyps_min HRpSceq HRpScm2).
 	assert(Hincl : incl (Rp :: Sc :: nil) (list_inter (Rp :: Rs :: Sc :: nil) (Pp :: Rp :: Ps :: Sc :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) (Rp :: Rs :: Sc :: Pp :: Rp :: Ps :: Sc :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -7682,7 +7682,7 @@ assert(HPPpRpPsRsScalpham3 : rk(P :: Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil)
 (* marque de l'antécédent : 4 *)
 assert(HPPpRpPsRsScalpham4 : rk(P :: Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPPpRpSceq : rk(P :: Pp :: Rp :: Sc :: nil) = 4) by (apply LPPpRpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpSceq : rk(P :: Pp :: Rp :: Sc :: nil) = 4) by (apply LPPpRpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpScmtmp : rk(P :: Pp :: Rp :: Sc :: nil) >= 4) by (solve_hyps_min HPPpRpSceq HPPpRpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Rp :: Sc :: nil) (P :: Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -7740,7 +7740,7 @@ assert(HPRPpPsRsScalpham3 : rk(P :: R :: Pp :: Ps :: Rs :: Sc :: alpha :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HPRPpPsRsScalpham4 : rk(P :: R :: Pp :: Ps :: Rs :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpScmtmp : rk(P :: R :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPRPpSceq HPRPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: R :: Pp :: Sc :: nil) (P :: R :: Pp :: Ps :: Rs :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -7811,11 +7811,11 @@ assert(HPsRsalpham2 : rk(Ps :: Rs :: alpha :: nil) >= 2).
 (* marque des antécédents A B AUB: 4 4 et 4*)
 assert(HPsRsalphaM2 : rk(Ps :: Rs :: alpha :: nil) <= 2).
 {
-	assert(HPPsRsalphaeq : rk(P :: Ps :: Rs :: alpha :: nil) = 3) by (apply LPPsRsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsRsalphaeq : rk(P :: Ps :: Rs :: alpha :: nil) = 3) by (apply LPPsRsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsRsalphaMtmp : rk(P :: Ps :: Rs :: alpha :: nil) <= 3) by (solve_hyps_max HPPsRsalphaeq HPPsRsalphaM3).
-	assert(HPpRpPsRsScalphaeq : rk(Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) = 3) by (apply LPpRpPsRsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpRpPsRsScalphaeq : rk(Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) = 3) by (apply LPpRpPsRsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpRpPsRsScalphaMtmp : rk(Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) <= 3) by (solve_hyps_max HPpRpPsRsScalphaeq HPpRpPsRsScalphaM3).
-	assert(HPPpRpPsRsScalphaeq : rk(P :: Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) = 4) by (apply LPPpRpPsRsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpPsRsScalphaeq : rk(P :: Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) = 4) by (apply LPPpRpPsRsScalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpPsRsScalphamtmp : rk(P :: Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) >= 4) by (solve_hyps_min HPPpRpPsRsScalphaeq HPPpRpPsRsScalpham4).
 	assert(Hincl : incl (Ps :: Rs :: alpha :: nil) (list_inter (P :: Ps :: Rs :: alpha :: nil) (Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil) (P :: Ps :: Rs :: alpha :: Pp :: Rp :: Ps :: Rs :: Sc :: alpha :: nil)) by (clear_all_rk;my_inO).
@@ -7873,7 +7873,7 @@ assert(HPQPpPsScalpham3 : rk(P :: Q :: Pp :: Ps :: Sc :: alpha :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPQPpPsScalpham4 : rk(P :: Q :: Pp :: Ps :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpScmtmp : rk(P :: Q :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpSceq HPQPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Sc :: nil) (P :: Q :: Pp :: Ps :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -7928,7 +7928,7 @@ assert(HPRPpPsRsScalpham3 : rk(P :: R :: Pp :: Ps :: Rs :: Sc :: alpha :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HPRPpPsRsScalpham4 : rk(P :: R :: Pp :: Ps :: Rs :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPRPpSceq : rk(P :: R :: Pp :: Sc :: nil) = 4) by (apply LPRPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPRPpScmtmp : rk(P :: R :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPRPpSceq HPRPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: R :: Pp :: Sc :: nil) (P :: R :: Pp :: Ps :: Rs :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -7983,7 +7983,7 @@ assert(HPQPpPsOoScalpham3 : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HPQPpPsOoScalpham4 : rk(P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpOoeq : rk(P :: Q :: Pp :: Oo :: nil) = 4) by (apply LPQPpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpOomtmp : rk(P :: Q :: Pp :: Oo :: nil) >= 4) by (solve_hyps_min HPQPpOoeq HPQPpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Oo :: nil) (P :: Q :: Pp :: Ps :: Oo :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8092,7 +8092,7 @@ assert(HPPpRpPsRsOoScalpham3 : rk(P :: Pp :: Rp :: Ps :: Rs :: Oo :: Sc :: alpha
 (* marque de l'antécédent : 4 *)
 assert(HPPpRpPsRsOoScalpham4 : rk(P :: Pp :: Rp :: Ps :: Rs :: Oo :: Sc :: alpha :: nil) >= 4).
 {
-	assert(HPPpRpOoeq : rk(P :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpRpOoeq : rk(P :: Pp :: Rp :: Oo :: nil) = 4) by (apply LPPpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpRpOomtmp : rk(P :: Pp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HPPpRpOoeq HPPpRpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Rp :: Oo :: nil) (P :: Pp :: Rp :: Ps :: Rs :: Oo :: Sc :: alpha :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8225,7 +8225,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 assert(HQbetam2 : rk(Q :: beta :: nil) >= 2).
 {
 	assert(HQpRpbetaMtmp : rk(Qp :: Rp :: beta :: nil) <= 2) by (solve_hyps_max HQpRpbetaeq HQpRpbetaM2).
-	assert(HQQpRpbetaeq : rk(Q :: Qp :: Rp :: beta :: nil) = 3) by (apply LQQpRpbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpRpbetaeq : rk(Q :: Qp :: Rp :: beta :: nil) = 3) by (apply LQQpRpbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQpRpbetamtmp : rk(Q :: Qp :: Rp :: beta :: nil) >= 3) by (solve_hyps_min HQQpRpbetaeq HQQpRpbetam3).
 	assert(Hbetamtmp : rk(beta :: nil) >= 1) by (solve_hyps_min Hbetaeq Hbetam1).
 	assert(Hincl : incl (beta :: nil) (list_inter (Q :: beta :: nil) (Qp :: Rp :: beta :: nil))) by (repeat clear_all_rk;my_inO).
@@ -8304,7 +8304,7 @@ assert(HQRQsOobetam2 : rk(Q :: R :: Qs :: Oo :: beta :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HQRQsOobetam3 : rk(Q :: R :: Qs :: Oo :: beta :: nil) >= 3).
 {
-	assert(HQROoeq : rk(Q :: R :: Oo :: nil) = 3) by (apply LQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQROoeq : rk(Q :: R :: Oo :: nil) = 3) by (apply LQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQROomtmp : rk(Q :: R :: Oo :: nil) >= 3) by (solve_hyps_min HQROoeq HQROom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (Q :: R :: Oo :: nil) (Q :: R :: Qs :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8391,7 +8391,7 @@ assert(HQRQsRsOobetam2 : rk(Q :: R :: Qs :: Rs :: Oo :: beta :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HQRQsRsOobetam3 : rk(Q :: R :: Qs :: Rs :: Oo :: beta :: nil) >= 3).
 {
-	assert(HQROoeq : rk(Q :: R :: Oo :: nil) = 3) by (apply LQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQROoeq : rk(Q :: R :: Oo :: nil) = 3) by (apply LQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQROomtmp : rk(Q :: R :: Oo :: nil) >= 3) by (solve_hyps_min HQROoeq HQROom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (Q :: R :: Oo :: nil) (Q :: R :: Qs :: Rs :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8403,9 +8403,9 @@ assert(HQRQsRsOobetam3 : rk(Q :: R :: Qs :: Rs :: Oo :: beta :: nil) >= 3).
 assert(HQRQsRsOobetaM3 : rk(Q :: R :: Qs :: Rs :: Oo :: beta :: nil) <= 3).
 {
 	assert(HRRsOoMtmp : rk(R :: Rs :: Oo :: nil) <= 2) by (solve_hyps_max HRRsOoeq HRRsOoM2).
-	assert(HQRQsOobetaeq : rk(Q :: R :: Qs :: Oo :: beta :: nil) = 3) by (apply LQRQsOobeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQRQsOobetaeq : rk(Q :: R :: Qs :: Oo :: beta :: nil) = 3) by (apply LQRQsOobeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQRQsOobetaMtmp : rk(Q :: R :: Qs :: Oo :: beta :: nil) <= 3) by (solve_hyps_max HQRQsOobetaeq HQRQsOobetaM3).
-	assert(HROoeq : rk(R :: Oo :: nil) = 2) by (apply LROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HROoeq : rk(R :: Oo :: nil) = 2) by (apply LROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HROomtmp : rk(R :: Oo :: nil) >= 2) by (solve_hyps_min HROoeq HROom2).
 	assert(Hincl : incl (R :: Oo :: nil) (list_inter (R :: Rs :: Oo :: nil) (Q :: R :: Qs :: Oo :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Q :: R :: Qs :: Rs :: Oo :: beta :: nil) (R :: Rs :: Oo :: Q :: R :: Qs :: Oo :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -8465,7 +8465,7 @@ assert(HQRQpQsRsScbetam3 : rk(Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :: nil) >= 
 (* marque de l'antécédent : 4 *)
 assert(HQRQpQsRsScbetam4 : rk(Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :: nil) >= 4).
 {
-	assert(HQRQpSceq : rk(Q :: R :: Qp :: Sc :: nil) = 4) by (apply LQRQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQRQpSceq : rk(Q :: R :: Qp :: Sc :: nil) = 4) by (apply LQRQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQRQpScmtmp : rk(Q :: R :: Qp :: Sc :: nil) >= 4) by (solve_hyps_min HQRQpSceq HQRQpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (Q :: R :: Qp :: Sc :: nil) (Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8551,7 +8551,7 @@ assert(HQRQsRsOobetam2 : rk(Q :: R :: Qs :: Rs :: Oo :: beta :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HQRQsRsOobetam3 : rk(Q :: R :: Qs :: Rs :: Oo :: beta :: nil) >= 3).
 {
-	assert(HQROoeq : rk(Q :: R :: Oo :: nil) = 3) by (apply LQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQROoeq : rk(Q :: R :: Oo :: nil) = 3) by (apply LQROo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQROomtmp : rk(Q :: R :: Oo :: nil) >= 3) by (solve_hyps_min HQROoeq HQROom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (Q :: R :: Oo :: nil) (Q :: R :: Qs :: Rs :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8581,7 +8581,7 @@ assert(HQQsRsbetam3 : rk(Q :: Qs :: Rs :: beta :: nil) >= 3).
 {
 	assert(HQRbetaMtmp : rk(Q :: R :: beta :: nil) <= 2) by (solve_hyps_max HQRbetaeq HQRbetaM2).
 	assert(HQRQsRsbetamtmp : rk(Q :: R :: Qs :: Rs :: beta :: nil) >= 3) by (solve_hyps_min HQRQsRsbetaeq HQRQsRsbetam3).
-	assert(HQbetaeq : rk(Q :: beta :: nil) = 2) by (apply LQbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQbetaeq : rk(Q :: beta :: nil) = 2) by (apply LQbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQbetamtmp : rk(Q :: beta :: nil) >= 2) by (solve_hyps_min HQbetaeq HQbetam2).
 	assert(Hincl : incl (Q :: beta :: nil) (list_inter (Q :: R :: beta :: nil) (Q :: Qs :: Rs :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Q :: R :: Qs :: Rs :: beta :: nil) (Q :: R :: beta :: Q :: Qs :: Rs :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -8594,7 +8594,7 @@ assert(HQQsRsbetam3 : rk(Q :: Qs :: Rs :: beta :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HQQsRsbetaM3 : rk(Q :: Qs :: Rs :: beta :: nil) <= 3).
 {
-	assert(HQRQsRsOobetaeq : rk(Q :: R :: Qs :: Rs :: Oo :: beta :: nil) = 3) by (apply LQRQsRsOobeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQRQsRsOobetaeq : rk(Q :: R :: Qs :: Rs :: Oo :: beta :: nil) = 3) by (apply LQRQsRsOobeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQRQsRsOobetaMtmp : rk(Q :: R :: Qs :: Rs :: Oo :: beta :: nil) <= 3) by (solve_hyps_max HQRQsRsOobetaeq HQRQsRsOobetaM3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (Q :: Qs :: Rs :: beta :: nil) (Q :: R :: Qs :: Rs :: Oo :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8653,7 +8653,7 @@ assert(HQQpRpQsOoScbetam3 : rk(Q :: Qp :: Rp :: Qs :: Oo :: Sc :: beta :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HQQpRpQsOoScbetam4 : rk(Q :: Qp :: Rp :: Qs :: Oo :: Sc :: beta :: nil) >= 4).
 {
-	assert(HQQpRpOoeq : rk(Q :: Qp :: Rp :: Oo :: nil) = 4) by (apply LQQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpRpOoeq : rk(Q :: Qp :: Rp :: Oo :: nil) = 4) by (apply LQQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQpRpOomtmp : rk(Q :: Qp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HQQpRpOoeq HQQpRpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (Q :: Qp :: Rp :: Oo :: nil) (Q :: Qp :: Rp :: Qs :: Oo :: Sc :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8768,7 +8768,7 @@ assert(HQQpRpQsRsOoScbetam3 : rk(Q :: Qp :: Rp :: Qs :: Rs :: Oo :: Sc :: beta :
 (* marque de l'antécédent : 4 *)
 assert(HQQpRpQsRsOoScbetam4 : rk(Q :: Qp :: Rp :: Qs :: Rs :: Oo :: Sc :: beta :: nil) >= 4).
 {
-	assert(HQQpRpOoeq : rk(Q :: Qp :: Rp :: Oo :: nil) = 4) by (apply LQQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpRpOoeq : rk(Q :: Qp :: Rp :: Oo :: nil) = 4) by (apply LQQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQpRpOomtmp : rk(Q :: Qp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HQQpRpOoeq HQQpRpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (Q :: Qp :: Rp :: Oo :: nil) (Q :: Qp :: Rp :: Qs :: Rs :: Oo :: Sc :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8824,9 +8824,9 @@ assert(HQpRpQsRsScbetam3 : rk(Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) >= 3).
 assert(HQpRpQsRsScbetaM3 : rk(Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) <= 3).
 {
 	assert(HRpRsScMtmp : rk(Rp :: Rs :: Sc :: nil) <= 2) by (solve_hyps_max HRpRsSceq HRpRsScM2).
-	assert(HQpRpQsScbetaeq : rk(Qp :: Rp :: Qs :: Sc :: beta :: nil) = 3) by (apply LQpRpQsScbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQpRpQsScbetaeq : rk(Qp :: Rp :: Qs :: Sc :: beta :: nil) = 3) by (apply LQpRpQsScbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQpRpQsScbetaMtmp : rk(Qp :: Rp :: Qs :: Sc :: beta :: nil) <= 3) by (solve_hyps_max HQpRpQsScbetaeq HQpRpQsScbetaM3).
-	assert(HRpSceq : rk(Rp :: Sc :: nil) = 2) by (apply LRpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRpSceq : rk(Rp :: Sc :: nil) = 2) by (apply LRpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HRpScmtmp : rk(Rp :: Sc :: nil) >= 2) by (solve_hyps_min HRpSceq HRpScm2).
 	assert(Hincl : incl (Rp :: Sc :: nil) (list_inter (Rp :: Rs :: Sc :: nil) (Qp :: Rp :: Qs :: Sc :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) (Rp :: Rs :: Sc :: Qp :: Rp :: Qs :: Sc :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -8884,7 +8884,7 @@ assert(HQQpRpQsRsScbetam3 : rk(Q :: Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HQQpRpQsRsScbetam4 : rk(Q :: Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) >= 4).
 {
-	assert(HQQpRpSceq : rk(Q :: Qp :: Rp :: Sc :: nil) = 4) by (apply LQQpRpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpRpSceq : rk(Q :: Qp :: Rp :: Sc :: nil) = 4) by (apply LQQpRpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQpRpScmtmp : rk(Q :: Qp :: Rp :: Sc :: nil) >= 4) by (solve_hyps_min HQQpRpSceq HQQpRpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (Q :: Qp :: Rp :: Sc :: nil) (Q :: Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -8942,7 +8942,7 @@ assert(HQRQpQsRsScbetam3 : rk(Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :: nil) >= 
 (* marque de l'antécédent : 4 *)
 assert(HQRQpQsRsScbetam4 : rk(Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :: nil) >= 4).
 {
-	assert(HQRQpSceq : rk(Q :: R :: Qp :: Sc :: nil) = 4) by (apply LQRQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQRQpSceq : rk(Q :: R :: Qp :: Sc :: nil) = 4) by (apply LQRQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQRQpScmtmp : rk(Q :: R :: Qp :: Sc :: nil) >= 4) by (solve_hyps_min HQRQpSceq HQRQpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (Q :: R :: Qp :: Sc :: nil) (Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9013,11 +9013,11 @@ assert(HQsRsbetam2 : rk(Qs :: Rs :: beta :: nil) >= 2).
 (* marque des antécédents A B AUB: 4 4 et 4*)
 assert(HQsRsbetaM2 : rk(Qs :: Rs :: beta :: nil) <= 2).
 {
-	assert(HQQsRsbetaeq : rk(Q :: Qs :: Rs :: beta :: nil) = 3) by (apply LQQsRsbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQsRsbetaeq : rk(Q :: Qs :: Rs :: beta :: nil) = 3) by (apply LQQsRsbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQsRsbetaMtmp : rk(Q :: Qs :: Rs :: beta :: nil) <= 3) by (solve_hyps_max HQQsRsbetaeq HQQsRsbetaM3).
-	assert(HQpRpQsRsScbetaeq : rk(Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) = 3) by (apply LQpRpQsRsScbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQpRpQsRsScbetaeq : rk(Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) = 3) by (apply LQpRpQsRsScbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQpRpQsRsScbetaMtmp : rk(Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) <= 3) by (solve_hyps_max HQpRpQsRsScbetaeq HQpRpQsRsScbetaM3).
-	assert(HQQpRpQsRsScbetaeq : rk(Q :: Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) = 4) by (apply LQQpRpQsRsScbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpRpQsRsScbetaeq : rk(Q :: Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) = 4) by (apply LQQpRpQsRsScbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQpRpQsRsScbetamtmp : rk(Q :: Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) >= 4) by (solve_hyps_min HQQpRpQsRsScbetaeq HQQpRpQsRsScbetam4).
 	assert(Hincl : incl (Qs :: Rs :: beta :: nil) (list_inter (Q :: Qs :: Rs :: beta :: nil) (Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Q :: Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil) (Q :: Qs :: Rs :: beta :: Qp :: Rp :: Qs :: Rs :: Sc :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -9075,7 +9075,7 @@ assert(HQRQpQsRsScbetam3 : rk(Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :: nil) >= 
 (* marque de l'antécédent : 4 *)
 assert(HQRQpQsRsScbetam4 : rk(Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :: nil) >= 4).
 {
-	assert(HQRQpSceq : rk(Q :: R :: Qp :: Sc :: nil) = 4) by (apply LQRQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQRQpSceq : rk(Q :: R :: Qp :: Sc :: nil) = 4) by (apply LQRQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQRQpScmtmp : rk(Q :: R :: Qp :: Sc :: nil) >= 4) by (solve_hyps_min HQRQpSceq HQRQpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (Q :: R :: Qp :: Sc :: nil) (Q :: R :: Qp :: Qs :: Rs :: Sc :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9130,7 +9130,7 @@ assert(HQQpRpQsOoScbetam3 : rk(Q :: Qp :: Rp :: Qs :: Oo :: Sc :: beta :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HQQpRpQsOoScbetam4 : rk(Q :: Qp :: Rp :: Qs :: Oo :: Sc :: beta :: nil) >= 4).
 {
-	assert(HQQpRpOoeq : rk(Q :: Qp :: Rp :: Oo :: nil) = 4) by (apply LQQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpRpOoeq : rk(Q :: Qp :: Rp :: Oo :: nil) = 4) by (apply LQQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQpRpOomtmp : rk(Q :: Qp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HQQpRpOoeq HQQpRpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (Q :: Qp :: Rp :: Oo :: nil) (Q :: Qp :: Rp :: Qs :: Oo :: Sc :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9185,7 +9185,7 @@ assert(HQQpRpQsRsOoScbetam3 : rk(Q :: Qp :: Rp :: Qs :: Rs :: Oo :: Sc :: beta :
 (* marque de l'antécédent : 4 *)
 assert(HQQpRpQsRsOoScbetam4 : rk(Q :: Qp :: Rp :: Qs :: Rs :: Oo :: Sc :: beta :: nil) >= 4).
 {
-	assert(HQQpRpOoeq : rk(Q :: Qp :: Rp :: Oo :: nil) = 4) by (apply LQQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQpRpOoeq : rk(Q :: Qp :: Rp :: Oo :: nil) = 4) by (apply LQQpRpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQpRpOomtmp : rk(Q :: Qp :: Rp :: Oo :: nil) >= 4) by (solve_hyps_min HQQpRpOoeq HQQpRpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (Q :: Qp :: Rp :: Oo :: nil) (Q :: Qp :: Rp :: Qs :: Rs :: Oo :: Sc :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9317,7 +9317,7 @@ assert(HPQalphabetam2 : rk(P :: Q :: alpha :: beta :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQalphabetam3 : rk(P :: Q :: alpha :: beta :: nil) >= 3).
 {
-	assert(HPQalphaeq : rk(P :: Q :: alpha :: nil) = 3) by (apply LPQalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQalphaeq : rk(P :: Q :: alpha :: nil) = 3) by (apply LPQalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQalphamtmp : rk(P :: Q :: alpha :: nil) >= 3) by (solve_hyps_min HPQalphaeq HPQalpham3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: alpha :: nil) (P :: Q :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9328,7 +9328,7 @@ assert(HPQalphabetam3 : rk(P :: Q :: alpha :: beta :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPQalphabetaM3 : rk(P :: Q :: alpha :: beta :: nil) <= 3).
 {
-	assert(HPQRalphabetaeq : rk(P :: Q :: R :: alpha :: beta :: nil) = 3) by (apply LPQRalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRalphabetaeq : rk(P :: Q :: R :: alpha :: beta :: nil) = 3) by (apply LPQRalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRalphabetaMtmp : rk(P :: Q :: R :: alpha :: beta :: nil) <= 3) by (solve_hyps_max HPQRalphabetaeq HPQRalphabetaM3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: alpha :: beta :: nil) (P :: Q :: R :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9428,7 +9428,7 @@ assert(HPQPsQsRsOoalphabetam2 : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: be
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsRsOoalphabetam3 : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9442,7 +9442,7 @@ assert(HPQPsQsRsOoalphabetam4 : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: be
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
 	assert(HPQRPsQsRsOoalphabetamtmp : rk(P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQRPsQsRsOoalphabetaeq HPQRPsQsRsOoalphabetam4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -9458,7 +9458,7 @@ assert(HPQPsQsRsOoalphabetam4 : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: be
 (* marque de l'antécédent : 4 *)
 assert(HQPsQsRsOoalphabetam2 : rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 2).
 {
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
 	assert(Hincl : incl (Q :: Oo :: nil) (Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9485,10 +9485,10 @@ assert(HQPsQsRsOoalphabetam3 : rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: 
 (* ensembles concernés AUB : P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta ::  de rang :  4 et 4 	 AiB : Ps :: Oo :: alpha ::  de rang :  3 et 3 	 A : P :: Ps :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HQPsQsRsOoalphabetam4 : rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
 	assert(HPQPsQsRsOoalphabetamtmp : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQPsQsRsOoalphabetaeq HPQPsQsRsOoalphabetam4).
-	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsOoalphamtmp : rk(Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPsOoalphaeq HPsOoalpham3).
 	assert(Hincl : incl (Ps :: Oo :: alpha :: nil) (list_inter (P :: Ps :: Oo :: alpha :: nil) (Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) (P :: Ps :: Oo :: alpha :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -9564,10 +9564,10 @@ assert(HPsQsRsalphabetam2 : rk(Ps :: Qs :: Rs :: alpha :: beta :: nil) >= 2).
 (* ensembles concernés AUB : Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta ::  de rang :  4 et 4 	 AiB : Qs :: alpha ::  de rang :  2 et 2 	 A : Q :: Qs :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HPsQsRsalphabetam3 : rk(Ps :: Qs :: Rs :: alpha :: beta :: nil) >= 3).
 {
-	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQsOoalphaMtmp : rk(Q :: Qs :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HQQsOoalphaeq HQQsOoalphaM3).
 	assert(HQPsQsRsOoalphabetamtmp : rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HQPsQsRsOoalphabetaeq HQPsQsRsOoalphabetam4).
-	assert(HQsalphaeq : rk(Qs :: alpha :: nil) = 2) by (apply LQsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQsalphaeq : rk(Qs :: alpha :: nil) = 2) by (apply LQsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQsalphamtmp : rk(Qs :: alpha :: nil) >= 2) by (solve_hyps_min HQsalphaeq HQsalpham2).
 	assert(Hincl : incl (Qs :: alpha :: nil) (list_inter (Q :: Qs :: Oo :: alpha :: nil) (Ps :: Qs :: Rs :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) (Q :: Qs :: Oo :: alpha :: Ps :: Qs :: Rs :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -9580,9 +9580,9 @@ assert(HPsQsRsalphabetam3 : rk(Ps :: Qs :: Rs :: alpha :: beta :: nil) >= 3).
 (* marque des antécédents A B AiB : 4 4 et -2*)
 assert(HPsQsRsalphabetaM3 : rk(Ps :: Qs :: Rs :: alpha :: beta :: nil) <= 3).
 {
-	assert(HPsRsalphaeq : rk(Ps :: Rs :: alpha :: nil) = 2) by (apply LPsRsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsRsalphaeq : rk(Ps :: Rs :: alpha :: nil) = 2) by (apply LPsRsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsRsalphaMtmp : rk(Ps :: Rs :: alpha :: nil) <= 2) by (solve_hyps_max HPsRsalphaeq HPsRsalphaM2).
-	assert(HQsRsbetaeq : rk(Qs :: Rs :: beta :: nil) = 2) by (apply LQsRsbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQsRsbetaeq : rk(Qs :: Rs :: beta :: nil) = 2) by (apply LQsRsbeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQsRsbetaMtmp : rk(Qs :: Rs :: beta :: nil) <= 2) by (solve_hyps_max HQsRsbetaeq HQsRsbetaM2).
 	assert(HRsmtmp : rk(Rs :: nil) >= 1) by (solve_hyps_min HRseq HRsm1).
 	assert(Hincl : incl (Rs :: nil) (list_inter (Ps :: Rs :: alpha :: nil) (Qs :: Rs :: beta :: nil))) by (repeat clear_all_rk;my_inO).
@@ -9684,7 +9684,7 @@ assert(HPQPsQsOoalphabetam2 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: ni
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsOoalphabetam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9698,7 +9698,7 @@ assert(HPQPsQsOoalphabetam4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: ni
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
 	assert(HPQRPsQsOoalphabetamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphabetaeq HPQRPsQsOoalphabetam4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -9714,7 +9714,7 @@ assert(HPQPsQsOoalphabetam4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: ni
 (* marque de l'antécédent : 4 *)
 assert(HQPsQsOoalphabetam2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 2).
 {
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
 	assert(Hincl : incl (Q :: Oo :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9741,10 +9741,10 @@ assert(HQPsQsOoalphabetam3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 
 (* ensembles concernés AUB : P :: Q :: Ps :: Qs :: Oo :: alpha :: beta ::  de rang :  4 et 4 	 AiB : Ps :: Oo :: alpha ::  de rang :  3 et 3 	 A : P :: Ps :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HQPsQsOoalphabetam4 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
 	assert(HPQPsQsOoalphabetamtmp : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQPsQsOoalphabetaeq HPQPsQsOoalphabetam4).
-	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsOoalphamtmp : rk(Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPsOoalphaeq HPsOoalpham3).
 	assert(Hincl : incl (Ps :: Oo :: alpha :: nil) (list_inter (P :: Ps :: Oo :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) (P :: Ps :: Oo :: alpha :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -9820,10 +9820,10 @@ assert(HPsQsalphabetam2 : rk(Ps :: Qs :: alpha :: beta :: nil) >= 2).
 (* ensembles concernés AUB : Q :: Ps :: Qs :: Oo :: alpha :: beta ::  de rang :  4 et 4 	 AiB : Qs :: alpha ::  de rang :  2 et 2 	 A : Q :: Qs :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HPsQsalphabetam3 : rk(Ps :: Qs :: alpha :: beta :: nil) >= 3).
 {
-	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQsOoalphaMtmp : rk(Q :: Qs :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HQQsOoalphaeq HQQsOoalphaM3).
 	assert(HQPsQsOoalphabetamtmp : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HQPsQsOoalphabetaeq HQPsQsOoalphabetam4).
-	assert(HQsalphaeq : rk(Qs :: alpha :: nil) = 2) by (apply LQsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQsalphaeq : rk(Qs :: alpha :: nil) = 2) by (apply LQsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQsalphamtmp : rk(Qs :: alpha :: nil) >= 2) by (solve_hyps_min HQsalphaeq HQsalpham2).
 	assert(Hincl : incl (Qs :: alpha :: nil) (list_inter (Q :: Qs :: Oo :: alpha :: nil) (Ps :: Qs :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) (Q :: Qs :: Oo :: alpha :: Ps :: Qs :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -9836,7 +9836,7 @@ assert(HPsQsalphabetam3 : rk(Ps :: Qs :: alpha :: beta :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPsQsalphabetaM3 : rk(Ps :: Qs :: alpha :: beta :: nil) <= 3).
 {
-	assert(HPsQsRsalphabetaeq : rk(Ps :: Qs :: Rs :: alpha :: beta :: nil) = 3) by (apply LPsQsRsalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsQsRsalphabetaeq : rk(Ps :: Qs :: Rs :: alpha :: beta :: nil) = 3) by (apply LPsQsRsalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsQsRsalphabetaMtmp : rk(Ps :: Qs :: Rs :: alpha :: beta :: nil) <= 3) by (solve_hyps_max HPsQsRsalphabetaeq HPsQsRsalphabetaM3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (Ps :: Qs :: alpha :: beta :: nil) (Ps :: Qs :: Rs :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9965,7 +9965,7 @@ assert(HPQPsQsOoalphabetam2 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: ni
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsOoalphabetam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -9978,9 +9978,9 @@ assert(HPQPsQsOoalphabetam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: ni
 assert(HPQPsQsOoalphabetam4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 4).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsOoalphabetaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQRPsQsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsOoalphabetaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQRPsQsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsOoalphabetamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphabetaeq HPQRPsQsOoalphabetam4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -10028,7 +10028,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HQPsQsOoalphabetam2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 2).
 {
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
 	assert(Hincl : incl (Q :: Oo :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -10041,7 +10041,7 @@ assert(HQPsQsOoalphabetam2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 
 assert(HQPsQsOoalphabetam3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsOoalphabetaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQRPsQsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsOoalphabetaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQRPsQsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsOoalphabetamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphabetaeq HPQRPsQsOoalphabetam4).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
@@ -10056,11 +10056,11 @@ assert(HQPsQsOoalphabetam3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 
 (* ensembles concernés AUB : P :: Q :: Ps :: Qs :: Oo :: alpha :: beta ::  de rang :  4 et 4 	 AiB : Ps :: Oo :: alpha ::  de rang :  3 et 3 	 A : P :: Ps :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HQPsQsOoalphabetam4 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
-	assert(HPQPsQsOoalphabetaeq : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQPsQsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsQsOoalphabetaeq : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQPsQsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsQsOoalphabetamtmp : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQPsQsOoalphabetaeq HPQPsQsOoalphabetam4).
-	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsOoalphamtmp : rk(Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPsOoalphaeq HPsOoalpham3).
 	assert(Hincl : incl (Ps :: Oo :: alpha :: nil) (list_inter (P :: Ps :: Oo :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil) (P :: Ps :: Oo :: alpha :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -10191,7 +10191,7 @@ assert(HPQPsQsRsOoalphabetam2 : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: be
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsRsOoalphabetam3 : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -10204,9 +10204,9 @@ assert(HPQPsQsRsOoalphabetam3 : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: be
 assert(HPQPsQsRsOoalphabetam4 : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 4).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsRsOoalphabetaeq : rk(P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQRPsQsRsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsRsOoalphabetaeq : rk(P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQRPsQsRsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsRsOoalphabetamtmp : rk(P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQRPsQsRsOoalphabetaeq HPQRPsQsRsOoalphabetam4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -10254,7 +10254,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HQPsQsRsOoalphabetam2 : rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 2).
 {
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
 	assert(Hincl : incl (Q :: Oo :: nil) (Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil)) by (repeat clear_all_rk;my_inO).
@@ -10267,7 +10267,7 @@ assert(HQPsQsRsOoalphabetam2 : rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: 
 assert(HQPsQsRsOoalphabetam3 : rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsRsOoalphabetaeq : rk(P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQRPsQsRsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsRsOoalphabetaeq : rk(P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQRPsQsRsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsRsOoalphabetamtmp : rk(P :: Q :: R :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQRPsQsRsOoalphabetaeq HPQRPsQsRsOoalphabetam4).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
@@ -10282,11 +10282,11 @@ assert(HQPsQsRsOoalphabetam3 : rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: 
 (* ensembles concernés AUB : P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta ::  de rang :  4 et 4 	 AiB : Ps :: Oo :: alpha ::  de rang :  3 et 3 	 A : P :: Ps :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HQPsQsRsOoalphabetam4 : rk(Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
-	assert(HPQPsQsRsOoalphabetaeq : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQPsQsRsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsQsRsOoalphabetaeq : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) = 4) by (apply LPQPsQsRsOoalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsQsRsOoalphabetamtmp : rk(P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) >= 4) by (solve_hyps_min HPQPsQsRsOoalphabetaeq HPQPsQsRsOoalphabetam4).
-	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsOoalphamtmp : rk(Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPsOoalphaeq HPsOoalpham3).
 	assert(Hincl : incl (Ps :: Oo :: alpha :: nil) (list_inter (P :: Ps :: Oo :: alpha :: nil) (Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil) (P :: Ps :: Oo :: alpha :: Q :: Ps :: Qs :: Rs :: Oo :: alpha :: beta :: nil)) by (clear_all_rk;my_inO).
@@ -10421,7 +10421,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 assert(HPgammam2 : rk(P :: gamma :: nil) >= 2).
 {
 	assert(HPpQpgammaMtmp : rk(Pp :: Qp :: gamma :: nil) <= 2) by (solve_hyps_max HPpQpgammaeq HPpQpgammaM2).
-	assert(HPPpQpgammaeq : rk(P :: Pp :: Qp :: gamma :: nil) = 3) by (apply LPPpQpgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpQpgammaeq : rk(P :: Pp :: Qp :: gamma :: nil) = 3) by (apply LPPpQpgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpQpgammamtmp : rk(P :: Pp :: Qp :: gamma :: nil) >= 3) by (solve_hyps_min HPPpQpgammaeq HPPpQpgammam3).
 	assert(Hgammamtmp : rk(gamma :: nil) >= 1) by (solve_hyps_min Hgammaeq Hgammam1).
 	assert(Hincl : incl (gamma :: nil) (list_inter (P :: gamma :: nil) (Pp :: Qp :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
@@ -10500,7 +10500,7 @@ assert(HPQPsOogammam2 : rk(P :: Q :: Ps :: Oo :: gamma :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQPsOogammam3 : rk(P :: Q :: Ps :: Oo :: gamma :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -10587,7 +10587,7 @@ assert(HPQPsQsOogammam2 : rk(P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsOogammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -10599,9 +10599,9 @@ assert(HPQPsQsOogammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) >= 3).
 assert(HPQPsQsOogammaM3 : rk(P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) <= 3).
 {
 	assert(HQQsOoMtmp : rk(Q :: Qs :: Oo :: nil) <= 2) by (solve_hyps_max HQQsOoeq HQQsOoM2).
-	assert(HPQPsOogammaeq : rk(P :: Q :: Ps :: Oo :: gamma :: nil) = 3) by (apply LPQPsOogamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsOogammaeq : rk(P :: Q :: Ps :: Oo :: gamma :: nil) = 3) by (apply LPQPsOogamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsOogammaMtmp : rk(P :: Q :: Ps :: Oo :: gamma :: nil) <= 3) by (solve_hyps_max HPQPsOogammaeq HPQPsOogammaM3).
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hincl : incl (Q :: Oo :: nil) (list_inter (Q :: Qs :: Oo :: nil) (P :: Q :: Ps :: Oo :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) (Q :: Qs :: Oo :: P :: Q :: Ps :: Oo :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -10661,7 +10661,7 @@ assert(HPQPpPsQsScgammam3 : rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: gamma :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HPQPpPsQsScgammam4 : rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: gamma :: nil) >= 4).
 {
-	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpScmtmp : rk(P :: Q :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpSceq HPQPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Sc :: nil) (P :: Q :: Pp :: Ps :: Qs :: Sc :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -10747,7 +10747,7 @@ assert(HPQPsQsOogammam2 : rk(P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsOogammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -10777,7 +10777,7 @@ assert(HPPsQsgammam3 : rk(P :: Ps :: Qs :: gamma :: nil) >= 3).
 {
 	assert(HPQgammaMtmp : rk(P :: Q :: gamma :: nil) <= 2) by (solve_hyps_max HPQgammaeq HPQgammaM2).
 	assert(HPQPsQsgammamtmp : rk(P :: Q :: Ps :: Qs :: gamma :: nil) >= 3) by (solve_hyps_min HPQPsQsgammaeq HPQPsQsgammam3).
-	assert(HPgammaeq : rk(P :: gamma :: nil) = 2) by (apply LPgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPgammaeq : rk(P :: gamma :: nil) = 2) by (apply LPgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPgammamtmp : rk(P :: gamma :: nil) >= 2) by (solve_hyps_min HPgammaeq HPgammam2).
 	assert(Hincl : incl (P :: gamma :: nil) (list_inter (P :: Q :: gamma :: nil) (P :: Ps :: Qs :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: gamma :: nil) (P :: Q :: gamma :: P :: Ps :: Qs :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -10790,7 +10790,7 @@ assert(HPPsQsgammam3 : rk(P :: Ps :: Qs :: gamma :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPPsQsgammaM3 : rk(P :: Ps :: Qs :: gamma :: nil) <= 3).
 {
-	assert(HPQPsQsOogammaeq : rk(P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) = 3) by (apply LPQPsQsOogamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsQsOogammaeq : rk(P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) = 3) by (apply LPQPsQsOogamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsQsOogammaMtmp : rk(P :: Q :: Ps :: Qs :: Oo :: gamma :: nil) <= 3) by (solve_hyps_max HPQPsQsOogammaeq HPQPsQsOogammaM3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Ps :: Qs :: gamma :: nil) (P :: Q :: Ps :: Qs :: Oo :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -10849,7 +10849,7 @@ assert(HPPpQpPsOoScgammam3 : rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: gamma :: nil)
 (* marque de l'antécédent : 4 *)
 assert(HPPpQpPsOoScgammam4 : rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: gamma :: nil) >= 4).
 {
-	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpQpOomtmp : rk(P :: Pp :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HPPpQpOoeq HPPpQpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Qp :: Oo :: nil) (P :: Pp :: Qp :: Ps :: Oo :: Sc :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -10964,7 +10964,7 @@ assert(HPPpQpPsQsOoScgammam3 : rk(P :: Pp :: Qp :: Ps :: Qs :: Oo :: Sc :: gamma
 (* marque de l'antécédent : 4 *)
 assert(HPPpQpPsQsOoScgammam4 : rk(P :: Pp :: Qp :: Ps :: Qs :: Oo :: Sc :: gamma :: nil) >= 4).
 {
-	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpQpOomtmp : rk(P :: Pp :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HPPpQpOoeq HPPpQpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Qp :: Oo :: nil) (P :: Pp :: Qp :: Ps :: Qs :: Oo :: Sc :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11020,9 +11020,9 @@ assert(HPpQpPsQsScgammam3 : rk(Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) >= 3)
 assert(HPpQpPsQsScgammaM3 : rk(Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) <= 3).
 {
 	assert(HQpQsScMtmp : rk(Qp :: Qs :: Sc :: nil) <= 2) by (solve_hyps_max HQpQsSceq HQpQsScM2).
-	assert(HPpQpPsScgammaeq : rk(Pp :: Qp :: Ps :: Sc :: gamma :: nil) = 3) by (apply LPpQpPsScgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpPsScgammaeq : rk(Pp :: Qp :: Ps :: Sc :: gamma :: nil) = 3) by (apply LPpQpPsScgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpQpPsScgammaMtmp : rk(Pp :: Qp :: Ps :: Sc :: gamma :: nil) <= 3) by (solve_hyps_max HPpQpPsScgammaeq HPpQpPsScgammaM3).
-	assert(HQpSceq : rk(Qp :: Sc :: nil) = 2) by (apply LQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQpSceq : rk(Qp :: Sc :: nil) = 2) by (apply LQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQpScmtmp : rk(Qp :: Sc :: nil) >= 2) by (solve_hyps_min HQpSceq HQpScm2).
 	assert(Hincl : incl (Qp :: Sc :: nil) (list_inter (Qp :: Qs :: Sc :: nil) (Pp :: Qp :: Ps :: Sc :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) (Qp :: Qs :: Sc :: Pp :: Qp :: Ps :: Sc :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -11080,7 +11080,7 @@ assert(HPPpQpPsQsScgammam3 : rk(P :: Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil)
 (* marque de l'antécédent : 4 *)
 assert(HPPpQpPsQsScgammam4 : rk(P :: Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) >= 4).
 {
-	assert(HPPpQpSceq : rk(P :: Pp :: Qp :: Sc :: nil) = 4) by (apply LPPpQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpQpSceq : rk(P :: Pp :: Qp :: Sc :: nil) = 4) by (apply LPPpQpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpQpScmtmp : rk(P :: Pp :: Qp :: Sc :: nil) >= 4) by (solve_hyps_min HPPpQpSceq HPPpQpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Qp :: Sc :: nil) (P :: Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11179,7 +11179,7 @@ assert(HPQPsQsOoalphagammam2 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: 
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsOoalphagammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11193,7 +11193,7 @@ assert(HPQPsQsOoalphagammam4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: 
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
 	assert(HPQRPsQsOoalphagammamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphagammaeq HPQRPsQsOoalphagammam4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -11209,7 +11209,7 @@ assert(HPQPsQsOoalphagammam4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: 
 (* marque de l'antécédent : 4 *)
 assert(HQPsQsOoalphagammam2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 2).
 {
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
 	assert(Hincl : incl (Q :: Oo :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11236,10 +11236,10 @@ assert(HQPsQsOoalphagammam3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >
 (* ensembles concernés AUB : P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma ::  de rang :  4 et 4 	 AiB : Ps :: Oo :: alpha ::  de rang :  3 et 3 	 A : P :: Ps :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HQPsQsOoalphagammam4 : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
 	assert(HPQPsQsOoalphagammamtmp : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPQPsQsOoalphagammaeq HPQPsQsOoalphagammam4).
-	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsOoalphamtmp : rk(Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPsOoalphaeq HPsOoalpham3).
 	assert(Hincl : incl (Ps :: Oo :: alpha :: nil) (list_inter (P :: Ps :: Oo :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) (P :: Ps :: Oo :: alpha :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -11254,7 +11254,7 @@ assert(HQPsQsOoalphagammam4 : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >
 (* ensembles concernés AUB : Q :: Ps :: Qs :: Oo :: alpha :: gamma ::  de rang :  4 et 4 	 AiB : Qs ::  de rang :  1 et 1 	 A : Q :: Qs :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HPsQsgammam2 : rk(Ps :: Qs :: gamma :: nil) >= 2).
 {
-	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQsOoalphaMtmp : rk(Q :: Qs :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HQQsOoalphaeq HQQsOoalphaM3).
 	assert(HQPsQsOoalphagammamtmp : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HQPsQsOoalphagammaeq HQPsQsOoalphagammam4).
 	assert(HQsmtmp : rk(Qs :: nil) >= 1) by (solve_hyps_min HQseq HQsm1).
@@ -11269,11 +11269,11 @@ assert(HPsQsgammam2 : rk(Ps :: Qs :: gamma :: nil) >= 2).
 (* marque des antécédents A B AUB: 4 4 et 4*)
 assert(HPsQsgammaM2 : rk(Ps :: Qs :: gamma :: nil) <= 2).
 {
-	assert(HPPsQsgammaeq : rk(P :: Ps :: Qs :: gamma :: nil) = 3) by (apply LPPsQsgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsQsgammaeq : rk(P :: Ps :: Qs :: gamma :: nil) = 3) by (apply LPPsQsgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsQsgammaMtmp : rk(P :: Ps :: Qs :: gamma :: nil) <= 3) by (solve_hyps_max HPPsQsgammaeq HPPsQsgammaM3).
-	assert(HPpQpPsQsScgammaeq : rk(Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) = 3) by (apply LPpQpPsQsScgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPpQpPsQsScgammaeq : rk(Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) = 3) by (apply LPpQpPsQsScgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPpQpPsQsScgammaMtmp : rk(Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) <= 3) by (solve_hyps_max HPpQpPsQsScgammaeq HPpQpPsQsScgammaM3).
-	assert(HPPpQpPsQsScgammaeq : rk(P :: Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) = 4) by (apply LPPpQpPsQsScgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpQpPsQsScgammaeq : rk(P :: Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) = 4) by (apply LPPpQpPsQsScgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpQpPsQsScgammamtmp : rk(P :: Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) >= 4) by (solve_hyps_min HPPpQpPsQsScgammaeq HPPpQpPsQsScgammam4).
 	assert(Hincl : incl (Ps :: Qs :: gamma :: nil) (list_inter (P :: Ps :: Qs :: gamma :: nil) (Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil) (P :: Ps :: Qs :: gamma :: Pp :: Qp :: Ps :: Qs :: Sc :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -11331,7 +11331,7 @@ assert(HPQPpPsQsScgammam3 : rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: gamma :: nil) >
 (* marque de l'antécédent : 4 *)
 assert(HPQPpPsQsScgammam4 : rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: gamma :: nil) >= 4).
 {
-	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpScmtmp : rk(P :: Q :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpSceq HPQPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Sc :: nil) (P :: Q :: Pp :: Ps :: Qs :: Sc :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11386,7 +11386,7 @@ assert(HPPpQpPsOoScgammam3 : rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: gamma :: nil)
 (* marque de l'antécédent : 4 *)
 assert(HPPpQpPsOoScgammam4 : rk(P :: Pp :: Qp :: Ps :: Oo :: Sc :: gamma :: nil) >= 4).
 {
-	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpQpOomtmp : rk(P :: Pp :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HPPpQpOoeq HPPpQpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Qp :: Oo :: nil) (P :: Pp :: Qp :: Ps :: Oo :: Sc :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11441,7 +11441,7 @@ assert(HPPpQpPsQsOoScgammam3 : rk(P :: Pp :: Qp :: Ps :: Qs :: Oo :: Sc :: gamma
 (* marque de l'antécédent : 4 *)
 assert(HPPpQpPsQsOoScgammam4 : rk(P :: Pp :: Qp :: Ps :: Qs :: Oo :: Sc :: gamma :: nil) >= 4).
 {
-	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPpQpOoeq : rk(P :: Pp :: Qp :: Oo :: nil) = 4) by (apply LPPpQpOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPpQpOomtmp : rk(P :: Pp :: Qp :: Oo :: nil) >= 4) by (solve_hyps_min HPPpQpOoeq HPPpQpOom4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Pp :: Qp :: Oo :: nil) (P :: Pp :: Qp :: Ps :: Qs :: Oo :: Sc :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11528,7 +11528,7 @@ assert(HPQalphagammaM3 : rk(P :: Q :: alpha :: gamma :: nil) <= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPQalphagammam3 : rk(P :: Q :: alpha :: gamma :: nil) >= 3).
 {
-	assert(HPQalphaeq : rk(P :: Q :: alpha :: nil) = 3) by (apply LPQalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQalphaeq : rk(P :: Q :: alpha :: nil) = 3) by (apply LPQalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQalphamtmp : rk(P :: Q :: alpha :: nil) >= 3) by (solve_hyps_min HPQalphaeq HPQalpham3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: alpha :: nil) (P :: Q :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11657,7 +11657,7 @@ assert(HPQPsQsOoalphagammam2 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: 
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsOoalphagammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11670,9 +11670,9 @@ assert(HPQPsQsOoalphagammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: 
 assert(HPQPsQsOoalphagammam4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 4).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsOoalphagammaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) = 4) by (apply LPQRPsQsOoalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsOoalphagammaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) = 4) by (apply LPQRPsQsOoalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsOoalphagammamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphagammaeq HPQRPsQsOoalphagammam4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -11720,7 +11720,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HQPsQsOoalphagammam2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 2).
 {
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
 	assert(Hincl : incl (Q :: Oo :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11733,7 +11733,7 @@ assert(HQPsQsOoalphagammam2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >
 assert(HQPsQsOoalphagammam3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsOoalphagammaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) = 4) by (apply LPQRPsQsOoalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsOoalphagammaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) = 4) by (apply LPQRPsQsOoalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsOoalphagammamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphagammaeq HPQRPsQsOoalphagammam4).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
@@ -11748,11 +11748,11 @@ assert(HQPsQsOoalphagammam3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >
 (* ensembles concernés AUB : P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma ::  de rang :  4 et 4 	 AiB : Ps :: Oo :: alpha ::  de rang :  3 et 3 	 A : P :: Ps :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HQPsQsOoalphagammam4 : rk(Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
-	assert(HPQPsQsOoalphagammaeq : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) = 4) by (apply LPQPsQsOoalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsQsOoalphagammaeq : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) = 4) by (apply LPQPsQsOoalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsQsOoalphagammamtmp : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) >= 4) by (solve_hyps_min HPQPsQsOoalphagammaeq HPQPsQsOoalphagammam4).
-	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsOoalphamtmp : rk(Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPsOoalphaeq HPsOoalpham3).
 	assert(Hincl : incl (Ps :: Oo :: alpha :: nil) (list_inter (P :: Ps :: Oo :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil) (P :: Ps :: Oo :: alpha :: Q :: Ps :: Qs :: Oo :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -11828,7 +11828,7 @@ assert(HPQalphabetagammam2 : rk(P :: Q :: alpha :: beta :: gamma :: nil) >= 2).
 (* marque de l'antécédent : 4 *)
 assert(HPQalphabetagammam3 : rk(P :: Q :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	assert(HPQalphaeq : rk(P :: Q :: alpha :: nil) = 3) by (apply LPQalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQalphaeq : rk(P :: Q :: alpha :: nil) = 3) by (apply LPQalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQalphamtmp : rk(P :: Q :: alpha :: nil) >= 3) by (solve_hyps_min HPQalphaeq HPQalpham3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: alpha :: nil) (P :: Q :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -11839,11 +11839,11 @@ assert(HPQalphabetagammam3 : rk(P :: Q :: alpha :: beta :: gamma :: nil) >= 3).
 (* marque des antécédents A B AiB : 4 4 et 4*)
 assert(HPQalphabetagammaM3 : rk(P :: Q :: alpha :: beta :: gamma :: nil) <= 3).
 {
-	assert(HPQalphabetaeq : rk(P :: Q :: alpha :: beta :: nil) = 3) by (apply LPQalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQalphabetaeq : rk(P :: Q :: alpha :: beta :: nil) = 3) by (apply LPQalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQalphabetaMtmp : rk(P :: Q :: alpha :: beta :: nil) <= 3) by (solve_hyps_max HPQalphabetaeq HPQalphabetaM3).
-	assert(HPQalphagammaeq : rk(P :: Q :: alpha :: gamma :: nil) = 3) by (apply LPQalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQalphagammaeq : rk(P :: Q :: alpha :: gamma :: nil) = 3) by (apply LPQalphagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQalphagammaMtmp : rk(P :: Q :: alpha :: gamma :: nil) <= 3) by (solve_hyps_max HPQalphagammaeq HPQalphagammaM3).
-	assert(HPQalphaeq : rk(P :: Q :: alpha :: nil) = 3) by (apply LPQalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQalphaeq : rk(P :: Q :: alpha :: nil) = 3) by (apply LPQalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQalphamtmp : rk(P :: Q :: alpha :: nil) >= 3) by (solve_hyps_min HPQalphaeq HPQalpham3).
 	assert(Hincl : incl (P :: Q :: alpha :: nil) (list_inter (P :: Q :: alpha :: beta :: nil) (P :: Q :: alpha :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: alpha :: beta :: gamma :: nil) (P :: Q :: alpha :: beta :: P :: Q :: alpha :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -11923,7 +11923,7 @@ assert(HPalphabetagammam2 : rk(P :: alpha :: beta :: gamma :: nil) >= 2).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
 	assert(HPRalphabetagammamtmp : rk(P :: R :: alpha :: beta :: gamma :: nil) >= 2) by (solve_hyps_min HPRalphabetagammaeq HPRalphabetagammam2).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: R :: alpha :: beta :: gamma :: nil) (P :: R :: alpha :: P :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -11938,9 +11938,9 @@ assert(HPalphabetagammam2 : rk(P :: alpha :: beta :: gamma :: nil) >= 2).
 assert(HPalphabetagammam3 : rk(P :: alpha :: beta :: gamma :: nil) >= 3).
 {
 	assert(HPQgammaMtmp : rk(P :: Q :: gamma :: nil) <= 2) by (solve_hyps_max HPQgammaeq HPQgammaM2).
-	assert(HPQalphabetagammaeq : rk(P :: Q :: alpha :: beta :: gamma :: nil) = 3) by (apply LPQalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQalphabetagammaeq : rk(P :: Q :: alpha :: beta :: gamma :: nil) = 3) by (apply LPQalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQalphabetagammamtmp : rk(P :: Q :: alpha :: beta :: gamma :: nil) >= 3) by (solve_hyps_min HPQalphabetagammaeq HPQalphabetagammam3).
-	assert(HPgammaeq : rk(P :: gamma :: nil) = 2) by (apply LPgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPgammaeq : rk(P :: gamma :: nil) = 2) by (apply LPgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPgammamtmp : rk(P :: gamma :: nil) >= 2) by (solve_hyps_min HPgammaeq HPgammam2).
 	assert(Hincl : incl (P :: gamma :: nil) (list_inter (P :: Q :: gamma :: nil) (P :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: alpha :: beta :: gamma :: nil) (P :: Q :: gamma :: P :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -11953,7 +11953,7 @@ assert(HPalphabetagammam3 : rk(P :: alpha :: beta :: gamma :: nil) >= 3).
 (* marque de l'antécédent : 4 *)
 assert(HPalphabetagammaM3 : rk(P :: alpha :: beta :: gamma :: nil) <= 3).
 {
-	assert(HPQalphabetagammaeq : rk(P :: Q :: alpha :: beta :: gamma :: nil) = 3) by (apply LPQalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQalphabetagammaeq : rk(P :: Q :: alpha :: beta :: gamma :: nil) = 3) by (apply LPQalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQalphabetagammaMtmp : rk(P :: Q :: alpha :: beta :: gamma :: nil) <= 3) by (solve_hyps_max HPQalphabetagammaeq HPQalphabetagammaM3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: alpha :: beta :: gamma :: nil) (P :: Q :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -12052,7 +12052,7 @@ assert(HPQPsQsOoalphabetagammam2 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta 
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsOoalphabetagammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -12066,7 +12066,7 @@ assert(HPQPsQsOoalphabetagammam4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta 
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
 	assert(HPQRPsQsOoalphabetagammamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphabetagammaeq HPQRPsQsOoalphabetagammam4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -12082,7 +12082,7 @@ assert(HPQPsQsOoalphabetagammam4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta 
 (* marque de l'antécédent : 4 *)
 assert(HQPsQsOoalphabetagammam2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
 	assert(Hincl : incl (Q :: Oo :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -12109,10 +12109,10 @@ assert(HQPsQsOoalphabetagammam3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: gam
 (* ensembles concernés AUB : P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : Ps :: Oo :: alpha ::  de rang :  3 et 3 	 A : P :: Ps :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HQPsQsOoalphabetagammam4 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
 	assert(HPQPsQsOoalphabetagammamtmp : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQPsQsOoalphabetagammaeq HPQPsQsOoalphabetagammam4).
-	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsOoalphamtmp : rk(Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPsOoalphaeq HPsOoalpham3).
 	assert(Hincl : incl (Ps :: Oo :: alpha :: nil) (list_inter (P :: Ps :: Oo :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) (P :: Ps :: Oo :: alpha :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -12188,10 +12188,10 @@ assert(HPsQsalphabetagammam2 : rk(Ps :: Qs :: alpha :: beta :: gamma :: nil) >= 
 (* ensembles concernés AUB : Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : Qs :: alpha ::  de rang :  2 et 2 	 A : Q :: Qs :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HPsQsalphabetagammam3 : rk(Ps :: Qs :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQQsOoalphaeq : rk(Q :: Qs :: Oo :: alpha :: nil) = 3) by (apply LQQsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQQsOoalphaMtmp : rk(Q :: Qs :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HQQsOoalphaeq HQQsOoalphaM3).
 	assert(HQPsQsOoalphabetagammamtmp : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HQPsQsOoalphabetagammaeq HQPsQsOoalphabetagammam4).
-	assert(HQsalphaeq : rk(Qs :: alpha :: nil) = 2) by (apply LQsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQsalphaeq : rk(Qs :: alpha :: nil) = 2) by (apply LQsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQsalphamtmp : rk(Qs :: alpha :: nil) >= 2) by (solve_hyps_min HQsalphaeq HQsalpham2).
 	assert(Hincl : incl (Qs :: alpha :: nil) (list_inter (Q :: Qs :: Oo :: alpha :: nil) (Ps :: Qs :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) (Q :: Qs :: Oo :: alpha :: Ps :: Qs :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -12204,11 +12204,11 @@ assert(HPsQsalphabetagammam3 : rk(Ps :: Qs :: alpha :: beta :: gamma :: nil) >= 
 (* marque des antécédents A B AiB : 4 4 et 4*)
 assert(HPsQsalphabetagammaM3 : rk(Ps :: Qs :: alpha :: beta :: gamma :: nil) <= 3).
 {
-	assert(HPsQsalphabetaeq : rk(Ps :: Qs :: alpha :: beta :: nil) = 3) by (apply LPsQsalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsQsalphabetaeq : rk(Ps :: Qs :: alpha :: beta :: nil) = 3) by (apply LPsQsalphabeta with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsQsalphabetaMtmp : rk(Ps :: Qs :: alpha :: beta :: nil) <= 3) by (solve_hyps_max HPsQsalphabetaeq HPsQsalphabetaM3).
-	assert(HPsQsgammaeq : rk(Ps :: Qs :: gamma :: nil) = 2) by (apply LPsQsgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsQsgammaeq : rk(Ps :: Qs :: gamma :: nil) = 2) by (apply LPsQsgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsQsgammaMtmp : rk(Ps :: Qs :: gamma :: nil) <= 2) by (solve_hyps_max HPsQsgammaeq HPsQsgammaM2).
-	assert(HPsQseq : rk(Ps :: Qs :: nil) = 2) by (apply LPsQs with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsQseq : rk(Ps :: Qs :: nil) = 2) by (apply LPsQs with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsQsmtmp : rk(Ps :: Qs :: nil) >= 2) by (solve_hyps_min HPsQseq HPsQsm2).
 	assert(Hincl : incl (Ps :: Qs :: nil) (list_inter (Ps :: Qs :: alpha :: beta :: nil) (Ps :: Qs :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (Ps :: Qs :: alpha :: beta :: gamma :: nil) (Ps :: Qs :: alpha :: beta :: Ps :: Qs :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -12268,7 +12268,7 @@ assert(HPQPpPsQsScalphabetagammam3 : rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: alpha 
 (* marque de l'antécédent : 4 *)
 assert(HPQPpPsQsScalphabetagammam4 : rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: alpha :: beta :: gamma :: nil) >= 4).
 {
-	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpScmtmp : rk(P :: Q :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpSceq HPQPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Sc :: nil) (P :: Q :: Pp :: Ps :: Qs :: Sc :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -12323,7 +12323,7 @@ assert(HPQPsQsalphabetagammam3 : rk(P :: Q :: Ps :: Qs :: alpha :: beta :: gamma
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsalphabetagammam4 : rk(P :: Q :: Ps :: Qs :: alpha :: beta :: gamma :: nil) >= 4).
 {
-	assert(HPQPsalphaeq : rk(P :: Q :: Ps :: alpha :: nil) = 4) by (apply LPQPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsalphaeq : rk(P :: Q :: Ps :: alpha :: nil) = 4) by (apply LPQPsalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsalphamtmp : rk(P :: Q :: Ps :: alpha :: nil) >= 4) by (solve_hyps_min HPQPsalphaeq HPQPsalpham4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Ps :: alpha :: nil) (P :: Q :: Ps :: Qs :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -12466,7 +12466,7 @@ assert(HPQPsQsOoalphabetagammam2 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta 
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsOoalphabetagammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -12496,7 +12496,7 @@ assert(HPPsQsalphabetagammam3 : rk(P :: Ps :: Qs :: alpha :: beta :: gamma :: ni
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
 	assert(HPRPsQsalphabetagammamtmp : rk(P :: R :: Ps :: Qs :: alpha :: beta :: gamma :: nil) >= 3) by (solve_hyps_min HPRPsQsalphabetagammaeq HPRPsQsalphabetagammam3).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Ps :: Qs :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: R :: Ps :: Qs :: alpha :: beta :: gamma :: nil) (P :: R :: alpha :: P :: Ps :: Qs :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -12511,9 +12511,9 @@ assert(HPPsQsalphabetagammam3 : rk(P :: Ps :: Qs :: alpha :: beta :: gamma :: ni
 assert(HPPsQsalphabetagammam4 : rk(P :: Ps :: Qs :: alpha :: beta :: gamma :: nil) >= 4).
 {
 	assert(HPQgammaMtmp : rk(P :: Q :: gamma :: nil) <= 2) by (solve_hyps_max HPQgammaeq HPQgammaM2).
-	assert(HPQPsQsalphabetagammaeq : rk(P :: Q :: Ps :: Qs :: alpha :: beta :: gamma :: nil) = 4) by (apply LPQPsQsalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsQsalphabetagammaeq : rk(P :: Q :: Ps :: Qs :: alpha :: beta :: gamma :: nil) = 4) by (apply LPQPsQsalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsQsalphabetagammamtmp : rk(P :: Q :: Ps :: Qs :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQPsQsalphabetagammaeq HPQPsQsalphabetagammam4).
-	assert(HPgammaeq : rk(P :: gamma :: nil) = 2) by (apply LPgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPgammaeq : rk(P :: gamma :: nil) = 2) by (apply LPgamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPgammamtmp : rk(P :: gamma :: nil) >= 2) by (solve_hyps_min HPgammaeq HPgammam2).
 	assert(Hincl : incl (P :: gamma :: nil) (list_inter (P :: Q :: gamma :: nil) (P :: Ps :: Qs :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: alpha :: beta :: gamma :: nil) (P :: Q :: gamma :: P :: Ps :: Qs :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -12644,7 +12644,7 @@ assert(HPQPsQsOoalphabetagammam2 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta 
 (* marque de l'antécédent : 4 *)
 assert(HPQPsQsOoalphabetagammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
-	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQOoeq : rk(P :: Q :: Oo :: nil) = 3) by (apply LPQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQOomtmp : rk(P :: Q :: Oo :: nil) >= 3) by (solve_hyps_min HPQOoeq HPQOom3).
 	assert(Hcomp : 3 <= 3) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Oo :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -12657,9 +12657,9 @@ assert(HPQPsQsOoalphabetagammam3 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta 
 assert(HPQPsQsOoalphabetagammam4 : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 4).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsOoalphabetagammaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) = 4) by (apply LPQRPsQsOoalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsOoalphabetagammaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) = 4) by (apply LPQRPsQsOoalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsOoalphabetagammamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphabetagammaeq HPQRPsQsOoalphabetagammam4).
-	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphaeq : rk(P :: alpha :: nil) = 2) by (apply LPalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphamtmp : rk(P :: alpha :: nil) >= 2) by (solve_hyps_min HPalphaeq HPalpham2).
 	assert(Hincl : incl (P :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) (P :: R :: alpha :: P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -12707,7 +12707,7 @@ HPRalphaeq HPpRpalphaeq HQRbetaeq HQpRpbetaeq HPQgammaeq HPpQpgammaeq .
 (* marque de l'antécédent : 4 *)
 assert(HQPsQsOoalphabetagammam2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 2).
 {
-	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HQOoeq : rk(Q :: Oo :: nil) = 2) by (apply LQOo with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HQOomtmp : rk(Q :: Oo :: nil) >= 2) by (solve_hyps_min HQOoeq HQOom2).
 	assert(Hcomp : 2 <= 2) by (repeat constructor).
 	assert(Hincl : incl (Q :: Oo :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -12720,7 +12720,7 @@ assert(HQPsQsOoalphabetagammam2 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: gam
 assert(HQPsQsOoalphabetagammam3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
-	assert(HPQRPsQsOoalphabetagammaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) = 4) by (apply LPQRPsQsOoalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQRPsQsOoalphabetagammaeq : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) = 4) by (apply LPQRPsQsOoalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQRPsQsOoalphabetagammamtmp : rk(P :: Q :: R :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQRPsQsOoalphabetagammaeq HPQRPsQsOoalphabetagammam4).
 	assert(Halphamtmp : rk(alpha :: nil) >= 1) by (solve_hyps_min Halphaeq Halpham1).
 	assert(Hincl : incl (alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
@@ -12735,11 +12735,11 @@ assert(HQPsQsOoalphabetagammam3 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: gam
 (* ensembles concernés AUB : P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma ::  de rang :  4 et 4 	 AiB : Ps :: Oo :: alpha ::  de rang :  3 et 3 	 A : P :: Ps :: Oo :: alpha ::   de rang : 3 et 3 *)
 assert(HQPsQsOoalphabetagammam4 : rk(Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 4).
 {
-	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsOoalphaeq : rk(P :: Ps :: Oo :: alpha :: nil) = 3) by (apply LPPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsOoalphaMtmp : rk(P :: Ps :: Oo :: alpha :: nil) <= 3) by (solve_hyps_max HPPsOoalphaeq HPPsOoalphaM3).
-	assert(HPQPsQsOoalphabetagammaeq : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) = 4) by (apply LPQPsQsOoalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPsQsOoalphabetagammaeq : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) = 4) by (apply LPQPsQsOoalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPsQsOoalphabetagammamtmp : rk(P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPQPsQsOoalphabetagammaeq HPQPsQsOoalphabetagammam4).
-	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsOoalphaeq : rk(Ps :: Oo :: alpha :: nil) = 3) by (apply LPsOoalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsOoalphamtmp : rk(Ps :: Oo :: alpha :: nil) >= 3) by (solve_hyps_min HPsOoalphaeq HPsOoalpham3).
 	assert(Hincl : incl (Ps :: Oo :: alpha :: nil) (list_inter (P :: Ps :: Oo :: alpha :: nil) (Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil) (P :: Ps :: Oo :: alpha :: Q :: Ps :: Qs :: Oo :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -12796,7 +12796,7 @@ assert(HPQPpPsQsScalphabetagammam3 : rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: alpha 
 (* marque de l'antécédent : 4 *)
 assert(HPQPpPsQsScalphabetagammam4 : rk(P :: Q :: Pp :: Ps :: Qs :: Sc :: alpha :: beta :: gamma :: nil) >= 4).
 {
-	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPQPpSceq : rk(P :: Q :: Pp :: Sc :: nil) = 4) by (apply LPQPpSc with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPQPpScmtmp : rk(P :: Q :: Pp :: Sc :: nil) >= 4) by (solve_hyps_min HPQPpSceq HPQPpScm4).
 	assert(Hcomp : 4 <= 4) by (repeat constructor).
 	assert(Hincl : incl (P :: Q :: Pp :: Sc :: nil) (P :: Q :: Pp :: Ps :: Qs :: Sc :: alpha :: beta :: gamma :: nil)) by (repeat clear_all_rk;my_inO).
@@ -12885,7 +12885,7 @@ assert(HQRalphabetagammam3 : rk(Q :: R :: alpha :: beta :: gamma :: nil) >= 3).
 {
 	assert(HPRalphaMtmp : rk(P :: R :: alpha :: nil) <= 2) by (solve_hyps_max HPRalphaeq HPRalphaM2).
 	assert(HPQRalphabetagammamtmp : rk(P :: Q :: R :: alpha :: beta :: gamma :: nil) >= 3) by (solve_hyps_min HPQRalphabetagammaeq HPQRalphabetagammam3).
-	assert(HRalphaeq : rk(R :: alpha :: nil) = 2) by (apply LRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HRalphaeq : rk(R :: alpha :: nil) = 2) by (apply LRalpha with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HRalphamtmp : rk(R :: alpha :: nil) >= 2) by (solve_hyps_min HRalphaeq HRalpham2).
 	assert(Hincl : incl (R :: alpha :: nil) (list_inter (P :: R :: alpha :: nil) (Q :: R :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Q :: R :: alpha :: beta :: gamma :: nil) (P :: R :: alpha :: Q :: R :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).
@@ -12914,11 +12914,11 @@ assert(Halphabetagammam2 : rk(alpha :: beta :: gamma :: nil) >= 2).
 (* marque des antécédents A B AUB: 4 4 et 4*)
 assert(HalphabetagammaM2 : rk(alpha :: beta :: gamma :: nil) <= 2).
 {
-	assert(HPalphabetagammaeq : rk(P :: alpha :: beta :: gamma :: nil) = 3) by (apply LPalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPalphabetagammaeq : rk(P :: alpha :: beta :: gamma :: nil) = 3) by (apply LPalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPalphabetagammaMtmp : rk(P :: alpha :: beta :: gamma :: nil) <= 3) by (solve_hyps_max HPalphabetagammaeq HPalphabetagammaM3).
-	assert(HPsQsalphabetagammaeq : rk(Ps :: Qs :: alpha :: beta :: gamma :: nil) = 3) by (apply LPsQsalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPsQsalphabetagammaeq : rk(Ps :: Qs :: alpha :: beta :: gamma :: nil) = 3) by (apply LPsQsalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPsQsalphabetagammaMtmp : rk(Ps :: Qs :: alpha :: beta :: gamma :: nil) <= 3) by (solve_hyps_max HPsQsalphabetagammaeq HPsQsalphabetagammaM3).
-	assert(HPPsQsalphabetagammaeq : rk(P :: Ps :: Qs :: alpha :: beta :: gamma :: nil) = 4) by (apply LPPsQsalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ;try assumption).
+	assert(HPPsQsalphabetagammaeq : rk(P :: Ps :: Qs :: alpha :: beta :: gamma :: nil) = 4) by (apply LPPsQsalphabetagamma with (P := P) (Q := Q) (R := R) (Pp := Pp) (Qp := Qp) (Rp := Rp) (Ps := Ps) (Qs := Qs) (Rs := Rs) (Op := Op) (Oo := Oo) (Sc := Sc) (alpha := alpha) (beta := beta) (gamma := gamma) ; assumption).
 	assert(HPPsQsalphabetagammamtmp : rk(P :: Ps :: Qs :: alpha :: beta :: gamma :: nil) >= 4) by (solve_hyps_min HPPsQsalphabetagammaeq HPPsQsalphabetagammam4).
 	assert(Hincl : incl (alpha :: beta :: gamma :: nil) (list_inter (P :: alpha :: beta :: gamma :: nil) (Ps :: Qs :: alpha :: beta :: gamma :: nil))) by (repeat clear_all_rk;my_inO).
 	assert(HT1 : equivlist (P :: Ps :: Qs :: alpha :: beta :: gamma :: nil) (P :: alpha :: beta :: gamma :: Ps :: Qs :: alpha :: beta :: gamma :: nil)) by (clear_all_rk;my_inO).

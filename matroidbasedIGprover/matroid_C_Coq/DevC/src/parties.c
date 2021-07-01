@@ -1129,7 +1129,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -1174,7 +1178,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -1222,7 +1230,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 							}
-							fprintf(file,";try assumption).\n");
+							#ifdef TRYASSUMPTION
+						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 							stabb = 0;
 						}
 					}
@@ -1289,7 +1301,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			fprintf(file,"Mtmp H");
 			printHypSetFile(file,partAiBe);
 			fprintf(file,"mtmp Hincl);\n");
+			#ifdef TRYREWRITE
 			fprintf(file,"\trewrite <-HT2 in HT;try rewrite <-HT1 in HT;apply HT.\n");
+			#else
+			fprintf(file,"\trewrite <-HT2 in HT;rewrite <-HT1 in HT;apply HT.\n");
+			#endif
 			fprintf(file,"}\n");
 			
 #ifdef MONOLITHE
@@ -1555,7 +1571,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -1600,7 +1620,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -1646,7 +1670,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 							}
-							fprintf(file,";try assumption).\n");
+							#ifdef TRYASSUMPTION
+						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 							stabb = 0;
 						}
 					}
@@ -1699,10 +1727,17 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			fprintf(file,"nil) ++ (");
 			printSetFile(file,partBe);
 			fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
-			
+			#ifdef TRYREWRITE
 			fprintf(file,"\ttry rewrite HT1 in H");
+			#else
+			fprintf(file,"\trewrite HT1 in H");
+			#endif
 			printHypSetFile(file,partAuBe);
+			#ifdef TRYREWRITE
 			fprintf(file,"mtmp;try rewrite HT2 in H");
+			#else
+			fprintf(file,"mtmp;rewrite HT2 in H");
+			#endif
 			printHypSetFile(file,partAuBe);
 			fprintf(file,"mtmp.\n");
 			
@@ -1963,7 +1998,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -2008,7 +2047,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -2053,7 +2096,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -2095,9 +2142,15 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			printSetFile(file,partBe);
 			fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
 			
+			#ifdef TRYREWRITE
 			fprintf(file,"\ttry rewrite HT1 in H");
 			printHypSetFile(file,partAuBe);
 			fprintf(file,"mtmp;try rewrite HT2 in H");
+			#else
+			fprintf(file,"\trewrite HT1 in H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp;rewrite HT2 in H");
+			#endif
 			printHypSetFile(file,partAuBe);
 			fprintf(file,"mtmp.\n");
 			
@@ -2385,7 +2438,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -2430,7 +2487,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -2477,7 +2538,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 							}
-							fprintf(file,";try assumption).\n");
+							#ifdef TRYASSUMPTION
+						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 							stabb = 0;
 						}
 					}
@@ -2531,9 +2596,15 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			printSetFile(file,partBe);
 			fprintf(file,"nil))) by (clear_all_rk;my_inO).\n");
 			
+			#ifdef TRYREWRITE
 			fprintf(file,"\ttry rewrite HT1 in H");
 			printHypSetFile(file,partAuBe);
 			fprintf(file,"mtmp;try rewrite HT2 in H");
+			#else
+			fprintf(file,"\trewrite HT1 in H");
+			printHypSetFile(file,partAuBe);
+			fprintf(file,"mtmp;rewrite HT2 in H");
+			#endif
 			printHypSetFile(file,partAuBe);
 			fprintf(file,"mtmp.\n");
 			
@@ -2773,7 +2844,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -2953,7 +3028,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -3128,7 +3207,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}
@@ -3305,7 +3388,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 							fprintf(file,"(P%d := P%d) ",i+1,i+1);
 							#endif
 						}
+						#ifdef TRYASSUMPTION
 						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption).\n");
+						#endif
 						stabb = 0;
 					}
 				}

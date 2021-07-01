@@ -42,6 +42,18 @@ extern statement STATEMENT;     // on rend l'accès à l'énoncé global
 // avec les "try assert" lorsque l'assertion correspond à un lemme
 // sinon on a des "assert"
 // #define TRYASSERT
+//
+// 
+// il faut décommenter la ligne suivante si on veut la version
+// avec les "try assumption" lorsque l'assertion correspond à un lemme
+// sinon on a des "assumption"
+// #define TRYASSUMPTION
+//
+// il faut décommenter la ligne suivante si on veut la version
+// avec les "try rewrite" lorsque l'assertion correspond à un lemme
+// sinon on a des "rewrite"
+#define TRYREWRITE
+// il semble qu'ici il faille bien des TRY
 
 #define SetFrom(MT) ((MT) & 0x3FFFFFFFFFFFFFF)
 #define SETMASQ 0x3FFFFFFFFFFFFFF
