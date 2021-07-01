@@ -109,6 +109,8 @@ int main(int argc, char * argv[])
 		    int set = r.set;
 		    g[iocl].tab[set]-> e = setMinMax(g[iocl].tab[set]->e,r.rk,r.rk);  // hypothèses (rang) de l'énoncé
 		    g[iocl].tab[set]->color = -1;
+            // PS juillet 2021 : aout d'un tag pour les hyptohèses
+            g[iocl].tab[set]->mark = HYPOTHESIS;
   	    }
     fprintf(stderr,"-------- convergence couche 0 \n");
 	sizeTab.tab[iocl][0] = g[iocl].effectiveAllocPow;
@@ -255,11 +257,15 @@ int main(int argc, char * argv[])
         
         // construction en avant de la preuve (les filtres ne sont pas écrits)
         i = 0ull;
+        resf = st->conclusion[0].set;
 
-        
+        // dans la boucle suivante i != resf est douteux dans le cas où il a plusieurs 
+        // conclusions on pourrait tout traiter à la fin et faire le test que i ne
+        // correspond pas à une conclusion
         for(; i < g[last].effectiveSize;i++)
         {   
             if(g[last].tab[i]->mark == U_NOT_WRITTEN_IN_PROOF && i != resf) 
+                // remarque, avec ce test, les hyptohèses ne donnent pas lieu à un lemme
             {
                 constructLemma(file,g[last],g[last].tab[i],sizeTab, last);  
                 // la fonction constructLemma a été revisitée : elle examine tous les noeuds qui sont requis
@@ -274,7 +280,8 @@ int main(int argc, char * argv[])
             
         }
         
-        
+        // Ici, on ne traite q'une conclusion (resf), il faudrait les traiter toutes
+        // mais peut être que certaines sont utiles au lemme final
         constructLemma(file, g[last], g[last].tab[resf],sizeTab, last); 
         // constructIntro(file, g[last]);
         // constructProof(file, g[last].tab[resf], sizeTab, 1);

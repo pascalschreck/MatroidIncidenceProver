@@ -632,8 +632,6 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 	// on écrit de code dans le fichier <file>, l'énoncé correspondant qu noeud n du graphe g
 	// la mention de la <couche> sert uniquement à faire des sorties informatives 
 
-
-
 	int i;
 	int cpt = 0;
 	myType partA, partAe, partB, partBe;
@@ -685,6 +683,7 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
             {
                 if(tmp->n->mark == U_NOT_WRITTEN_IN_PROOF && SetFrom(tmp->n->e) != SetFrom(n->e)) 
                 {   // uniquement les noeuds utiles non utilisés localement et dont l'ens. est diff. de l'ens. courant
+					// les hypothèses sont pas prises en compte et ne font pas l'objet d'un lemme
 					fprintf(file,"(* dans constructLemma(), requis par L");
 					printHypSetFile(file, partAe);fprintf(file," *)\n");
                     constructLemma(file, g, tmp->n, sizeTab, couche); 
@@ -702,15 +701,12 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 	///// 																					  ////
 	//////////////////////////////////////////////////////////////////////////////////////////////
 		
-		// les sprintf() commentés à la suite ont été utilisés pour faire une écriture différée dans le fichier
-		// Coq au moment de filtrer les Lemmes triviaux où la conclusion était dans les hypothèses
-		// cela posait des problèmes dans la réutilistion de lemmes et c'est commenté pour le moment.
-		//pos += sprintf(pos, "(* dans la couche %d *)\n", couche); 
+
 		fprintf(file, "(* dans la couche %d *)\n", couche);
 		// pos += sprintf(pos,"Lemma L"); // modif 27/09/20 : avant il y avait un fprintf()
 		fprintf(file,"Lemma L");
 		// pos_debug += sprintf(pos_debug,"Lemma L");
-		// pos = printHypSetString(pos, partAe);   //  idem PS 27/09/20
+
 		printHypSetFile(file, partAe);
 
 					/*--------------------------------------trace---------------------------------*/
@@ -723,20 +719,10 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 						}
 					/*-------------------------------------------------------------------------------*/
 		
-		//pos_debug = printHypSetString(pos_debug, partAe);										
-		//pos += sprintf(pos," : forall ");	    		//  idem PS 27/09/20
 		fprintf(file," : forall ");
 
 		// boucle pour écrire la quantification universelle de toutes les variables 
 		// (en fait, fermeture universelle par tous les points)
-		// for(i = 0; i < g.effectiveAllocPow; i++)
-		// {
-		// 	// pos += sprintf(pos,"P%d ",i+1);			// idem PS 27/09/20
-		// 	// fprintf(file,"%s ",STATEMENT->p_names[i]);  // version A B C, i au lieu de i+1
-		// 	fprintf(file,"P%d ",i+1);						// version Pi
-		// } 
-		// 												// Ainsi, 
-		// pos += sprintf(pos,",\n");					// tous les points du graphe sont quantifiés universellement
 		// remplacé par un appel de fonction janvier 2021
 		printAllPoints(file, g);
 		fprintf(file,",\n");
@@ -748,19 +734,7 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 			if(g.tab[i]->color == -1)
 			{			
 				cpt++;
-			/*------------------------------------ 			élim. d'un lemme trivial (commenté)---------*
-			// 							non-écriture dans le fichier et sortie de constructLemma()		*
-			if (g.tab[i]->e == n->e) { 	// idem PS 27/09/20 : brutal !									*		
-										// si g.tab[i]->e == n->e, il n'est pas utile d'écrire			*
-										// le lemme ni la preuve										*
-				*pos_debug = '\n';		//																*
-				fprintf(file,"(* Lemme %s pas écrit (couche %d) *) \n", debug_info, couche);  //		*
-				free(local_buffer);		//																*
-				free(debug_info);		//																*
-				return false;     		//																*        
-			}							//																*
-            --------------------------------------------------------------------------------------------*/
-			// sinon, on continue l'écriture dans le buffer tant que la boucle n'est pas finie
+
 				partB = g.tab[i]->e;		 
 											
 				partBe = SetFrom(partB);
@@ -771,35 +745,21 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 					fprintf(stderr,"Reconstruction impossible rangs des hypothèses non identiques\n");
 					exit(1);
 				}
-				// pos += sprintf(pos,"rk(");			// idem PS 27/09/20
 				fprintf(file,"rk(");
-				// pos = printSetString(pos,partBe);  	// idem PS 27/09/20
 				printSetFile(file,partBe);
 				if(cpt == 3)
 				{
-					//pos += sprintf(pos," nil) = %d ->\n",rankB);	// idem PS 27/09/20
 					fprintf(file," nil) = %d ->\n",rankB);
 					cpt = 0;
 				}
 				else
 				{
-					// pos += sprintf(pos," nil) = %d -> ",rankB);	// idem PS 27/09/20
 					fprintf(file," nil) = %d -> ",rankB);
 
 				}
 			}
 		}
 
-		// *pos = '\n'; // pour finir la chaîne 	// idem PS 27/09/20
-		//--------------------------------------------------------------------------
-		// écriture effective du lemme dans le fichier
-		// PS 29/09/20 : si on arrive jusqu'ici, on écrit tout le buffer
-		//               dans le fichier <file>
-		//               et l'écriture se continuera dans ce fichier
-		// fprintf(file,"%s",local_buffer); 
-		// free(local_buffer);
-		// free(debug_info);
-		//<--PS
 
 		if(rankMinA == rankMaxA)
 		{
@@ -1145,7 +1105,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			// if(previousConstruct)
 			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partAe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partAe);
@@ -1186,7 +1150,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			
 			if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partBe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partBe);
@@ -1230,7 +1198,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				//if(previousConstruct)
 				if(R_THIRD(n)->mark == PROOF_ALREADY_DONE)
 				{
-					fprintf(file,"\ttry assert(H");
+					#ifdef TRYASSERT
+				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 					printHypSetFile(file,partAiBe);
 					fprintf(file,"eq : rk(");
 					printSetFile(file,partAiBe);
@@ -1559,7 +1531,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			// if(previousConstruct) // THIRD if AiB != 0 else SECOND
 			if(((inter) ? R_THIRD(n)->mark : R_SECOND(n)->mark)  == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partBe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partBe);
@@ -1600,7 +1576,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			// if(previousConstruct)
 			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partAuBe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partAuBe);
@@ -1642,7 +1622,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				//if(previousConstruct)
 				if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
 				{
-					fprintf(file,"\ttry assert(H");
+					#ifdef TRYASSERT
+				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 					printHypSetFile(file,partAiBe);
 					fprintf(file,"eq : rk(");
 					printSetFile(file,partAiBe);
@@ -1955,7 +1939,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//if(previousConstruct)
 			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partAe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partAe);
@@ -1996,7 +1984,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			// if(previousConstruct)
 			if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partBe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partBe);
@@ -2037,7 +2029,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//if(previousConstruct)
 			if(R_THIRD(n)->mark == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partAuBe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partAuBe);
@@ -2365,7 +2361,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			// if(previousConstruct)
 			if(((inter) ? R_THIRD(n)->mark : R_SECOND(n)->mark) == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partAe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partAe);
@@ -2406,7 +2406,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			// if(previousConstruct)
 			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partAuBe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partAuBe);
@@ -2449,7 +2453,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				//if(previousConstruct)
 				if(R_SECOND(n)->mark == PROOF_ALREADY_DONE)
 				{
-					fprintf(file,"\ttry assert(H");
+					#ifdef TRYASSERT
+				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 					printHypSetFile(file,partAiBe);
 					fprintf(file,"eq : rk(");
 					printSetFile(file,partAiBe);
@@ -2543,7 +2551,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			printHypSetFile(file,partAe);
 			fprintf(file,"Mtmp Hincl); apply HT.\n");
 			fprintf(file,"}\n");
-			
+#ifdef MONOLITHE			
 			if(freeA == 1 && partAe != res)
 			{
 				int tmpRankM = 1;
@@ -2692,6 +2700,7 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 				}
 			}
 			fprintf(file,"\n");
+#endif
 		}
 		/*_______________________________________________________________
 
@@ -2740,7 +2749,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			// if(previousConstruct) // ancienne version
 			if(n->ante->n->mark==PROOF_ALREADY_DONE) // tentative de simplification .... 
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partAe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partAe);
@@ -2916,7 +2929,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			// if(previousConstruct)	// ancienne version
 			if(n->ante->n->mark==PROOF_ALREADY_DONE) // tentative de simplification de la preuve
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partBe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partBe);
@@ -3087,7 +3104,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			
 			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partBe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partBe);
@@ -3260,7 +3281,11 @@ void constructProofaux (FILE* file, node n, myType res, allocSize stab, int prev
 			//if(previousConstruct)
 			if(R_FIRST(n)->mark == PROOF_ALREADY_DONE)
 			{
+				#ifdef TRYASSERT
 				fprintf(file,"\ttry assert(H");
+				#else
+				fprintf(file,"\tassert(H");
+				#endif
 				printHypSetFile(file,partAe);
 				fprintf(file,"eq : rk(");
 				printSetFile(file,partAe);

@@ -29,11 +29,19 @@ extern statement STATEMENT;     // on rend l'accès à l'énoncé global
 #define NL	 fputc('\n', debug_file)
 #define DEB_PS(str) fputs((str), debug_file)
 
+//----------------- options de compilation
+//
 // il faut décommenter la ligne suivante si on veut la version
 // avec les "try clear" des hypthèses
 // ce nettoyage n'est pas nécessaire lorsqu'on écrit systématiquement
 // des lemmes pour chaque ensemble utilisé dont on connaît le rang
 // #define MONOLITHE
+//
+// 
+// il faut décommenter la ligne suivante si on veut la version
+// avec les "try assert" lorsque l'assertion correspond à un lemme
+// sinon on a des "assert"
+// #define TRYASSERT
 
 #define SetFrom(MT) ((MT) & 0x3FFFFFFFFFFFFFF)
 #define SETMASQ 0x3FFFFFFFFFFFFFF
@@ -45,6 +53,10 @@ extern statement STATEMENT;     // on rend l'accès à l'énoncé global
 // 2 : le noeud est utile, mais on attend que des noeuds dont il dépend soit transcrits
 // 3 : les noeud est utile et sa preuve a déjà été tanscrite dans la preuve courante (i.e. la preuve d'un autre noeud)
 // 4 : la preuve de ce noeud a déjà été fait sous la forme d'un autre lemme
+// ajout du 1er juillet pour filtrer les lemmes non utiles (triviaux)
+// pour revenir au fonctionnement antérieur on definit HYPOTHESIS et SINGLE à 0 (UNUSED)
+// -4 : il s'agit d'une hypothèse du théorème à prouver
+// -2 : il s'agit d'un singleton
 #define INITMARK  -1
 #define UNUSED 0
 #define U_NOT_WRITTEN_IN_PROOF 1
@@ -52,5 +64,7 @@ extern statement STATEMENT;     // on rend l'accès à l'énoncé global
 #define U_PROOF_BEING_WRITTEN 3
 #define PROOF_ALREADY_DONE 4
 #define PROOF_WRITTEN_in_Lemma 5
+#define HYPOTHESIS -4
+#define SINGLE -2
 
 #endif

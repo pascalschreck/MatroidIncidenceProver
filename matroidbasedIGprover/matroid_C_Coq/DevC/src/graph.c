@@ -9,7 +9,7 @@ node createNode (myType e) {
 		if(new==0){ fprintf(stderr,"dans createNode() pb. d'allocation"), exit(2);}
 	new->e = e;
 	new->color = 0;
-	new->mark = UNUSED;	// valeur 0
+	new->mark = (cardinal(e) > 1) ? UNUSED : SINGLE ;	// valeur 0 ou -2
 	new->rule = 0;		// numéro de la règle de mise à jour
 	new->ante = NULL;	//  pas de prédécesseur
 	new->succ = NULL;	// pas de successeurs
