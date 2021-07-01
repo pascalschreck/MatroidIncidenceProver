@@ -9,21 +9,35 @@
 * DONE Enlever les infos de déboggage quand ça fonctionnera ou mieux les mettres dans la compilation
 * tester plus en profondeur les raisonnements par contradiction (c'est un cas où la propagation de contrainte (avant ou arrière) pourrait bien fonctionner)
 * TODO regarder la perte de marquage et/ou de reconstruction de théorèmes qui seraient dus (?) à la gestion des couches de raisonnement.
-* TODO regarder le cas multi couche avec  le nouveu parcours pour construire la preuve.
+* TODO regarder le cas multi couche avec  le nouveau parcours pour construire la preuve.
+
+
 * TODO faire une sauvegarde du raisonnement complet dans un fichier "core dump" pour pouvoir ensuite reprendre ce fichier pour démontrer d'autres théorèmes avec la même configuration + éventuellement des conditions supplémentaires.
+
+* dans le cas où il y a plusieur conclusion, il faut peut être revoir l'ordre de fabrication de ces conclusions. Actuellement une seule conclusion est privilégiée et mise à la fin, mais peut-être que cette conclusion sert à établir les autres et on fait plusieur fois le travail. En fait c'est toute le chaînage avant qui est merdique : on suit l'ordre des indicatrices pour les noeuds au lieu de choisir un parcours plus intelligent. --> y réfléchir, ça n'a pas l'air si simple.
 
 
 ### In progress
-Permettre des conclusions plus compliquées que la simple valeur d'un rang dans un théorème :
-* TODO on peut facilement ajouter plusieurs conclusion : ça peut être utile pour prouver un théorème de Desargues assez complet en dim 3 et 4
+* TODO enlever les try de la preuve (tous ceux qu'on peut) et en profiter pour reprendre le filtrage des lemmes inutiles (voir plus bas). Explications : les preuves produites par David étaient monolithiques plusieurs milliers de lignes pour un seul lemme, la gestion des sous-buts se fait avec des assert (David appelle ça des blocs) mais au bout d'un moment ça peut saturer la mémoire -> donc il y a un mécanismes pour enlever des choses qui sont censées ne plus servir (avec des try car on essaye d'enlever des choses qui ne sont pas forcément dans la base) , mais du coup, lorsqu'on fait un assert on n'est pas trop sûr si l'hypothèse qu'on introduit est déjà dans la base ou pas ... Cette manière de faire semble un peu en contradiction avec le marquage des noeuds qui devrait éviter cela. Tout ceci n'est pas très propre et ça se voit dans le preuve. 
+  * Avec la construction systématique de lemmes dès qu'on peut, l'unité de preuve (la preuve du lemme) devient de petite taille et les "try clear" ne sont plus nécessaires --> l'écriture de ces instructions Coq se fait dans le fichier parties.c. J'ai mis les bout de code C dans des blocs de compilation conditionnel subordonnés à l'existence d'une constante du macro processeur : si #define MONOLITHIQUE est présent, ce code est compilé et les "try clear" sont ajoutés dans la preuve Coq, si MONOLITHIQUE n'est pas défini, les instructions de nettoyage ne sont pas présente.
+  * TODO : certains try assert correspondent à des hypothèses dans l'énoncé du lemme qui ont déjà été introduit avec les intros du début de preuve --> on peut enlever systématiquement la ligne et (je pense) les lemmes triviaux qui prouvent un but qui est dans les hypothèses est inutile. 
+  * PRIORITE : On peut même ajouter un nouveau statut dans les noeuds qui correspondrait à hypothèse (par exemple -4) --> reprendre le marquage des noeuds en conséquence. Cela doit permettre aussi facilement d'inhiber l'écriture des lemmes trivaux.
+  * TODO : peut être que d'autres try assert correspondent à des hypothèses déjà introduites par d'autres assert ou try assert --> on peut d'une manière générale garder la trace de totu ce qui a été asserté ou comme on a déjà le contrôle des noeuds du graphe déjà utilisés, ça n'est peut-être même par la peine --> dans ce cas, on enlève simplement les try  dans les fprintf("try assert"...) 
+  * TODO : vérifier si les cas des singletons qui sont écrits comme des lemmes sont vraiment utiles.
 
-Reprise après plusieurs mois. Cela devrait pouvoir être fait simplement :
+
+* ajout du prélude sous forme de l'instruction 'load "preamblexD.v".'  où x est la dimension en début de fichier. ça serait sans doute mieux d'avoir des versions compilées --> voir avec Nicolas comment on fait.
+
+### Done
+
+* TODO on peut facilement ajouter plusieurs conclusion : ça peut être utile pour prouver un théorème de Desargues assez complet en dim 3 et 4.
+  Reprise après plusieurs mois. Cela a été fait simplement :
     * changer le format et le traitment des énoncés pour autoriser plusieurs conclusions
     * lors de la saturation : vérifier que tous les termes de la conclusion ont été prouvés, sinon signaler les problèmes et éviter la construction de la preuve en Coq
     * lors du marquage : faire du chaînage arrière pour marquer comme utilisé tous les antécédents de tous les termes de la conclusion
     * la reconstrucion de la preuve en Coq devrait se faire de la même manière avec la technique de mettre systématiquement des bouts de preuves en Lemmes.
 
-### Done
+
 * les commentaires vides font planter l'entrée
 
 * ajouter le mot clé "none" ou None" pour signifier qu'il n'y a pas de conclusion (remarque, il faut toujours une conclusion finale dans l'énoncé)
@@ -43,7 +57,7 @@ Reprise après plusieurs mois. Cela devrait pouvoir être fait simplement :
         3. phase d'écriture de la preuve : il s'agit de lancer une procédure axuiliaire des arguments 
         de la règle utilisée (ça va être l'objet de la phase 4), puis de compléter par des arguments 
         génériques fondés sur l'initialisation de la fonction rang
-        4. examen des arguments pour preuves ... si les arguments sont encore au stade 1, on les marque à 2 ... mais ils ne sont pas sous fome de lemme sinon ils auraient le statut 1.
+        1. examen des arguments pour preuves ... si les arguments sont encore au stade 1, on les marque à 2 ... mais ils ne sont pas sous fome de lemme sinon ils auraient le statut 1.
 
     Solution envisagée : différer l'écriture dans le fichier de la preuve jusqu'à ce que tous les pbs. des antécédents soient réglés. Cela peut se faire simplement en testant les antécédents avant d'écrire le lemme. 
 
