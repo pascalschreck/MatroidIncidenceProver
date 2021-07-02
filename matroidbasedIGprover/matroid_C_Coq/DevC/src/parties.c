@@ -54,7 +54,7 @@ graph allocGraph (int n) {
 	
 	for(i = 0; i < g.size; i++)
 	{
-		init = initRanks(i+1);
+		init = initRanks(i+1);		// décalage (pour gagner une place, celle de ens. vide)
 		tab[i] = createNode(init);
 	}
 	
