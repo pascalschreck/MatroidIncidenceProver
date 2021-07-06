@@ -79,7 +79,7 @@ intuition.
 Qed.
 
 (* dans la couche 0 *)
-Theorem def_Conclusion : forall A B C D ,
+Theorem essai_Conclusion : forall A B C D ,
 rk(A :: C ::  nil) = 2 -> rk(A :: B :: D ::  nil) = 3 -> rk(C :: D ::  nil) = 2 ->
 rk(A :: C :: D ::  nil) = 2 -> 
 	 rk(A :: B :: C ::  nil) = 3  .

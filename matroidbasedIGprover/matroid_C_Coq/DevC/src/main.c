@@ -455,6 +455,15 @@ void read_comd_line(int argc, char *argv[])
                     printf("De nouvelles règles contenues dans le fichier : %s seront utilisées\n",argv[i]); 
                     strcpy(newrules_name,argv[i]);
                 }
+            else if (!strcmp(argv[i],"-pr"))
+                {
+                    if(opt_flag & prefixl_flag) { printf("l'option -pr a déjà été lue\n"); exit(2);}
+                    opt_flag |= prefixl_flag;
+                    i++;    // on attends alors le nom d'un fichier
+                            // mais on ne fait pas d'ouverture ni de test pour le moment
+                    printf("Le préfixe : %s sera utilisé pour le théorème final\n",argv[i]); 
+                    lemma_prefix = argv[i];
+                }
             else if (!strcmp(argv[i],"-debug") || !strcmp(argv[i],"--debug"))
                 {
                     printf("exécution en mode deboggage \n");
