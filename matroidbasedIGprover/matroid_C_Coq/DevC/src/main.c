@@ -291,7 +291,7 @@ int main(int argc, char * argv[])
     
     //
     //------------------------construction du théorème
-    if(st->nbconc>1)
+    // if(st->nbconc>1)
         constructTheorem(file, g[last], g[last].tab[resf],sizeTab, last);
     //--------------------fin de l'écriture du théorème
     
