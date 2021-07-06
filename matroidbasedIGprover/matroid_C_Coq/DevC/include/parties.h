@@ -3,11 +3,7 @@
 
 #include "graph.h"
 
-// format d'écrite des noms des points
-// ABC pour avoir les noms de l'énoncé
-// P1P2 pour avoir comme nom P<numéro>
-#define ABC
-// #define P1P2
+
 
 
 #define R_ZERO(Node) ((Node))

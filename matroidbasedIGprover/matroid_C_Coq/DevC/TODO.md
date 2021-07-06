@@ -15,6 +15,23 @@
 * TODO faire une sauvegarde du raisonnement complet dans un fichier "core dump" pour pouvoir ensuite reprendre ce fichier pour démontrer d'autres théorèmes avec la même configuration + éventuellement des conditions supplémentaires.
 
 * dans le cas où il y a plusieur conclusion, il faut peut être revoir l'ordre de fabrication de ces conclusions. Actuellement une seule conclusion est privilégiée et mise à la fin, mais peut-être que cette conclusion sert à établir les autres et on fait plusieur fois le travail. En fait c'est toute le chaînage avant qui est merdique : on suit l'ordre des indicatrices pour les noeuds au lieu de choisir un parcours plus intelligent. --> y réfléchir, ça n'a pas l'air si simple.
+  * sous-TODO pour traiter le problème sous un autre angle : mettre une indication dans le nom du lemme ou utiliser un autre mot clé COQ (theorem ?) pour distinguer les lemmes qui figurent dans la conclusion.
+  * On peut aussi écrire un lemme final qui fait la concaténation de tous les buts données dans la conclusion de l'énoncé.
+  * pour faire tout ça,il faudra utiliser la liste des ensembles qui sont dans la conclusion : on l'a potentiellement dans la structure "énoncé" dans laquelle le champs conclusion est un tableau avec nbconc éléments exemple pour le pré_marquage des noeuds on a le code :
+```C
+        // marquage en arrière à partir de resf
+        // par défaut resf = st->conclusion[0].set
+        // il faut faire une boucle pour prémarquer tous 
+        // les termes de la conclusion
+        for(int i=0; i < st->nbconc; i++)
+        { 
+            resf = st->conclusion[i].set;
+            preMark(g[last].tab[resf]);  
+        }
+```
+
+
+* espace de nommage : pour simplifier l'utilisation de Bip à partir de Coq, il peut être bien de faire un espace de nommage correspondant au fichier. Ça peut se faire via une option au lancement de Bip qui permette de préfixer tous les noms de lemme par une chaîne de caractères donnée dans l'option. Par défaut ça pourrait être le nom du fichier.  
 
 
 ### In progress
