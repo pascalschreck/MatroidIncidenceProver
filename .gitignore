@@ -25,3 +25,14 @@ matroidbasedIGprover/matroid_C_Coq/DevC/exemples/DG2Pappus/debug.log
 matroidbasedIGprover/matroid_C_Coq/DevC/exemples/ExemplesSimples4D/.lia.cache
 matroidbasedIGprover/matroid_C_Coq/DevC/exemples/Pappus2DG/toto.v
 .lia.cache
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/desargues4D/basic_matroid_list.v
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/desargues4D/basic_rank_space_list.v
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/desargues4D/desargues4D_noel.v
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/desargues4D/desargues4D.v.bak
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/desargues4D/output_d4d_xconc.txt
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/desargues4D/preamble4D.v
+.gitignore
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/preamble4D.v
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/tests/exemple_pb_3_couches.stat
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/tests/exemple_pb_3_couches.stat.v
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/tests/exemple_pb.stat.v
