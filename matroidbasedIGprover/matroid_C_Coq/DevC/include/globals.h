@@ -12,6 +12,7 @@ extern bool trace;
 myType traced;
 
 extern statement STATEMENT;     // on rend l'accès à l'énoncé global
+extern char * lemma_prefix;
 
 #define dft_statement_name "dft_statement.stat"
 #define dft_rankoutput_name "dft_rankoutput.txt"

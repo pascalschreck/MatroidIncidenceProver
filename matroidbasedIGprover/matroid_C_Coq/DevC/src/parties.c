@@ -801,6 +801,171 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 	return 1;
 }	
 
+
+/////////////////////////////////////////////////////////////
+// constructThm
+
+
+bool constructTheorem(FILE* file, graph g, node n,  allocSize   sizeTab, int couche) {
+	// on écrit de code dans le fichier <file>, l'énoncé correspondant qu noeud n du graphe g
+	// la mention de la <couche> sert uniquement à faire des sorties informatives 
+
+	int i;
+	int cpt = 0;
+	myType partA, partAe, partB, partBe;
+	int rankMinA, rankMaxA, rankB;
+	statement st =  STATEMENT;		// accès à l'énoncé via une variable globale
+
+	partA = n->e;
+	partAe = SetFrom(partA);
+	rankMinA = rankMin(partA);
+	rankMaxA = rankMax(partA);
+
+	if(rankMinA != rankMaxA)
+		{
+			fprintf(stderr,"Attention rangs non identiques pour le résultat de %llu  rang min %d et rang max %d \n", 
+							partAe, rankMinA, rankMaxA);
+			printSetFile(stderr, partAe),
+			fprintf(stderr,"\n Le traitement de la preuve en tant que Lemme n'est pas considérée.\n");
+			return false;
+		}
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	//////					Début de l'écriture du Lemme                               		  ////
+	//////    on ne doit plus écrire de lemme avant la fin de la preuve    					  ////
+	//////	  du lemme courant.											   					  ////
+	///// 																					  ////
+	//////////////////////////////////////////////////////////////////////////////////////////////
+		
+
+		fprintf(file, "(* dans la couche %d *)\n", couche);
+		fprintf(file,"Theorem %s_Conclusion : forall ",lemma_prefix);
+		printAllPoints(file, g);
+		fprintf(file,",\n");
+
+		// boucle pour mettre en prémisse toutes les hypothèses donnée
+		// dans l'énoncé (éventuellement réduit à la couche courante)
+		for(i = 0; i < g.effectiveSize; i++)
+		{
+			if(g.tab[i]->color == -1)	// correspond aux hypothèses ?
+			{			
+				cpt++;
+
+				partB = g.tab[i]->e;		 
+											
+				partBe = SetFrom(partB);
+				rankB = rankMin(partB);
+				
+				if(rankMin(partB) != rankMax(partB))
+				{
+					fprintf(stderr,"Reconstruction impossible rangs des hypothèses non identiques\n");
+					exit(1);
+				}
+				fprintf(file,"rk(");
+				printSetFile(file,partBe);
+				if(cpt == 3)
+				{
+					fprintf(file," nil) = %d ->\n",rankB);
+					cpt = 0;
+				}
+				else
+				{
+					fprintf(file," nil) = %d -> ",rankB);
+
+				}
+			}
+		}
+
+/*
+		if(rankMinA == rankMaxA)
+		{
+			fprintf(file,"rk(");
+			printSetFile(file,partAe);
+			fprintf(file," nil) = %d.\n",rankMinA);
+		}
+		
+*/
+		// traitement du premier cas en avance
+		if(rankMinA == rankMaxA)
+			{
+			fprintf(file,"\n\t rk(");
+			printSetFile(file,partAe);
+			fprintf(file," nil) = %d ",rankMinA);
+			}
+			else
+			{
+				fprintf(file, "(* "); 
+				fprintf(file,"rk(");
+			    printSetFile(file,partAe);
+			    fprintf(file," nil) = %d.\n",rankMinA);
+				fprintf(file, " non traité *) ");
+			}
+
+		for(int i=1; i < st->nbconc; i++)
+        { 
+            n = g.tab[st->conclusion[i].set];
+			partA = n->e;
+			partAe = SetFrom(partA);
+			rankMinA = rankMin(partA);
+			rankMaxA = rankMax(partA);
+			if(rankMinA == rankMaxA)
+			{
+			fprintf(file," /\\ \n\t rk(");
+			printSetFile(file,partAe);
+			fprintf(file," nil) = %d ",rankMinA);
+			}
+			else
+			{
+				fprintf(file, "(* "); 
+				fprintf(file,"rk(");
+			    printSetFile(file,partAe);
+			    fprintf(file," nil) = %d.\n",rankMinA);
+				fprintf(file, " non traité *) ");
+			}
+            
+        }
+		fprintf(file," .\n");
+
+
+		constructIntro(file, g);
+		
+
+		fprintf(file,"repeat split.\n");
+
+		for(int i=0; i < st->nbconc; i++)
+        { 
+			fprintf(file,"\n\t");
+            n = g.tab[st->conclusion[i].set];
+			partA = n->e;
+			partAe = SetFrom(partA);
+			fprintf(file,"apply L"); printHypSetFile(file, partAe);
+			fprintf(file," with ");
+            for(int j = 0; j < sizeTab.size; j++) // traitement de toutes les couches
+					{
+						
+							for(int i = 0; i < sizeTab.tab[j][0]; i++)
+							{
+							#ifdef ABC
+							fprintf(file,"(%s := %s) ",STATEMENT->p_names[i], STATEMENT->p_names[i]);
+							#else
+							fprintf(file,"(P%d := P%d) ",i+1,i+1);
+							#endif
+							}
+						#ifdef TRYASSUMPTION
+						fprintf(file,";try assumption).\n");
+						#else
+						fprintf(file,"; assumption.\n");
+						#endif
+						
+					}
+        }
+		fprintf(file,"Qed .\n");								
+	return 1;
+}	
+
+
+
 /*______________________________________________________________________________
 
 

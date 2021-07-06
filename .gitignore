@@ -36,3 +36,5 @@ matroidbasedIGprover/matroid_C_Coq/DevC/exemples/preamble4D.v
 matroidbasedIGprover/matroid_C_Coq/DevC/exemples/tests/exemple_pb_3_couches.stat
 matroidbasedIGprover/matroid_C_Coq/DevC/exemples/tests/exemple_pb_3_couches.stat.v
 matroidbasedIGprover/matroid_C_Coq/DevC/exemples/tests/exemple_pb.stat.v
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/DG2Pappus/basic_matroid_list.v
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/desargues4D/output_statement_D4D.txt
