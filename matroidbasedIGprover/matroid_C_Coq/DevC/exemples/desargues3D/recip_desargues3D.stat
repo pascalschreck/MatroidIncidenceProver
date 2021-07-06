@@ -1,0 +1,58 @@
+# file recip_desargues3D.stat
+context
+   dimension  3 
+   layers   1
+endofcontext
+layer triangles
+  points
+    Oo A B C Ap Bp Cp ab ac bc D Dp ad bd cd
+  hypotheses
+    Ap A B C : 4
+    Bp A B C : 4
+    Cp A B C : 4
+    A B Bp : 3
+    A C Cp : 3
+    A D Dp : 3
+    Ap B Bp : 3
+    Ap C Cp : 3
+    Ap D Dp : 3   
+    B A Ap : 3
+    B C Cp : 3
+    B D Dp : 3
+    Bp A Ap : 3
+    Bp C Cp : 3
+    Bp D Dp : 3
+    Oo A Ap : 2
+    Oo B Bp : 2
+    A B ab : 2
+    Ap Bp ab : 2
+    A C ac : 2
+    Ap Cp ac : 2
+    B C bc : 2
+    Bp Cp bc : 2
+    A B C D : 4
+    Ap Bp Cp Dp : 4
+    Dp B C D : 4
+    Dp A C D : 4
+    Dp A B D : 4
+    ad A D : 2
+    ad Ap Dp : 2
+    bd B D : 2
+    bd Bp Dp : 2
+    cd C D : 2
+    cd Cp Dp : 2
+    Ap Bp Dp : 3
+    Ap Cp Dp : 3
+    Bp Cp Dp : 3
+    ab ac ad bc bd cd : 3
+    bc bd cd : 2
+    ac ad cd : 2
+    ab ad bd : 2
+    ab ac bc : 2
+conclusion
+    None
+endoflayer 
+conclusion
+    Oo C Cp : 2
+    Oo D Dp : 2
+end
