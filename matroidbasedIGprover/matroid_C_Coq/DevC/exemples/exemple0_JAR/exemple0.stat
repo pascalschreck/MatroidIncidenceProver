@@ -1,0 +1,25 @@
+# (* An example of a 4-points lemma to be saturated *)
+# Lemma example : forall A B C D : Point,
+# rk(A, B, D) = 3 ->
+# rk(A, C, D) = 2 ->
+# rk(A, C) = 2 ->
+# rk(C, D) = 2 ->
+# rk(A, B, C) = 3.
+context
+    dimension 2
+    layers 1
+endofcontext
+layer donnees
+    points A B C D
+    hypotheses
+        A B D : 3
+        A C D : 2
+        A C : 2
+        C D : 2
+    conclusion
+        None
+endoflayer 
+conclusion
+    A B C : 3
+end
+
