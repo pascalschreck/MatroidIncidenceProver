@@ -70,3 +70,6 @@ matroidbasedIGprover/matroid_C_Coq/DevC/exemples/DG2Pappus/dg2pappusAlt1l.stat
 .gitignore
 matroidbasedIGprover/matroid_C_Coq/DevC/exemples/DG2Pappus/dg2pappusAlt1lGood.v
 .gitignore
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/DG2Pappus/dg2pappusAlt1l.v
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/DG2Pappus/dg2pappusAlt1lWithPreample.v
+matroidbasedIGprover/matroid_C_Coq/DevC/exemples/tests/simple.stat
