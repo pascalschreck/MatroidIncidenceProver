@@ -1,46 +1,27 @@
 # etape1.stat
 # en dimension 4
-# si deux plans P1 et P2 se coupent alors
-# pour tout hyperplan H
-# H inter P1 est une droite : d1
-# H inter P2 est une droite : d2
-# d1 et dé se coupent
+# si un plan P et un hyperplan H se coupent en 2 points distincts
+# alors c'est au plus suivant une droite
 context
     dimension 4
     layers 1
 endofcontext
 layer 1
-    points A B C H1 H2 H3 H4 M N # P
-           A' B' C' M' N'
+    points A B C H1 H2 H3 H4 M N P
     hypotheses
         A B C : 3           # A B C définit un plan
         H1 H2 H3 H4 : 4
         A H1 H2 H3 H4 : 5   # le plan n'est pas contenu dans l'hyperplan
         M N : 2             # M et N sont différents
         M A B C : 3
-    # P A B C : 3
+        P A B C : 3
         N A B C : 3
         M H1 H2 H3 H4 : 4
         N H1 H2 H3 H4 : 4
-    # P H1 H2 H3 H4 : 4
-        A' B' C' : 3           # A B C définit un plan
-        A' H1 H2 H3 H4 : 5   # le plan n'est pas contenu dans l'hyperplan
-        A B C A' B' : 5   # les deux plans ne se coupent pas
-        A B C A' C' : 5
-        A B C B' C' : 5
-        A B A' B' C' : 5
-        A C A' B' C' : 5
-        B C A' B' C' : 5
-        A B M N M' N' : 5
-        M' N' : 2             # M et N sont différents
-        M' A' B' C' : 3
-        N' A' B' C' : 3
-        M' H1 H2 H3 H4 : 4
-        N' H1 H2 H3 H4 : 4
+        P H1 H2 H3 H4 : 4
     conclusion
     None
 endoflayer
 conclusion
-    # M N P : 2
-    M N M' N' : 3
+    M N P : 2
 end

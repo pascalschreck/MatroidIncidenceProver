@@ -1,0 +1,28 @@
+# etape3.stat
+# en dimension 4
+context
+    dimension 4
+    layers 1
+endofcontext
+layer 1
+    points A B C A' B' C' A'' B'' C'' M N Q
+    hypotheses
+        A B C : 3           # A B C définit un plan
+        A' B' C' : 3
+        A'' B'' C'' : 3
+        A B C A' B' C' : 5
+        A B C A'' B'' C'' : 5
+        A' B' C' A'' B'' C'' : 5
+        M A B C : 3
+        M A' B' C' : 3
+        N A B C : 3
+        N A'' B'' C'' : 3
+        Q A' B' C' : 3
+        Q A'' B'' C'' : 3
+        M N : 2
+    conclusion
+    None
+endoflayer
+conclusion
+    M N Q : 3
+end
