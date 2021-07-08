@@ -63,7 +63,7 @@ assert(HABCm2 : rk(A :: B :: C :: nil) >= 2).
 assert(HABCm3 : rk(A :: B :: C :: nil) >= 3).
 {
 	assert(HACDMtmp : rk(A :: C :: D :: nil) <= 2) by (solve_hyps_max HACDeq HACDM2).
-	assert(HABCDeq : rk(A :: B :: C :: D :: nil) = 3) by (apply LABCD with (A := A) (B := B) (C := C) (D := D) ;try assumption).
+	assert(HABCDeq : rk(A :: B :: C :: D :: nil) = 3) by (apply LABCD with (A := A) (B := B) (C := C) (D := D) ; assumption).
 	assert(HABCDmtmp : rk(A :: B :: C :: D :: nil) >= 3) by (solve_hyps_min HABCDeq HABCDm3).
 	assert(HACmtmp : rk(A :: C :: nil) >= 2) by (solve_hyps_min HACeq HACm2).
 	assert(Hincl : incl (A :: C :: nil) (list_inter (A :: B :: C :: nil) (A :: C :: D :: nil))) by (repeat clear_all_rk;my_inO).
@@ -78,3 +78,16 @@ assert(HABCm : rk(A :: B :: C ::  nil) >= 1) by (solve_hyps_min HABCeq HABCm1).
 intuition.
 Qed.
 
+(* dans la couche 0 *)
+Theorem essai_Conclusion : forall A B C D ,
+rk(A :: C ::  nil) = 2 -> rk(A :: B :: D ::  nil) = 3 -> rk(C :: D ::  nil) = 2 ->
+rk(A :: C :: D ::  nil) = 2 -> 
+	 rk(A :: B :: C ::  nil) = 3  .
+Proof.
+
+intros A B C D 
+HACeq HABDeq HCDeq HACDeq .
+repeat split.
+
+	apply LABC with (A := A) (B := B) (C := C) (D := D) ; assumption.
+Qed .

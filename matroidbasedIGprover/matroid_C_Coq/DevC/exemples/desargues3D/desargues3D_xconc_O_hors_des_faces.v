@@ -37208,3 +37208,48 @@ assert(Habacbcadbdcdm : rk(ab :: ac :: bc :: ad :: bd :: cd ::  nil) >= 1) by (s
 intuition.
 Qed.
 
+(* dans la couche 0 *)
+Theorem def_Conclusion : forall Oo A B C Ap Bp Cp ab ac bc D Dp ad bd cd ,
+rk(Oo :: A :: B :: C ::  nil) = 4 -> rk(A :: Ap ::  nil) = 2 -> rk(Oo :: A :: Ap ::  nil) = 2 ->
+rk(A :: B :: Ap ::  nil) = 3 -> rk(A :: C :: Ap ::  nil) = 3 -> rk(B :: Bp ::  nil) = 2 ->
+rk(Oo :: B :: Bp ::  nil) = 2 -> rk(A :: B :: Bp ::  nil) = 3 -> rk(B :: C :: Bp ::  nil) = 3 ->
+rk(A :: Ap :: Bp ::  nil) = 3 -> rk(B :: Ap :: Bp ::  nil) = 3 -> rk(C :: Cp ::  nil) = 2 ->
+rk(Oo :: C :: Cp ::  nil) = 2 -> rk(A :: C :: Cp ::  nil) = 3 -> rk(B :: C :: Cp ::  nil) = 3 ->
+rk(A :: Ap :: Cp ::  nil) = 3 -> rk(C :: Ap :: Cp ::  nil) = 3 -> rk(B :: Bp :: Cp ::  nil) = 3 ->
+rk(C :: Bp :: Cp ::  nil) = 3 -> rk(A :: B :: ab ::  nil) = 2 -> rk(Ap :: Bp :: ab ::  nil) = 2 ->
+rk(A :: C :: ac ::  nil) = 2 -> rk(Ap :: Cp :: ac ::  nil) = 2 -> rk(B :: C :: bc ::  nil) = 2 ->
+rk(Bp :: Cp :: bc ::  nil) = 2 -> rk(Oo :: A :: B :: D ::  nil) = 4 -> rk(Oo :: A :: C :: D ::  nil) = 4 ->
+rk(Oo :: B :: C :: D ::  nil) = 4 -> rk(A :: B :: C :: D ::  nil) = 4 -> rk(A :: Ap :: D ::  nil) = 3 ->
+rk(B :: Bp :: D ::  nil) = 3 -> rk(C :: Cp :: D ::  nil) = 3 -> rk(A :: Ap :: Dp ::  nil) = 3 ->
+rk(B :: Bp :: Dp ::  nil) = 3 -> rk(C :: Cp :: Dp ::  nil) = 3 -> rk(Ap :: Bp :: Cp :: Dp ::  nil) = 4 ->
+rk(D :: Dp ::  nil) = 2 -> rk(Oo :: D :: Dp ::  nil) = 2 -> rk(A :: D :: Dp ::  nil) = 3 ->
+rk(B :: D :: Dp ::  nil) = 3 -> rk(C :: D :: Dp ::  nil) = 3 -> rk(Ap :: D :: Dp ::  nil) = 3 ->
+rk(Bp :: D :: Dp ::  nil) = 3 -> rk(Cp :: D :: Dp ::  nil) = 3 -> rk(A :: D :: ad ::  nil) = 2 ->
+rk(Ap :: Dp :: ad ::  nil) = 2 -> rk(B :: D :: bd ::  nil) = 2 -> rk(Bp :: Dp :: bd ::  nil) = 2 ->
+rk(C :: D :: cd ::  nil) = 2 -> rk(Cp :: Dp :: cd ::  nil) = 2 -> 
+	 rk(ab :: ac :: bc :: ad :: bd :: cd ::  nil) = 3  /\ 
+	 rk(bc :: bd :: cd ::  nil) = 2  /\ 
+	 rk(ac :: ad :: cd ::  nil) = 2  /\ 
+	 rk(ab :: ad :: bd ::  nil) = 2  /\ 
+	 rk(ab :: ac :: bc ::  nil) = 2  .
+Proof.
+
+intros Oo A B C Ap Bp Cp ab ac bc D Dp ad bd cd 
+HOoABCeq HAApeq HOoAApeq HABApeq HACApeq HBBpeq HOoBBpeq HABBpeq HBCBpeq HAApBpeq
+HBApBpeq HCCpeq HOoCCpeq HACCpeq HBCCpeq HAApCpeq HCApCpeq HBBpCpeq HCBpCpeq HABabeq
+HApBpabeq HACaceq HApCpaceq HBCbceq HBpCpbceq HOoABDeq HOoACDeq HOoBCDeq HABCDeq HAApDeq
+HBBpDeq HCCpDeq HAApDpeq HBBpDpeq HCCpDpeq HApBpCpDpeq HDDpeq HOoDDpeq HADDpeq HBDDpeq
+HCDDpeq HApDDpeq HBpDDpeq HCpDDpeq HADadeq HApDpadeq HBDbdeq HBpDpbdeq HCDcdeq HCpDpcdeq
+.
+repeat split.
+
+	apply Labacbcadbdcd with (Oo := Oo) (A := A) (B := B) (C := C) (Ap := Ap) (Bp := Bp) (Cp := Cp) (ab := ab) (ac := ac) (bc := bc) (D := D) (Dp := Dp) (ad := ad) (bd := bd) (cd := cd) ; assumption.
+
+	apply Lbcbdcd with (Oo := Oo) (A := A) (B := B) (C := C) (Ap := Ap) (Bp := Bp) (Cp := Cp) (ab := ab) (ac := ac) (bc := bc) (D := D) (Dp := Dp) (ad := ad) (bd := bd) (cd := cd) ; assumption.
+
+	apply Lacadcd with (Oo := Oo) (A := A) (B := B) (C := C) (Ap := Ap) (Bp := Bp) (Cp := Cp) (ab := ab) (ac := ac) (bc := bc) (D := D) (Dp := Dp) (ad := ad) (bd := bd) (cd := cd) ; assumption.
+
+	apply Labadbd with (Oo := Oo) (A := A) (B := B) (C := C) (Ap := Ap) (Bp := Bp) (Cp := Cp) (ab := ab) (ac := ac) (bc := bc) (D := D) (Dp := Dp) (ad := ad) (bd := bd) (cd := cd) ; assumption.
+
+	apply Labacbc with (Oo := Oo) (A := A) (B := B) (C := C) (Ap := Ap) (Bp := Bp) (Cp := Cp) (ab := ab) (ac := ac) (bc := bc) (D := D) (Dp := Dp) (ad := ad) (bd := bd) (cd := cd) ; assumption.
+Qed .

@@ -2,6 +2,16 @@
 
 ## FIXME
 ### To do
+* revoir le moteur d'inférence qui est très naïf pour le moment. Éléments possibles à prendre en compte
+  * si la différence de cardinal entre deux ensembles est 1, alors la différence de rang est au plus 1 également : on peut reprendre la phase d'initialisation pour tester cela.
+  * cela pousse à considérer une propagation plus locale que celle proposée actuellement (voir aussi plus bas)
+  * on peut sans doute se restreindre à une partie de P(E), mais on conservera sans doute une complexité expoentielle.
+  * parcours du graphe et écriture des lemmes : le parcours actuel est facile à implanter mais il ne correspond pas vraiment au treillis ensemblistes (par exemple il n'est pas immédiat d'accéder à partir d'un ensemble de cardinal n à tous ses sur-ensembles de cardinal n+1)
+  * faire des structures de données plus adaptées (inutile de stocker l'indicatrice)
+  
+
+* faire une nouvelle branche pour une utilisation interactive (ajouter des points et des contraintes après une première étape de saturation). Cette manière de faire plus incrémentale permettrait peut-être de mieux tester les conditions exactes dans lesquelles le théorème est valide (voir Desargues par exemple).
+
 * corriger tous les bugs dans la production de la preuve :
     - DONE des Lemmes ne sont pas écrits (toujours pas !) alors qu'ils sont utilisés
     - (?) une utilsation de la tactique matroid2 devrait être faite mais ne l'est pas. Pire, le terme matroid2 n'aparaît pas 
@@ -14,7 +24,15 @@
 
 * TODO faire une sauvegarde du raisonnement complet dans un fichier "core dump" pour pouvoir ensuite reprendre ce fichier pour démontrer d'autres théorèmes avec la même configuration + éventuellement des conditions supplémentaires.
 
-* dans le cas où il y a plusieur conclusion, il faut peut être revoir l'ordre de fabrication de ces conclusions. Actuellement une seule conclusion est privilégiée et mise à la fin, mais peut-être que cette conclusion sert à établir les autres et on fait plusieur fois le travail. En fait c'est toute le chaînage avant qui est merdique : on suit l'ordre des indicatrices pour les noeuds au lieu de choisir un parcours plus intelligent. --> y réfléchir, ça n'a pas l'air si simple.
+
+
+
+* espace de nommage : pour simplifier l'utilisation de Bip à partir de Coq, il peut être bien de faire un espace de nommage correspondant au fichier. Ça peut se faire via une option au lancement de Bip qui permette de préfixer tous les noms de lemme par une chaîne de caractères donnée dans l'option. Par défaut ça pourrait être le nom du fichier.  
+
+
+### In progress
+* ~~TODO~~ dans le cas où il y a plusieur conclusion, il faut peut être revoir l'ordre de fabrication de ces conclusions. Actuellement une seule conclusion est privilégiée et mise à la fin, mais peut-être que cette conclusion sert à établir les autres et on fait plusieur fois le travail. En fait c'est toute le chaînage avant qui est merdique : on suit l'ordre des indicatrices pour les noeuds au lieu de choisir un parcours plus intelligent. --> y réfléchir, ça n'a pas l'air si simple, ce point n'a pas encore été traité.
+  On a traité les deux points suivant en faisant écire à la fin de la preuve un théorème avec en conclusion une conjonction de tous les termes de rang qui apparaissent dans la conclusion.
   * sous-TODO pour traiter le problème sous un autre angle : mettre une indication dans le nom du lemme ou utiliser un autre mot clé COQ (theorem ?) pour distinguer les lemmes qui figurent dans la conclusion.
   * On peut aussi écrire un lemme final qui fait la concaténation de tous les buts données dans la conclusion de l'énoncé.
   * pour faire tout ça,il faudra utiliser la liste des ensembles qui sont dans la conclusion : on l'a potentiellement dans la structure "énoncé" dans laquelle le champs conclusion est un tableau avec nbconc éléments exemple pour le pré_marquage des noeuds on a le code :
@@ -30,12 +48,7 @@
         }
 ```
 
-
-* espace de nommage : pour simplifier l'utilisation de Bip à partir de Coq, il peut être bien de faire un espace de nommage correspondant au fichier. Ça peut se faire via une option au lancement de Bip qui permette de préfixer tous les noms de lemme par une chaîne de caractères donnée dans l'option. Par défaut ça pourrait être le nom du fichier.  
-
-
-### In progress
-* TODO enlever les try de la preuve (tous ceux qu'on peut) et en profiter pour reprendre le filtrage des lemmes inutiles (voir plus bas). Explications : les preuves produites par David étaient monolithiques plusieurs milliers de lignes pour un seul lemme, la gestion des sous-buts se fait avec des assert (David appelle ça des blocs) mais au bout d'un moment ça peut saturer la mémoire -> donc il y a un mécanismes pour enlever des choses qui sont censées ne plus servir (avec des try car on essaye d'enlever des choses qui ne sont pas forcément dans la base) , mais du coup, lorsqu'on fait un assert on n'est pas trop sûr si l'hypothèse qu'on introduit est déjà dans la base ou pas ... Cette manière de faire semble un peu en contradiction avec le marquage des noeuds qui devrait éviter cela. Tout ceci n'est pas très propre et ça se voit dans le preuve. 
+* ~~TODO~~ enlever les try de la preuve (tous ceux qu'on peut) et en profiter pour reprendre le filtrage des lemmes inutiles (voir plus bas). Explications : les preuves produites par David étaient monolithiques plusieurs milliers de lignes pour un seul lemme, la gestion des sous-buts se fait avec des assert (David appelle ça des blocs) mais au bout d'un moment ça peut saturer la mémoire -> donc il y a un mécanismes pour enlever des choses qui sont censées ne plus servir (avec des try car on essaye d'enlever des choses qui ne sont pas forcément dans la base) , mais du coup, lorsqu'on fait un assert on n'est pas trop sûr si l'hypothèse qu'on introduit est déjà dans la base ou pas ... Cette manière de faire semble un peu en contradiction avec le marquage des noeuds qui devrait éviter cela. Tout ceci n'est pas très propre et ça se voit dans le preuve. 
   * Avec la construction systématique de lemmes dès qu'on peut, l'unité de preuve (la preuve du lemme) devient de petite taille et les "try clear" ne sont plus nécessaires --> l'écriture de ces instructions Coq se fait dans le fichier parties.c. J'ai mis les bout de code C dans des blocs de compilation conditionnel subordonnés à l'existence d'une constante du macro processeur : si #define MONOLITHIQUE est présent, ce code est compilé et les "try clear" sont ajoutés dans la preuve Coq, si MONOLITHIQUE n'est pas défini, les instructions de nettoyage ne sont pas présente.
   * certains try assert correspondent à des hypothèses dans l'énoncé du lemme qui ont déjà été introduit avec les intros du début de preuve : la ligne correspondante n'est plus écrite et les lemmes triviaux qui prouvent un but qui est dans les hypothèses non plus. 
   Cela a été fait en ajoutant un nouveau statut dans les noeuds qui correspondrait à hypothèse (#define HYPOTHESIS -4 dans globals.h) qui est ajouté aux hypothèses lorsqu'elles sont utilisées pour initialiser la couche 0 ... ATTENTION ça n'est pas fait dans les autres couches.
@@ -43,7 +56,7 @@
   * le cas des singletons a aussi été traité avec un nouveau statut de noeud #define SINGLE -2 dans globals.h ils ne sont plus écrit en tant que lemmes et les tactiques (par exemple "solve_hyps_min HPeq HPm1") définies par David arrive à outrepasser ce problème. Il reste cependant des identififiants d'hypothèses (ici HPeq qui devrait correspondre à un lemme disant que le rang de P est 1) qui ne sont plus définis et utilisés dans ces tactiques, mais elles s'en sortent.
 
 
-* ajout du prélude sous forme de l'instruction 'load "preamblexD.v".'  où x est la dimension en début de fichier. ça serait sans doute mieux d'avoir des versions compilées --> voir avec Nicolas comment on fait.
+* ajout du prélude sous forme de l'instruction 'load "preamblexD.v".'  où x est la dimension en début de fichier. ça serait sans doute mieux d'avoir des versions compilées --> voir avec Nicolas comment on fait. --> On compile avec `coqc preamblexD.v` et on a le fichier `preamblexD.vo` qu'on charge avec `Require export preamblexD.`   (pas de suffixe)
 
 ### Done
 

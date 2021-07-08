@@ -11,6 +11,7 @@
 
 statement STATEMENT;
 
+
 // fonctions locales
 void read_comd_line(int argc, char *argv[]);
         // lecture et analyse de la ligne de commande
@@ -28,12 +29,14 @@ void read_comd_line(int argc, char *argv[]);
  bool debug_mode = false;           // booléen partagé pas tout les fichiers - déclaration extern dans global.h
  bool trace = false;                // idem pour le mode trace (a priori, il faut que le mode debug soit activé)
  myType traced = 0llu;              // ensemble tracé
+ char * lemma_prefix = dft_lemma_prefix;
 
 //----------------------------------------------------
 //  main
 //----------------------------------------------------
 int main(int argc, char * argv[])
 {
+   
 	// on commence par lire la ligne de commande et par attribuer les
 	// différents noms des fichiers d'entrée et de sortie.
 	read_comd_line(argc, argv);
@@ -48,7 +51,7 @@ int main(int argc, char * argv[])
     statement st = st_read(stat);			// lecture de l'énoncé pour remplir la structure statement
     STATEMENT = st;                         // STATEMENT procure un accès global à l'énoncé (c'est une variable globale à tout le projet)
     fclose(stat);
-
+    
         /*----------------------traçage-----------------------------*/
             if(trace)
             {
@@ -285,9 +288,13 @@ int main(int argc, char * argv[])
         constructLemma(file, g[last], g[last].tab[resf],sizeTab, last); 
         // constructIntro(file, g[last]);
         // constructProof(file, g[last].tab[resf], sizeTab, 1);
-        
-
-        
+    
+    //
+    //------------------------construction du théorème
+    // if(st->nbconc>1)
+        constructTheorem(file, g[last], g[last].tab[resf],sizeTab, last);
+    //--------------------fin de l'écriture du théorème
+    
         fclose(file);
         if(debug_mode) fclose(debug_file);
     }
@@ -447,6 +454,15 @@ void read_comd_line(int argc, char *argv[])
                             // mais on ne fait pas d'ouverture ni de test pour le moment
                     printf("De nouvelles règles contenues dans le fichier : %s seront utilisées\n",argv[i]); 
                     strcpy(newrules_name,argv[i]);
+                }
+            else if (!strcmp(argv[i],"-pr"))
+                {
+                    if(opt_flag & prefixl_flag) { printf("l'option -pr a déjà été lue\n"); exit(2);}
+                    opt_flag |= prefixl_flag;
+                    i++;    // on attends alors le nom d'un fichier
+                            // mais on ne fait pas d'ouverture ni de test pour le moment
+                    printf("Le préfixe : %s sera utilisé pour le théorème final\n",argv[i]); 
+                    lemma_prefix = argv[i];
                 }
             else if (!strcmp(argv[i],"-debug") || !strcmp(argv[i],"--debug"))
                 {

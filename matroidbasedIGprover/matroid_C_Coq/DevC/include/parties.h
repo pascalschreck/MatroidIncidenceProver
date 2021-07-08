@@ -2,6 +2,7 @@
 #define __PARTIES_H_
 
 #include "graph.h"
+#include "globals.h"
 
 
 
@@ -70,6 +71,9 @@ bool constructLemma(FILE* file, graph g, node n, allocSize alloctab ,int couche)
 		// Fonction qui reconstruit l'énoncé lemme dans le fichier file à partir 
 		// d'un noeud n du graphe de déductions g
 
+bool constructTheorem(FILE* file, graph g, node n,  allocSize   sizeTab, int couche);
+		// Fonction qui reconstruit l'énoncé du théorème final dans le fichier file 
+	
 void constructIntro(FILE* file, graph g); 
 		// Fonction qui reconstruit l'introduction de la preuve de l'énoncé 
 		// dans le fichier file à partir du graphe de déductions g

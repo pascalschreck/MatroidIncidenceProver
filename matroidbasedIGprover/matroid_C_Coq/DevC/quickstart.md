@@ -15,7 +15,7 @@ Syntaxe :
 > 
 ou
 
-> main -s <énoncé> -ro \<rangs> -co \<preuvecoq> -n <règlesadd>
+> main -s <énoncé> -ro \<rangs> -co \<preuvecoq> -n \<règlesadd> -pr \<prefixe>
 
 ou
 
