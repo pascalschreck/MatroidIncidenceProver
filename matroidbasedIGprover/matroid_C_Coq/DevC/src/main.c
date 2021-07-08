@@ -270,14 +270,14 @@ int main(int argc, char * argv[])
             if(g[last].tab[i]->mark == U_NOT_WRITTEN_IN_PROOF && i != resf) 
                 // remarque, avec ce test, les hyptohèses ne donnent pas lieu à un lemme
             {
-                constructLemma(file,g[last],g[last].tab[i],sizeTab, last);  
+                bool res = constructLemma(file,g[last],g[last].tab[i],sizeTab, last);  
                 // la fonction constructLemma a été revisitée : elle examine tous les noeuds qui sont requis
                 // pour écrire la preuve et en fait des lemmes. Les deux fonctions dont les appels sont commentés
                 // ci-dessous sont faits dans la fonction constructctLemma ainsi, on peut mieux contrôler l'écriture
                 // dans le fichier.
                 // constructIntro(file, g[last]);
                 // constructProof(file,g[last].tab[i], sizeTab, 1); 
-                g[last].tab[i]->mark = PROOF_ALREADY_DONE; // 4
+                if (res) g[last].tab[i]->mark = PROOF_ALREADY_DONE; // 4
                unMark(g[last].tab[i]);   // on remet à 1 () les noeuds qui ont été mis à 5
             }
             

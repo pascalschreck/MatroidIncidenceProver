@@ -1,0 +1,23 @@
+# etape0.stat
+# en dimension 4 l'intersection de 2 plans disincts est un point
+context
+    dimension 4
+    layers 1
+endofcontext
+layer 0
+    points 
+        A B C A' B' C' M N
+    hypotheses
+        A B C : 3
+        A' B' C' : 3
+        A B C A' B' C' : 5
+        M A B C : 3
+        N A B C : 3
+        M A' B' C' : 3
+        N A' B' C' : 3
+    conclusion
+        None
+endoflayer
+conclusion
+    M N : 1
+end
