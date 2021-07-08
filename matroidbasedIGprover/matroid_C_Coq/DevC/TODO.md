@@ -2,6 +2,16 @@
 
 ## FIXME
 ### To do
+* revoir le moteur d'inférence qui est très naïf pour le moment. Éléments possibles à prendre en compte
+  * si la différence de cardinal entre deux ensembles est 1, alors la différence de rang est au plus 1 également : on peut reprendre la phase d'initialisation pour tester cela.
+  * cela pousse à considérer une propagation plus locale que celle proposée actuellement (voir aussi plus bas)
+  * on peut sans doute se restreindre à une partie de P(E), mais on conservera sans doute une complexité expoentielle.
+  * parcours du graphe et écriture des lemmes : le parcours actuel est facile à implanter mais il ne correspond pas vraiment au treillis ensemblistes (par exemple il n'est pas immédiat d'accéder à partir d'un ensemble de cardinal n à tous ses sur-ensembles de cardinal n+1)
+  * faire des structures de données plus adaptées (inutile de stocker l'indicatrice)
+  
+
+* faire une nouvelle branche pour une utilisation interactive (ajouter des points et des contraintes après une première étape de saturation). Cette manière de faire plus incrémentale permettrait peut-être de mieux tester les conditions exactes dans lesquelles le théorème est valide (voir Desargues par exemple).
+
 * corriger tous les bugs dans la production de la preuve :
     - DONE des Lemmes ne sont pas écrits (toujours pas !) alors qu'ils sont utilisés
     - (?) une utilsation de la tactique matroid2 devrait être faite mais ne l'est pas. Pire, le terme matroid2 n'aparaît pas 
