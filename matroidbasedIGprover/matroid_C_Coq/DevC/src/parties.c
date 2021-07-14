@@ -147,7 +147,9 @@ graph convergenceParties (graph g, int res) {  // normalement, pour être cohér
 				for(j = i+1ull ; j < g.effectiveSize; j++)		// boucle sur le deuxième sommet
 				{	
 					colorj = g.tab[j]->color;
+#ifdef USE_OF_COLOR
 					if(colori >= loopNumber+1 || colorj >= loopNumber+1 || colori == -1 || colorj == -1)
+#endif
 					{
 					
 						// sets
@@ -647,7 +649,11 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 	// la possibilité laissée par David pour avoir des lemmes où le rang n'est pas complément	*
 	// déterminé peut être justifié par les aspects x-couches : il n'y a plus de lemmes			*
 	// écrit dans la dernière couche et on ne devrait plus risquer de télescopage				*
+#ifdef R_NOT_ID_ALLOWED
+	if(0)
+#else
 	if(rankMinA != rankMaxA)
+#endif
 		{
 			fprintf(stderr,"Attention rangs non identiques pour le résultat de %llu  rang min %d et rang max %d \n", 
 							partAe, rankMinA, rankMaxA);
