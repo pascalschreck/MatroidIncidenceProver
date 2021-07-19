@@ -1,0 +1,37 @@
+# intersectionEspaces_2.stat
+# en dimension 5, l'intersection de deux espaces de dim 4 distincts est un 3-espace
+#  : sens le 3-espace est inclus dans l'intersection.
+context
+    dimension 5
+    layers 1
+endofcontext
+layer 0
+  points 
+    A B C D E Ap Bp Cp Dp Ep I J K L M
+    # soient 2 4d-espaces ABCDE et ApBpCpDpEp distincts (chacun de rang 5)
+  hypotheses
+        # deux 4d-espaces définis chacun par 5 points
+    A B C D E : 5
+    Ap Bp Cp Dp Ep : 5
+        # les deux 4d-espaces sont distincts
+    A B C D E Ap Bp Cp Dp Ep : 6
+        # I, J, K et L appartiennent chacun aux deux sous espaces
+    I A B C D E : 5
+    J A B C D E : 5
+    K A B C D E : 5
+    L A B C D E : 5
+    I Ap Bp Cp Dp Ep : 5
+    J Ap Bp Cp Dp Ep : 5
+    K Ap Bp Cp Dp Ep : 5
+    L Ap Bp Cp Dp Ep : 5
+        # les quatre points I, J, K, L sont différents et non alignés et non coplanaires
+    I J K L : 4
+        # M est dans l'espace défini par I J K L
+    I J K L M : 4
+  conclusion
+    None
+endoflayer
+  conclusion
+    M A B C D E : 5
+    M Ap Bp Cp Dp Ep : 5
+end

@@ -775,11 +775,11 @@ bool constructLemma(FILE* file, graph g, node n,  allocSize   sizeTab, int couch
 		}
 		else
 		{
-			if(dim >=4) // ..... ce patch me paraît bizarre
-			{
-				fprintf(stderr,"Reconstruction impossible rangs non identiques pour le résultat en dimension 4+\n");
-				exit(1);
-			}
+			// if(dim >=4) // ..... ce patch me paraît bizarre
+			// {
+			// 	fprintf(stderr,"Reconstruction impossible rangs non identiques pour le résultat en dimension 4+\n");
+			//	exit(1);
+			// }
 			
 			fprintf(file,"rk(");
 			printSetFile(file,partAe);
