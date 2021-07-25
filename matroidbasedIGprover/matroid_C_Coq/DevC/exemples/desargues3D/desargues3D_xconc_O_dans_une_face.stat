@@ -1,4 +1,4 @@
-# fichier desargues3D_xconc.stat
+# fichier desargues3D_xconc_dans_une face.stat
 context
    dimension  3 
    layers   1
@@ -10,7 +10,7 @@ layer triangles
     Oo A B C : 4
     Oo A B D : 4
     Oo A C D : 4
-    Oo B C D : 3
+    Oo B C D : 3 # O is in BCD
     A B C D : 4
     Ap Bp Cp Dp : 4
     A Ap : 2

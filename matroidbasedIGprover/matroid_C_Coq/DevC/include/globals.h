@@ -72,6 +72,15 @@ extern char * lemma_prefix;
 // il semble qu'ici il faille bien des TRY
 //
 //
+// il faut décommenter la ligne suivante si on veut autoriser
+// l'écriture de Lemme où le rang min <  rang max
+// le lemme en question écrit bien ce résultat et ça peut être utile
+// pour avoir une preuve d'une borne plutôt qu'une églité. 
+//#define R_NOT_ID_ALLOWED
+
+// A décommenter si on veut utiliser l'heuristique de couleur des noeuds 
+// qui améliore un peu le temps de calcul, à commenter si on ne le veut pas
+#define USE_OF_COLOR
 
 //------------------------ prefixes et marque pour .v
 #define PREFIXED_LEMMA
