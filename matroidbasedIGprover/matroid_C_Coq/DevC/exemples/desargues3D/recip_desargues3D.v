@@ -7297,3 +7297,36 @@ assert(HOoCCpm : rk(Oo :: C :: Cp ::  nil) >= 1) by (solve_hyps_min HOoCCpeq HOo
 intuition.
 Qed.
 
+(* dans la couche 0 *)
+Theorem def_Conclusion : forall Oo A B C Ap Bp Cp ab ac bc D Dp ad bd cd ,
+rk(Oo :: A :: Ap ::  nil) = 2 -> rk(A :: B :: Ap ::  nil) = 3 -> rk(A :: B :: C :: Ap ::  nil) = 4 ->
+rk(Oo :: B :: Bp ::  nil) = 2 -> rk(A :: B :: Bp ::  nil) = 3 -> rk(A :: B :: C :: Bp ::  nil) = 4 ->
+rk(A :: Ap :: Bp ::  nil) = 3 -> rk(B :: Ap :: Bp ::  nil) = 3 -> rk(A :: C :: Cp ::  nil) = 3 ->
+rk(B :: C :: Cp ::  nil) = 3 -> rk(A :: B :: C :: Cp ::  nil) = 4 -> rk(C :: Ap :: Cp ::  nil) = 3 ->
+rk(C :: Bp :: Cp ::  nil) = 3 -> rk(A :: B :: ab ::  nil) = 2 -> rk(Ap :: Bp :: ab ::  nil) = 2 ->
+rk(A :: C :: ac ::  nil) = 2 -> rk(Ap :: Cp :: ac ::  nil) = 2 -> rk(B :: C :: bc ::  nil) = 2 ->
+rk(Bp :: Cp :: bc ::  nil) = 2 -> rk(ab :: ac :: bc ::  nil) = 2 -> rk(A :: B :: C :: D ::  nil) = 4 ->
+rk(Ap :: Bp :: Dp ::  nil) = 3 -> rk(Ap :: Cp :: Dp ::  nil) = 3 -> rk(Bp :: Cp :: Dp ::  nil) = 3 ->
+rk(Ap :: Bp :: Cp :: Dp ::  nil) = 4 -> rk(A :: D :: Dp ::  nil) = 3 -> rk(B :: D :: Dp ::  nil) = 3 ->
+rk(A :: B :: D :: Dp ::  nil) = 4 -> rk(A :: C :: D :: Dp ::  nil) = 4 -> rk(B :: C :: D :: Dp ::  nil) = 4 ->
+rk(Ap :: D :: Dp ::  nil) = 3 -> rk(Bp :: D :: Dp ::  nil) = 3 -> rk(A :: D :: ad ::  nil) = 2 ->
+rk(Ap :: Dp :: ad ::  nil) = 2 -> rk(B :: D :: bd ::  nil) = 2 -> rk(Bp :: Dp :: bd ::  nil) = 2 ->
+rk(ab :: ad :: bd ::  nil) = 2 -> rk(C :: D :: cd ::  nil) = 2 -> rk(Cp :: Dp :: cd ::  nil) = 2 ->
+rk(ac :: ad :: cd ::  nil) = 2 -> rk(bc :: bd :: cd ::  nil) = 2 -> rk(ab :: ac :: bc :: ad :: bd :: cd ::  nil) = 3 ->
+
+	 rk(Oo :: C :: Cp ::  nil) = 2  /\ 
+	 rk(Oo :: D :: Dp ::  nil) = 2  .
+Proof.
+
+intros Oo A B C Ap Bp Cp ab ac bc D Dp ad bd cd 
+HOoAApeq HABApeq HABCApeq HOoBBpeq HABBpeq HABCBpeq HAApBpeq HBApBpeq HACCpeq HBCCpeq
+HABCCpeq HCApCpeq HCBpCpeq HABabeq HApBpabeq HACaceq HApCpaceq HBCbceq HBpCpbceq Habacbceq
+HABCDeq HApBpDpeq HApCpDpeq HBpCpDpeq HApBpCpDpeq HADDpeq HBDDpeq HABDDpeq HACDDpeq HBCDDpeq
+HApDDpeq HBpDDpeq HADadeq HApDpadeq HBDbdeq HBpDpbdeq Habadbdeq HCDcdeq HCpDpcdeq Hacadcdeq
+Hbcbdcdeq Habacbcadbdcdeq .
+repeat split.
+
+	apply LOoCCp with (Oo := Oo) (A := A) (B := B) (C := C) (Ap := Ap) (Bp := Bp) (Cp := Cp) (ab := ab) (ac := ac) (bc := bc) (D := D) (Dp := Dp) (ad := ad) (bd := bd) (cd := cd) ; assumption.
+
+	apply LOoDDp with (Oo := Oo) (A := A) (B := B) (C := C) (Ap := Ap) (Bp := Bp) (Cp := Cp) (ab := ab) (ac := ac) (bc := bc) (D := D) (Dp := Dp) (ad := ad) (bd := bd) (cd := cd) ; assumption.
+Qed .

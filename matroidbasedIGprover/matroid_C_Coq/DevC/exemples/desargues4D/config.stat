@@ -1,0 +1,32 @@
+context
+   dimension 4
+   layers 1
+endofcontext
+layer 0
+  points
+    ab ac ad  ae bc bd be cd ce de
+  hypotheses 
+    ab ac ad ae bc bd be cd ce de : 4
+    cd ce de : 2    # -a -b -> c d e
+    bd be de : 2    # -a -c -> b d e
+    bc be ce : 2    # -a -d -> b c e
+    bc bd cd : 2    # -a -e -> b c d
+    ad ae de : 2    # -b -c -> a d e
+    ac ae ce : 2    # -b -d -> a c e
+    ac ad cd : 2    # -b -e -> a c d 
+    ab ae be : 2    # -c -d -> a b e
+    ab ad bd : 2    # -c -e -> a b d
+    ad ac bc : 2    # -d -e -> a b c
+    # tetraèdre ab - bc bd be coupé en ac (sur ab bc), ad (sur ab bd) et ae (sur ab be) 
+    # donne les points de Desargues 2.5d cd (sur bc bd), ce (sur bc be) et de (sur ad ae)
+    bc bd be : 3
+    ac ad de : 3
+    ab bc bd : 3
+  conclusion
+    None
+endoflayer
+conclusion
+    ab bc bd be : 4
+    ac ad ae cd ce de : 3
+    bc bd be cd ce de : 3
+end

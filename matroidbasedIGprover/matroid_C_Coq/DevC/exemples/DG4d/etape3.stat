@@ -7,10 +7,10 @@ endofcontext
 layer 1
     points A B C A' B' C' A'' B'' C'' M N Q
     hypotheses
-        A B C : 3           # A B C définit un plan
-        A' B' C' : 3
-        A'' B'' C'' : 3
-        A B C A' B' C' : 5
+        A B C : 3           # A B C define a plane
+        A' B' C' : 3        # also A' B' C'
+        A'' B'' C'' : 3     # and A'' B'' C''
+        A B C A' B' C' : 5  # planes are independent 
         A B C A'' B'' C'' : 5
         A' B' C' A'' B'' C'' : 5
         M A B C : 3

@@ -1,8 +1,8 @@
 # etape2.stat
-# en dimension 4
-# soit deux plans ABC et A'B'C' indépendants au possible qui se coupent en le point P
-# et H un hyperplan (espace de dimension 3) ne contennat pas P 
-# alors ABC inter H et A'B'C' inter H sont deux droites non coplanaires
+# in 4D
+# two independent planes ABC et A'B'C' cut each other in P
+# H is a hyperplane (dimension 3) not containing P
+# then ABC inter H et A'B'C' inter H are two non coplanar lines
 context
     dimension 4
     layers 1
@@ -11,21 +11,20 @@ layer 1
     points A B C H1 H2 H3 H4 M N P
            A' B' C' M' N'
     hypotheses
-        A B C : 3           # A B C définit un plan
-        H1 H2 H3 H4 : 4
-        A H1 H2 H3 H4 : 5   # le plan n'est pas contenu dans l'hyperplan
-        M N : 2             # M et N sont différents
+        A B C : 3           # A B C define a plane
+        H1 H2 H3 H4 : 4     # H is a hyperplane defined by the Hi
+        A H1 H2 H3 H4 : 5   # A does not belong to H
+        M N : 2             # M and N are different
         M A B C : 3
         N A B C : 3
         P A B C : 3
         P H1 H2 H3 H4 : 5
         M H1 H2 H3 H4 : 4
         N H1 H2 H3 H4 : 4
-        A' B' C' : 3           # A B C définit un plan
-        A' H1 H2 H3 H4 : 5   # le plan n'est pas contenu dans l'hyperplan
-        # les deux plans se coupent forcément (au moins en un point)
-        A B C A' B' C' : 5
-        M' N' : 2             # M' et N' sont différents
+        A' B' C' : 3            # A' B' C' define a plane
+        A' H1 H2 H3 H4 : 5      # A' does not belong to H
+        A B C A' B' C' : 5      # the two planes are independent
+        M' N' : 2               # M' and N' are different
         M' A' B' C' : 3
         N' A' B' C' : 3
         P A' B' C' : 3

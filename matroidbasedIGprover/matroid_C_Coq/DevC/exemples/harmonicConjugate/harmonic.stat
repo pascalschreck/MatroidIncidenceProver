@@ -1,5 +1,5 @@
-# fichier harmonic.stat
-# énoncé pris dans la thèse traduit directement
+# file harmonic.stat
+# See David Braun thesis
  context
     dimension 3
     layers 1
@@ -16,8 +16,8 @@ layer donnees
 		A B R Rp : 4
 		A B R : 3
 		A B Q : 3
-       # B P Q : 3   # ajoutés pour voir : ça élimine une des incertitudes mentionnées
-       # B Q R : 3   # mais la preuve reste correcte si on omet ces hypotheses
+       # B P Q : 3   # useless
+       # B Q R : 3   # useless
 		A Q R : 2
 		B P R : 2
 		C P Q : 2

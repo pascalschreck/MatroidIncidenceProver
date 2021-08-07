@@ -9,10 +9,10 @@ endofcontext
 layer 1
     points A B C H1 H2 H3 H4 M N P
     hypotheses
-        A B C : 3           # A B C définit un plan
+        A B C : 3           # A B C define a plane
         H1 H2 H3 H4 : 4
-        A H1 H2 H3 H4 : 5   # le plan n'est pas contenu dans l'hyperplan
-        M N : 2             # M et N sont différents
+        A H1 H2 H3 H4 : 5   # A does not belong to H
+        M N : 2             # M and N are different
         M A B C : 3
         P A B C : 3
         N A B C : 3
