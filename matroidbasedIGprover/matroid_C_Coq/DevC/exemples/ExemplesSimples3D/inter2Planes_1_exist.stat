@@ -1,0 +1,27 @@
+# file inter2Planes_1.stat
+# in 3D the intersection of two planes is included in a line
+context
+      dimension 3
+      layers 1      # layers were used to decompose a problem (useless here)
+endofcontext
+layer 0
+  points
+    A B C A' B' C' M N P    
+  hypotheses
+    A B C : 3               # A B C define a plane
+    A' B' C' : 3            # Ap Bp Cp define a plane
+    A B C A' B' C' : 4      # the planes are different
+    M A B  : 2             # M belongs to <ABC>
+    N A C : 2
+#    M A : 2    # ok avec cette hypothèse
+    M A : 1     # alternative
+    P B C : 2
+    M A' B' C' : 3             # M belongs to <ABC>
+    N A' B' C' : 3
+    P A' B' C' : 3
+  conclusion
+    None                    # conclusion of the layer (useless here)
+endoflayer
+  conclusion
+    M N P : 2              
+end
