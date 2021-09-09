@@ -14,7 +14,7 @@ init :
 	mkdir obj/
 	mkdir bin/
 
-main : main.o parties.o graph.o set.o maths_addon.o statement.o fprintthings.o
+main : main.o parties.o graph.o set.o statement.o fprintthings.o
 	gcc $(CFLAGS) -o main $(OPATH)main.o $(OPATH)parties.o $(OPATH)graph.o $(OPATH)set.o $(OPATH)statement.o $(OPATH)fprintthings.o -lm 
 	mv $@ bin/
 
