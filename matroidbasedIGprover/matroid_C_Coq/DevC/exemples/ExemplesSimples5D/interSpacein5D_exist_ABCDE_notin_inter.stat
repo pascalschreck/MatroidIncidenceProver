@@ -1,0 +1,36 @@
+# interSpace5D_exist_ABCD_notin_inter.stat
+# there are 4 points in <ABCDE> inter <A'B'C'D'E'>
+# case where none of points ABCDE are in <A'B'C'D'E'>
+context
+    dimension 5
+    layers 1
+endofcontext
+layer 0
+  points 
+    A B C D E A' B' C' D' E' p1 p2 p3 p4
+hypotheses
+    A B C D E : 5
+    A' B' C' D' E' : 5
+    A B C D E A' B' C' D' E' : 6
+    p1 A B : 2
+    p1 A : 2
+    p1 B : 2
+    p2 A C : 2
+    p2 C : 2    
+    p2 A : 1   
+    p3 A D : 2
+    p3 D : 2   
+    p3 A : 2   
+    p4 A E : 2
+    p4 A : 2
+    p4 E : 2  
+    p1 A' B' C' D' E' : 5
+    p2 A' B' C' D' E' : 5
+    p3 A' B' C' D' E' : 5
+    p4 A' B' C' D' E' : 5
+  conclusion
+    None
+endoflayer
+  conclusion
+    p1 p2 p3 p4 : 4
+end
