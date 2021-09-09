@@ -8,7 +8,7 @@ endofcontext
 layer 0
   points 
     A B C D E Ap Bp Cp Dp Ep I J K L M
-    # soient 2 4d-espaces ABCDE et ApBpCpDpEp distincts (chacun de rang 5)
+    # soient 2 4d-espaces ABCDE et ApBpCpDpEp distincts (chacun de rang 5) 
   hypotheses
         # deux 4d-espaces définis chacun par 5 points
     A B C D E : 5

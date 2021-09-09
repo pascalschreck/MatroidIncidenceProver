@@ -30,10 +30,6 @@ layer 0
     M Ap Bp Cp Dp Ep : 5
     # les quatre points I, J, K, L et M sont différents et non alignés et non coplanaires
     I J K L : 4
-    I J K M : 4
-    I J L M : 4
-    I K L M : 4
-    J K L M : 4
   conclusion
     # ils doivent appartenir à un même 3-espace (et ils doivent le définir)
     I J K L M : 4
